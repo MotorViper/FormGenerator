@@ -1,0 +1,120 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TextParser;
+
+namespace TextParserTest
+{
+    [TestClass]
+    public class ReaderTests
+    {
+        [TestMethod]
+        public void TestReadsLines()
+        {
+            Reader reader = new Reader(new StringReader("Line 0\n   Line 1\nLine 2   \n\n\n   Line 3   \n	Line 4		"));
+            int lineNumber = 0;
+            foreach (Line line in reader)
+                Assert.AreEqual($"Line {lineNumber++}", line.Content);
+        }
+
+        [TestMethod]
+        public void TestsHandlesIncludes()
+        {
+            Reader reader = new Reader(new StreamReader(@"C:\Development\Projects\FormGenerator\FormGenerator\Data\Data.vtt"));
+            Assert.IsTrue(reader.Count() > 4);
+        }
+
+        [TestMethod]
+        public void TestReadsLinesWithContinuations()
+        {
+            Reader reader = new Reader(new StringReader("Line 0-\n   0 \nLine 1    -  \n1\nLine 2 -\n   2 \n   Line 3    -\n    3    "));
+            int lineNumber = 0;
+            foreach (Line line in reader)
+                Assert.AreEqual($"Line {lineNumber} {lineNumber++}", line.Content);
+        }
+
+        [TestMethod]
+        public void TestReadsLinesWithContinuationsNoSpaces()
+        {
+            Reader reader = new Reader(new StringReader("Line 0-\n0\nLine 1-  \n1\nLine 2-\n2 \n  Line 3-\n3   "));
+            int lineNumber = 0;
+            foreach (Line line in reader)
+                Assert.AreEqual($"Line {lineNumber}{lineNumber++}", line.Content);
+        }
+
+        [TestMethod]
+        public void TestReadsLinesWithOffsets()
+        {
+            Reader reader = new Reader(new StringReader(@"0Line 0
+ 1Line 1
+  1Line 2
+   1Line 3
+    1Line 4
+     2Line 5
+      2Line 6
+       2Line 7
+		2Line 8
+		 3Line 9"));
+            int lineNumber = 0;
+            foreach (Line line in reader)
+                Assert.AreEqual($"{line.Offset}Line {lineNumber++}", line.Content);
+        }
+
+        [TestMethod]
+        public void TestReadsLinesWithSetOffsets()
+        {
+            Line.OffsetSize = 2;
+            Reader reader = new Reader(new StringReader(@"0Line 0
+ 1Line 1
+  1Line 2
+   2Line 3
+    2Line 4
+     3Line 5
+      3Line 6"));
+            int lineNumber = 0;
+            foreach (Line line in reader)
+                Assert.AreEqual($"{line.Offset}Line {lineNumber++}", line.Content);
+        }
+
+        [TestMethod]
+        public void TestIgnoreComments()
+        {
+            Reader reader = new Reader(new StringReader(@"
+
+A
+// B
+C
+/*
+D
+
+E
+*/
+/*
+A
+// C
+*/
+/* B */
+F
+// G
+H
+/* I */
+I
+
+/*
+
+J
+*/
+K
+"));
+            List<Line> lines = reader.ToList();
+            Assert.AreEqual(6, lines.Count());
+            Assert.AreEqual("A", lines[0].Content);
+            Assert.AreEqual("C", lines[1].Content);
+            Assert.AreEqual("F", lines[2].Content);
+            Assert.AreEqual("H", lines[3].Content);
+            Assert.AreEqual("I", lines[4].Content);
+            Assert.AreEqual("K", lines[5].Content);
+        }
+    }
+}

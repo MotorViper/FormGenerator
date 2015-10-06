@@ -1,0 +1,74 @@
+﻿LabelWidth : 150
+Field: Editor
+	ShiftRight: 2
+    BasedOn: TextBox
+    Align: Stretch
+Field: InvertedLabel
+	BasedOn: Label
+	Invert:
+	Align: Stretch
+	ContentAlign: Middle
+Field: UnderLine
+	BasedOn: Border
+	Height: 2
+	Background: Black
+Field: LabelUnder
+	BasedOn: Label
+	ShiftUp: 6
+	FontSize: 8
+Field: EditorWithLabelUnder
+	ShiftRight: 2
+	BasedOn: Grid
+	Rows: 3
+	Field: TextBox
+		Align: Stretch
+		Content: ?$Inputs
+	Field: UnderLine
+		Align: Stretch
+	Field: LabelUnder	
+		Content: {{Inputs}.NAME}
+		Align: Left
+Field: LabelWithLabelUnder
+	ShiftRight: 2
+	BasedOn: Grid
+	Rows: 3
+	Field: Label
+		Content: ?$Inputs
+		Height: 22
+		Align: Left
+	Field: UnderLine
+		Align: Stretch
+	Field: LabelUnder	
+		Content: {{Inputs}.NAME}
+		Align: Left
+Field: CentreLabel
+    BasedOn: Label
+    Align: Middle
+    ContentAlign: Middle
+Field: BorderedLabel
+    BasedOn: CentreLabel
+	BorderThickness: 1
+	BorderBrush: Black
+	Margin: 1
+Field: RightLabel
+    BasedOn: Label
+    Align: Right
+Field: AbilityGrid
+    Field: InvertedLabel
+        Content: {{Inputs}.NAME}
+    Field: Editor
+        Content: ?$Inputs
+    Field: BorderedLabel
+        Content: ($$Inputs - 10) / 2
+		Height: 27
+		Width: 27
+Field: WeaponGrid
+	Field: ComboBox
+		Content: ?$Inputs
+		SelectionOptions: Weapons
+		HorizontalAlignment: Stretch
+		Height: 25
+	Field: BorderedLabel
+		Content: {Weapons.{$Inputs}.Damage}
+	Field: BorderedLabel
+		Content: {Weapons.{$Inputs}.Range}

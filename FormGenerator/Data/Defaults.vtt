@@ -1,0 +1,44 @@
+﻿Character: 
+    Strength: 10
+    Dexterity: 10
+    Constitution: 10
+    Intelligence: 10
+    Wisdom: 10
+    Charisma: 10
+	Weapon1: None
+	Weapon2: None
+	Armour: None
+	Player: ?
+	Class: ?
+		HP: 0
+	Race: Human
+	Alignment: N
+	Deity:
+	Size: {Races.{Race}.Size}
+	Age:
+	Gender:
+	Height:
+	Weight:
+	Eyes:
+	Hair:
+	Skin:
+	DexModifier: ($Dexterity - 10) / 2
+	Classes: $Class
+	HP: $SUM.Class.HP
+	ArmourBonus: {Armour.{Armour}.ACBonus}
+	ShieldBonus: 0
+	FlatFooted: 10 + $ArmourBonus
+	AC: $FlatFooted + $DexModifier
+	Touch: 10 + $DexModifier
+	MiscInitiative: 0
+	Initiative: ($Dexterity -10) / 2
+
+Weapons:
+	Damage: 
+	Range: 
+
+Races:
+	Size: Medium
+
+Armour:
+	AC: 10

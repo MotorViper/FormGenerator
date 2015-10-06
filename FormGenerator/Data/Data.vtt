@@ -1,0 +1,6 @@
+﻿@include C:\Development\Projects\FormGenerator\FormGenerator\Data\Parameters.vtt Parameters
+@include C:\Development\Projects\FormGenerator\FormGenerator\Data\Fields.vtt Fields
+@include C:\Development\Projects\FormGenerator\FormGenerator\Data\Defaults.vtt Parameters Defaults
+@include C:\Development\Projects\FormGenerator\FormGenerator\Data\Weapons.vtt Parameters Weapons
+@include C:\Development\Projects\FormGenerator\FormGenerator\Data\Armour.vtt Parameters Armour
+@include C:\Development\Projects\FormGenerator\FormGenerator\Data\Races.vtt Parameters Races

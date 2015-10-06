@@ -1,0 +1,37 @@
+﻿Mr Hero: 
+    Strength: 14
+    Dexterity: 12
+    Constitution: 12
+	Weapon1: Sword
+	Weapon2: Dagger
+	Player: Bert
+	Class: Fighter
+		HP: 8
+	Class: Fighter
+		HP: 7
+
+The Heroine: 
+    Strength: 8
+    Dexterity: 9
+    Constitution: 10
+	Weapon1: Dagger
+	Weapon2: Sword
+	Armour: Leather
+	Player: Fred
+	Class: Thief
+		HP: 6
+	Class: Fighter
+		HP: 7
+	Race: Dwarf
+
+Not a Hero: 
+    Strength: 17
+    Dexterity: 5
+    Constitution: 8
+	Weapon1: Sword
+	Armour: Chain
+	Player: John
+	Class: Cleric
+		HP: 7
+	Race: Hobbit
+	

@@ -1,0 +1,7 @@
+﻿Handle . in data field name.
+Handle . in expressions such as $($e).c
+Work out how to express lists.
+	Class: 1
+	Class: 2
+	Class: 1
+		=> 1(2), 2(1)
