@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Helpers;
 using TextParser;
 using TextParser.Tokens;
 
@@ -10,7 +11,6 @@ namespace FormGenerator.Fields
     {
         private List<string> _columns;
         private string _columnWidth = "Auto";
-        private int _fieldCount;
         private List<string> _rows;
 
         public Grid(Field parent, TokenTree data = null, int level = -1) : base(parent, "Grid", data, level)
@@ -75,7 +75,7 @@ namespace FormGenerator.Fields
 
             if (_rows == null)
             {
-                int rowCount = (int)Math.Ceiling((double)_fieldCount / _columns.Count);
+                int rowCount = _positions.RowCount;
                 if (rowCount > 1)
                 {
                     AppendStartOfLine(Level + 1, "<Grid.RowDefinitions>").AppendLine();
@@ -101,7 +101,8 @@ namespace FormGenerator.Fields
             if (_rows != null && _columns == null)
                 _columns = new List<string> {_columnWidth};
 
-            _fieldCount = 0;
+            if (_columns != null)
+                _positions = new GridData(_columns.Count);
             foreach (TokenTree child in fields)
                 AddChild(child, Level + 1, parameters, Builder, Offset, endOfLine, this);
 
@@ -109,32 +110,38 @@ namespace FormGenerator.Fields
                 AddColumnsAndRows();
         }
 
+        private GridData _positions = null;
+
         protected internal override void AddChildProperties(Field child, TokenTree parameters)
         {
             base.AddChildProperties(child, parameters);
             if (_columns != null)
             {
-                int column = _fieldCount % _columns.Count;
-                int row = (_fieldCount - column) / _columns.Count;
+                Tuple<int, int> rowAndColumn = _positions.GetNextRowAndColumn();
+                int column = rowAndColumn.Item2;
+                int row = rowAndColumn.Item1;
                 AddProperty("Grid.Column", column);
                 AddProperty("Grid.Row", row);
                 TokenTreeList tokenTreeList = child.Children.FindMatches("Across");
+                _positions.MakeItemUsed(row, column);
                 if (tokenTreeList != null && tokenTreeList.Count == 1)
                 {
                     string across = tokenTreeList[0]?.Value?.Text;
                     if (across != null)
                     {
-                        child.AddProperty("Grid.ColumnSpan", across);
-                        _fieldCount += int.Parse(across);
+                        string[] bits = across.Split(',');
+                        int span = int.Parse(bits[0]);
+                        for (int i = 1; i < span; ++i)
+                            _positions.MakeItemUsed(row, column + i);
+                        child.AddProperty("Grid.ColumnSpan", span);
+                        if (bits.Length >= 2)
+                        {
+                            span = int.Parse(bits[1]);
+                            child.AddProperty("Grid.RowSpan", span);
+                            for (int i = 1; i < span; ++i)
+                                _positions.MakeItemUsed(row + i, column);
+                        }
                     }
-                    else
-                    {
-                        ++_fieldCount;
-                    }
-                }
-                else
-                {
-                    ++_fieldCount;
                 }
             }
         }
