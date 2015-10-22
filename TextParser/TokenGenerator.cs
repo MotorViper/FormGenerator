@@ -10,8 +10,10 @@ namespace TextParser
     {
         private static readonly Dictionary<string, Func<string[], IToken>> s_tokens = new Dictionary<string, Func<string[], IToken>>
         {
+            ["(.*)(\\|)([^\\|]*)"] = tokens => PerformOperation(tokens),
             ["(.*)([\\+-])([^\\+-]*)"] = tokens => PerformOperation(tokens),
             ["(.*)([\\*/×÷])([^\\*/×÷]*)"] = tokens => PerformOperation(tokens),
+            ["(.*)(#)([^#]*)"] = tokens => PerformOperation(tokens),
             ["(.*)\\$([A-Za-z][A-Za-z0-9]*(\\.[A-Za-z][A-Za-z0-9]*)*)?([^$]*)"] = tokens => PerformSubstitutionOperation(tokens),
             ["(0|[1-9][0-9]*\\.[0-9]+)"] = tokens => new DoubleToken(double.Parse(tokens[0])),
             ["(0|[1-9][0-9]*)"] = tokens => new IntToken(int.Parse(tokens[0])),
@@ -61,7 +63,7 @@ namespace TextParser
 
         public IToken Parse(string text)
         {
-            List<string> blocks = text.SplitIntoBlocks(new[] { '\'', '\'', '"', '"', '{', '}', '(', ')' }, true, StringUtils.DelimiterInclude.IncludeSeparately);
+            List<string> blocks = text.SplitIntoBlocks(new[] {'\'', '\'', '"', '"', '{', '}', '(', ')'}, true, StringUtils.DelimiterInclude.IncludeSeparately);
 
             string simplifed = "";
             List<IToken> subResults = new List<IToken>();
@@ -116,11 +118,11 @@ namespace TextParser
                     {
                         int position = int.Parse(bits[i + 1]);
                         IToken substituted = subResults[position];
-                        IToken partial = string.IsNullOrWhiteSpace(bits[i]) 
-                            ? substituted 
+                        IToken partial = string.IsNullOrWhiteSpace(bits[i])
+                            ? substituted
                             : new ExpressionToken(new StringToken(bits[i]), new StringPlusToken(), substituted);
-                        result = result == null 
-                            ? partial 
+                        result = result == null
+                            ? partial
                             : new ExpressionToken(result, new StringPlusToken(), partial);
                     }
                     if (!string.IsNullOrWhiteSpace(bits[bits.Length - 1]))

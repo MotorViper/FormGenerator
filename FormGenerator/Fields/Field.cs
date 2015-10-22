@@ -10,6 +10,7 @@ namespace FormGenerator.Fields
 {
     public class Field
     {
+        private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
         private int _marginLeft;
         private int _marginTop;
         private string _xlmns = "xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"";
@@ -34,6 +35,7 @@ namespace FormGenerator.Fields
             AppendStartOfLine(Level, "<").Append(Name).Append(" ");
             AddHeadings();
             AddProperties(parameters);
+            OutputProperties();
             Builder.Append(">").Append(endOfLine);
         }
 
@@ -144,13 +146,19 @@ namespace FormGenerator.Fields
             }
             else
             {
-                Builder.Append(name.ToCamelCase()).Append("=\"").Append(value).Append("\" ");
+                _properties[name] = value.ToString();
             }
         }
 
         protected virtual List<string> IgnoredProperties()
         {
             return new List<string> {"Field", "Across"};
+        }
+
+        private void OutputProperties()
+        {
+            foreach (var property in _properties)
+                Builder.Append(property.Key.ToCamelCase()).Append("=\"").Append(property.Value).Append("\" ");
         }
 
         protected virtual void AddProperties(TokenTree parameters)

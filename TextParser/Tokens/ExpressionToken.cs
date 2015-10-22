@@ -4,16 +4,14 @@ namespace TextParser.Tokens
 {
     public class ExpressionToken : BaseToken
     {
-        public OperatorToken Operator { get; }
-        public IToken First { get; }
-        public IToken Second { get; private set; }
-
         public ExpressionToken(IToken first, OperatorToken op, IToken second = null)
         {
             First = first;
             Operator = op;
             Second = second;
         }
+
+        public IToken First { get; }
 
         public bool NeedsSecond
         {
@@ -24,6 +22,8 @@ namespace TextParser.Tokens
             }
         }
 
+        public OperatorToken Operator { get; }
+        public IToken Second { get; private set; }
         public override string Text => First == null ? $"({Operator.Text}{Second.Text})" : $"({First.Text}{Operator.Text}{Second.Text})";
 
         /// <summary>

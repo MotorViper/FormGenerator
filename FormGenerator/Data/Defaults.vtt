@@ -32,6 +32,10 @@
 	Touch: 10 + $DexModifier
 	MiscInitiative: 0
 	Initiative: ($Dexterity -10) / 2
+	SizeModifier: {Size.{Races.{Race}.Size}.ACModifier}
+	NaturalArmour: {Races.{Race}.ACBonus}
+	DeflectionModifier: 0
+	MiscACModifier: 0
 
 Weapons:
 	Damage: 
@@ -39,6 +43,7 @@ Weapons:
 
 Races:
 	Size: Medium
+	ACBonus: 0
 
 Armour:
 	AC: 10

@@ -43,13 +43,14 @@ Field: LabelWithLabelUnder
 		Align: Left
 Field: CentreLabel
     BasedOn: Label
-    Align: Middle
+    Align: Stretch
     ContentAlign: Middle
 Field: BorderedLabel
     BasedOn: CentreLabel
 	BorderThickness: 1
 	BorderBrush: Black
 	Margin: 1
+	Height: 26
 Field: RightLabel
     BasedOn: Label
     Align: Right
@@ -60,7 +61,6 @@ Field: AbilityGrid
         Content: ?$Inputs
     Field: BorderedLabel
         Content: ($$Inputs - 10) / 2
-		Height: 27
 		Width: 27
 Field: WeaponGrid
 	Field: ComboBox
@@ -72,3 +72,4 @@ Field: WeaponGrid
 		Content: {Weapons.{$Inputs}.Damage}
 	Field: BorderedLabel
 		Content: {Weapons.{$Inputs}.Range}
+	Field: Label

@@ -11,6 +11,7 @@ namespace FormGenerator.Fields
     {
         private List<string> _columns;
         private string _columnWidth = "Auto";
+        private GridData _positions;
         private List<string> _rows;
 
         public Grid(Field parent, TokenTree data = null, int level = -1) : base(parent, "Grid", data, level)
@@ -110,8 +111,6 @@ namespace FormGenerator.Fields
                 AddColumnsAndRows();
         }
 
-        private GridData _positions = null;
-
         protected internal override void AddChildProperties(Field child, TokenTree parameters)
         {
             base.AddChildProperties(child, parameters);
@@ -120,8 +119,8 @@ namespace FormGenerator.Fields
                 Tuple<int, int> rowAndColumn = _positions.GetNextRowAndColumn();
                 int column = rowAndColumn.Item2;
                 int row = rowAndColumn.Item1;
-                AddProperty("Grid.Column", column);
-                AddProperty("Grid.Row", row);
+                child.AddProperty("Grid.Column", column);
+                child.AddProperty("Grid.Row", row);
                 TokenTreeList tokenTreeList = child.Children.FindMatches("Across");
                 _positions.MakeItemUsed(row, column);
                 if (tokenTreeList != null && tokenTreeList.Count == 1)
@@ -130,16 +129,17 @@ namespace FormGenerator.Fields
                     if (across != null)
                     {
                         string[] bits = across.Split(',');
-                        int span = int.Parse(bits[0]);
-                        for (int i = 1; i < span; ++i)
+                        int columns = int.Parse(bits[0]);
+                        for (int i = 1; i < columns; ++i)
                             _positions.MakeItemUsed(row, column + i);
-                        child.AddProperty("Grid.ColumnSpan", span);
+                        child.AddProperty("Grid.ColumnSpan", columns);
                         if (bits.Length >= 2)
                         {
-                            span = int.Parse(bits[1]);
-                            child.AddProperty("Grid.RowSpan", span);
-                            for (int i = 1; i < span; ++i)
-                                _positions.MakeItemUsed(row + i, column);
+                            int rows = int.Parse(bits[1]);
+                            child.AddProperty("Grid.RowSpan", rows);
+                            for (int col = 0; col < columns; ++col)
+                                for (int i = 0; i < rows; ++i)
+                                    _positions.MakeItemUsed(row + i, column + col);
                         }
                     }
                 }

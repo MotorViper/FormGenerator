@@ -103,6 +103,7 @@
     <None Include="Data\Data.vtt" />
     <None Include="Data\Defaults.vtt" />
     <None Include="Data\Fields.vtt" />
+    <None Include="Data\Misc.vtt" />
     <None Include="Data\Parameters.vtt" />
     <None Include="Data\Races.vtt" />
     <None Include="Data\Armour.vtt" />

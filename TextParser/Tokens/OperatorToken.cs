@@ -24,7 +24,7 @@ namespace TextParser.Tokens
             return Text;
         }
 
-        public TokenList Simplify(IToken first, IToken last)
+        public virtual TokenList Simplify(IToken first, IToken last)
         {
             if (first == null)
             {
@@ -48,7 +48,14 @@ namespace TextParser.Tokens
 
         public virtual TokenList Evaluate(IToken first, IToken last, TokenTreeList parameters)
         {
-            return Simplify(first?.Evaluate(parameters)[0], last?.Evaluate(parameters)[0]);
+            TokenList firstList = first?.Evaluate(parameters);
+            TokenList lastList = last?.Evaluate(parameters);
+            if (firstList != null && firstList.Count != 1)
+                throw new Exception($"First element of Operation {Text} is not unique.");
+            if (lastList != null && lastList.Count != 1)
+                throw new Exception($"Second element of Operation {Text} is not unique.");
+
+            return Simplify(firstList?[0], lastList?[0]);
         }
 
         protected virtual TokenList Evaluate(ITypeToken token)
@@ -65,6 +72,10 @@ namespace TextParser.Tokens
         {
             switch (op)
             {
+                case "#":
+                    return new IndexToken();
+                case "|":
+                    return new ListToken();
                 case "+":
                     return new PlusToken();
                 case "*":

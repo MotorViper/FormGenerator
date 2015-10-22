@@ -1,5 +1,4 @@
 ﻿using TextParser;
-using TextParser.Tokens;
 
 namespace FormGenerator.Fields
 {
@@ -12,9 +11,9 @@ namespace FormGenerator.Fields
         protected override void AddProperties(TokenTree parameters)
         {
             base.AddProperties(parameters);
-            AddProperty("SelectedValue", new StringToken("{Binding Selected}"), parameters);
-            AddProperty("SelectedIndex", new StringToken("0"), parameters);
-            AddProperty("ItemsSource", new StringToken("{Binding Keys}"), parameters);
+            AddProperty("SelectedValue", "{Binding Selected}");
+            AddProperty("SelectedIndex", 0);
+            AddProperty("ItemsSource", "{Binding Keys}");
         }
     }
 }

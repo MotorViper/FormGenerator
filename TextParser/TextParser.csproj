@@ -45,7 +45,9 @@
     <Compile Include="TokenList.cs" />
     <Compile Include="Tokens\BracketToken.cs" />
     <Compile Include="Tokens\BaseToken.cs" />
+    <Compile Include="Tokens\ListToken.cs" />
     <Compile Include="Tokens\StringPlusToken.cs" />
+    <Compile Include="Tokens\IndexToken.cs" />
     <Compile Include="Tokens\SubstitutionToken.cs" />
     <Compile Include="TokenTree.cs" />
     <Compile Include="Tokens\DivideToken.cs" />
