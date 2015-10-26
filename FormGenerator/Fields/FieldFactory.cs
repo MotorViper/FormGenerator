@@ -33,7 +33,12 @@ namespace FormGenerator.Fields
                     {
                         fieldName = replacement["BasedOn"];
                         foreach (TokenTree child in replacement.Children.Where(x => x.Name != "BasedOn"))
-                            data.Children.Add(child);
+                        {
+                            if (child.Name == "Field")
+                                data.Children.Add(child);
+                            else
+                                data.Children.AddIfMissing(child);
+                        }
                         field = CreateField(fieldName, data, level, parameters, parent);
                     }
                     else

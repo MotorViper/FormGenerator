@@ -1,26 +1,32 @@
 ﻿Field: Grid
-	Rows: 2
+	Align: Fill
+	Columns: Auto,Auto,
+	Rows: Auto,Auto,,
 	Field: Grid
-		Columns: 16
-		Align: Stretch
+		HorizontalAlignment: Stretch
+		Across: 3
+		Columns: 36
 		Field: Grid
 			Rows: 3
-			Across: 4
+			Across: 12
 			Align: Stretch
 			Field: Selector
 				VerticalAlignment: Top
-				Width: $LabelWidth
 			Field: UnderLine
 			Field: LabelUnder	
 				Content: Character
 		Field: EditorWithLabelUnder
 			Inputs: Player
 			Across: 12
-			ColumnWidth: 200
+		Field: Label
+			Content: Dungeons
+			Align: Middle
+			FontWeight: Bold
+			Across: 12
+
 		Field: LabelWithLabelUnder
-			Across: 4
+			Across: 12
 			Inputs: Classes
-			ColumnWidth: 200
 		Field: EditorWithLabelUnder
 			Across: 4
 			Inputs: Race
@@ -30,13 +36,23 @@
 		Field: EditorWithLabelUnder
 			Across: 4
 			Inputs: Deity
+		Field: Label
+			Content: '&amp; Dragons'
+			FontWeight: Bold
+			Align: Middle
+			Across: 12
+
 		Field: EditorWithLabelUnder
+			Across: 3
 			Inputs: Size
 		Field: EditorWithLabelUnder
+			Across: 3
 			Inputs: Age
 		Field: EditorWithLabelUnder
+			Across: 3
 			Inputs: Gender
 		Field: EditorWithLabelUnder
+			Across: 3
 			Inputs: Height
 		Field: EditorWithLabelUnder
 			Across: 3
@@ -50,161 +66,235 @@
 		Field: EditorWithLabelUnder
 			Across: 3
 			Inputs: Skin
+		Field: Label
+			Across: 12
+			Align: Middle
+			FontWeight: Bold
+			Content: Character Record Sheet
+			
+	Field: Grid
+		Across: 1, 2
+		Columns: Auto,40,45,35,35
+		Field: CentreLabel
+			Content: Attribute
+		Field: CentreLabel
+            Content: Value
+		Field: CentreLabel
+			Content: Bonus
+		Field: Label
+			Content: Temporary
+			Across: 2
+		Field: AbilityGrid
+			Inputs: Strength
+		Field: AbilityGrid
+	        Inputs: Dexterity
+		Field: AbilityGrid
+			Inputs: Constitution
+		Field: AbilityGrid
+	        Inputs: Intelligence
+		Field: AbilityGrid
+			Inputs: Wisdom
+		Field: AbilityGrid
+	        Inputs: Charisma
+
+	Field: Grid
+		Columns: ',50,45' + ',17,' * 7 + ',50'
+		Across: 2
+		Field: Label
+		Field: Label
+			Content: Total
+		Field: Label
+			Across: 10
+			Content: 'Wounds/Current HP'
+		Field: Label
+			Across: 3
+			Content: 'Non-Lethal'
+		Field: Label
+			Content: Speed
+			Across: 3
+
+		Field: InvertedLabel
+			Content: HP
+		Field: BorderedLabel
+			Content: ?HP
+		Field: BorderedLabel
+			Across: 10
+		Field: BorderedLabel
+			Across: 3
+		Field: BorderedLabel
+			Across: 3
+	        
+		Field: InvertedLabel
+			Content: AC
+		Field: BorderedLabel
+			Content: ?AC
+		Field: CentreLabel
+			Content: '= 10'
+		Field: CentreLabel
+			Content: '+'
+		Field: BorderedLabel
+			Content: ?ArmourBonus
+		Field: CentreLabel
+			Content: '+'
+		Field: BorderedLabel
+			Content: ?ShieldBonus
+		Field: CentreLabel
+			Content: '+'
+		Field: BorderedLabel
+			Content: ?DexModifier
+		Field: CentreLabel
+			Content: '+'
+		Field: BorderedLabel
+			Content: ?SizeModifier
+		Field: CentreLabel
+			Content: '+'
+		Field: BorderedLabel
+			Content: ?NaturalArmour
+		Field: CentreLabel
+			Content: '+'
+		Field: BorderedLabel
+			Content: ?DeflectionModifier
+		Field: CentreLabel
+			Content: '+'
+		Field: BorderedLabel
+			Content: ?MiscACModifier
+		Field: BorderedLabel
+
+		Field: Label
+		Field: LabelUnder
+			Content: Total
+		Field: Label
+		Field: DoubleLabelUnder
+			Inputs: 
+				First: Armour
+				Second: Bonus
+			Across: 3
+		Field: DoubleLabelUnder
+			Inputs: 
+				First: Shield
+				Second: Bonus
+		Field: Label
+		Field: DoubleLabelUnder
+			Inputs: 
+				First: Dex.
+				Second: Modifier
+		Field: Label
+		Field: DoubleLabelUnder
+			Inputs: 
+				First: Size
+				Second: Modifier
+		Field: DoubleLabelUnder
+			Inputs: 
+				First: Natural
+				Second: Armour
+			Across: 3
+		Field: DoubleLabelUnder
+			Inputs: 
+				First: Deflection
+				Second: Modifier
+		Field: Label
+		Field: DoubleLabelUnder
+			Inputs: 
+				First: Misc.
+				Second: Modifier
+				
+	Field: Grid
+		Columns: ,,,17,,17,
+		Field: InvertedLabel
+			Content: Touch
+		Field: BorderedLabel
+			Content: ?Touch
+		Field: InvertedLabel
+			Across: 4
+			Content: 'Flat-Footed'
+		Field: BorderedLabel
+			Content: ?FlatFooted
+
+		Field: InvertedLabel
+			Content: Initiative
+			Across: 2
+		Field: BorderedLabel
+			Content: ?Initiative
+		Field: CentreLabel
+			Content: =
+		Field: BorderedLabel
+			Content: ?DexModifier
+		Field: CentreLabel
+			Content: '+'
+		Field: BorderedLabel
+			Content: ?MiscInitiative
+
+		Field: Label
+			Across: 2
+		Field: LabelUnder
+			Content: Total
+			HorizontalAlignment: Center
+		Field: Label
+		Field: DoubleLabelUnder
+			Inputs: 
+				First: Dex.
+				Second: Modifier
+		Field: Label
+		Field: DoubleLabelUnder
+			Inputs: 
+				First: Misc.
+				Second: Modifier
+
+	Field: Grid
+		Background: PaleGreen
+		Across: 1,2
+
+	Field: Grid
+		Background: LightBlue
+		Align: Fill
+		Across: 2
+		Columns: ,,17,,17,,17,,17,,17,,
+		Field: Label
+			Content: SAVING THROWS
+			FontSize: 10
+		Field: Label
+			Content: TOTAL
+		Field: Label
+		Field: Label
+			Content: Base
+		Field: Label
+		Field: Label
+			Content: Ability
+		Field: Label
+		Field: Label
+			Content: Magic
+		Field: Label
+		Field: Label
+			Content: Misc.
+		Field: Label
+		Field: Label
+			Content: Temporary
+		Field: Label
+
+		Field: SavingGrid
+			Inputs: 
+				Name: Fortitude
+				Bonus: Con
+		Field: SavingGrid
+			Inputs: 
+				Name: Reflex
+				Bonus: Dex
+		Field: SavingGrid
+			Inputs: 
+				Name: Will
+				Bonus: Wis
+
+/*
+Field: Grid
+	Rows: 2
+	Field: Grid
+		Columns: 16
+		Align: Stretch
 	Field: Grid
 		Rows: 3
 		Field: Grid
-			Columns: "90, 40, 45, 45, 40, " + "35, 20, " * 7
+			Columns: "45, 40, " + "35, 20, " * 7
 			
-			Field: CentreLabel
-				Content: Attribute
-			Field: CentreLabel
-	            Content: Value
-			Field: CentreLabel
-				Content: Bonus
-			Field: Label
-			Field: Label
-				Content: Total
-			Field: Label
-				Across: 10
-				Content: 'Wounds/Current HP'
-			Field: Label
-				Across: 3
-				Content: 'Non-Lethal'
-			Field: Label
-				Content: Speed
-				Across: 2
-
-			Field: AbilityGrid
-				Inputs: Strength
-			Field: InvertedLabel
-				Content: HP
-			Field: BorderedLabel
-				Content: ?HP
-			Field: BorderedLabel
-				Across: 9
-			Field: Label
-			Field: BorderedLabel
-				Across: 2
-			Field: Label
-			Field: BorderedLabel
-				Across: 2
-	        
-			Field: AbilityGrid
-		        Inputs: Dexterity
-			Field: InvertedLabel
-				Content: AC
-			Field: BorderedLabel
-				Content: ?AC
-			Field: CentreLabel
-				Content: '= 10'
-			Field: CentreLabel
-				Content: '+'
-			Field: BorderedLabel
-				Content: ?ArmourBonus
-			Field: CentreLabel
-				Content: '+'
-			Field: BorderedLabel
-				Content: ?ShieldBonus
-			Field: CentreLabel
-				Content: '+'
-			Field: BorderedLabel
-				Content: ?DexModifier
-			Field: CentreLabel
-				Content: '+'
-			Field: BorderedLabel
-				Content: ?SizeModifier
-			Field: CentreLabel
-				Content: '+'
-			Field: BorderedLabel
-				Content: ?NaturalArmour
-			Field: CentreLabel
-				Content: '+'
-			Field: BorderedLabel
-				Content: ?DeflectionModifier
-			Field: CentreLabel
-				Content: '+'
-			Field: BorderedLabel
-				Content: ?MiscACModifier
-			
-			Field: AbilityGrid
-				Inputs: Constitution
-			Field: Label
-			Field: LabelUnder
-				Content: Total
-			Field: Label
-			Field: LabelUnder
-				Content: Armour
-				Across: 3
-				HorizontalAlignment: Center
-			Field: LabelUnder
-				Content: Shield
-				HorizontalAlignment: Center
-			Field: Label
-			Field: LabelUnder
-				Content: Dex
-				HorizontalAlignment: Center
-			Field: Label
-			Field: LabelUnder
-				Content: Size
-				HorizontalAlignment: Center
-			Field: LabelUnder
-				Content: Natural
-				HorizontalAlignment: Center
-				Across: 3
-			Field: LabelUnder
-				Content: Deflection
-				HorizontalAlignment: Center
-			Field: Label
-			Field: LabelUnder
-				Content: Misc.
-				HorizontalAlignment: Center
-	        
-			Field: AbilityGrid
-		        Inputs: Intelligence
-			Field: InvertedLabel
-				Content: Touch
-			Field: BorderedLabel
-				Content: ?Touch
-			Field: InvertedLabel
-				Across: 4
-				Content: Flat-Footed
-			Field: BorderedLabel
-				Content: ?FlatFooted
-			Field: InvertedLabel
-				Across: 10,3
-				Content: TTTT
-			
-			Field: AbilityGrid
-				Inputs: Wisdom
-			Field: InvertedLabel
-				Content: Initiative
-				Across: 2
-			Field: BorderedLabel
-				Content: ?Initiative
-			Field: Label
-				Content: =
-			Field: BorderedLabel
-				Content: ?DexModifier
-			Field: Label
-				Content: '+'
-			Field: BorderedLabel
-				Content: ?MiscInitiative
-	        
-			Field: AbilityGrid
-		        Inputs: Charisma
-			Field: Label
-				Across: 2
-			Field: LabelUnder
-				Content: Total
-				HorizontalAlignment: Center
-			Field: Label
-			Field: LabelUnder
-				Content: Dex
-				HorizontalAlignment: Center
-			Field: Label
-			Field: LabelUnder
-				Content: Misc.
-				HorizontalAlignment: Center
 
 		Field: Grid
 			Columns: 100,60,60,
@@ -219,4 +309,4 @@
 				Inputs: Weapon1
 			Field: WeaponGrid
 				Inputs: Weapon2
-							
+*/							

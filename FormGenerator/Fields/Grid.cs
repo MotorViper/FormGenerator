@@ -10,7 +10,7 @@ namespace FormGenerator.Fields
     public class Grid : Field
     {
         private List<string> _columns;
-        private string _columnWidth = "Auto";
+        private string _columnWidth = "*";
         private GridData _positions;
         private List<string> _rows;
 
@@ -81,7 +81,7 @@ namespace FormGenerator.Fields
                 {
                     AppendStartOfLine(Level + 1, "<Grid.RowDefinitions>").AppendLine();
                     for (int i = 0; i < rowCount; ++i)
-                        AppendStartOfLine(Level + 2, "<RowDefinition/>").AppendLine();
+                        AppendStartOfLine(Level + 2, "<RowDefinition Height=\"Auto\"/>").AppendLine();
                     AppendStartOfLine(Level + 1, "</Grid.RowDefinitions>").AppendLine();
                 }
             }

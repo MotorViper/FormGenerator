@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using TextParser.Annotations;
 using TextParser.Tokens;
 
@@ -9,6 +10,7 @@ namespace TextParser
 {
     public class TokenTreeList : List<TokenTree>, INotifyPropertyChanged
     {
+        private readonly List<string> _funcList = new List<string> {"SUMI", "SUMD", "AGG", "SUM", "COUNT"};
         private readonly TokenGenerator _generator = new TokenGenerator();
 
         public TokenTreeList()
@@ -31,19 +33,42 @@ namespace TextParser
         {
             TokenTreeList matches = new TokenTreeList();
             string[] parts = key.Split(new[] {'.'}, 2);
-            if (parts.Length == 2 && (parts[0] == "SUMI" || parts[0] == "SUMD" || parts[0] == "SUM"))
+            if (parts.Length == 2 && _funcList.Contains(parts[0]))
             {
-                string last = parts[0];
+                string first = parts[0];
                 TokenTreeList items = FindMatches(parts[1], true);
-                if (last == "SUMI" || last == "SUM")
+                switch (first)
                 {
-                    int sum = items.Sum(token => token.Value.Convert<int>());
-                    matches.Add(new TokenTree(new StringToken("SUM"), new IntToken(sum)));
-                }
-                if (last == "SUMD")
-                {
-                    double sum = items.Sum(token => token.Value.Convert<double>());
-                    matches.Add(new TokenTree(new StringToken("SUM"), new DoubleToken(sum)));
+                    case "SUMI":
+                    case "SUM":
+                    {
+                        int sum = items.Sum(token => token.Value.Convert<int>());
+                        matches.Add(new TokenTree(new StringToken("SUM"), new IntToken(sum)));
+                    }
+                        break;
+                    case "SUMD":
+                    {
+                        double sum = items.Sum(token => token.Value.Convert<double>());
+                        matches.Add(new TokenTree(new StringToken("SUM"), new DoubleToken(sum)));
+                    }
+                        break;
+                    case "AGG":
+                        Dictionary<string, int> found = new Dictionary<string, int>();
+                        foreach (TokenTree child in items)
+                        {
+                            int count;
+                            string value = child.Value.Text;
+                            found[value] = found.TryGetValue(value, out count) ? ++count : 1;
+                        }
+
+                        StringBuilder sb = new StringBuilder();
+                        foreach (var item in found)
+                            sb.Append(item.Key).Append("(").Append(item.Value).Append(")/");
+                        matches.Add(new TokenTree(new StringToken("AGG"), new StringToken(sb.ToString().TrimEnd('/'))));
+                        break;
+                    case "COUNT":
+                        matches.Add(new TokenTree(new StringToken("COUNT"), new IntToken(items.Count)));
+                        break;
                 }
             }
             else
@@ -103,6 +128,12 @@ namespace TextParser
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void AddIfMissing(TokenTree child)
+        {
+            if (this.All(item => child.Name != item.Name))
+                Add(child);
         }
     }
 }

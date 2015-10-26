@@ -23,7 +23,9 @@
 	Hair:
 	Skin:
 	DexModifier: ($Dexterity - 10) / 2
-	Classes: $Class
+	ConModifier: ($Constitution - 10) / 2
+	WisModifier: ($Wisdom - 10) / 2
+	Classes: $AGG.Class
 	HP: $SUM.Class.HP
 	ArmourBonus: {Armour.{Armour}.ACBonus}
 	ShieldBonus: 0
@@ -31,11 +33,15 @@
 	AC: $FlatFooted + $DexModifier
 	Touch: 10 + $DexModifier
 	MiscInitiative: 0
-	Initiative: ($Dexterity -10) / 2
+	Initiative: $DexModifier + $MiscInitiative
 	SizeModifier: {Size.{Races.{Race}.Size}.ACModifier}
 	NaturalArmour: {Races.{Race}.ACBonus}
 	DeflectionModifier: 0
 	MiscACModifier: 0
+	FortitudeBase: $COUNT.Class
+	FortitudeThrow: $ConModifier + $FortitudeBase
+	ReflexThrow: $DexModifier
+	WillThrow: $WisModifier
 
 Weapons:
 	Damage: 

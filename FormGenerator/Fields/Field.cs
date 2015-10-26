@@ -15,7 +15,7 @@ namespace FormGenerator.Fields
         private int _marginTop;
         private string _xlmns = "xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"";
 
-        public Field(Field parent, string name = "", TokenTree data = null, int level = -1)
+        public Field(Field parent, string name, TokenTree data, int level)
         {
             Name = name;
             Children = data?.Children.Clone();
@@ -33,9 +33,9 @@ namespace FormGenerator.Fields
         protected virtual void AddStart(string endOfLine, TokenTree parameters)
         {
             AppendStartOfLine(Level, "<").Append(Name).Append(" ");
-            AddHeadings();
             AddProperties(parameters);
             OutputProperties();
+            AddHeadings();
             Builder.Append(">").Append(endOfLine);
         }
 
@@ -71,82 +71,87 @@ namespace FormGenerator.Fields
 
         public void AddProperty<T>(string name, T value)
         {
-            if (name == "Align" || name == "ContentAlign")
+            switch (name)
             {
-                string verticalalignment;
-                string horizontalalignment;
-                if (name == "Align")
-                {
-                    verticalalignment = "VerticalAlignment";
-                    horizontalalignment = "HorizontalAlignment";
-                }
-                else
-                {
-                    verticalalignment = "VerticalContentAlignment";
-                    horizontalalignment = "HorizontalContentAlignment";
-                }
-                string aligment = value.ToString();
-                if (aligment.StartsWith("Top"))
-                {
-                    AddProperty(verticalalignment, "Top");
-                    aligment = aligment.Substring(3);
-                }
-                else if (aligment.StartsWith("Bottom"))
-                {
-                    AddProperty(verticalalignment, "Bottom");
-                    aligment = aligment.Substring(6);
-                }
-                else if (aligment.StartsWith("Center") || aligment.StartsWith("Centre"))
-                {
-                    AddProperty(verticalalignment, "Center");
-                    aligment = aligment.Substring(6);
-                }
-                else if (aligment.StartsWith("Middle"))
-                {
-                    AddProperty(verticalalignment, "Center");
-                    if (aligment != "Middle")
-                        aligment = aligment.Substring(6);
-                }
-                else
-                {
-                    AddProperty(verticalalignment, "Center");
-                }
+                case "Align":
+                case "ContentAlign":
+                    string verticalAlignment;
+                    string horizontalAlignment;
+                    if (name == "Align")
+                    {
+                        verticalAlignment = "VerticalAlignment";
+                        horizontalAlignment = "HorizontalAlignment";
+                    }
+                    else
+                    {
+                        verticalAlignment = "VerticalContentAlignment";
+                        horizontalAlignment = "HorizontalContentAlignment";
+                    }
 
-                switch (aligment)
-                {
-                    case "Right":
-                    case "Left":
-                        AddProperty(horizontalalignment, aligment);
-                        break;
-                    case "":
-                    case "Stretch":
-                        AddProperty(horizontalalignment, "Stretch");
-                        break;
-                    case "Centre":
-                    case "Center":
-                    case "Middle":
-                        AddProperty(horizontalalignment, "Center");
-                        break;
-                    default:
-                        throw new Exception($"Unrecognized alignment {aligment}");
-                }
-            }
-            else if (name == "ShiftUp")
-            {
-                _marginTop = -Convert.ToInt32(value);
-            }
-            else if (name == "ShiftRight")
-            {
-                _marginLeft = Convert.ToInt32(value);
-            }
-            else if (name == "Invert")
-            {
-                AddProperty("Background", "Black");
-                AddProperty("Foreground", "White");
-            }
-            else
-            {
-                _properties[name] = value.ToString();
+                    string alignment = value.ToString();
+                    if (alignment.StartsWith("Top"))
+                    {
+                        AddProperty(verticalAlignment, "Top");
+                        alignment = alignment.Substring(3);
+                    }
+                    else if (alignment.StartsWith("Bottom"))
+                    {
+                        AddProperty(verticalAlignment, "Bottom");
+                        alignment = alignment.Substring(6);
+                    }
+                    else if (alignment.StartsWith("Center") || alignment.StartsWith("Centre"))
+                    {
+                        AddProperty(verticalAlignment, "Center");
+                        alignment = alignment.Substring(6);
+                    }
+                    else if (alignment.StartsWith("Middle"))
+                    {
+                        AddProperty(verticalAlignment, "Center");
+                        if (alignment != "Middle")
+                            alignment = alignment.Substring(6);
+                    }
+                    else if (alignment == "Fill")
+                    {
+                        AddProperty(verticalAlignment, "Stretch");
+                        alignment = "Stretch";
+                    }
+                    else
+                    {
+                        AddProperty(verticalAlignment, "Center");
+                    }
+
+                    switch (alignment)
+                    {
+                        case "Right":
+                        case "Left":
+                            AddProperty(horizontalAlignment, alignment);
+                            break;
+                        case "":
+                        case "Stretch":
+                            AddProperty(horizontalAlignment, "Stretch");
+                            break;
+                        case "Centre":
+                        case "Center":
+                        case "Middle":
+                            AddProperty(horizontalAlignment, "Center");
+                            break;
+                        default:
+                            throw new Exception($"Unrecognized alignment {alignment}");
+                    }
+                    break;
+                case "ShiftUp":
+                    _marginTop = -Convert.ToInt32(value);
+                    break;
+                case "ShiftRight":
+                    _marginLeft = Convert.ToInt32(value);
+                    break;
+                case "Invert":
+                    AddProperty("Background", "Black");
+                    AddProperty("Foreground", "White");
+                    break;
+                default:
+                    _properties[name] = value.ToString();
+                    break;
             }
         }
 

@@ -4,4 +4,5 @@
 @include C:\Development\Projects\FormGenerator\FormGenerator\Data\Weapons.vtt Parameters Weapons
 @include C:\Development\Projects\FormGenerator\FormGenerator\Data\Armour.vtt Parameters Armour
 @include C:\Development\Projects\FormGenerator\FormGenerator\Data\Races.vtt Parameters Races
+@include C:\Development\Projects\FormGenerator\FormGenerator\Data\Classes.vtt Parameters Classes
 @include C:\Development\Projects\FormGenerator\FormGenerator\Data\Misc.vtt Parameters

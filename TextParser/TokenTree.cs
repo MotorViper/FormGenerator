@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 using TextParser.Tokens;
 
 namespace TextParser
@@ -44,18 +43,7 @@ namespace TextParser
                     if (tokens.Count == 1)
                         return tokens[0].Text;
 
-                    Dictionary<string, int> all = new Dictionary<string, int>();
-                    foreach (IToken child in tokens)
-                    {
-                        int count;
-                        string value = child.Text;
-                        all[value] = all.TryGetValue(value, out count) ? ++count : 1;
-                    }
-
-                    StringBuilder sb = new StringBuilder();
-                    foreach (var item in all)
-                        sb.Append(item.Key).Append("(").Append(item.Value).Append(")/");
-                    return sb.ToString().TrimEnd('/');
+                    throw new Exception($"Too many values returned for {name}");
                 }
                 return null;
             }

@@ -16,6 +16,17 @@ Field: LabelUnder
 	BasedOn: Label
 	ShiftUp: 6
 	FontSize: 8
+Field: DoubleLabelUnder
+	BasedOn: Grid
+	Rows: 2
+	HorizontalAlignment: Center
+	Field: LabelUnder
+		Content: {Inputs.First}
+		HorizontalAlignment: Center
+	Field: LabelUnder
+		Content: {Inputs.Second}
+		ShiftUp: 12
+		HorizontalAlignment: Center
 Field: EditorWithLabelUnder
 	ShiftRight: 2
 	BasedOn: Grid
@@ -62,6 +73,34 @@ Field: AbilityGrid
     Field: BorderedLabel
         Content: ($$Inputs - 10) / 2
 		Width: 27
+    Field: BorderedLabel
+    Field: BorderedLabel
+
+Field: SavingGrid
+	Field: InvertedLabel
+		Content: {Inputs.Name}
+	Field: BorderedLabel
+		Content: {{Inputs.Name}Throw}
+	Field: Label
+		Content: =
+	Field: BorderedLabel
+		Content: {{Inputs.Name}Base}
+	Field: Label
+		Content: '+'
+	Field: BorderedLabel
+		Content: {{Inputs.Bonus}Modifier}
+	Field: Label
+		Content: '+'
+	Field: BorderedLabel
+	Field: Label
+		Content: '+'
+	Field: BorderedLabel
+	Field: Label
+		Content: '+'
+	Field: BorderedLabel
+	Field: BorderedLabel
+
+
 Field: WeaponGrid
 	Field: ComboBox
 		Content: ?$Inputs
