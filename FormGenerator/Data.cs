@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.IO;
+using System.Windows;
 using Helpers;
 using TextParser;
 
@@ -15,13 +18,24 @@ namespace FormGenerator
 
         public Data()
         {
-            string dataFile = ConfigurationManager.AppSettings.Get("DataFile");
-            _dataName = ConfigurationManager.AppSettings.Get("DataName");
-            if (s_allValues == null)
-                s_allValues = Parser.ParseFile(dataFile);
-            Keys = new List<string>();
-            foreach (TokenTree child in s_allValues.Children)
-                Keys.Add(child.Name);
+            try
+            {
+                _dataName = ConfigurationManager.AppSettings.Get("DataName");
+                if (s_allValues == null)
+                {
+                    string dataDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
+                    string dataFile = ConfigurationManager.AppSettings.Get("DataFile");
+                    s_allValues = Parser.ParseFile(dataFile, dataDirectory);
+                }
+                Keys = new List<string>();
+                foreach (TokenTree child in s_allValues.Children)
+                    Keys.Add(child.Name);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Reading Data", MessageBoxButton.OK);
+                Application.Current.Shutdown();
+            }
         }
 
         // ReSharper disable once CollectionNeverQueried.Global - used in View
@@ -53,8 +67,9 @@ namespace FormGenerator
         {
             get
             {
+                string dataDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
                 string dataFile = ConfigurationManager.AppSettings.Get("StaticData");
-                s_staticData = Parser.ParseFile(dataFile);
+                s_staticData = Parser.ParseFile(dataFile, dataDirectory);
                 return new XamlGenerator().GenerateXaml(s_staticData);
             }
         }

@@ -25,8 +25,8 @@
 	DexModifier: ($Dexterity - 10) / 2
 	ConModifier: ($Constitution - 10) / 2
 	WisModifier: ($Wisdom - 10) / 2
-	Classes: $AGG.Class
-	HP: $SUM.Class.HP
+	ClassList: AGG:{Level.Class}
+	HP: SUM:$Level.HP
 	ArmourBonus: {Armour.{Armour}.ACBonus}
 	ShieldBonus: 0
 	FlatFooted: 10 + $ArmourBonus
@@ -38,10 +38,12 @@
 	NaturalArmour: {Races.{Race}.ACBonus}
 	DeflectionModifier: 0
 	MiscACModifier: 0
-	FortitudeBase: $COUNT.Class
+//	FortitudeBase: {Classes.{Level=1.Class}.Level=(Count:{Level.Class={Level=1.Class}}).Fort}
+	FortitudeBase: SUM:(OVER:({Classes}|cl|{Classes.{cl}.Level=(Count:{Level.Class={cl}}).Fort}))
 	FortitudeThrow: $ConModifier + $FortitudeBase
 	ReflexThrow: $DexModifier
 	WillThrow: $WisModifier
+
 
 Weapons:
 	Damage: 
@@ -52,4 +54,4 @@ Races:
 	ACBonus: 0
 
 Armour:
-	AC: 10
+	ACBonus: 0

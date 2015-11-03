@@ -5,9 +5,11 @@
 	Weapon1: Sword
 	Weapon2: Dagger
 	Player: Bert
-	Class: Fighter
+	Level : 1
+		Class: Fighter
 		HP: 8
-	Class: Fighter
+	Level : 2
+		Class: Fighter
 		HP: 7
 
 The Heroine: 
@@ -18,9 +20,11 @@ The Heroine:
 	Weapon2: Sword
 	Armour: Leather
 	Player: Fred
-	Class: Rogue
+	Level : 1
+		Class: Rogue
 		HP: 6
-	Class: Fighter
+	Level : 2
+		Class: Fighter
 		HP: 7
 	Race: Dwarf
 
@@ -31,7 +35,8 @@ Not a Hero:
 	Weapon1: Sword
 	Armour: Chain
 	Player: John
-	Class: Cleric
+	Level : 1
+		Class: Cleric
 		HP: 7
 	Race: Hobbit
 	

@@ -24,6 +24,11 @@ namespace TextParser
             SinglelineComment = singleLineComment;
         }
 
+        public string DefaultDirectory
+        {
+            get; set;
+        }
+
         public string EndComment
         {
             get { return _endComment; }
@@ -68,7 +73,10 @@ namespace TextParser
                     int indentCount = parts.Length - 2;
                     for (int i = 2; i < parts.Length; ++i)
                         yield return new Line(parts[i] + ":") {Offset = i - 2};
-                    Reader reader = new Reader(new StreamReader(parts[1]), _startComment, _endComment, _singlelineComment);
+                    Reader reader = new Reader(new StreamReader(FileUtils.GetFullFileName(parts[1], DefaultDirectory)), _startComment, _endComment, _singlelineComment)
+                    {
+                        DefaultDirectory = DefaultDirectory
+                    };
                     foreach (Line includedLine in reader)
                     {
                         if (indentCount > 0)

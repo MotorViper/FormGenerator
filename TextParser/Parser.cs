@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Helpers;
 
 namespace TextParser
 {
@@ -10,14 +11,15 @@ namespace TextParser
             return Parse(new StringReader(text));
         }
 
-        public static TokenTree ParseFile(string fileName)
+        public static TokenTree ParseFile(string fileName, string defaultDirectory)
         {
-            return Parse(new StreamReader(fileName));
+            fileName = FileUtils.GetFullFileName(fileName, defaultDirectory);
+            return Parse(new StreamReader(fileName), defaultDirectory);
         }
 
-        public static TokenTree Parse(TextReader textReader)
+        public static TokenTree Parse(TextReader textReader, string defaultDirectory = null)
         {
-            Reader reader = new Reader(textReader);
+            Reader reader = new Reader(textReader) { DefaultDirectory = defaultDirectory };
             Splitter splitter = new Splitter();
             Dictionary<int, TokenTree> lastAtLevel = new Dictionary<int, TokenTree>
             {

@@ -67,6 +67,8 @@ namespace TextParser.Tokens
             {
                 case "#":
                     return new IndexToken();
+                case ":":
+                    return new FunctionToken();
                 case "|":
                     return new ListToken();
                 case "+":

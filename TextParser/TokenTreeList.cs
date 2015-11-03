@@ -10,7 +10,6 @@ namespace TextParser
 {
     public class TokenTreeList : List<TokenTree>, INotifyPropertyChanged
     {
-        private readonly List<string> _funcList = new List<string> {"SUMI", "SUMD", "AGG", "SUM", "COUNT"};
         private readonly TokenGenerator _generator = new TokenGenerator();
 
         public TokenTreeList()
@@ -32,67 +31,40 @@ namespace TextParser
         public TokenTreeList FindMatches(string key, bool all = false)
         {
             TokenTreeList matches = new TokenTreeList();
-            string[] parts = key.Split(new[] {'.'}, 2);
-            if (parts.Length == 2 && _funcList.Contains(parts[0]))
+            string[] parts = key.Split(new[] { '.' }, 2);
+            if (all)
             {
-                string first = parts[0];
-                TokenTreeList items = FindMatches(parts[1], true);
-                switch (first)
+                key = "ALL." + key;
+                parts = key.Split(new[] { '.' }, 2);
+            }
+            string first = parts[0];
+            List<TokenTree> tokens;
+            if (first.Contains('='))
+            {
+                tokens = new List<TokenTree>();
+                string[] searchCriteria = first.Split('=');
+                foreach (TokenTree item in this)
                 {
-                    case "SUMI":
-                    case "SUM":
-                    {
-                        int sum = items.Sum(token => token.Value.Convert<int>());
-                        matches.Add(new TokenTree(new StringToken("SUM"), new IntToken(sum)));
-                    }
-                        break;
-                    case "SUMD":
-                    {
-                        double sum = items.Sum(token => token.Value.Convert<double>());
-                        matches.Add(new TokenTree(new StringToken("SUM"), new DoubleToken(sum)));
-                    }
-                        break;
-                    case "AGG":
-                        Dictionary<string, int> found = new Dictionary<string, int>();
-                        foreach (TokenTree child in items)
-                        {
-                            int count;
-                            string value = child.Value.Text;
-                            found[value] = found.TryGetValue(value, out count) ? ++count : 1;
-                        }
-
-                        StringBuilder sb = new StringBuilder();
-                        foreach (var item in found)
-                            sb.Append(item.Key).Append("(").Append(item.Value).Append(")/");
-                        matches.Add(new TokenTree(new StringToken("AGG"), new StringToken(sb.ToString().TrimEnd('/'))));
-                        break;
-                    case "COUNT":
-                        matches.Add(new TokenTree(new StringToken("COUNT"), new IntToken(items.Count)));
-                        break;
+                    if (item.Key.Text == searchCriteria[0] && item.Value.Text == searchCriteria[1])
+                        tokens.Add(item);
                 }
             }
             else
             {
-                if (all)
-                {
-                    key = "ALL." + key;
-                    parts = key.Split(new[] {'.'}, 2);
-                }
-                string first = parts[0];
-                List<TokenTree> tokens = first == "ALL" ? this : this.Where(child => child.Name == first).ToList();
+                tokens = first == "ALL" ? this : this.Where(child => child.Name == first).ToList();
+            }
 
-                if (parts.Length == 2)
-                {
-                    string last = parts[1];
-                    foreach (TokenTree tree in tokens)
-                        matches.AddRange(tree.Children.FindMatches(last));
-                    if (matches.Count == 0 && last == "NAME")
-                        matches.AddRange(tokens.Select(tree => new TokenTree("NAME", tree.Name)));
-                }
-                else
-                {
-                    matches.AddRange(tokens);
-                }
+            if (parts.Length == 2)
+            {
+                string last = parts[1];
+                foreach (TokenTree tree in tokens)
+                    matches.AddRange(tree.Children.FindMatches(last));
+                if (matches.Count == 0 && last == "NAME")
+                    matches.AddRange(tokens.Select(tree => new TokenTree("NAME", tree.Name)));
+            }
+            else
+            {
+                matches.AddRange(tokens);
             }
             return matches;
         }

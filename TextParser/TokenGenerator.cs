@@ -13,6 +13,7 @@ namespace TextParser
             ["(.*)(\\|)([^\\|]*)"] = tokens => PerformOperation(tokens),
             ["(.*)([\\+-])([^\\+-]*)"] = tokens => PerformOperation(tokens),
             ["(.*)([\\*/×÷])([^\\*/×÷]*)"] = tokens => PerformOperation(tokens),
+            ["(.*)(:)([^:]*)"] = tokens => PerformOperation(tokens),
             ["(.*)(#)([^#]*)"] = tokens => PerformOperation(tokens),
             ["(.*)\\$([A-Za-z][A-Za-z0-9]*(\\.[A-Za-z][A-Za-z0-9]*)*)?([^$]*)"] = tokens => PerformSubstitutionOperation(tokens),
             ["(0|[1-9][0-9]*\\.[0-9]+)"] = tokens => new DoubleToken(double.Parse(tokens[0])),
