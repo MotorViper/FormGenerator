@@ -1,28 +1,59 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace TextParser.Tokens
 {
-    public class ListToken : ListOperatorToken
+    public class ListToken : BaseToken
     {
-        public ListToken() : base("|")
+        public ListToken()
         {
+            Tokens = new List<IToken>();
         }
 
-        public override bool CanBeBinary => true;
-        public override bool CanBeUnary => false;
-
-        protected override TokenList Evaluate(IToken first, IToken last, Func<IToken, TokenList> converter)
+        public override string Text
         {
-            TokenList firstList = converter(first);
-            TokenList lastList = converter(last);
+            get
+            {
+                if (Tokens.Count == 0)
+                    return "";
 
-            if (firstList == null || lastList == null)
-                throw new Exception($"Operation {Text} is a binary operation.");
+                StringBuilder sb = new StringBuilder();
+                foreach (IToken token in Tokens)
+                    sb.Append(token.Text).Append("|");
+                string text = sb.ToString();
+                return "(" + text.Substring(0, text.Length - 1) + ")";
+            }
+        }
 
-            TokenList result = new TokenList();
-            result.AddRange(firstList);
-            result.AddRange(lastList);
-            return result;
+        public List<IToken> Tokens { get; }
+
+        public void Add(IToken token)
+        {
+            Tokens.Add(token);
+        }
+
+        public override TTo Convert<TTo>()
+        {
+            if (Tokens.Count == 1)
+                return Tokens[0].Convert<TTo>();
+            throw new Exception("Could not convert ListToken");
+        }
+
+        public override IToken Evaluate(TokenTreeList parameters)
+        {
+            ListToken list = new ListToken();
+            foreach (IToken token in Tokens)
+                list.Tokens.Add(token.Evaluate(parameters));
+            return list;
+        }
+
+        public override IToken Simplify()
+        {
+            ListToken list = new ListToken();
+            foreach (IToken token in Tokens)
+                list.Tokens.Add(token.Simplify());
+            return list;
         }
     }
 }

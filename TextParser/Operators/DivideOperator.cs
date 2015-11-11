@@ -1,14 +1,15 @@
 ﻿using Helpers;
+using TextParser.Tokens;
 
-namespace TextParser.Tokens
+namespace TextParser.Operators
 {
-    public class DivideToken : OperatorToken
+    public class DivideOperator : BaseOperator
     {
-        public DivideToken() : base("/")
+        public DivideOperator() : base("/")
         {
         }
 
-        protected override TokenList Evaluate(ITypeToken first, ITypeToken last)
+        protected override IToken Evaluate(ITypeToken first, ITypeToken last)
         {
             switch (first.Type)
             {
@@ -17,9 +18,9 @@ namespace TextParser.Tokens
                     switch (last.Type)
                     {
                         case TokenType.IntToken:
-                            return new TokenList(new IntToken(iFirst.Value / ((TypeToken<int>)last).Value));
+                            return new IntToken(iFirst.Value / ((TypeToken<int>)last).Value);
                         case TokenType.DoubleToken:
-                            return new TokenList(new DoubleToken(iFirst.Value / ((TypeToken<double>)last).Value));
+                            return new DoubleToken(iFirst.Value / ((TypeToken<double>)last).Value);
                     }
                     break;
                 case TokenType.DoubleToken:
@@ -27,9 +28,9 @@ namespace TextParser.Tokens
                     switch (last.Type)
                     {
                         case TokenType.IntToken:
-                            return new TokenList(new DoubleToken(dFirst.Value / ((TypeToken<int>)last).Value));
+                            return new DoubleToken(dFirst.Value / ((TypeToken<int>)last).Value);
                         case TokenType.DoubleToken:
-                            return new TokenList(new DoubleToken(dFirst.Value / ((TypeToken<double>)last).Value));
+                            return new DoubleToken(dFirst.Value / ((TypeToken<double>)last).Value);
                     }
                     break;
                 case TokenType.StringToken:
@@ -37,7 +38,7 @@ namespace TextParser.Tokens
                     switch (last.Type)
                     {
                         case TokenType.StringToken:
-                            return new TokenList(new StringToken(sFirst.Value.CountInstances(((TypeToken<string>)last).Value).ToString()));
+                            return new StringToken(sFirst.Value.CountInstances(((TypeToken<string>)last).Value).ToString());
                     }
                     break;
             }

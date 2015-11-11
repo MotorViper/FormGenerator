@@ -2,9 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using TextParser.Annotations;
-using TextParser.Tokens;
 
 namespace TextParser
 {
@@ -31,11 +29,11 @@ namespace TextParser
         public TokenTreeList FindMatches(string key, bool all = false)
         {
             TokenTreeList matches = new TokenTreeList();
-            string[] parts = key.Split(new[] { '.' }, 2);
+            string[] parts = key.Split(new[] {'.'}, 2);
             if (all)
             {
                 key = "ALL." + key;
-                parts = key.Split(new[] { '.' }, 2);
+                parts = key.Split(new[] {'.'}, 2);
             }
             string first = parts[0];
             List<TokenTree> tokens;

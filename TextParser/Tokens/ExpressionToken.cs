@@ -1,10 +1,11 @@
 ﻿using System;
+using TextParser.Operators;
 
 namespace TextParser.Tokens
 {
     public class ExpressionToken : BaseToken
     {
-        public ExpressionToken(IToken first, OperatorToken op, IToken second = null)
+        public ExpressionToken(IToken first, IOperator op, IToken second = null)
         {
             First = first;
             Operator = op;
@@ -22,7 +23,7 @@ namespace TextParser.Tokens
             }
         }
 
-        public OperatorToken Operator { get; }
+        public IOperator Operator { get; }
         public IToken Second { get; private set; }
         public override string Text => First == null ? $"({Operator.Text}{Second.Text})" : $"({First.Text}{Operator.Text}{Second.Text})";
 
@@ -51,18 +52,18 @@ namespace TextParser.Tokens
 
         public override TTo Convert<TTo>()
         {
-            IToken simple = Simplify()[0];
+            IToken simple = Simplify();
             if (!(simple is ExpressionToken))
                 return simple.Convert<TTo>();
             throw new Exception("Could not convert ExpressionToken");
         }
 
-        public override TokenList Simplify()
+        public override IToken Simplify()
         {
             return Operator.Simplify(First, Second);
         }
 
-        public override TokenList Evaluate(TokenTreeList parameters)
+        public override IToken Evaluate(TokenTreeList parameters)
         {
             return Operator.Evaluate(First, Second, parameters);
         }

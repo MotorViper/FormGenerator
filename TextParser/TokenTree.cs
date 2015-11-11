@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using TextParser.Tokens;
 
 namespace TextParser
@@ -15,8 +14,9 @@ namespace TextParser
 
         public TokenTree(string key, string value, TokenTreeList children = null)
         {
-            Key = _tokenGenerator.Parse(key).Simplify()[0];
-            Value = _tokenGenerator.Parse(value)?.Simplify()[0] ?? new StringToken("");
+            Key = _tokenGenerator.Parse(key).Simplify();
+            IToken tokenList = _tokenGenerator.Parse(value)?.Simplify();
+            Value = tokenList ?? new StringToken("");
             Children = children ?? new TokenTreeList();
         }
 
@@ -39,11 +39,8 @@ namespace TextParser
 
                 if (list.Count > 0)
                 {
-                    TokenList tokens = list[0].Value.Evaluate(_parameters);
-                    if (tokens.Count == 1)
-                        return tokens[0].Text;
-
-                    throw new Exception($"Too many values returned for {name}");
+                    IToken tokens = list[0].Value.Evaluate(_parameters);
+                    return tokens.Text;
                 }
                 return null;
             }

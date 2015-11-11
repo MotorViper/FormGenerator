@@ -1,0 +1,8 @@
+﻿Appraise:
+	Key: INT
+Balance:
+	Key: DEX
+Bluff:
+	Key: CHA
+Climb:
+	Key: STR

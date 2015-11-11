@@ -57,7 +57,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Fields\CheckBox.cs" />
     <Compile Include="Fields\ComboBox.cs" />
+    <Compile Include="Fields\Table.cs" />
     <Compile Include="ListConverter.cs" />
     <Compile Include="DataConverter.cs" />
     <Compile Include="Fields\Field.cs" />
@@ -99,6 +101,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Data\Skills.vtt" />
     <None Include="Data\Characters.vtt" />
     <None Include="Data\Data.vtt" />
     <None Include="Data\Defaults.vtt" />

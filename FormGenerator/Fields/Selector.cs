@@ -1,10 +1,11 @@
-﻿using TextParser;
+﻿using System.Text;
+using TextParser;
 
 namespace FormGenerator.Fields
 {
     public class Selector : ComboBox
     {
-        public Selector(Field parent, TokenTree data, int level) : base(parent, data, level)
+        public Selector(Field parent, TokenTree data, int level, StringBuilder builder) : base(parent, data, level, builder)
         {
         }
 

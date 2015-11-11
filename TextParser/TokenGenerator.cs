@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Helpers;
+using TextParser.Operators;
 using TextParser.Tokens;
 
 namespace TextParser
@@ -13,10 +14,10 @@ namespace TextParser
             ["(.*)(\\|)([^\\|]*)"] = tokens => PerformOperation(tokens),
             ["(.*)([\\+-])([^\\+-]*)"] = tokens => PerformOperation(tokens),
             ["(.*)([\\*/×÷])([^\\*/×÷]*)"] = tokens => PerformOperation(tokens),
-            ["(.*)(:)([^:]*)"] = tokens => PerformOperation(tokens),
+            ["([^:]*)(:)(.*)"] = tokens => PerformOperation(tokens),
             ["(.*)(#)([^#]*)"] = tokens => PerformOperation(tokens),
-            ["(.*)\\$([A-Za-z][A-Za-z0-9]*(\\.[A-Za-z][A-Za-z0-9]*)*)?([^$]*)"] = tokens => PerformSubstitutionOperation(tokens),
-            ["(0|[1-9][0-9]*\\.[0-9]+)"] = tokens => new DoubleToken(double.Parse(tokens[0])),
+            ["(.*)\\$([A-Za-z█][A-Za-z0-9█]*(\\.[A-Za-z█][A-Za-z0-9█]*)*)?([^$]*)"] = tokens => PerformSubstitutionOperation(tokens),
+            ["([1-9][0-9]*\\.[0-9]+)"] = tokens => new DoubleToken(double.Parse(tokens[0])),
             ["(0|[1-9][0-9]*)"] = tokens => new IntToken(int.Parse(tokens[0])),
             [".*"] = tokens => new StringToken(tokens[0])
         };
@@ -28,7 +29,7 @@ namespace TextParser
             {
                 token = new StringToken(tokens[1]);
             }
-            IToken result = new ExpressionToken(null, new SubstitutionToken(), token);
+            IToken result = new ExpressionToken(null, new SubstitutionOperator(), token);
             if (!string.IsNullOrWhiteSpace(tokens[0]))
             {
                 token = ParseExpressionNoBrackets(tokens[0].Trim());
@@ -36,12 +37,12 @@ namespace TextParser
                 if (expression?.NeedsSecond ?? false)
                     result = expression.SetSecond(result);
                 else
-                    result = new ExpressionToken(token, new StringPlusToken(), result);
+                    result = new ExpressionToken(token, new StringPlusOperator(), result);
             }
             if (!string.IsNullOrWhiteSpace(tokens[3]))
             {
                 token = ParseExpressionNoBrackets(tokens[3].Trim());
-                result = new ExpressionToken(result, new StringPlusToken(), token);
+                result = new ExpressionToken(result, new StringPlusOperator(), token);
             }
             return result;
         }
@@ -49,7 +50,7 @@ namespace TextParser
         private static IToken PerformOperation(IReadOnlyList<string> tokens)
         {
             IToken first = ParseExpressionNoBrackets(tokens[0].Trim());
-            OperatorToken op = OperatorToken.CreateOperatorToken(tokens[1]);
+            BaseOperator op = BaseOperator.CreateOperatorToken(tokens[1]);
             IToken second = ParseExpressionNoBrackets(tokens[2].Trim());
 
             ExpressionToken firstExpression = first as ExpressionToken;
@@ -64,6 +65,9 @@ namespace TextParser
 
         public IToken Parse(string text)
         {
+            if (string.IsNullOrWhiteSpace(text))
+                return new NullToken();
+
             List<string> blocks = text.SplitIntoBlocks(new[] {'\'', '\'', '"', '"', '{', '}', '(', ')'}, true, StringUtils.DelimiterInclude.IncludeSeparately);
 
             string simplifed = "";
@@ -84,7 +88,7 @@ namespace TextParser
                         subResults.Add(subResult);
                         break;
                     case "{":
-                        subResult = new ExpressionToken(null, new SubstitutionToken(), Parse(entry));
+                        subResult = new ExpressionToken(null, new SubstitutionOperator(), Parse(entry));
                         simplifed += $"█{subResults.Count}█";
                         subResults.Add(subResult);
                         break;
@@ -121,13 +125,13 @@ namespace TextParser
                         IToken substituted = subResults[position];
                         IToken partial = string.IsNullOrWhiteSpace(bits[i])
                             ? substituted
-                            : new ExpressionToken(new StringToken(bits[i]), new StringPlusToken(), substituted);
+                            : new ExpressionToken(new StringToken(bits[i]), new StringPlusOperator(), substituted);
                         result = result == null
                             ? partial
-                            : new ExpressionToken(result, new StringPlusToken(), partial);
+                            : new ExpressionToken(result, new StringPlusOperator(), partial);
                     }
                     if (!string.IsNullOrWhiteSpace(bits[bits.Length - 1]))
-                        result = new ExpressionToken(result, new StringPlusToken(), new StringToken(bits[bits.Length - 1]));
+                        result = new ExpressionToken(result, new StringPlusOperator(), new StringToken(bits[bits.Length - 1]));
                 }
             }
             else

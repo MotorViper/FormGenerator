@@ -1,4 +1,4 @@
-﻿LabelWidth : 150
+﻿PlusWidth: 17
 Field: Editor
 	ShiftRight: 2
     BasedOn: TextBox
@@ -65,6 +65,7 @@ Field: BorderedLabel
 Field: RightLabel
     BasedOn: Label
     Align: Right
+
 Field: AbilityGrid
     Field: InvertedLabel
         Content: {{Inputs}.NAME}
@@ -98,7 +99,6 @@ Field: SavingGrid
 	Field: Label
 		Content: '+'
 	Field: BorderedLabel
-	Field: BorderedLabel
 
 
 Field: WeaponGrid
@@ -107,6 +107,8 @@ Field: WeaponGrid
 		SelectionOptions: Weapons
 		HorizontalAlignment: Stretch
 		Height: 25
+	Field: BorderedLabel
+		Content: $Melee
 	Field: BorderedLabel
 		Content: {Weapons.{$Inputs}.Damage}
 	Field: BorderedLabel

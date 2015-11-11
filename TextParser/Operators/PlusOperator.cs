@@ -1,26 +1,28 @@
-﻿namespace TextParser.Tokens
+﻿using TextParser.Tokens;
+
+namespace TextParser.Operators
 {
-    public class PlusToken : OperatorToken
+    public class PlusOperator : BaseOperator
     {
-        public PlusToken() : base("+")
+        public PlusOperator() : base("+")
         {
         }
 
         public override bool CanBeUnary => true;
 
-        protected override TokenList Evaluate(ITypeToken operand)
+        protected override IToken Evaluate(ITypeToken operand)
         {
             switch (operand.Type)
             {
                 case TokenType.IntToken:
-                    return new TokenList((IntToken)operand);
+                    return (IntToken)operand;
                 case TokenType.DoubleToken:
-                    return new TokenList((DoubleToken)operand);
+                    return (DoubleToken)operand;
             }
             return base.Evaluate(operand);
         }
 
-        protected override TokenList Evaluate(ITypeToken first, ITypeToken last)
+        protected override IToken Evaluate(ITypeToken first, ITypeToken last)
         {
             switch (first.Type)
             {
@@ -29,11 +31,11 @@
                     switch (last.Type)
                     {
                         case TokenType.IntToken:
-                            return new TokenList(new IntToken(iFirst.Value + ((TypeToken<int>)last).Value));
+                            return new IntToken(iFirst.Value + ((TypeToken<int>)last).Value);
                         case TokenType.DoubleToken:
-                            return new TokenList(new DoubleToken(iFirst.Value + ((TypeToken<double>)last).Value));
+                            return new DoubleToken(iFirst.Value + ((TypeToken<double>)last).Value);
                         case TokenType.StringToken:
-                            return new TokenList(new StringToken(iFirst.Value + last.ToString()));
+                            return new StringToken(iFirst.Value + last.ToString());
                     }
                     break;
                 case TokenType.DoubleToken:
@@ -41,16 +43,16 @@
                     switch (last.Type)
                     {
                         case TokenType.IntToken:
-                            return new TokenList(new DoubleToken(dFirst.Value + ((TypeToken<int>)last).Value));
+                            return new DoubleToken(dFirst.Value + ((TypeToken<int>)last).Value);
                         case TokenType.DoubleToken:
-                            return new TokenList(new DoubleToken(dFirst.Value + ((TypeToken<double>)last).Value));
+                            return new DoubleToken(dFirst.Value + ((TypeToken<double>)last).Value);
                         case TokenType.StringToken:
-                            return new TokenList(new StringToken(dFirst.Value + last.ToString()));
+                            return new StringToken(dFirst.Value + last.ToString());
                     }
                     break;
                 case TokenType.StringToken:
                     TypeToken<string> sFirst = (TypeToken<string>)first;
-                    return new TokenList(new StringToken(sFirst.Value + last));
+                    return new StringToken(sFirst.Value + last);
             }
             return base.Evaluate(first, last);
         }

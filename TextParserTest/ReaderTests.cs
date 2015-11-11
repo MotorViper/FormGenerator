@@ -21,7 +21,10 @@ namespace TextParserTest
         [TestMethod]
         public void TestsHandlesIncludes()
         {
-            Reader reader = new Reader(new StreamReader(@"C:\Development\Projects\FormGenerator\FormGenerator\Data\Data.vtt"));
+            Reader reader = new Reader(new StreamReader(@"C:\Development\Projects\FormGenerator\FormGenerator\Data\Data.vtt"))
+            {
+                DefaultDirectory = @"C:\Development\Projects\FormGenerator\FormGenerator\Data"
+            };
             Assert.IsTrue(reader.Count() > 4);
         }
 

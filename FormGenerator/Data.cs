@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
-using System.IO;
 using System.Windows;
 using Helpers;
 using TextParser;
@@ -18,23 +17,26 @@ namespace FormGenerator
 
         public Data()
         {
-            try
+            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
-                _dataName = ConfigurationManager.AppSettings.Get("DataName");
-                if (s_allValues == null)
+                try
                 {
-                    string dataDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
-                    string dataFile = ConfigurationManager.AppSettings.Get("DataFile");
-                    s_allValues = Parser.ParseFile(dataFile, dataDirectory);
+                    _dataName = ConfigurationManager.AppSettings.Get("DataName");
+                    if (s_allValues == null)
+                    {
+                        string dataDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
+                        string dataFile = ConfigurationManager.AppSettings.Get("DataFile");
+                        s_allValues = Parser.ParseFile(dataFile, dataDirectory);
+                    }
+                    Keys = new List<string>();
+                    foreach (TokenTree child in s_allValues.Children)
+                        Keys.Add(child.Name);
                 }
-                Keys = new List<string>();
-                foreach (TokenTree child in s_allValues.Children)
-                    Keys.Add(child.Name);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error Reading Data", MessageBoxButton.OK);
-                Application.Current.Shutdown();
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error Reading Data", MessageBoxButton.OK);
+                    Application.Current.Shutdown();
+                }
             }
         }
 
@@ -47,16 +49,19 @@ namespace FormGenerator
             get { return _selected.GetValue(); }
             set
             {
-                if (Values != null)
-                    Values.Children.PropertyChanged -= OnChildrenChanged;
-                _selected.SetValue(value, this);
-                Values = s_allValues.FindFirst(Selected);
-                TokenTree parameters = new TokenTree(s_staticData.GetChildren("Parameters"));
-                TokenTree defaults = parameters.FindFirst("Defaults." + _dataName);
-                Values.AddMissing(defaults);
-                Values.SetParameters(parameters);
-                Values.Children.PropertyChanged += OnChildrenChanged;
-                OnPropertyChanged("Values");
+                if (s_staticData != null)
+                {
+                    if (Values != null)
+                        Values.Children.PropertyChanged -= OnChildrenChanged;
+                    _selected.SetValue(value, this);
+                    Values = s_allValues.FindFirst(Selected);
+                    TokenTree parameters = new TokenTree(s_staticData.GetChildren("Parameters"));
+                    TokenTree defaults = parameters.FindFirst("Defaults." + _dataName);
+                    Values.AddMissing(defaults);
+                    Values.SetParameters(parameters);
+                    Values.Children.PropertyChanged += OnChildrenChanged;
+                    OnPropertyChanged("Values");
+                }
             }
         }
 

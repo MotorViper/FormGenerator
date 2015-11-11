@@ -46,7 +46,7 @@ namespace TextParserTest
             Assert.IsTrue(token is ExpressionToken, token.GetType().Name);
             Assert.AreEqual("(2+2)", token.Text);
 
-            token = token.Simplify()[0];
+            token = token.Simplify();
             Assert.IsTrue(token is TypeToken<int>, token.GetType().Name);
             Assert.AreEqual("4", token.Text);
             Assert.AreEqual(4, token.Convert<int>());
@@ -88,7 +88,7 @@ namespace TextParserTest
             foreach (var test in tests)
             {
                 IToken token = tokenGenerator.Parse(test.Key);
-                token = token.Simplify()[0];
+                token = token.Simplify();
                 Assert.IsTrue(token is TypeToken<int>, test.Key + ": " + token.Text);
                 Assert.AreEqual(test.Value, token.Convert<int>(), test.Key);
             }
@@ -110,7 +110,7 @@ namespace TextParserTest
             TokenGenerator tokenGenerator = new TokenGenerator();
             foreach (var test in tests)
             {
-                IToken token = tokenGenerator.Parse(test.Key).Simplify()[0];
+                IToken token = tokenGenerator.Parse(test.Key).Simplify();
                 Assert.IsTrue(token is TypeToken<double>, test.Key + ": " + token.Text);
                 Assert.AreEqual(test.Value, token.Convert<double>(), 0.001, test.Key);
             }
@@ -129,7 +129,7 @@ namespace TextParserTest
             TokenGenerator tokenGenerator = new TokenGenerator();
             foreach (var test in tests)
             {
-                IToken token = tokenGenerator.Parse(test.Key).Simplify()[0];
+                IToken token = tokenGenerator.Parse(test.Key).Simplify();
                 Assert.AreEqual(test.Value, token.Text, test.Key);
             }
         }
@@ -147,13 +147,13 @@ namespace TextParserTest
                 ["2.5 * '+-'"] = "+-+-+",
                 ["2 + '+-'"] = "2+-",
                 ["2.3 + '+-'"] = "2.3+-",
-                ["'123' 2 * 2 '567'"] = "1234567"
+                ["'123' + 2 * 2 + '567'"] = "1234567"
             };
 
             TokenGenerator tokenGenerator = new TokenGenerator();
             foreach (var test in tests)
             {
-                IToken token = tokenGenerator.Parse(test.Key).Simplify()[0];
+                IToken token = tokenGenerator.Parse(test.Key).Simplify();
                 Assert.IsTrue(token is TypeToken<string>, test.Key + ": " + token.Text);
                 Assert.AreEqual(test.Value, token.Text, test.Key);
             }
@@ -171,7 +171,9 @@ namespace TextParserTest
             DataRow row = TestContext.DataRow;
             string input = row[0].ToString().Trim();
             string output = row[1].ToString().Trim();
-            Assert.AreEqual(output, tokenGenerator.Parse(input).Simplify()[0].Text);
+            IToken parsed = tokenGenerator.Parse(input);
+            IToken simplified = parsed.Simplify();
+            Assert.AreEqual(output, simplified.Text);
         }
 
         [TestMethod]
@@ -189,8 +191,6 @@ namespace TextParserTest
                 ["$a"] = "3",
                 ["$a + $b"] = "7",
                 ["$($e + '.c') + $b"] = "d4",
-//                ["$($e).c + $b"] = "d4", These to be added later possibly
-//                ["${e}.c + $b"] = "d4",
                 ["$a.c + $b"] = "d4",
                 ["{'a' + 'b'}"] = "5",
                 ["{$d + $e}"] = "12"
@@ -218,7 +218,7 @@ namespace TextParserTest
             foreach (var test in tests)
             {
                 IToken token = tokenGenerator.Parse(test.Key);
-                token = token.Evaluate(new TokenTreeList(parameters))[0];
+                token = token.Evaluate(new TokenTreeList(parameters));
                 bool passed = test.Value == token.Text;
                 string result = passed ? "passed" : "failed";
                 if (passed)

@@ -9,7 +9,8 @@
 	Weapon2: None
 	Armour: None
 	Player: ?
-	Class: ?
+	Level: 1
+		Class: ?
 		HP: 0
 	Race: Human
 	Alignment: N
@@ -23,27 +24,36 @@
 	Hair:
 	Skin:
 	DexModifier: ($Dexterity - 10) / 2
+	StrModifier: ($Strength - 10) / 2
 	ConModifier: ($Constitution - 10) / 2
 	WisModifier: ($Wisdom - 10) / 2
 	ClassList: AGG:{Level.Class}
 	HP: SUM:$Level.HP
 	ArmourBonus: {Armour.{Armour}.ACBonus}
 	ShieldBonus: 0
-	FlatFooted: 10 + $ArmourBonus
+	FlatFooted: 10 + $ArmourBonus + $SizeACModifier
 	AC: $FlatFooted + $DexModifier
-	Touch: 10 + $DexModifier
+	Touch: 10 + $DexModifier + $SizeACModifier
 	MiscInitiative: 0
 	Initiative: $DexModifier + $MiscInitiative
-	SizeModifier: {Size.{Races.{Race}.Size}.ACModifier}
+	SizeACModifier: {Size.{Races.{Race}.Size}.ACModifier}
 	NaturalArmour: {Races.{Race}.ACBonus}
 	DeflectionModifier: 0
 	MiscACModifier: 0
-//	FortitudeBase: {Classes.{Level=1.Class}.Level=(Count:{Level.Class={Level=1.Class}}).Fort}
-	FortitudeBase: SUM:(OVER:({Classes}|cl|{Classes.{cl}.Level=(Count:{Level.Class={cl}}).Fort}))
+	FortitudeBase: SUM:OVER:({Classes.ALL.NAME}|cl|{Classes.{cl}.Level=(Count:{Level.Class={cl}}).Fort})
+	ReflexBase: SUM:OVER:({Classes.ALL.NAME}|cl|{Classes.{cl}.Level=(Count:{Level.Class={cl}}).Ref})
+	WillBase: SUM:OVER:({Classes.ALL.NAME}|cl|{Classes.{cl}.Level=(Count:{Level.Class={cl}}).Will})
 	FortitudeThrow: $ConModifier + $FortitudeBase
-	ReflexThrow: $DexModifier
-	WillThrow: $WisModifier
-
+	ReflexThrow: $DexModifier + $ReflexBase
+	WillThrow: $WisModifier + $WillBase
+	BAB: SUM:OVER:({Classes.ALL.NAME}|cl|{Classes.{cl}.Level=(Count:{Level.Class={cl}}).BAB})
+	SpellResistance: 0
+	SizeBABModifier: 0
+	MiscBABModifier: 0
+	Grapple: $BAB + $StrModifier + $SizeBABModifier + $MiscBABModifier
+	Melee: $BAB + $StrModifier
+	Missile: $BAB + $DexModifier
+	IsClassSkill: Contains:({Classes.({Level.Class}#1).ClassSkills}|$Item)
 
 Weapons:
 	Damage: 

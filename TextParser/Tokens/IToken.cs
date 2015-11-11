@@ -4,7 +4,7 @@ namespace TextParser.Tokens
     {
         string Text { get; }
         TTo Convert<TTo>();
-        TokenList Simplify();
-        TokenList Evaluate(TokenTreeList parameters);
+        IToken Simplify();
+        IToken Evaluate(TokenTreeList parameters);
     }
 }

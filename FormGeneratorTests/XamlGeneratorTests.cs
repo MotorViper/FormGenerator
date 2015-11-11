@@ -17,34 +17,49 @@ namespace FormGeneratorTests
             @"
 Parameters:
     FieldWidth: 100 + 100
-Field: Grid
-    Field: Label
-        Content: Hi
-        Width: $FieldWidth";
+Fields:
+    Field: Grid
+        Field: Label
+            Content: Hi
+            Width: $FieldWidth";
 
         [TestMethod]
         public void TestSimpleGeneration()
         {
             TokenTree toGenerate = new TokenTree
             {
-                Key = new StringToken("Field"),
-                Value = new StringToken("Grid"),
+                Key = new StringToken(""),
                 Children =
                 {
                     new TokenTree
                     {
-                        Key = new StringToken("Field"),
-                        Value = new StringToken("Label"),
+                        Key = new StringToken("Fields"),
                         Children =
                         {
-                            new TokenTree {Key = new StringToken("Content"), Value = new StringToken("Hi")},
-                            new TokenTree {Key = new StringToken("Width"), Value = new StringToken("200")}
+                            new TokenTree
+                            {
+                                Key = new StringToken("Field"),
+                                Value = new StringToken("Grid"),
+                                Children =
+                                {
+                                    new TokenTree
+                                    {
+                                        Key = new StringToken("Field"),
+                                        Value = new StringToken("Label"),
+                                        Children =
+                                        {
+                                            new TokenTree {Key = new StringToken("Content"), Value = new StringToken("Hi")},
+                                            new TokenTree {Key = new StringToken("Width"), Value = new StringToken("200")}
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             };
             string generated = new XamlGenerator("").GenerateXaml(toGenerate);
-            Assert.AreEqual(XAML, generated);
+            Assert.AreEqual(XAML.Replace(" ", ""), generated.Replace(" ", ""));
         }
 
         [TestMethod]
@@ -52,7 +67,7 @@ Field: Grid
         {
             TokenTree tokenTree = Parser.ParseString(VTL);
             string generated = new XamlGenerator("").GenerateXaml(tokenTree);
-            Assert.AreEqual(XAML, generated);
+            Assert.AreEqual(XAML.Replace(" ", ""), generated.Replace(" ", ""));
         }
     }
 }

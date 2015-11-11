@@ -9,7 +9,30 @@ namespace FormGenerator
 {
     public class DataConverter : IValueConverter
     {
-        private static readonly List<IToken> s_fieldData = new List<IToken>();
+        private struct ItemData
+        {
+            public readonly IToken Token;
+            public readonly IToken Parameter;
+
+            public ItemData(IToken token, IToken parameter)
+            {
+                Token = token;
+                Parameter = parameter;
+            }
+
+            /// <summary>
+            /// Returns a string that represents the current object.
+            /// </summary>
+            /// <returns>
+            /// A string that represents the current object.
+            /// </returns>
+            public override string ToString()
+            {
+                return Token.Text;
+            }
+        }
+
+        private static readonly List<ItemData> s_fieldData = new List<ItemData>();
         public static TokenTree Parameters { get; set; }
 
         /// <summary>
@@ -21,10 +44,24 @@ namespace FormGenerator
         /// <param name="value">The value produced by the binding source.</param><param name="targetType">The type of the binding target property.</param><param name="parameter">The converter parameter to use.</param><param name="culture">The culture to use in the converter.</param>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            IToken dataToken = s_fieldData[int.Parse(parameter.ToString())];
-            IToken result = dataToken.Evaluate(new TokenTreeList((TokenTree)value))[0];
-            result = result.Evaluate(new TokenTreeList(Parameters))[0];
-            return result;
+            IToken converted = new NullToken();
+            int index = int.Parse(parameter.ToString());
+            if (index < s_fieldData.Count)
+            {
+                ItemData data = s_fieldData[index];
+                IToken dataToken = data.Token;
+                TokenTree parameters = Parameters;
+                if (data.Parameter != null)
+                {
+                    parameters = Parameters.Clone();
+                    parameters.Children.AddIfMissing(new TokenTree(new StringToken("Item"), data.Parameter));
+                }
+                converted = dataToken.Evaluate(new TokenTreeList { (TokenTree)value, parameters });
+            }
+            BoolTooken boolTooken = converted as BoolTooken;
+            if (boolTooken != null)
+                return boolTooken.Value;
+            return converted;
         }
 
         /// <summary>
@@ -39,9 +76,9 @@ namespace FormGenerator
             return null;
         }
 
-        public static int SetFieldData(IToken data)
+        public static int SetFieldData(IToken data, IToken parameter)
         {
-            s_fieldData.Add(data);
+            s_fieldData.Add(new ItemData(data, parameter));
             return s_fieldData.Count - 1;
         }
     }

@@ -4,9 +4,9 @@ using TextParser.Tokens;
 
 namespace FormGenerator.Fields
 {
-    public class TextBox : Field
+    public class CheckBox : Field
     {
-        public TextBox(Field parent, TokenTree data, int level, StringBuilder builder) : base(parent, "TextBox", data, level, builder)
+        public CheckBox(Field parent, TokenTree data, int level, StringBuilder builder) : base(parent, "CheckBox", data, level, builder)
         {
         }
 
@@ -15,10 +15,12 @@ namespace FormGenerator.Fields
             switch (name)
             {
                 case "Content":
-                    name = "Text";
+                    base.AddProperty("IsChecked", value, parameters);
+                    break;
+                default:
+                    base.AddProperty(name, value, parameters);
                     break;
             }
-            base.AddProperty(name, value, parameters);
         }
     }
 }

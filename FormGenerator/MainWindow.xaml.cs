@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Markup;
@@ -8,27 +9,30 @@ namespace FormGenerator
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
             InitializeComponent();
 
-            try
-            {
-                string xaml = new Data().Xaml;
-                DisplayXaml(xaml);
-            }
-            catch (Exception e)
+            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
                 try
                 {
-                    DisplayXaml($"<Label xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" Content=\"{e.Message}\" " +
-                                "Foreground=\"Red\"/>");
+                    string xaml = new Data().Xaml;
+                    DisplayXaml(xaml);
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    MessageBox.Show(this, ex.Message);
+                    try
+                    {
+                        DisplayXaml($"<Label xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" Content=\"{e.Message}\" " +
+                                    "Foreground=\"Red\"/>");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(this, ex.Message);
+                    }
                 }
             }
         }

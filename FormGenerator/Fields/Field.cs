@@ -15,22 +15,41 @@ namespace FormGenerator.Fields
         private int _marginTop;
         private string _xlmns = "xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"";
 
-        public Field(Field parent, string name, TokenTree data, int level)
+        public Field(Field parent, string name, TokenTree data, int level, StringBuilder builder)
         {
             Name = name;
             Children = data?.Children.Clone();
             Level = level;
             Parent = parent;
+            Builder = builder;
+            Parameter = null;
         }
 
-        protected StringBuilder Builder { get; set; }
+        protected StringBuilder Builder { get; }
         public TokenTreeList Children { get; }
-        protected int Level { get; set; }
+        protected int Level { get; private set; }
         private string Name { get; }
-        protected string Offset { get; set; }
-        protected Field Parent { get; }
+        protected string Offset { get; private set; }
+        protected Field Parent { get; set; }
+        protected IToken Parameter { get; set; }
 
-        protected virtual void AddStart(string endOfLine, TokenTree parameters)
+        public static void AddChild(TokenTree data, int level, TokenTree parameters, StringBuilder sb, string offset, string endOfLine, Field parent = null, IToken parameter = null)
+        {
+            Field field = FieldFactory.CreateField(data.Value.Text, data, level, parameters, parent, sb);
+            field.Parameter = parameter;
+            field.OutputField(level, parameters, offset, endOfLine);
+        }
+
+        private void OutputField(int level, TokenTree parameters, string offset, string endOfLine)
+        {
+            Level = level;
+            Offset = offset;
+            AddStart(endOfLine, parameters);
+            AddChildren(parameters, endOfLine);
+            AddEnd(endOfLine);
+        }
+
+        protected internal virtual void AddStart(string endOfLine, TokenTree parameters)
         {
             AppendStartOfLine(Level, "<").Append(Name).Append(" ");
             AddProperties(parameters);
@@ -39,14 +58,14 @@ namespace FormGenerator.Fields
             Builder.Append(">").Append(endOfLine);
         }
 
-        protected virtual void AddEnd(string endOfLine)
+        protected internal virtual void AddEnd(string endOfLine)
         {
             AppendStartOfLine(Level, "</").Append(Name).Append(">").Append(endOfLine);
         }
 
-        private static string ProcessTokens(IToken value, TokenTree parameters)
+        private string ProcessTokens(IToken value, TokenTreeList parameters)
         {
-            IToken evaluated = value.Evaluate(new TokenTreeList(parameters))[0];
+            IToken evaluated = value.Evaluate(parameters);
             ExpressionToken expression = evaluated as ExpressionToken;
             if (expression == null)
             {
@@ -55,16 +74,16 @@ namespace FormGenerator.Fields
                     ? "{Binding Values[" + sValue.Text.Substring(1) + "]}"
                     : evaluated.Text;
             }
-            int id = DataConverter.SetFieldData(evaluated);
-            return "{Binding Values, Converter={StaticResource DataConverter}, ConverterParameter=" + id + "}";
+            int id = DataConverter.SetFieldData(evaluated, Parameter);
+            return "{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=" + id + "}";
         }
 
-        protected void AddProperty(TokenTree child, TokenTree parameters)
+        protected void AddProperty(TokenTree child, TokenTreeList parameters)
         {
             AddProperty(child.Name, child.Value, parameters);
         }
 
-        protected virtual void AddProperty(string name, IToken value, TokenTree parameters)
+        protected virtual void AddProperty(string name, IToken value, TokenTreeList parameters)
         {
             AddProperty(name, ProcessTokens(value, parameters));
         }
@@ -157,7 +176,7 @@ namespace FormGenerator.Fields
 
         protected virtual List<string> IgnoredProperties()
         {
-            return new List<string> {"Field", "Across"};
+            return new List<string> {"Field", "Across", "Over", "Columns", "Rows", "Header"};
         }
 
         private void OutputProperties()
@@ -170,12 +189,12 @@ namespace FormGenerator.Fields
         {
             _marginTop = 0;
             _marginLeft = 0;
-            foreach (var child in Children.Where(child => !IgnoredProperties().Contains(child.Name)))
+            foreach (TokenTree child in Children.Where(child => !IgnoredProperties().Contains(child.Name)))
             {
                 if (child.Name == "Inputs")
                     parameters.Replace(child);
                 else
-                    AddProperty(child, parameters);
+                    AddProperty(child, new TokenTreeList(parameters));
             }
             if (_marginLeft != 0 || _marginTop != 0)
                 AddProperty("Margin", $"{_marginLeft},{_marginTop},0,0");
@@ -209,22 +228,6 @@ namespace FormGenerator.Fields
         protected IEnumerable<TokenTree> GetSubFields()
         {
             return Children.Where(child => child.Name == "Field");
-        }
-
-        public static void AddChild(TokenTree data, int level, TokenTree parameters, StringBuilder sb, string offset, string endOfLine, Field parent = null)
-        {
-            Field field = FieldFactory.CreateField(data.Value.Text, data, level, parameters, parent);
-            field.OutputField(level, parameters, sb, offset, endOfLine);
-        }
-
-        private void OutputField(int level, TokenTree parameters, StringBuilder sb, string offset, string endOfLine)
-        {
-            Level = level;
-            Offset = offset;
-            Builder = sb;
-            AddStart(endOfLine, parameters);
-            AddChildren(parameters, endOfLine);
-            AddEnd(endOfLine);
         }
     }
 }

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace Helpers
 {
-    public class FileUtils
+    public static class FileUtils
     {
         public static string GetFullFileName(string fileName, string defaultDirectory)
         {

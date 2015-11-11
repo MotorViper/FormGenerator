@@ -1,15 +1,16 @@
-﻿using TextParser;
+﻿using System.Text;
+using TextParser;
 using TextParser.Tokens;
 
 namespace FormGenerator.Fields
 {
     public class ComboBox : Field
     {
-        public ComboBox(Field parent, TokenTree data = null, int level = -1) : base(parent, "ComboBox", data, level)
+        public ComboBox(Field parent, TokenTree data, int level, StringBuilder builder) : base(parent, "ComboBox", data, level, builder)
         {
         }
 
-        protected override void AddProperty(string name, IToken value, TokenTree parameters)
+        protected override void AddProperty(string name, IToken value, TokenTreeList parameters)
         {
             switch (name)
             {

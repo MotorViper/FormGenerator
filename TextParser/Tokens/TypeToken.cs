@@ -2,18 +2,6 @@ using System;
 
 namespace TextParser.Tokens
 {
-    public enum TokenType
-    {
-        IntToken,
-        DoubleToken,
-        StringToken
-    }
-
-    public interface ITypeToken : IToken
-    {
-        TokenType Type { get; }
-    }
-
     public abstract class TypeToken<T> : BaseToken, ITypeToken
     {
         protected TypeToken(T value, TokenType type)

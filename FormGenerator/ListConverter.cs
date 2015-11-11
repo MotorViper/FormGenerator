@@ -18,7 +18,7 @@ namespace FormGenerator
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string dataType = parameter.ToString();
-            TokenTree items = new TokenTree(DataConverter.Parameters.GetChildren(dataType));
+            TokenTree items = new TokenTree(DataConverter.Parameters?.GetChildren(dataType));
             List<string> result = new List<string>();
             foreach (TokenTree item in items.Children)
                 result.Add(item.Name);

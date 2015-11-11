@@ -1,6 +1,6 @@
 ﻿Field: Grid
 	Align: Fill
-	Columns: Auto,Auto,
+	Columns: Auto,Auto,Auto
 	Rows: Auto,Auto,,
 	Field: Grid
 		HorizontalAlignment: Stretch
@@ -98,7 +98,7 @@
 	        Inputs: Charisma
 
 	Field: Grid
-		Columns: ',50,45' + ',17,' * 7 + ',50'
+		Columns: 'Auto,50,45' + (,$PlusWidth,32) * 7 + ',70'
 		Across: 2
 		Field: Label
 		Field: Label
@@ -145,7 +145,7 @@
 		Field: CentreLabel
 			Content: '+'
 		Field: BorderedLabel
-			Content: ?SizeModifier
+			Content: ?SizeACModifier
 		Field: CentreLabel
 			Content: '+'
 		Field: BorderedLabel
@@ -173,12 +173,11 @@
 			Inputs: 
 				First: Shield
 				Second: Bonus
-		Field: Label
 		Field: DoubleLabelUnder
+			Across: 3
 			Inputs: 
 				First: Dex.
 				Second: Modifier
-		Field: Label
 		Field: DoubleLabelUnder
 			Inputs: 
 				First: Size
@@ -199,7 +198,7 @@
 				Second: Modifier
 				
 	Field: Grid
-		Columns: ,,,17,,17,
+		Columns: "45," * 3 + $PlusWidth,45,$PlusWidth,45
 		Field: InvertedLabel
 			Content: Touch
 		Field: BorderedLabel
@@ -240,66 +239,118 @@
 				First: Misc.
 				Second: Modifier
 
-	Field: Grid
+	Field: Table
+		Over: Skills
+		Columns: Auto,,
 		Background: PaleGreen
+		Width: 230
 		Across: 1,2
+		Field: CheckBox
+			Align: Middle
+			IsEnabled: false
+			Content: $IsClassSkill
+		Field: Label
+			Header: Skill Name
+			Content: $Item
+		Field: Label
+			Header: Key Ability
+			Content: {Skills.{Item}.Key}
 
 	Field: Grid
-		Background: LightBlue
+		Columns: 1
 		Align: Fill
 		Across: 2
-		Columns: ,,17,,17,,17,,17,,17,,
-		Field: Label
-			Content: SAVING THROWS
-			FontSize: 10
-		Field: Label
-			Content: TOTAL
-		Field: Label
-		Field: Label
-			Content: Base
-		Field: Label
-		Field: Label
-			Content: Ability
-		Field: Label
-		Field: Label
-			Content: Magic
-		Field: Label
-		Field: Label
-			Content: Misc.
-		Field: Label
-		Field: Label
-			Content: Temporary
-		Field: Label
-
-		Field: SavingGrid
-			Inputs: 
-				Name: Fortitude
-				Bonus: Con
-		Field: SavingGrid
-			Inputs: 
-				Name: Reflex
-				Bonus: Dex
-		Field: SavingGrid
-			Inputs: 
-				Name: Will
-				Bonus: Wis
-
-/*
-Field: Grid
-	Rows: 2
-	Field: Grid
-		Columns: 16
-		Align: Stretch
-	Field: Grid
-		Rows: 3
 		Field: Grid
-			Columns: "45, 40, " + "35, 20, " * 7
-			
+			Columns: "Auto," + (45,$PlusWidth,) * 5 + 45,92
+			Field: Label
+				Content: SAVING THROWS
+				FontSize: 10
+			Field: Label
+				Content: TOTAL
+			Field: Label
+			Field: Label
+				Content: Base
+			Field: Label
+			Field: Label
+				Content: Ability
+			Field: Label
+			Field: Label
+				Content: Magic
+			Field: Label
+			Field: Label
+				Content: Misc.
+			Field: Label
+			Field: Label
+				Content: Temp.
+			Field: Label
+				Content: Modifiers
+				Align: Middle
+
+			Field: SavingGrid
+				Inputs: 
+					Name: Fortitude
+					Bonus: Con
+			Field: BorderedLabel
+				Height: 83
+				Width: 90
+				Across: 1,3
+			Field: SavingGrid
+				Inputs: 
+					Name: Reflex
+					Bonus: Dex
+			Field: SavingGrid
+				Inputs: 
+					Name: Will
+					Bonus: Wis
+		Field: Grid
+			Columns: 8
+			Field: InvertedLabel
+				Content: Base Attack Bonus
+			Field: BorderedLabel
+				Content: ?BAB
+			Field: InvertedLabel
+				Content: Melee
+			Field: BorderedLabel
+				Content: ?Melee
+			Field: InvertedLabel
+				Content: Missile
+			Field: BorderedLabel
+				Content: ?Missile
+			Field: InvertedLabel
+				Content: Spell Resistance
+			Field: BorderedLabel
+				Content: ?SpellResistance
 
 		Field: Grid
-			Columns: 100,60,60,
+			Background: LightBlue
+			Columns: Auto + (,,$PlusWidth) * 4 + ,
+			Field: InvertedLabel
+				Content: Grapple
+			Field: BorderedLabel
+				Content: ?Grapple
+			Field: Label
+				Content: '='
+			Field: BorderedLabel
+				Content: ?BAB
+			Field: Label
+				Content: '+'
+			Field: BorderedLabel
+				Content: ?StrModifier
+			Field: Label
+				Content: '+'
+			Field: BorderedLabel
+				Content: ?SizeBABModifier
+			Field: Label
+				Content: '+'
+			Field: BorderedLabel
+				Content: ?MiscBABModifier
+
+		Field: Grid
+			Columns: 100,60,60,60,
 			Field: CentreLabel
 				Content: Weapon
+			Field: CentreLabel
+				Content: BAB
 			Field: CentreLabel
 				Content: Damage
 			Field: CentreLabel
@@ -309,4 +360,4 @@ Field: Grid
 				Inputs: Weapon1
 			Field: WeaponGrid
 				Inputs: Weapon2
-*/							
+							

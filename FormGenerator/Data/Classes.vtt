@@ -1,39 +1,49 @@
 ﻿Fighter:
+	ClassSkills: Climb|Craft|Handle Animal|Intimidate|Jump|Ride|Swim
 	Level: 1
 		Fort: 2
 		Ref: 0
 		Will: 0
+		BAB: 1
 	Level: 2
 		Fort: 3
 		Ref: 0
 		Will: 0
+		BAB: 2
 	Level: 3
 		Fort: 3
 		Ref: 1
 		Will: 1
+		BAB: 3
 Rogue:
 	Level: 1
 		Ref: 2
 		Fort: 0
 		Will: 0
+		BAB: 0
 	Level: 2
 		Ref: 3
 		Fort: 0
 		Will: 0
+		BAB: 1
 	Level: 3
 		Ref: 3
 		Fort: 1
 		Will: 1
+		BAB: 2
 Cleric:
 	Level: 1
 		Fort: 2
 		Ref: 0
 		Will: 2
+		BAB: 0
 	Level: 2
 		Fort: 3
 		Ref: 0
 		Will: 3
+		BAB: 1
 	Level: 3
 		Fort: 3
 		Ref: 1
 		Will: 3
+		BAB: 2

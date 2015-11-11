@@ -5,4 +5,5 @@
 @include Armour.vtt Parameters Armour
 @include Races.vtt Parameters Races
 @include Classes.vtt Parameters Classes
+@include Skills.vtt Parameters Skills
 @include Misc.vtt Parameters
