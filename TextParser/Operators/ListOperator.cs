@@ -3,7 +3,7 @@ using TextParser.Tokens;
 
 namespace TextParser.Operators
 {
-    public class ListOperator : ListProcessingOperator
+    public class ListOperator : BaseOperator
     {
         public ListOperator() : base("|")
         {
@@ -12,10 +12,10 @@ namespace TextParser.Operators
         public override bool CanBeBinary => true;
         public override bool CanBeUnary => false;
 
-        protected override IToken Evaluate(IToken first, IToken last, Func<IToken, TokenTreeList, IToken> converter, TokenTreeList parameters)
+        public override IToken Evaluate(IToken first, IToken last, TokenTreeList parameters, bool isFinal)
         {
-            IToken firstList = converter(first, parameters);
-            IToken lastList = converter(last, parameters);
+            IToken firstList = first.Evaluate(parameters, isFinal);
+            IToken lastList = last.Evaluate(parameters, isFinal);
 
             if (firstList == null || lastList == null)
                 throw new Exception($"Operation {Text} is a binary operation.");

@@ -218,7 +218,7 @@ namespace TextParserTest
             foreach (var test in tests)
             {
                 IToken token = tokenGenerator.Parse(test.Key);
-                token = token.Evaluate(new TokenTreeList(parameters));
+                token = token.Evaluate(new TokenTreeList(parameters), true);
                 bool passed = test.Value == token.Text;
                 string result = passed ? "passed" : "failed";
                 if (passed)

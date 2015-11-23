@@ -1,0 +1,38 @@
+﻿<Window x:Class="VTTConsole.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VTTConsole"
+        xmlns:helpers="clr-namespace:Helpers;assembly=Helpers"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.DataContext>
+            <local:ConsoleViewModel />
+        </Grid.DataContext>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" Grid.ColumnSpan="2" helpers:ScrollViewerHelper.AutoScroll="{Binding CommandEntered}">
+            <Label Content="{Binding History}" />
+        </ScrollViewer>
+        <GridSplitter Grid.Row="0" Grid.ColumnSpan="2" Height="1" Background="Blue" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />
+        <Label Grid.Row="1" Content=">" FontSize="16" Margin="-5" />
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Input}" AcceptsReturn="False" BorderBrush="{x:Null}">
+            <TextBox.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding InputCommand}"
+                            CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
+            </TextBox.InputBindings>
+        </TextBox>
+        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2" helpers:ScrollViewerHelper.AutoScroll="{Binding CommandEntered}">
+            <Label Content="{Binding Output}" />
+        </ScrollViewer>
+    </Grid>
+</Window>

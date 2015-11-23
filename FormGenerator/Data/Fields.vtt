@@ -241,7 +241,7 @@
 
 	Field: Table
 		Over: Skills
-		Columns: Auto,,
+		Columns: Auto,,,,,
 		Background: PaleGreen
 		Width: 230
 		Across: 1,2
@@ -255,6 +255,15 @@
 		Field: Label
 			Header: Key Ability
 			Content: {Skills.{Item}.Key}
+		Field: Label
+			Header: Modifier
+			Content: $SkillModifier
+		Field: Label
+			Header: Ranks
+			Content: $SkillPoints
+		Field: Label
+			Header: Value
+			Content: IF:($CanUseSkill|$SkillPoints + $SkillModifier|0)
 
 	Field: Grid
 		Columns: 1

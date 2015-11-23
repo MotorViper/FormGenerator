@@ -40,19 +40,11 @@ namespace TextParser.Tokens
             throw new Exception("Could not convert ListToken");
         }
 
-        public override IToken Evaluate(TokenTreeList parameters)
+        public override IToken Evaluate(TokenTreeList parameters, bool isFinal)
         {
             ListToken list = new ListToken();
             foreach (IToken token in Tokens)
-                list.Tokens.Add(token.Evaluate(parameters));
-            return list;
-        }
-
-        public override IToken Simplify()
-        {
-            ListToken list = new ListToken();
-            foreach (IToken token in Tokens)
-                list.Tokens.Add(token.Simplify());
+                list.Tokens.Add(token.Evaluate(parameters, isFinal));
             return list;
         }
     }

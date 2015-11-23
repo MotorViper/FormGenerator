@@ -41,10 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions\BaseFunction.cs" />
+    <Compile Include="Functions\AggregateFunction.cs" />
+    <Compile Include="Functions\ComparisonFunction.cs" />
+    <Compile Include="Functions\OrFunction.cs" />
+    <Compile Include="Functions\ReverseFunction.cs" />
+    <Compile Include="Functions\RangeFunction.cs" />
+    <Compile Include="Functions\IfFunction.cs" />
+    <Compile Include="Functions\CountFunction.cs" />
+    <Compile Include="Functions\ContainsFunction.cs" />
+    <Compile Include="Functions\UserFunction.cs" />
+    <Compile Include="Functions\IFunction.cs" />
+    <Compile Include="Functions\DoubleSumFunction.cs" />
+    <Compile Include="Functions\OverFunction.cs" />
+    <Compile Include="Functions\IntSumFunction.cs" />
     <Compile Include="Operators\IOperator.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Tokens\BaseToken.cs" />
-    <Compile Include="Operators\ListProcessingOperator.cs" />
     <Compile Include="Operators\FunctionOperator.cs" />
     <Compile Include="Operators\ListOperator.cs" />
     <Compile Include="Operators\StringPlusOperator.cs" />
@@ -81,6 +94,7 @@
       <Name>Helpers</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -58,14 +58,9 @@ namespace TextParser.Tokens
             throw new Exception("Could not convert ExpressionToken");
         }
 
-        public override IToken Simplify()
+        public override IToken Evaluate(TokenTreeList parameters, bool isFinal)
         {
-            return Operator.Simplify(First, Second);
-        }
-
-        public override IToken Evaluate(TokenTreeList parameters)
-        {
-            return Operator.Evaluate(First, Second, parameters);
+            return Operator.Evaluate(First, Second, parameters, isFinal);
         }
     }
 }

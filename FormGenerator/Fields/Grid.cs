@@ -36,7 +36,7 @@ namespace FormGenerator.Fields
             if (fields != null)
             {
                 fieldList = new List<string>();
-                string[] fieldData = fields.Value.Evaluate(parameters).Text.Split(',');
+                string[] fieldData = fields.Value.Evaluate(parameters, false).Text.Split(',');
                 if (fieldData.Length == 1)
                 {
                     int fieldCount = fields.Value.Convert<int>();

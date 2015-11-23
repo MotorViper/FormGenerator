@@ -49,7 +49,16 @@ namespace TextParser
             }
             else
             {
-                tokens = first == "ALL" ? this : this.Where(child => child.Name == first).ToList();
+                if (first == "ALL")
+                {
+                    tokens = this;
+                }
+                else
+                {
+                    tokens = this.Where(child => child.Name == first).ToList();
+                    if (tokens.Count == 0)
+                        tokens = this.Where(child => child.Name == "ALL").ToList();
+                }
             }
 
             if (parts.Length == 2)

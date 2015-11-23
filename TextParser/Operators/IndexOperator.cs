@@ -3,7 +3,7 @@ using TextParser.Tokens;
 
 namespace TextParser.Operators
 {
-    public class IndexOperator : ListProcessingOperator
+    public class IndexOperator : BaseOperator
     {
         public IndexOperator() : base("#")
         {
@@ -12,23 +12,32 @@ namespace TextParser.Operators
         public override bool CanBeBinary => true;
         public override bool CanBeUnary => false;
 
-        protected override IToken Evaluate(IToken first, IToken last, Func<IToken, TokenTreeList, IToken> converter, TokenTreeList parameters)
+        public override IToken Evaluate(IToken first, IToken last, TokenTreeList parameters, bool isFinal)
         {
             if (first == null)
                 throw new Exception($"Operation {Text} can not be unary.");
 
-            IToken lastList = converter(last, parameters);
-            if (lastList == null)
+            IToken evaluated = last.Evaluate(parameters, isFinal);
+            if (evaluated == null)
                 throw new Exception($"Second element of Operation {Text} is not unique.");
 
-            IntToken intToken = lastList as IntToken;
+            ListToken evaluatedList = evaluated as ListToken;
+            if (evaluatedList != null)
+            {
+                ListToken list = new ListToken();
+                foreach (IToken item in evaluatedList.Tokens)
+                    list.Tokens.Add(Evaluate(first, item, parameters, isFinal));
+                return list;
+            }
+
+            IntToken intToken = evaluated as IntToken;
             if (intToken == null)
                 throw new Exception($"Operation {Text} must have integer second element.");
 
-            IToken tokenList = converter(first, parameters);
+            IToken tokenList = first.Evaluate(parameters, isFinal);
             ListToken listToken = tokenList as ListToken;
             return listToken == null
-                ? new ExpressionToken(first, new FunctionOperator(), intToken)
+                ? new ExpressionToken(first, new IndexOperator(), intToken)
                 : listToken.Tokens[intToken.Value];
         }
     }

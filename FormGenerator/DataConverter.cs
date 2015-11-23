@@ -56,12 +56,10 @@ namespace FormGenerator
                     parameters = Parameters.Clone();
                     parameters.Children.AddIfMissing(new TokenTree(new StringToken("Item"), data.Parameter));
                 }
-                converted = dataToken.Evaluate(new TokenTreeList { (TokenTree)value, parameters });
+                converted = dataToken.Evaluate(new TokenTreeList { (TokenTree)value, parameters }, true);
             }
-            BoolTooken boolTooken = converted as BoolTooken;
-            if (boolTooken != null)
-                return boolTooken.Value;
-            return converted;
+            ITypeToken typeToken = converted as ITypeToken;
+            return typeToken != null ? typeToken.Data : converted;
         }
 
         /// <summary>

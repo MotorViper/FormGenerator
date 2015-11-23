@@ -11,11 +11,12 @@ namespace TextParser
     {
         private static readonly Dictionary<string, Func<string[], IToken>> s_tokens = new Dictionary<string, Func<string[], IToken>>
         {
+            ["([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])"] = tokens => new BoolTooken(bool.Parse(tokens[0])),
             ["(.*)(\\|)([^\\|]*)"] = tokens => PerformOperation(tokens),
             ["(.*)([\\+-])([^\\+-]*)"] = tokens => PerformOperation(tokens),
             ["(.*)([\\*/×÷])([^\\*/×÷]*)"] = tokens => PerformOperation(tokens),
-            ["([^:]*)(:)(.*)"] = tokens => PerformOperation(tokens),
             ["(.*)(#)([^#]*)"] = tokens => PerformOperation(tokens),
+            ["([^:]*)(:)(.*)"] = tokens => PerformOperation(tokens),
             ["(.*)\\$([A-Za-z█][A-Za-z0-9█]*(\\.[A-Za-z█][A-Za-z0-9█]*)*)?([^$]*)"] = tokens => PerformSubstitutionOperation(tokens),
             ["([1-9][0-9]*\\.[0-9]+)"] = tokens => new DoubleToken(double.Parse(tokens[0])),
             ["(0|[1-9][0-9]*)"] = tokens => new IntToken(int.Parse(tokens[0])),

@@ -12,10 +12,13 @@ namespace TextParser.Operators
 
         public virtual bool CanBeBinary => true;
         public virtual bool CanBeUnary => false;
+
         public string Text { get; }
 
-        public virtual IToken Simplify(IToken first, IToken last)
+        public virtual IToken Evaluate(IToken firstToken, IToken lastToken, TokenTreeList parameters, bool isFinal)
         {
+            IToken first = firstToken?.Evaluate(parameters, isFinal);
+            IToken last = lastToken?.Evaluate(parameters, isFinal);
             if (first == null)
             {
                 if (CanBeUnary)
@@ -34,11 +37,6 @@ namespace TextParser.Operators
             }
 
             throw new Exception($"Operation {Text} can not be binary.");
-        }
-
-        public virtual IToken Evaluate(IToken first, IToken last, TokenTreeList parameters)
-        {
-            return Simplify(first?.Evaluate(parameters), last?.Evaluate(parameters));
         }
 
         /// <summary>

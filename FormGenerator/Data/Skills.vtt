@@ -1,8 +1,17 @@
 ﻿Appraise:
-	Key: INT
+	Key: Int
+Autohypnosis:
+	Key: Wis
+	TrainedOnly: True
 Balance:
-	Key: DEX
+	Key: Dex
+	ArmourCheckPenaltyMultiplier: 1
 Bluff:
-	Key: CHA
+	Key: Cha
 Climb:
-	Key: STR
+	Key: Str
+	ArmourCheckPenaltyMultiplier: 1
+
+Swim:
+	Key: Str
+	ArmourCheckPenaltyMultiplier: 2

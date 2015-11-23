@@ -16,6 +16,9 @@
 		Will: 1
 		BAB: 3
 Rogue:
+	ClassSkills: Appraise|Balance|Bluff|Climb|Craft|Decipher Script|Diplomacy|Disable Device|Disguise|Escape Artist|Forgery|Gather Information|Hide|Intimidate|Jump|Knowledge (local)|Listen -
+		|Move Silently|Open Lock|Perform|Profession|Search|Sense Motive|Sleight of Hand|Spot|Swim|Tumble|Use Magic Device|Use Rope
+	SkillPoints: 8
 	Level: 1
 		Ref: 2
 		Fort: 0

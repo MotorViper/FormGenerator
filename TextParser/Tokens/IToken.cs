@@ -5,6 +5,6 @@ namespace TextParser.Tokens
         string Text { get; }
         TTo Convert<TTo>();
         IToken Simplify();
-        IToken Evaluate(TokenTreeList parameters);
+        IToken Evaluate(TokenTreeList parameters, bool isFinal);
     }
 }

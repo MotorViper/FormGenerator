@@ -12,14 +12,21 @@ namespace TextParser.Operators
         public override bool CanBeBinary => false;
         public override bool CanBeUnary => true;
 
-        public override IToken Evaluate(IToken first, IToken last, TokenTreeList parameters)
+        public override IToken Evaluate(IToken first, IToken last, TokenTreeList parameters, bool isFinal)
         {
+            if (parameters == null)
+            {
+                if (isFinal)
+                    throw new Exception($"Operation {Text} must have parameters if final.");
+                return new ExpressionToken(first, this, last);
+            }
+
             if (first != null)
                 throw new Exception($"Operation {Text} is unary.");
             if (last == null)
                 throw new Exception($"Operation {Text} needs a variable.");
 
-            IToken evaluated = last.Evaluate(parameters);
+            IToken evaluated = last.Evaluate(parameters, isFinal);
             if (evaluated is ExpressionToken)
                 return new ExpressionToken(null, this, evaluated);
             ListToken listToken = evaluated as ListToken;
@@ -31,7 +38,7 @@ namespace TextParser.Operators
             ListToken result = new ListToken();
             foreach (TokenTree tokenTree in found)
             {
-                IToken token = tokenTree.Value.Evaluate(parameters);
+                IToken token = tokenTree.Value.Evaluate(parameters, isFinal);
                 if (!(token is NullToken))
                     result.Add(token);
             }

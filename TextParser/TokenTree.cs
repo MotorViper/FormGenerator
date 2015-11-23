@@ -39,7 +39,7 @@ namespace TextParser
 
                 if (list.Count > 0)
                 {
-                    IToken tokens = list[0].Value.Evaluate(_parameters);
+                    IToken tokens = list[0].Value.Evaluate(_parameters, true);
                     return tokens.Text;
                 }
                 return null;
@@ -104,9 +104,16 @@ namespace TextParser
         {
             foreach (TokenTree child in defaults.Children)
             {
-                bool found = Children.Any(item => item.Name == child.Name);
-                if (!found)
+                if (child.Value.Text == "ALL")
+                {
                     Children.Add(child.Clone());
+                }
+                else
+                {
+                    bool found = Children.Any(item => item.Name == child.Name);
+                    if (!found)
+                        Children.Add(child.Clone());
+                }
             }
         }
     }

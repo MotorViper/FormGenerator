@@ -12,16 +12,16 @@ namespace TextParser.Operators
         public override bool CanBeBinary => true;
         public override bool CanBeUnary => false;
 
-        public override IToken Evaluate(IToken first, IToken last, TokenTreeList parameters)
+        public override IToken Evaluate(IToken first, IToken last, TokenTreeList parameters, bool isFinal)
         {
-            return Evaluate(first, last, (x, y) => x?.Evaluate(y), parameters);
+            return Evaluate(first, last, (x, y) => x?.Evaluate(y, isFinal), parameters, isFinal);
         }
 
         public override IToken Simplify(IToken first, IToken last)
         {
-            return Evaluate(first, last, (x, y) => x?.Simplify(), null);
+            return Evaluate(first, last, (x, y) => x?.Simplify(), null, false);
         }
 
-        protected abstract IToken Evaluate(IToken first, IToken last, Func<IToken, TokenTreeList, IToken> converter, TokenTreeList parameters);
+        protected abstract IToken Evaluate(IToken first, IToken last, Func<IToken, TokenTreeList, IToken> converter, TokenTreeList parameters, bool isFinal);
     }
 }

@@ -5,7 +5,6 @@ namespace TextParser.Operators
     public interface IOperator
     {
         string Text { get; }
-        IToken Simplify(IToken first, IToken last);
-        IToken Evaluate(IToken first, IToken last, TokenTreeList parameters);
+        IToken Evaluate(IToken first, IToken last, TokenTreeList parameters, bool isFinal);
     }
 }

@@ -2,12 +2,15 @@
     Strength: 14
     Dexterity: 12
     Constitution: 12
+	Wisdom: 8
 	Weapon1: Sword
 	Weapon2: Dagger
 	Player: Bert
 	Level : 1
 		Class: Fighter
 		HP: 8
+		Skills:
+			Balance: 4
 	Level : 2
 		Class: Fighter
 		HP: 7

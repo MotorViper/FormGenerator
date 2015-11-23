@@ -13,6 +13,7 @@ namespace TextParser.Tokens
         public T Value { get; }
         public override string Text => Value.ToString();
         public TokenType Type { get; }
+        public object Data => Value;
 
         public override TTo Convert<TTo>()
         {

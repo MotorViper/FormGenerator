@@ -65,7 +65,7 @@ namespace FormGenerator.Fields
 
         private string ProcessTokens(IToken value, TokenTreeList parameters)
         {
-            IToken evaluated = value.Evaluate(parameters);
+            IToken evaluated = value.Evaluate(parameters, false);
             ExpressionToken expression = evaluated as ExpressionToken;
             if (expression == null)
             {

@@ -9,9 +9,10 @@
 	Weapon2: None
 	Armour: None
 	Player: ?
-	Level: 1
-		Class: ?
+	Level: ALL
 		HP: 0
+		Skills:
+			ALL: 0
 	Race: Human
 	Alignment: N
 	Deity:
@@ -27,6 +28,8 @@
 	StrModifier: ($Strength - 10) / 2
 	ConModifier: ($Constitution - 10) / 2
 	WisModifier: ($Wisdom - 10) / 2
+	IntModifier: ($Intelligence - 10) / 2
+	ChaModifier: ($Charisma - 10) / 2
 	ClassList: AGG:{Level.Class}
 	HP: SUM:$Level.HP
 	ArmourBonus: {Armour.{Armour}.ACBonus}
@@ -40,24 +43,28 @@
 	NaturalArmour: {Races.{Race}.ACBonus}
 	DeflectionModifier: 0
 	MiscACModifier: 0
-	FortitudeBase: SUM:OVER:({Classes.ALL.NAME}|cl|{Classes.{cl}.Level=(Count:{Level.Class={cl}}).Fort})
-	ReflexBase: SUM:OVER:({Classes.ALL.NAME}|cl|{Classes.{cl}.Level=(Count:{Level.Class={cl}}).Ref})
-	WillBase: SUM:OVER:({Classes.ALL.NAME}|cl|{Classes.{cl}.Level=(Count:{Level.Class={cl}}).Will})
+	SumOverAttribute: SUM:OVER:({Classes.ALL.NAME}|cl|{Classes.{cl}.Level=(COUNT:{Level.Class={cl}}).{Item}})
+	FortitudeBase: SumOverAttribute:Fort
+	ReflexBase: SumOverAttribute:Ref
+	WillBase: SumOverAttribute:Will
 	FortitudeThrow: $ConModifier + $FortitudeBase
 	ReflexThrow: $DexModifier + $ReflexBase
 	WillThrow: $WisModifier + $WillBase
-	BAB: SUM:OVER:({Classes.ALL.NAME}|cl|{Classes.{cl}.Level=(Count:{Level.Class={cl}}).BAB})
+	BAB: SumOverAttribute:BAB
 	SpellResistance: 0
 	SizeBABModifier: 0
 	MiscBABModifier: 0
 	Grapple: $BAB + $StrModifier + $SizeBABModifier + $MiscBABModifier
 	Melee: $BAB + $StrModifier
 	Missile: $BAB + $DexModifier
-	IsClassSkill: Contains:({Classes.({Level.Class}#1).ClassSkills}|$Item)
+	IsClassSkill: CONTAINS:({Classes.({Level.Class}#1).ClassSkills}|$Item)
+	SkillPoints: SUM:{Level.Skills.{Item}}
+	SkillModifier: {{Skills.{Item}.Key}Modifier}
+	CanUseSkill : OR:(IF:({Skills.{Item}.TrainedOnly}|False|True)|COMP:(0|$SkillPoints|False|False|True))
 
 Weapons:
-	Damage: 
-	Range: 
+	Damage: ''
+	Range: ''
 
 Races:
 	Size: Medium
@@ -65,3 +72,12 @@ Races:
 
 Armour:
 	ACBonus: 0
+
+Skills:
+	Key: ?
+	TrainedOnly: False
+	ArmourCheckPenaltyMultiplier: 0
+
+Classes:
+	SkillPoints: 2
+

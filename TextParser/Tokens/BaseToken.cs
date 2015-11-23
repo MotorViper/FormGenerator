@@ -5,14 +5,25 @@
         public abstract string Text { get; }
         public abstract TTo Convert<TTo>();
 
-        public virtual IToken Simplify()
+        public IToken Simplify()
+        {
+            return Evaluate(null, false);
+        }
+
+        public virtual IToken Evaluate(TokenTreeList parameters, bool isFinal)
         {
             return this;
         }
 
-        public virtual IToken Evaluate(TokenTreeList parameters)
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        public override string ToString()
         {
-            return this;
+            return Text;
         }
 
         /// <summary>

@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormGeneratorTests", "FormG
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E45410DF-5C68-4A97-A996-13B23F0C3273}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VTTConsole", "VTTConsole\VTTConsole.csproj", "{6FF10623-6549-45A8-93CA-2DB5986449B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{9130B090-2E06-44E7-AD31-2B2971DB5402}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9130B090-2E06-44E7-AD31-2B2971DB5402}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9130B090-2E06-44E7-AD31-2B2971DB5402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FF10623-6549-45A8-93CA-2DB5986449B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FF10623-6549-45A8-93CA-2DB5986449B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FF10623-6549-45A8-93CA-2DB5986449B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FF10623-6549-45A8-93CA-2DB5986449B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
