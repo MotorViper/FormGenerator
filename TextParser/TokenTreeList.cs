@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using TextParser.Annotations;
+using TextParser.Tokens;
 
 namespace TextParser
 {
@@ -78,10 +79,19 @@ namespace TextParser
 
         public void SetValue(string name, string value)
         {
+            SetValue(name, _generator.Parse(value));
+        }
+
+        public void SetValue(string name, IToken value)
+        {
             string[] parts = name.Split(new[] {'.'}, 2);
             TokenTreeList matches = FindMatches(parts[0]);
             if (matches.Count == 0)
-                matches.Add(new TokenTree(parts[0], ""));
+            {
+                TokenTree child = new TokenTree(parts[0], "");
+                matches.Add(child);
+                Add(child);
+            }
 
             if (parts.Length == 2)
             {
@@ -91,7 +101,7 @@ namespace TextParser
             else
             {
                 foreach (TokenTree tree in matches)
-                    tree.Value = _generator.Parse(value);
+                    tree.Value = value;
                 OnPropertyChanged(name);
             }
         }

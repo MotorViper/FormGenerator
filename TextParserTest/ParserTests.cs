@@ -19,5 +19,18 @@ Field: Grid
             Assert.AreEqual("Label", tokenTree.Children[0].Value.Text);
             Assert.AreEqual("Hi", tokenTree.Children[0].Children[0].Value.Text);
         }
+
+
+        [TestMethod]
+        public void TestHandleMultiPartKey()
+        {
+            TokenTree tokenTree = Parser.ParseString(@"
+A: 1
+B: 2
+A.B: 3");
+            Assert.AreEqual("1", tokenTree.FindFirst("A").Value.Text);
+            Assert.AreEqual("2", tokenTree.FindFirst("B").Value.Text);
+            Assert.AreEqual("3", tokenTree.FindFirst("A.B").Value.Text);
+        }
     }
 }

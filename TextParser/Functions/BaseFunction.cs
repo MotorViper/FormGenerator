@@ -5,6 +5,13 @@ namespace TextParser.Functions
 {
     public abstract class BaseFunction : IFunction
     {
+        protected BaseFunction(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; }
+
         public virtual bool FinalCanBeExpression => false;
 
         public abstract IToken Perform(IToken parameterList, TokenTreeList parameters, bool isFinal);

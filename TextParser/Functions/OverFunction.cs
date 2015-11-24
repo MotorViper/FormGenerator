@@ -6,12 +6,18 @@ namespace TextParser.Functions
 {
     public class OverFunction : BaseFunction
     {
+        public const string ID = "OVER";
+
+        public OverFunction() : base(ID)
+        {
+        }
+
         public override IToken Perform(IToken parameterList, TokenTreeList parameters, bool isFinal)
         {
             ListToken listToken = parameterList as ListToken;
 
             if (listToken == null)
-                throw new Exception("Last token must be list for OVER");
+                throw new Exception($"Last token must be list for '{ID}'");
 
             List<IToken> lastList = listToken.Tokens;
             int count = lastList.Count;

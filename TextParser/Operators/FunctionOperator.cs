@@ -15,6 +15,7 @@ namespace TextParser.Operators
 
         public override bool CanBeBinary => true;
         public override bool CanBeUnary => false;
+        public override string Text => _function == null ? base.Text : _function.Name + base.Text;
 
         public override IToken Evaluate(IToken first, IToken last, TokenTreeList parameters, bool isFinal)
         {
@@ -30,47 +31,59 @@ namespace TextParser.Operators
                 string function = functionToken.Text;
                 switch (function)
                 {
-                    case "OVER":
-                        _function = new OverFunction();
+                    case AndFunction.ID:
+                        _function = new AndFunction();
                         break;
-                    case "CONTAINS":
-                        _function = new ContainsFunction();
-                        break;
-                    case "COUNT":
-                        _function = new CountFunction();
-                        break;
-                    case "AGG":
+                    case AggregateFunction.ID:
                         _function = new AggregateFunction();
                         break;
-                    case "SUMI":
-                    case "SUM":
-                        _function = new IntSumFunction();
-                        break;
-                    case "SUMD":
-                        _function = new DoubleSumFunction();
-                        break;
-                    case "IF":
-                        _function = new IfFunction();
-                        break;
-                    case "COMP":
+                    case ComparisonFunction.ID:
                         _function = new ComparisonFunction();
                         break;
-                    case "OR":
+                    case ContainsFunction.ID:
+                        _function = new ContainsFunction();
+                        break;
+                    case CountFunction.ID:
+                        _function = new CountFunction();
+                        break;
+                    case DoubleSumFunction.ID:
+                        _function = new DoubleSumFunction();
+                        break;
+                    case IfFunction.ID:
+                        _function = new IfFunction();
+                        break;
+                    case IntSumFunction.ID:
+                    case IntSumFunction.ALT_ID:
+                        _function = new IntSumFunction();
+                        break;
+                    case OrFunction.ID:
                         _function = new OrFunction();
                         break;
-                    case "REVERSE":
-                        _function = new ReverseFunction();
+                    case OverFunction.ID:
+                        _function = new OverFunction();
                         break;
-                    case "RANGE":
+                    case RangeFunction.ID:
                         _function = new RangeFunction();
                         break;
-                    case "FUNC":
+                    case ReverseFunction.ID:
+                        _function = new ReverseFunction();
+                        break;
+                    case UserFunction.ID:
                         _function = new UserFunction();
                         break;
                     default:
                         ListToken newList = new ListToken();
                         newList.Add(new ExpressionToken(null, new SubstitutionOperator(), new StringToken(function)));
-                        newList.Add(last);
+                        ListToken oldList = last.Evaluate(parameters, isFinal) as ListToken;
+                        if (oldList != null)
+                        {
+                            foreach (IToken token in oldList.Tokens)
+                                newList.Add(token);
+                        }
+                        else
+                        {
+                            newList.Add(last);
+                        }
                         ExpressionToken expression = new ExpressionToken(null, new FunctionOperator(new UserFunction()), newList);
                         return expression.Evaluate(parameters, isFinal);
                 }

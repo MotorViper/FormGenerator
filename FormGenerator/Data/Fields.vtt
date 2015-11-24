@@ -16,7 +16,7 @@
 			Field: LabelUnder	
 				Content: Character
 		Field: EditorWithLabelUnder
-			Inputs: Player
+			FIELDITEM: Player
 			Across: 12
 		Field: Label
 			Content: Dungeons
@@ -26,16 +26,16 @@
 
 		Field: LabelWithLabelUnder
 			Across: 12
-			Inputs: ClassList
+			FIELDITEM: ClassList
 		Field: EditorWithLabelUnder
 			Across: 4
-			Inputs: Race
+			FIELDITEM: Race
 		Field: EditorWithLabelUnder
 			Across: 4
-			Inputs: Alignment
+			FIELDITEM: Alignment
 		Field: EditorWithLabelUnder
 			Across: 4
-			Inputs: Deity
+			FIELDITEM: Deity
 		Field: Label
 			Content: '&amp; Dragons'
 			FontWeight: Bold
@@ -44,28 +44,28 @@
 
 		Field: EditorWithLabelUnder
 			Across: 3
-			Inputs: Size
+			FIELDITEM: Size
 		Field: EditorWithLabelUnder
 			Across: 3
-			Inputs: Age
+			FIELDITEM: Age
 		Field: EditorWithLabelUnder
 			Across: 3
-			Inputs: Gender
+			FIELDITEM: Gender
 		Field: EditorWithLabelUnder
 			Across: 3
-			Inputs: Height
+			FIELDITEM: Height
 		Field: EditorWithLabelUnder
 			Across: 3
-			Inputs: Weight
+			FIELDITEM: Weight
 		Field: EditorWithLabelUnder
 			Across: 3
-			Inputs: Eyes
+			FIELDITEM: Eyes
 		Field: EditorWithLabelUnder
 			Across: 3
-			Inputs: Hair
+			FIELDITEM: Hair
 		Field: EditorWithLabelUnder
 			Across: 3
-			Inputs: Skin
+			FIELDITEM: Skin
 		Field: Label
 			Across: 12
 			Align: Middle
@@ -85,17 +85,17 @@
 			Content: Temporary
 			Across: 2
 		Field: AbilityGrid
-			Inputs: Strength
+			FIELDITEM: Strength
 		Field: AbilityGrid
-	        Inputs: Dexterity
+	        FIELDITEM: Dexterity
 		Field: AbilityGrid
-			Inputs: Constitution
+			FIELDITEM: Constitution
 		Field: AbilityGrid
-	        Inputs: Intelligence
+	        FIELDITEM: Intelligence
 		Field: AbilityGrid
-			Inputs: Wisdom
+			FIELDITEM: Wisdom
 		Field: AbilityGrid
-	        Inputs: Charisma
+	        FIELDITEM: Charisma
 
 	Field: Grid
 		Columns: 'Auto,50,45' + (,$PlusWidth,32) * 7 + ',70'
@@ -165,35 +165,35 @@
 			Content: Total
 		Field: Label
 		Field: DoubleLabelUnder
-			Inputs: 
+			FIELDITEM: 
 				First: Armour
 				Second: Bonus
 			Across: 3
 		Field: DoubleLabelUnder
-			Inputs: 
+			FIELDITEM: 
 				First: Shield
 				Second: Bonus
 		Field: DoubleLabelUnder
 			Across: 3
-			Inputs: 
+			FIELDITEM: 
 				First: Dex.
 				Second: Modifier
 		Field: DoubleLabelUnder
-			Inputs: 
+			FIELDITEM: 
 				First: Size
 				Second: Modifier
 		Field: DoubleLabelUnder
-			Inputs: 
+			FIELDITEM: 
 				First: Natural
 				Second: Armour
 			Across: 3
 		Field: DoubleLabelUnder
-			Inputs: 
+			FIELDITEM: 
 				First: Deflection
 				Second: Modifier
 		Field: Label
 		Field: DoubleLabelUnder
-			Inputs: 
+			FIELDITEM: 
 				First: Misc.
 				Second: Modifier
 				
@@ -230,17 +230,17 @@
 			HorizontalAlignment: Center
 		Field: Label
 		Field: DoubleLabelUnder
-			Inputs: 
+			FIELDITEM: 
 				First: Dex.
 				Second: Modifier
 		Field: Label
 		Field: DoubleLabelUnder
-			Inputs: 
+			FIELDITEM: 
 				First: Misc.
 				Second: Modifier
 
 	Field: Table
-		Over: Skills
+		Content: Skills
 		Columns: Auto,,,,,
 		Background: PaleGreen
 		Width: 230
@@ -251,10 +251,10 @@
 			Content: $IsClassSkill
 		Field: Label
 			Header: Skill Name
-			Content: $Item
+			Content: $TABLEITEM
 		Field: Label
 			Header: Key Ability
-			Content: {Skills.{Item}.Key}
+			Content: {Skills.{TABLEITEM}.Key}
 		Field: Label
 			Header: Modifier
 			Content: $SkillModifier
@@ -296,7 +296,7 @@
 				Align: Middle
 
 			Field: SavingGrid
-				Inputs: 
+				FIELDITEM: 
 					Name: Fortitude
 					Bonus: Con
 			Field: BorderedLabel
@@ -304,11 +304,11 @@
 				Width: 90
 				Across: 1,3
 			Field: SavingGrid
-				Inputs: 
+				FIELDITEM: 
 					Name: Reflex
 					Bonus: Dex
 			Field: SavingGrid
-				Inputs: 
+				FIELDITEM: 
 					Name: Will
 					Bonus: Wis
 		Field: Grid
@@ -366,7 +366,7 @@
 				Content: Range
 			Field: Label
 			Field: WeaponGrid
-				Inputs: Weapon1
+				FIELDITEM: Weapon1
 			Field: WeaponGrid
-				Inputs: Weapon2
+				FIELDITEM: Weapon2
 							

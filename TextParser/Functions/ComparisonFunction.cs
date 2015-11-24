@@ -6,17 +6,23 @@ namespace TextParser.Functions
 {
     public class ComparisonFunction : BaseFunction
     {
+        public const string ID = "COMP";
+
+        public ComparisonFunction() : base(ID)
+        {
+        }
+
         public override IToken Perform(IToken token, TokenTreeList parameters, bool isFinal)
         {
             ListToken listToken = token as ListToken;
             if (listToken == null)
-                throw new Exception($"Last token must be list for 'COMP'");
+                throw new Exception($"Last token must be list for '{ID}'");
 
             List<IToken> lastList = listToken.Tokens;
             int count = lastList.Count;
 
             if (count < 3 || count > 5)
-                throw new Exception($"Must have between 3 and 5 values for 'COMP': {listToken}");
+                throw new Exception($"Must have between 3 and 5 values for '{ID}': {listToken}");
 
             IToken first = lastList[0];
             IToken second = lastList[1];

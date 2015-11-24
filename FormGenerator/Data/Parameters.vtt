@@ -21,10 +21,10 @@ Field: DoubleLabelUnder
 	Rows: 2
 	HorizontalAlignment: Center
 	Field: LabelUnder
-		Content: {Inputs.First}
+		Content: {FIELDITEM.First}
 		HorizontalAlignment: Center
 	Field: LabelUnder
-		Content: {Inputs.Second}
+		Content: {FIELDITEM.Second}
 		ShiftUp: 12
 		HorizontalAlignment: Center
 Field: EditorWithLabelUnder
@@ -33,24 +33,24 @@ Field: EditorWithLabelUnder
 	Rows: 3
 	Field: TextBox
 		Align: Stretch
-		Content: ?$Inputs
+		Content: ?$FIELDITEM
 	Field: UnderLine
 		Align: Stretch
 	Field: LabelUnder	
-		Content: {{Inputs}.NAME}
+		Content: {{FIELDITEM}.NAME}
 		Align: Left
 Field: LabelWithLabelUnder
 	ShiftRight: 2
 	BasedOn: Grid
 	Rows: 3
 	Field: Label
-		Content: ?$Inputs
+		Content: ?$FIELDITEM
 		Height: 22
 		Align: Left
 	Field: UnderLine
 		Align: Stretch
 	Field: LabelUnder	
-		Content: {{Inputs}.NAME}
+		Content: {{FIELDITEM}.NAME}
 		Align: Left
 Field: CentreLabel
     BasedOn: Label
@@ -68,28 +68,28 @@ Field: RightLabel
 
 Field: AbilityGrid
     Field: InvertedLabel
-        Content: {{Inputs}.NAME}
+        Content: {{FIELDITEM}.NAME}
     Field: Editor
-        Content: ?$Inputs
+        Content: ?$FIELDITEM
     Field: BorderedLabel
-        Content: ($$Inputs - 10) / 2
+        Content: ($$FIELDITEM - 10) / 2
 		Width: 27
     Field: BorderedLabel
     Field: BorderedLabel
 
 Field: SavingGrid
 	Field: InvertedLabel
-		Content: {Inputs.Name}
+		Content: {FIELDITEM.Name}
 	Field: BorderedLabel
-		Content: {{Inputs.Name}Throw}
+		Content: {{FIELDITEM.Name}Throw}
 	Field: Label
 		Content: =
 	Field: BorderedLabel
-		Content: {{Inputs.Name}Base}
+		Content: {{FIELDITEM.Name}Base}
 	Field: Label
 		Content: '+'
 	Field: BorderedLabel
-		Content: {{Inputs.Bonus}Modifier}
+		Content: {{FIELDITEM.Bonus}Modifier}
 	Field: Label
 		Content: '+'
 	Field: BorderedLabel
@@ -103,14 +103,14 @@ Field: SavingGrid
 
 Field: WeaponGrid
 	Field: ComboBox
-		Content: ?$Inputs
+		Content: ?$FIELDITEM
 		SelectionOptions: Weapons
 		HorizontalAlignment: Stretch
 		Height: 25
 	Field: BorderedLabel
 		Content: $Melee
 	Field: BorderedLabel
-		Content: {Weapons.{$Inputs}.Damage}
+		Content: {Weapons.{$FIELDITEM}.Damage}
 	Field: BorderedLabel
-		Content: {Weapons.{$Inputs}.Range}
+		Content: {Weapons.{$FIELDITEM}.Range}
 	Field: Label

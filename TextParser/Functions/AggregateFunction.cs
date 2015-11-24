@@ -6,6 +6,12 @@ namespace TextParser.Functions
 {
     public class AggregateFunction : BaseFunction
     {
+        public const string ID = "AGG";
+
+        public AggregateFunction() : base(ID)
+        {
+        }
+
         public override IToken Perform(IToken token, TokenTreeList parameters, bool isFinal)
         {
             ListToken listToken = token as ListToken;

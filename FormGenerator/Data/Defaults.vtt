@@ -43,7 +43,7 @@
 	NaturalArmour: {Races.{Race}.ACBonus}
 	DeflectionModifier: 0
 	MiscACModifier: 0
-	SumOverAttribute: SUM:OVER:({Classes.ALL.NAME}|cl|{Classes.{cl}.Level=(COUNT:{Level.Class={cl}}).{Item}})
+	SumOverAttribute: SUM:OVER:({Classes.ALL.NAME}|cl|{Classes.{cl}.Level=(COUNT:{Level.Class={cl}}).{P1}})
 	FortitudeBase: SumOverAttribute:Fort
 	ReflexBase: SumOverAttribute:Ref
 	WillBase: SumOverAttribute:Will
@@ -57,10 +57,10 @@
 	Grapple: $BAB + $StrModifier + $SizeBABModifier + $MiscBABModifier
 	Melee: $BAB + $StrModifier
 	Missile: $BAB + $DexModifier
-	IsClassSkill: CONTAINS:({Classes.({Level.Class}#1).ClassSkills}|$Item)
-	SkillPoints: SUM:{Level.Skills.{Item}}
-	SkillModifier: {{Skills.{Item}.Key}Modifier}
-	CanUseSkill : OR:(IF:({Skills.{Item}.TrainedOnly}|False|True)|COMP:(0|$SkillPoints|False|False|True))
+	IsClassSkill: CONTAINS:({Classes.({Level.Class}#1).ClassSkills}|$TABLEITEM)
+	SkillPoints: SUM:{Level.Skills.{TABLEITEM}}
+	SkillModifier: {{Skills.{TABLEITEM}.Key}Modifier}
+	CanUseSkill : OR:(IF:({Skills.{TABLEITEM}.TrainedOnly}|False|True)|COMP:(0|$SkillPoints|False|False|True))
 
 Weapons:
 	Damage: ''

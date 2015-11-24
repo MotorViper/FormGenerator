@@ -5,6 +5,12 @@ namespace TextParser.Functions
 {
     public class RangeFunction : BaseFunction
     {
+        public const string ID = "RANGE";
+
+        public RangeFunction() : base(ID)
+        {
+        }
+
         public override IToken Perform(IToken token, TokenTreeList parameters, bool isFinal)
         {
             ListToken list = token as ListToken;
@@ -29,7 +35,7 @@ namespace TextParser.Functions
                         result.Tokens.Add(new IntToken(i));
                     break;
                 default:
-                    throw new Exception($"Must have between 1 and 3 values for 'RANGE': {token}");
+                    throw new Exception($"Must have between 1 and 3 values for '{ID}': {token}");
             }
             return result;
         }

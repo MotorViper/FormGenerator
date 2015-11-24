@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using TextParser.Tokens;
 
 namespace TextParser
@@ -15,16 +16,16 @@ namespace TextParser
         public TokenTree(string key, string value, TokenTreeList children = null)
         {
             Key = _tokenGenerator.Parse(key).Simplify();
-            IToken tokenList = _tokenGenerator.Parse(value)?.Simplify();
+            IToken tokenList = value == null ? new NullToken() : _tokenGenerator.Parse(value)?.Simplify();
             Value = tokenList ?? new StringToken("");
             Children = children ?? new TokenTreeList();
         }
 
-        public TokenTree(IToken key, IToken value)
+        public TokenTree(IToken key, IToken value, TokenTreeList children = null)
         {
             Key = key;
             Value = value;
-            Children = new TokenTreeList();
+            Children = children ?? new TokenTreeList();
         }
 
         public TokenTreeList Children { get; private set; }
@@ -114,6 +115,32 @@ namespace TextParser
                     if (!found)
                         Children.Add(child.Clone());
                 }
+            }
+        }
+
+        public void WalkTree(Action<string, string> walker, string prefix = null)
+        {
+            string key = prefix == null ? Name : prefix + Name;
+            walker(key, Value.Text);
+            foreach (TokenTree item in Children)
+            {
+                item.WalkTree(walker, "\t" + prefix);
+            }
+        }
+
+        public void UpdateFirstLeaf(TokenTree tree)
+        {
+            if (tree.Children.Count == 0)
+            {
+                Children.SetValue(tree.Name, tree.Value);
+            }
+            else
+            {
+                TokenTree found = Children.FirstOrDefault(child => child.Name == tree.Name);
+                if (found == null)
+                    Children.Add(tree);
+                else
+                    found.UpdateFirstLeaf(tree.Children[0]);
             }
         }
     }

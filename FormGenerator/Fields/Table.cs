@@ -12,7 +12,7 @@ namespace FormGenerator.Fields
 
         public Table(Field parent, TokenTree data, int level, StringBuilder builder) : base(parent, data, level + 1, builder)
         {
-            _border = new Field(parent, "Border", data, level, builder);
+            _border = new Border(parent, data, level, builder);
             _border.AddProperty("BorderThickness", 1);
             _border.AddProperty("BorderBrush", "Black");
             Parent = _border;
@@ -30,10 +30,17 @@ namespace FormGenerator.Fields
             _border.AddEnd(endOfLine);
         }
 
+        protected override List<string> IgnoredProperties()
+        {
+            List<string> properties = base.IgnoredProperties();
+            properties.Add("Content");
+            return properties;
+        }
+
         protected override void AddChildren(TokenTree parameters, string endOfLine)
         {
             List<TokenTree> fields = BeginAddChildren(parameters).ToList();
-            string over = Children.FirstOrDefault(x => x.Name == "Over")?.Value.Text;
+            string over = Children.FirstOrDefault(x => x.Name == "Content")?.Value.Text;
             TokenTree items = new TokenTree(DataConverter.Parameters.GetChildren(over));
             foreach (TokenTree child in fields)
             {

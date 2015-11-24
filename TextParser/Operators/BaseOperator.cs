@@ -13,7 +13,7 @@ namespace TextParser.Operators
         public virtual bool CanBeBinary => true;
         public virtual bool CanBeUnary => false;
 
-        public string Text { get; }
+        public virtual string Text { get; }
 
         public virtual IToken Evaluate(IToken firstToken, IToken lastToken, TokenTreeList parameters, bool isFinal)
         {

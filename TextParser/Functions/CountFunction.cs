@@ -4,6 +4,12 @@ namespace TextParser.Functions
 {
     public class CountFunction : BaseFunction
     {
+        public const string ID = "COUNT";
+
+        public CountFunction() : base(ID)
+        {
+        }
+
         public override IToken Perform(IToken token, TokenTreeList parameters, bool isFinal)
         {
             ListToken listToken = token as ListToken;

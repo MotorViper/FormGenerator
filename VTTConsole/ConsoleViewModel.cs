@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using Helpers;
 using TextParser;
@@ -11,17 +13,25 @@ namespace VTTConsole
         private readonly NotifyingProperty<bool> _commandEntered = new NotifyingProperty<bool>();
         private readonly TokenGenerator _generator = new TokenGenerator();
         private readonly NotifyingProperty<string> _history = new NotifyingProperty<string>();
-        private readonly List<string> _historyList = new List<string>();
         private readonly NotifyingProperty<string> _input = new NotifyingProperty<string>();
         private readonly NotifyingProperty<string> _output = new NotifyingProperty<string>();
-        private readonly TokenTree _tree = new TokenTree();
 
+        private ICommand _downCommand;
+        private List<string> _historyList = new List<string>();
         private ICommand _inputCommand;
+        private int _position;
+        private TokenTree _tree = new TokenTree();
+        private ICommand _upCommand;
 
         public bool CommandEntered
         {
             get { return _commandEntered.GetValue(); }
             set { _commandEntered.SetValue(value, this); }
+        }
+
+        public ICommand DownCommand
+        {
+            get { return _downCommand ?? (_downCommand = new RelayCommand(x => DownEntered())); }
         }
 
         public string History
@@ -44,50 +54,177 @@ namespace VTTConsole
             set { _output.SetValue(value, this); }
         }
 
+        public ICommand UpCommand
+        {
+            get { return _upCommand ?? (_upCommand = new RelayCommand(x => UpEntered())); }
+        }
+
+        private void DownEntered()
+        {
+            _position += 1;
+            if (_position >= _historyList.Count)
+                _position = 0;
+            ShowCommand();
+        }
+
+        private void UpEntered()
+        {
+            _position -= 1;
+            if (_position < 0)
+                _position = _historyList.Count - 1;
+            ShowCommand();
+        }
+
+        private void ShowCommand()
+        {
+            if (_position >= 0 && _position < _historyList.Count)
+                Input = _historyList[_position];
+        }
+
         private void Execute(object command)
         {
-            string input = command.ToString().Trim();
+            string input = command.ToString();
 
             try
             {
                 if (input.StartsWith("#"))
                 {
                     string text = input.Substring(1).Trim();
-                    bool showHelp = true;
-                    if (text.StartsWith("print"))
+                    bool showHelp = false;
+                    if (text == "print" || text == "p")
                     {
-                        showHelp = false;
-                        text = text.Substring(5).Trim();
-                        Output += $"{Environment.NewLine}{text}: {_generator.Parse(text).Evaluate(new TokenTreeList(_tree), false)}";
+                        PrintStructure();
+                    }
+                    else if (text.StartsWith("print "))
+                    {
+                        PrintExpression(text.Substring(5).Trim());
+                    }
+                    else if (text.StartsWith("p "))
+                    {
+                        PrintExpression(text.Substring(1).Trim());
+                    }
+                    else if (text.StartsWith("delete "))
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else if (text.StartsWith("d "))
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else if (text.StartsWith("insert "))
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else if (text.StartsWith("i "))
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else if (text.StartsWith("save "))
+                    {
+                        SaveStructure(text.Substring(4).Trim());
+                    }
+                    else if (text.StartsWith("s "))
+                    {
+                        SaveStructure(text.Substring(1).Trim());
+                    }
+                    else if (text.StartsWith("read "))
+                    {
+                        ReadStructure(text.Substring(4).Trim());
+                    }
+                    else if (text.StartsWith("r "))
+                    {
+                        ReadStructure(text.Substring(1).Trim());
+                    }
+                    else if (text == "exit" || text == "x")
+                    {
+                        Application.Current.Shutdown();
+                    }
+                    else if (text == "clear" || text == "c")
+                    {
+                        _tree = new TokenTree();
+                    }
+                    else if (text == "clearhistory" || text == "h")
+                    {
+                        _historyList = new List<string>();
+                        History = "";
+                        _position = 0;
                     }
                     else
                     {
+                        showHelp = true;
                         int count;
-                        if (int.TryParse(text, out count) && count <= _historyList.Count)
+                        if (int.TryParse(text, out count) && count <= _historyList.Count && count > 0)
                         {
                             Execute(_historyList[count - 1]);
                             return;
                         }
                     }
                     if (showHelp)
-                        Output +=
-                            $"{Environment.NewLine}VTT expression - add VTT expression{Environment.NewLine}#print token - evaluate and print token{Environment.NewLine}#n - repeat nth command";
+                        UpdateOutput(@"expression - add/replace token definition
+#n - repeat nth command
+#[c]lear - clear the structure
+#clear[h]istory - clear the history
+#[d]elete expression - remove item from structure
+#[i]nsert expression - insert item into structure
+#[p]rint - print structure
+#[p]rint token - evaluate and print token
+#[r]ead file - read structure from a file
+#[s]ave file - save structure to file
+#e[x]it - exit");
                 }
                 else
                 {
                     TokenTree tree = Parser.ParseString(input);
-                    Output += $"{Environment.NewLine}{tree.Key.Text}: {tree.Value.Evaluate(new TokenTreeList(_tree), false)}";
-                    _tree.Replace(tree);
+                    UpdateOutput($"{tree.Key.Text}: {tree.Value.Evaluate(new TokenTreeList(_tree), false)}");
+                    _tree.UpdateFirstLeaf(tree);
                 }
                 Input = "";
-                _historyList.Add(input);
-                History += $"{Environment.NewLine}{_historyList.Count}:\t{input}";
+                UpdateHistory(input);
             }
             catch (Exception ex)
             {
-                Output += $"{Environment.NewLine}{ex.Message}";
+                UpdateOutput(ex.Message);
             }
             CommandEntered = true;
+        }
+
+        private void ReadStructure(string file)
+        {
+            TokenTree tree = Parser.ParseFile(file, "C:\\");
+            _tree.Children.AddRange(tree.Children);
+        }
+
+        private void SaveStructure(string file)
+        {
+            using (StreamWriter fs = new StreamWriter(file))
+            {
+                foreach (TokenTree tokenTree in _tree.Children)
+                    // ReSharper disable once AccessToDisposedClosure
+                    tokenTree.WalkTree((x, y) => fs.WriteLine($"{x}: {y}"));
+            }
+        }
+
+        private void PrintStructure()
+        {
+            foreach (TokenTree tokenTree in _tree.Children)
+                tokenTree.WalkTree((x, y) => UpdateOutput($"{x}:{y}"));
+        }
+
+        private void PrintExpression(string text)
+        {
+            UpdateOutput($"{text}: {_generator.Parse(text).Evaluate(new TokenTreeList(_tree), false)}");
+        }
+
+        private void UpdateHistory(string input)
+        {
+            _historyList.Add(input);
+            History += $"{_historyList.Count}:\t{input}\n";
+            _position = _historyList.Count;
+        }
+
+        private void UpdateOutput(string text)
+        {
+            Output += "\n" + text;
         }
     }
 }

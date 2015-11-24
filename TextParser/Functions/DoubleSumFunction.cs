@@ -5,6 +5,12 @@ namespace TextParser.Functions
 {
     public class DoubleSumFunction : BaseFunction
     {
+        public const string ID = "SUMD";
+
+        public DoubleSumFunction() : base(ID)
+        {
+        }
+
         public override IToken Perform(IToken dataToken, TokenTreeList parameters, bool isFinal)
         {
             ListToken listToken = dataToken as ListToken;
@@ -25,7 +31,7 @@ namespace TextParser.Functions
             }
             else
             {
-                throw new Exception("Token must be list or convertible to int for SUM");
+                throw new Exception($"Token must be list or convertible to int for '{ID}'");
             }
             return new DoubleToken(sum);
         }

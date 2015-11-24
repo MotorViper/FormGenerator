@@ -4,6 +4,12 @@ namespace TextParser.Functions
 {
     public class ReverseFunction : BaseFunction
     {
+        public const string ID = "REVERSE";
+
+        public ReverseFunction() : base(ID)
+        {
+        }
+
         public override IToken Perform(IToken token, TokenTreeList parameters, bool isFinal)
         {
             ListToken list = token as ListToken;

@@ -44,6 +44,7 @@
     <Compile Include="Functions\BaseFunction.cs" />
     <Compile Include="Functions\AggregateFunction.cs" />
     <Compile Include="Functions\ComparisonFunction.cs" />
+    <Compile Include="Functions\AndFunction.cs" />
     <Compile Include="Functions\OrFunction.cs" />
     <Compile Include="Functions\ReverseFunction.cs" />
     <Compile Include="Functions\RangeFunction.cs" />

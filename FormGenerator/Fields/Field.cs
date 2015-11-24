@@ -30,10 +30,11 @@ namespace FormGenerator.Fields
         protected int Level { get; private set; }
         private string Name { get; }
         protected string Offset { get; private set; }
-        protected Field Parent { get; set; }
         protected IToken Parameter { get; set; }
+        protected Field Parent { get; set; }
 
-        public static void AddChild(TokenTree data, int level, TokenTree parameters, StringBuilder sb, string offset, string endOfLine, Field parent = null, IToken parameter = null)
+        public static void AddChild(TokenTree data, int level, TokenTree parameters, StringBuilder sb, string offset, string endOfLine, Field parent = null,
+            IToken parameter = null)
         {
             Field field = FieldFactory.CreateField(data.Value.Text, data, level, parameters, parent, sb);
             field.Parameter = parameter;
@@ -191,7 +192,7 @@ namespace FormGenerator.Fields
             _marginLeft = 0;
             foreach (TokenTree child in Children.Where(child => !IgnoredProperties().Contains(child.Name)))
             {
-                if (child.Name == "Inputs")
+                if (child.Name == "FIELDITEM")
                     parameters.Replace(child);
                 else
                     AddProperty(child, new TokenTreeList(parameters));

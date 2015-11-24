@@ -9,29 +9,6 @@ namespace FormGenerator
 {
     public class DataConverter : IValueConverter
     {
-        private struct ItemData
-        {
-            public readonly IToken Token;
-            public readonly IToken Parameter;
-
-            public ItemData(IToken token, IToken parameter)
-            {
-                Token = token;
-                Parameter = parameter;
-            }
-
-            /// <summary>
-            /// Returns a string that represents the current object.
-            /// </summary>
-            /// <returns>
-            /// A string that represents the current object.
-            /// </returns>
-            public override string ToString()
-            {
-                return Token.Text;
-            }
-        }
-
         private static readonly List<ItemData> s_fieldData = new List<ItemData>();
         public static TokenTree Parameters { get; set; }
 
@@ -54,9 +31,9 @@ namespace FormGenerator
                 if (data.Parameter != null)
                 {
                     parameters = Parameters.Clone();
-                    parameters.Children.AddIfMissing(new TokenTree(new StringToken("Item"), data.Parameter));
+                    parameters.Children.AddIfMissing(new TokenTree(new StringToken("TABLEITEM"), data.Parameter));
                 }
-                converted = dataToken.Evaluate(new TokenTreeList { (TokenTree)value, parameters }, true);
+                converted = dataToken.Evaluate(new TokenTreeList {(TokenTree)value, parameters}, true);
             }
             ITypeToken typeToken = converted as ITypeToken;
             return typeToken != null ? typeToken.Data : converted;
@@ -78,6 +55,29 @@ namespace FormGenerator
         {
             s_fieldData.Add(new ItemData(data, parameter));
             return s_fieldData.Count - 1;
+        }
+
+        private struct ItemData
+        {
+            public readonly IToken Token;
+            public readonly IToken Parameter;
+
+            public ItemData(IToken token, IToken parameter)
+            {
+                Token = token;
+                Parameter = parameter;
+            }
+
+            /// <summary>
+            /// Returns a string that represents the current object.
+            /// </summary>
+            /// <returns>
+            /// A string that represents the current object.
+            /// </returns>
+            public override string ToString()
+            {
+                return Token.Text;
+            }
         }
     }
 }

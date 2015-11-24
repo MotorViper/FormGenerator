@@ -3,11 +3,11 @@ using TextParser.Tokens;
 
 namespace TextParser.Functions
 {
-    public class OrFunction : BaseFunction
+    public class AndFunction : BaseFunction
     {
-        public const string ID = "OR";
+        public const string ID = "AND";
 
-        public OrFunction() : base(ID)
+        public AndFunction() : base(ID)
         {
         }
 
@@ -21,10 +21,10 @@ namespace TextParser.Functions
             {
                 if (token is ExpressionToken)
                     return UnParsed(listToken);
-                if (token.Convert<bool>())
-                    return new BoolTooken(true);
+                if (!token.Convert<bool>())
+                    return new BoolTooken(false);
             }
-            return new BoolTooken(false);
+            return new BoolTooken(true);
         }
     }
 }
