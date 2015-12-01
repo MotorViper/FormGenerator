@@ -21,14 +21,13 @@ namespace TextParser
         public static TokenTree Parse(TextReader textReader, string defaultDirectory = null)
         {
             Reader reader = new Reader(textReader) {DefaultDirectory = defaultDirectory};
-            Splitter splitter = new Splitter();
             Dictionary<int, TokenTree> lastAtLevel = new Dictionary<int, TokenTree>
             {
                 [-1] = new TokenTree()
             };
             foreach (Line line in reader)
             {
-                TokenTree tokenTree = splitter.Split(line.Content);
+                TokenTree tokenTree = Splitter.Split(line.Content);
                 StringToken key = tokenTree.Key as StringToken;
                 if (key != null && key.Text.Contains("."))
                 {

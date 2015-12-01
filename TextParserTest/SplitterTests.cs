@@ -16,7 +16,7 @@ namespace TextParserTest
 
         private static void Test(string toSplit, string key, string value)
         {
-            TokenTree tokenTree = new Splitter().Split(toSplit);
+            TokenTree tokenTree = Splitter.Split(toSplit);
             Assert.AreEqual(key, tokenTree.Name, toSplit);
             Assert.AreEqual(value, tokenTree.Value.Text, toSplit);
         }

@@ -16,6 +16,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormGeneratorTests", "FormGeneratorTests\FormGeneratorTests.csproj", "{9130B090-2E06-44E7-AD31-2B2971DB5402}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E45410DF-5C68-4A97-A996-13B23F0C3273}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VTTConsole", "VTTConsole\VTTConsole.csproj", "{6FF10623-6549-45A8-93CA-2DB5986449B3}"
 EndProject

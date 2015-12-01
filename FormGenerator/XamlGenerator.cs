@@ -29,7 +29,7 @@ namespace FormGenerator
                     foreach (TokenTree item in child.Children)
                         item.AddMissing(defaults);
             }
-            TokenTreeList fields = data.Children.FindMatches("Fields");
+            TokenTreeList fields = data.GetAll("Fields");
             foreach (TokenTree field in fields.SelectMany(child => child.Children))
                 Field.AddChild(field, 0, parameters, _sb, _offset, _endOfLine);
             return _sb.ToString();

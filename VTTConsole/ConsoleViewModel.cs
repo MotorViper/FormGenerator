@@ -5,13 +5,13 @@ using System.Windows;
 using System.Windows.Input;
 using Helpers;
 using TextParser;
+using TextParser.Tokens;
 
 namespace VTTConsole
 {
     public class ConsoleViewModel : ViewModel
     {
         private readonly NotifyingProperty<bool> _commandEntered = new NotifyingProperty<bool>();
-        private readonly TokenGenerator _generator = new TokenGenerator();
         private readonly NotifyingProperty<string> _history = new NotifyingProperty<string>();
         private readonly NotifyingProperty<string> _input = new NotifyingProperty<string>();
         private readonly NotifyingProperty<string> _output = new NotifyingProperty<string>();
@@ -90,7 +90,6 @@ namespace VTTConsole
                 if (input.StartsWith("#"))
                 {
                     string text = input.Substring(1).Trim();
-                    bool showHelp = false;
                     if (text == "print" || text == "p")
                     {
                         PrintStructure();
@@ -105,19 +104,27 @@ namespace VTTConsole
                     }
                     else if (text.StartsWith("delete "))
                     {
-                        throw new NotImplementedException();
+                        DeleteItem(text.Substring(6).Trim());
                     }
                     else if (text.StartsWith("d "))
                     {
-                        throw new NotImplementedException();
+                        DeleteItem(text.Substring(1).Trim());
+                    }
+                    else if (text.StartsWith("deleteall "))
+                    {
+                        DeleteItems(text.Substring(9).Trim());
+                    }
+                    else if (text.StartsWith("da "))
+                    {
+                        DeleteItems(text.Substring(2).Trim());
                     }
                     else if (text.StartsWith("insert "))
                     {
-                        throw new NotImplementedException();
+                        InsertItem(text.Substring(6).Trim());
                     }
                     else if (text.StartsWith("i "))
                     {
-                        throw new NotImplementedException();
+                        InsertItem(text.Substring(1).Trim());
                     }
                     else if (text.StartsWith("save "))
                     {
@@ -143,34 +150,24 @@ namespace VTTConsole
                     {
                         _tree = new TokenTree();
                     }
-                    else if (text == "clearhistory" || text == "h")
+                    else if (text == "clearhistory" || text == "ch")
                     {
-                        _historyList = new List<string>();
-                        History = "";
-                        _position = 0;
+                        ClearHistory();
+                    }
+                    else if (text == "help" || text == "h")
+                    {
+                        ShowHelp();
                     }
                     else
                     {
-                        showHelp = true;
                         int count;
                         if (int.TryParse(text, out count) && count <= _historyList.Count && count > 0)
                         {
                             Execute(_historyList[count - 1]);
                             return;
                         }
+                        UpdateOutput($"Invalid command: {text}");
                     }
-                    if (showHelp)
-                        UpdateOutput(@"expression - add/replace token definition
-#n - repeat nth command
-#[c]lear - clear the structure
-#clear[h]istory - clear the history
-#[d]elete expression - remove item from structure
-#[i]nsert expression - insert item into structure
-#[p]rint - print structure
-#[p]rint token - evaluate and print token
-#[r]ead file - read structure from a file
-#[s]ave file - save structure to file
-#e[x]it - exit");
                 }
                 else
                 {
@@ -186,6 +183,49 @@ namespace VTTConsole
                 UpdateOutput(ex.Message);
             }
             CommandEntered = true;
+        }
+
+        private void InsertItem(string input)
+        {
+            TokenTree tree = Parser.ParseString(input);
+            UpdateOutput($"{tree.Key.Text}: {tree.Value.Evaluate(new TokenTreeList(_tree), false)}");
+            _tree.Children.Add(tree);
+        }
+
+        private void DeleteItem(string input)
+        {
+            IToken token = TokenGenerator.Parse(input);
+            _tree.Remove(token.Text);
+        }
+
+        private void DeleteItems(string input)
+        {
+            IToken token = TokenGenerator.Parse(input);
+            _tree.RemoveAll(token.Text);
+        }
+
+        private void ClearHistory()
+        {
+            _historyList = new List<string>();
+            History = "";
+            _position = 0;
+        }
+
+        private void ShowHelp()
+        {
+            UpdateOutput(@"expression - add/replace token definition
+#n - repeat nth command
+#[c]lear - clear the structure
+#[ch] clearhistory - clear the history
+#[d]elete token - remove item from structure
+#[da] deleteall token - remove all items matching token
+#[h]elp - this message
+#[i]nsert expression - insert item into structure
+#[p]rint - print structure
+#[p]rint token - evaluate and print token
+#[r]ead file - read structure from a file
+#[s]ave file - save structure to file
+#e[x]it - exit");
         }
 
         private void ReadStructure(string file)
@@ -206,13 +246,16 @@ namespace VTTConsole
 
         private void PrintStructure()
         {
+            string delimiter = ("'-' * 32").Evaluate();
+            UpdateOutput(delimiter);
             foreach (TokenTree tokenTree in _tree.Children)
                 tokenTree.WalkTree((x, y) => UpdateOutput($"{x}:{y}"));
+            UpdateOutput(delimiter);
         }
 
         private void PrintExpression(string text)
         {
-            UpdateOutput($"{text}: {_generator.Parse(text).Evaluate(new TokenTreeList(_tree), false)}");
+            UpdateOutput($"{text}: {TokenGenerator.Parse(text).Evaluate(new TokenTreeList(_tree), false)}");
         }
 
         private void UpdateHistory(string input)

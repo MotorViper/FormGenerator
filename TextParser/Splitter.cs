@@ -3,9 +3,9 @@ using Helpers;
 
 namespace TextParser
 {
-    public class Splitter
+    public static class Splitter
     {
-        public TokenTree Split(string text)
+        public static TokenTree Split(string text)
         {
             int pos = text.FirstNotInBlock(':');
             if (pos < 0)

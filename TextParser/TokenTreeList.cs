@@ -9,8 +9,6 @@ namespace TextParser
 {
     public class TokenTreeList : List<TokenTree>, INotifyPropertyChanged
     {
-        private readonly TokenGenerator _generator = new TokenGenerator();
-
         public TokenTreeList()
         {
         }
@@ -66,7 +64,7 @@ namespace TextParser
             {
                 string last = parts[1];
                 foreach (TokenTree tree in tokens)
-                    matches.AddRange(tree.Children.FindMatches(last));
+                    matches.AddRange(tree.GetAll(last));
                 if (matches.Count == 0 && last == "NAME")
                     matches.AddRange(tokens.Select(tree => new TokenTree("NAME", tree.Name)));
             }
@@ -79,7 +77,7 @@ namespace TextParser
 
         public void SetValue(string name, string value)
         {
-            SetValue(name, _generator.Parse(value));
+            SetValue(name, TokenGenerator.Parse(value));
         }
 
         public void SetValue(string name, IToken value)

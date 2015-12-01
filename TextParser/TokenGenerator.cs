@@ -7,7 +7,7 @@ using TextParser.Tokens;
 
 namespace TextParser
 {
-    public class TokenGenerator
+    public static class TokenGenerator
     {
         private static readonly Dictionary<string, Func<string[], IToken>> s_tokens = new Dictionary<string, Func<string[], IToken>>
         {
@@ -22,6 +22,11 @@ namespace TextParser
             ["(0|[1-9][0-9]*)"] = tokens => new IntToken(int.Parse(tokens[0])),
             [".*"] = tokens => new StringToken(tokens[0])
         };
+
+        public static string Evaluate(this string input)
+        {
+            return Parse(input).Simplify().Text;
+        }
 
         private static IToken PerformSubstitutionOperation(IReadOnlyList<string> tokens)
         {
@@ -64,7 +69,7 @@ namespace TextParser
             return new ExpressionToken(first, op, second);
         }
 
-        public IToken Parse(string text)
+        public static IToken Parse(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
                 return new NullToken();

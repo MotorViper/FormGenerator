@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Markup;
 
 namespace FormGenerator
@@ -48,6 +49,17 @@ namespace FormGenerator
                 UIElement rootElement = (UIElement)XamlReader.Load(stream);
                 mc_window.Content = rootElement;
             }
+        }
+
+        private void TextChangedEventHandler(object sender, TextChangedEventArgs e)
+        {
+            if (mc_textInput.Document == null)
+                return;
+
+            Editor.Instance.UpdateFormats(mc_textInput);
+            mc_textInput.TextChanged -= TextChangedEventHandler;
+            Editor.Instance.Format();
+            mc_textInput.TextChanged += TextChangedEventHandler;
         }
     }
 }

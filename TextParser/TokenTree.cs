@@ -6,7 +6,6 @@ namespace TextParser
 {
     public class TokenTree
     {
-        private readonly TokenGenerator _tokenGenerator = new TokenGenerator();
         private TokenTreeList _parameters;
 
         public TokenTree(TokenTreeList children = null) : this("", "", children)
@@ -15,8 +14,8 @@ namespace TextParser
 
         public TokenTree(string key, string value, TokenTreeList children = null)
         {
-            Key = _tokenGenerator.Parse(key).Simplify();
-            IToken tokenList = value == null ? new NullToken() : _tokenGenerator.Parse(value)?.Simplify();
+            Key = TokenGenerator.Parse(key).Simplify();
+            IToken tokenList = value == null ? new NullToken() : TokenGenerator.Parse(value).Simplify();
             Value = tokenList ?? new StringToken("");
             Children = children ?? new TokenTreeList();
         }
@@ -90,10 +89,20 @@ namespace TextParser
 
         public void Replace(TokenTree inputs)
         {
-            TokenTree result = Children.FirstOrDefault(child => child.Name == inputs.Name);
+            Remove(inputs.Name);
+            Children.Add(inputs);
+        }
+
+        public void Remove(string name)
+        {
+            TokenTree result = Children.FirstOrDefault(child => child.Name == name);
             if (result != null)
                 Children.Remove(result);
-            Children.Add(inputs);
+        }
+
+        public void RemoveAll(string name)
+        {
+            Children.RemoveAll(child => child.Name == name);
         }
 
         public TokenTree Clone()

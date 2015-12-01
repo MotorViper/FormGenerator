@@ -1,6 +1,8 @@
-﻿Leather:
+Leather:
 	ACBonus: 1
-Chain:
+Chainmail:
 	ACBonus: 5
+Plate:
+	ACBonus: 8
 None:
 	ACBonus: 0

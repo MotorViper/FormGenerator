@@ -1,3 +1,13 @@
-﻿Simplify output to remove redundant brackets and use {} instead of $ where clearer.
-Interactive form generator.
-Rethink use of TABLEITEM, FIELDITEM and P1..N
+﻿Language:
+	Simplify output to remove redundant brackets and use {} instead of $ where clearer.
+
+Gui:
+	Rethink use of TABLEITEM, FIELDITEM and P1..N
+	Multiple editor pages.
+	Check if data needs saving on exit.
+	Make syntax colouring work.
+	Add configuration - syntax colouring, tab stops etc.
+	Implement reload.
+
+Console:
+	Make work more like reading a file.
