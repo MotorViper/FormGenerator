@@ -12,7 +12,7 @@ namespace FormGenerator.Fields
 
         protected internal override void AddStart(string endOfLine, TokenTree parameters)
         {
-            foreach (var child in Children.Where(child => child.Name == "FIELDITEM"))
+            foreach (var child in Children.Where(child => child.Name == "P1"))
                 parameters.Replace(child);
         }
 

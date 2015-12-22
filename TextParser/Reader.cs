@@ -64,7 +64,7 @@ namespace TextParser
                 line = IgnoreComments(line);
                 if (line == null)
                     break;
-                if (line.ToLower().StartsWith("@include "))
+                if (line.ToLower().StartsWith("#include "))
                 {
                     string[] parts = line.Split(' ');
                     int indentCount = parts.Length - 2;

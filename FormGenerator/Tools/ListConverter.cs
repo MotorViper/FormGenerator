@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Windows.Data;
 using TextParser;
 
-namespace FormGenerator
+namespace FormGenerator.Tools
 {
     public class ListConverter : IValueConverter
     {

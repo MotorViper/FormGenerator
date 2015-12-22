@@ -3,7 +3,7 @@ using System.Text;
 using FormGenerator.Fields;
 using TextParser;
 
-namespace FormGenerator
+namespace FormGenerator.Tools
 {
     public class XamlGenerator
     {

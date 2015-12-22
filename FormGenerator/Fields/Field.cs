@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FormGenerator.Tools;
 using Helpers;
 using TextParser;
 using TextParser.Tokens;
@@ -192,7 +193,7 @@ namespace FormGenerator.Fields
             _marginLeft = 0;
             foreach (TokenTree child in Children.Where(child => !IgnoredProperties().Contains(child.Name)))
             {
-                if (child.Name == "FIELDITEM")
+                if (child.Name == "P1")
                     parameters.Replace(child);
                 else
                     AddProperty(child, new TokenTreeList(parameters));

@@ -1,10 +1,11 @@
-﻿Character: 
+Character: 
     Strength: 10
     Dexterity: 10
     Constitution: 10
     Intelligence: 10
     Wisdom: 10
     Charisma: 10
+	Experience: 0
 	Weapon1: None
 	Weapon2: None
 	Armour: None

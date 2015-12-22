@@ -3,7 +3,7 @@ using System.Windows.Media;
 using Helpers;
 using TextParser.Functions;
 
-namespace FormGenerator
+namespace FormGenerator.Tools
 {
     internal static class SyntaxProvider
     {
@@ -57,18 +57,14 @@ namespace FormGenerator
         public static List<Range> CheckWords(string text)
         {
             List<Range> ranges = new List<Range>();
-            int originalLength = text.Length;
-            text = text.TrimStart(' ', '\t');
-            int trimmedLength = text.Length;
-            int numSpacesAtStart = originalLength - trimmedLength;
             int colonPosition = text.FirstNotInBlock(':');
             if (colonPosition == -1)
             {
                 ranges.Add(new Range {Start = 0, End = text.Length, Foreground = Colors.Red});
                 return ranges;
             }
-            ranges.Add(new Range {Start = numSpacesAtStart, End = numSpacesAtStart + colonPosition, Foreground = Colors.Blue});
-            ranges.Add(new Range {Start = numSpacesAtStart + colonPosition, End = numSpacesAtStart + colonPosition + 1, Foreground = Colors.OrangeRed});
+            ranges.Add(new Range {Start = 0, End = colonPosition, Foreground = Colors.Blue});
+            ranges.Add(new Range {Start = colonPosition, End = colonPosition + 1, Foreground = Colors.OrangeRed});
             //for (int i = 0; i < text.Length; ++i)
             //{
             //    if (text[i] == ':')

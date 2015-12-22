@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FormGenerator</RootNamespace>
     <AssemblyName>FormGenerator</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -39,6 +39,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -51,27 +52,45 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Editor.cs" />
+    <Compile Include="Tools\IDataDisplayer.cs" />
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="Models\Editor.cs" />
+    <Compile Include="Tools\EditorGenerator.cs" />
+    <Compile Include="Models\EditorList.cs" />
+    <Compile Include="Views\EditorsView.xaml.cs">
+      <DependentUpon>EditorsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Fields\Border.cs" />
     <Compile Include="Fields\CheckBox.cs" />
     <Compile Include="Fields\ComboBox.cs" />
     <Compile Include="Fields\Table.cs" />
-    <Compile Include="ListConverter.cs" />
-    <Compile Include="DataConverter.cs" />
+    <Compile Include="Tools\IEditor.cs" />
+    <Compile Include="Tools\ListConverter.cs" />
+    <Compile Include="Tools\DataConverter.cs" />
     <Compile Include="Fields\Field.cs" />
     <Compile Include="Fields\FieldFactory.cs" />
     <Compile Include="Fields\Grid.cs" />
     <Compile Include="Fields\Selector.cs" />
     <Compile Include="Fields\Continuation.cs" />
     <Compile Include="Fields\TextBox.cs" />
-    <Compile Include="SyntaxProvider.cs" />
-    <Compile Include="XamlGenerator.cs" />
+    <Compile Include="Tools\RichTextBoxEditor.cs" />
+    <Compile Include="Tools\SyntaxProvider.cs" />
+    <Compile Include="ViewModels\EditorsViewModel.cs" />
+    <Compile Include="Tools\XamlGenerator.cs" />
+    <Compile Include="Views\GeneratedView.xaml.cs">
+      <DependentUpon>GeneratedView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\EditorsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -80,11 +99,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data.cs" />
+    <Compile Include="ViewModels\DataViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\GeneratedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -122,7 +145,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Helpers\Helpers.csproj">

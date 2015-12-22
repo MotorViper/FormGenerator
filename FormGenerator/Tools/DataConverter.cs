@@ -5,7 +5,7 @@ using System.Windows.Data;
 using TextParser;
 using TextParser.Tokens;
 
-namespace FormGenerator
+namespace FormGenerator.Tools
 {
     public class DataConverter : IValueConverter
     {

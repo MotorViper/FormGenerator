@@ -1,9 +1,9 @@
-﻿@include Parameters.vtt Parameters
-@include Fields.vtt Fields
-@include Defaults.vtt Parameters Defaults
-@include Weapons.vtt Parameters Weapons
-@include Armour.vtt Parameters Armour
-@include Races.vtt Parameters Races
-@include Classes.vtt Parameters Classes
-@include Skills.vtt Parameters Skills
-@include Misc.vtt Parameters
+﻿#include Parameters.vtt Parameters
+#include Fields.vtt Fields
+#include Defaults.vtt Parameters Defaults
+#include Weapons.vtt Parameters Weapons
+#include Armour.vtt Parameters Armour
+#include Races.vtt Parameters Races
+#include Classes.vtt Parameters Classes
+#include Skills.vtt Parameters Skills
+#include Misc.vtt Parameters

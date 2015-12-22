@@ -4,10 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FormGenerator"
+        xmlns:helpers="clr-namespace:Helpers;assembly=Helpers"
+        xmlns:views="clr-namespace:FormGenerator.Views"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="MainWindow" Height="31cm" Width="22cm" Name="mc_mainWindow">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <helpers:EventToCommand Command="{Binding ExitCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Window.DataContext>
-        <local:Data />
+        <local:MainViewModel />
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
@@ -16,27 +24,21 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="_File">
-                <MenuItem Header="_New" Command="{Binding NewFileCommand}" CommandParameter="{Binding ElementName=mc_textInput}" />
-                <MenuItem Header="_Open" Command="{Binding OpenFileCommand}" CommandParameter="{Binding ElementName=mc_textInput}" />
-                <MenuItem Header="_Save" Command="{Binding SaveFileCommand}" CommandParameter="{Binding ElementName=mc_textInput}" />
-                <MenuItem Header="_Close" Command="{Binding CloseFileCommand}" CommandParameter="{Binding ElementName=mc_textInput}" />
+                <MenuItem Header="_New" Command="{Binding NewFileCommand}" />
+                <MenuItem Header="_Open" Command="{Binding OpenFileCommand}" />
+                <MenuItem Header="_Save" Command="{Binding SaveFileCommand}" />
+                <MenuItem Header="Save _All" Command="{Binding SaveAllFilesCommand}" />
+                <MenuItem Header="_Close" Command="{Binding CloseFileCommand}" />
                 <MenuItem Header="_Reload" Command="{Binding ReloadCommand}" />
-                <MenuItem Header="E_xit" Command="{Binding ExitCommand}" CommandParameter="{Binding ElementName=mc_mainWindow}" />
+                <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
             </MenuItem>
         </Menu>
         <TabControl Grid.Row="1">
             <TabItem Header="Output">
-                <ScrollViewer x:Name="mc_window" />
+                <views:GeneratedView />
             </TabItem>
-            <TabItem Header="{Binding EditorName}">
-                <RichTextBox ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="mc_textInput"
-                             AcceptsReturn="True" AcceptsTab="True" TextChanged="TextChangedEventHandler" IsEnabled="{Binding EditorReady}">
-                    <RichTextBox.Resources>
-                        <Style TargetType="{x:Type Paragraph}">
-                            <Setter Property="Margin" Value="0" />
-                        </Style>
-                    </RichTextBox.Resources>
-                </RichTextBox>
+            <TabItem Header="Editor">
+                <views:EditorsView />
             </TabItem>
         </TabControl>
     </Grid>

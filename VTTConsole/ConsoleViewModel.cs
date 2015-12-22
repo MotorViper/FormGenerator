@@ -19,8 +19,8 @@ namespace VTTConsole
         private ICommand _downCommand;
         private List<string> _historyList = new List<string>();
         private ICommand _inputCommand;
+        private Parser _parser = new Parser();
         private int _position;
-        private TokenTree _tree = new TokenTree();
         private ICommand _upCommand;
 
         public bool CommandEntered
@@ -53,6 +53,8 @@ namespace VTTConsole
             get { return _output.GetValue(); }
             set { _output.SetValue(value, this); }
         }
+
+        private TokenTree Tree => _parser.ParsedTree;
 
         public ICommand UpCommand
         {
@@ -148,7 +150,7 @@ namespace VTTConsole
                     }
                     else if (text == "clear" || text == "c")
                     {
-                        _tree = new TokenTree();
+                        _parser = new Parser();
                     }
                     else if (text == "clearhistory" || text == "ch")
                     {
@@ -171,9 +173,8 @@ namespace VTTConsole
                 }
                 else
                 {
-                    TokenTree tree = Parser.ParseString(input);
-                    UpdateOutput($"{tree.Key.Text}: {tree.Value.Evaluate(new TokenTreeList(_tree), false)}");
-                    _tree.UpdateFirstLeaf(tree);
+                    TokenTree tree = _parser.AddLine(new Line(input));
+                    UpdateOutput($"{tree.Key.Text}: {tree.Value.Evaluate(new TokenTreeList(Tree), false)}");
                 }
                 Input = "";
                 UpdateHistory(input);
@@ -188,20 +189,20 @@ namespace VTTConsole
         private void InsertItem(string input)
         {
             TokenTree tree = Parser.ParseString(input);
-            UpdateOutput($"{tree.Key.Text}: {tree.Value.Evaluate(new TokenTreeList(_tree), false)}");
-            _tree.Children.Add(tree);
+            UpdateOutput($"{tree.Key.Text}: {tree.Value.Evaluate(new TokenTreeList(Tree), false)}");
+            Tree.Children.Add(tree);
         }
 
         private void DeleteItem(string input)
         {
             IToken token = TokenGenerator.Parse(input);
-            _tree.Remove(token.Text);
+            Tree.Remove(token.Text);
         }
 
         private void DeleteItems(string input)
         {
             IToken token = TokenGenerator.Parse(input);
-            _tree.RemoveAll(token.Text);
+            Tree.RemoveAll(token.Text);
         }
 
         private void ClearHistory()
@@ -217,28 +218,28 @@ namespace VTTConsole
 #n - repeat nth command
 #[c]lear - clear the structure
 #[ch] clearhistory - clear the history
-#[d]elete token - remove item from structure
-#[da] deleteall token - remove all items matching token
+#[d]elete <token> - remove item from structure
+#[da] deleteall <token> - remove all items matching token
 #[h]elp - this message
-#[i]nsert expression - insert item into structure
+#[i]nsert <expression> - insert item into structure
 #[p]rint - print structure
-#[p]rint token - evaluate and print token
-#[r]ead file - read structure from a file
-#[s]ave file - save structure to file
+#[p]rint <token> - evaluate and print token
+#[r]ead <file> - read structure from a file
+#[s]ave <file> - save structure to file
 #e[x]it - exit");
         }
 
         private void ReadStructure(string file)
         {
             TokenTree tree = Parser.ParseFile(file, "C:\\");
-            _tree.Children.AddRange(tree.Children);
+            Tree.Children.AddRange(tree.Children);
         }
 
         private void SaveStructure(string file)
         {
             using (StreamWriter fs = new StreamWriter(file))
             {
-                foreach (TokenTree tokenTree in _tree.Children)
+                foreach (TokenTree tokenTree in Tree.Children)
                     // ReSharper disable once AccessToDisposedClosure
                     tokenTree.WalkTree((x, y) => fs.WriteLine($"{x}: {y}"));
             }
@@ -248,14 +249,14 @@ namespace VTTConsole
         {
             string delimiter = ("'-' * 32").Evaluate();
             UpdateOutput(delimiter);
-            foreach (TokenTree tokenTree in _tree.Children)
+            foreach (TokenTree tokenTree in Tree.Children)
                 tokenTree.WalkTree((x, y) => UpdateOutput($"{x}:{y}"));
             UpdateOutput(delimiter);
         }
 
         private void PrintExpression(string text)
         {
-            UpdateOutput($"{text}: {TokenGenerator.Parse(text).Evaluate(new TokenTreeList(_tree), false)}");
+            UpdateOutput($"{text}: {TokenGenerator.Parse(text).Evaluate(new TokenTreeList(Tree), false)}");
         }
 
         private void UpdateHistory(string input)

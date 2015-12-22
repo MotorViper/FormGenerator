@@ -21,7 +21,13 @@ namespace TextParser.Functions
 
             List<IToken> lastList = listToken.Tokens;
             int count = lastList.Count;
-            IToken toFind = lastList[count - 1];
+            IToken toFind = lastList[count - 1].Evaluate(parameters, isFinal);
+            if (toFind is ExpressionToken)
+            {
+                if (isFinal)
+                    throw new Exception($"Could not find value for {toFind}");
+                return UnParsed(listToken);
+            }
             for (int i = 0; i < count - 1; i++)
             {
                 IToken token = lastList[i];

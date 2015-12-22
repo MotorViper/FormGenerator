@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="FormGenerator.Views.EditorsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:helpers="clr-namespace:Helpers;assembly=Helpers"
+             xmlns:viewModels="clr-namespace:FormGenerator.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <viewModels:EditorsViewModel />
+    </UserControl.DataContext>
+    <Grid>
+        <TabControl ItemsSource="{Binding Path=Editors}" SelectedItem="{Binding Path=SelectedEditor, Mode=TwoWay}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Height="20" Margin="0,0,2,0" />
+                        <TextBlock Margin="0,4,0,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Path=FileName}" />
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                    <TextBox Text="{Binding Path=FileText, Mode=TwoWay, Delay=500, UpdateSourceTrigger=PropertyChanged}"
+                             helpers:FocusExtension.IsFocused="{Binding IsCurrent}" AcceptsTab="True" AcceptsReturn="True"
+                             HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </Grid>
+</UserControl>
