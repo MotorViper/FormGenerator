@@ -48,6 +48,28 @@ namespace TextParser.Operators
             return result.Tokens.Count == 1 ? result.Tokens[0] : result;
         }
 
+        public override IToken SubstituteParameters(IToken first, IToken last, TokenTree parameters)
+        {
+            if (parameters == null)
+                throw new Exception($"Operation {Text} must have parameters if final.");
+
+            if (first != null)
+                throw new Exception($"Operation {Text} is unary.");
+            if (last == null)
+                throw new Exception($"Operation {Text} needs a variable.");
+
+            IToken evaluated = last.SubstituteParameters(parameters);
+            if (evaluated is ExpressionToken)
+                return new ExpressionToken(null, this, evaluated);
+            ListToken listToken = evaluated as ListToken;
+            if (listToken != null && listToken.Tokens.Exists(x => x is ExpressionToken))
+                return new ExpressionToken(null, this, evaluated);
+
+            string text = evaluated.Text;
+            TokenTree found = parameters.FindFirst(text);
+            return found?.Value ?? new ExpressionToken(null, new SubstitutionOperator(), last);
+        }
+
         protected override IToken Evaluate(ITypeToken token)
         {
             return new ExpressionToken(null, this, token);

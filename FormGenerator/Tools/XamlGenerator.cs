@@ -1,6 +1,5 @@
 ﻿using System.Linq;
-using System.Text;
-using FormGenerator.Fields;
+using Generator;
 using TextParser;
 
 namespace FormGenerator.Tools
@@ -9,7 +8,7 @@ namespace FormGenerator.Tools
     {
         private readonly string _endOfLine;
         private readonly string _offset;
-        private readonly StringBuilder _sb = new StringBuilder();
+        private readonly IFieldWriter _sb = new StringFieldWriter();
 
         public XamlGenerator(string endOfLine = "\n", string offset = "  ")
         {
@@ -24,15 +23,15 @@ namespace FormGenerator.Tools
             foreach (TokenTree child in parameters.Children)
             {
                 string name = child.Name;
-                TokenTree defaults = DataConverter.Parameters.FindFirst("Defaults." + name);
+                TokenTree defaults = parameters.FindFirst("Defaults." + name);
                 if (defaults != null)
                     foreach (TokenTree item in child.Children)
                         item.AddMissing(defaults);
             }
             TokenTreeList fields = data.GetAll("Fields");
             foreach (TokenTree field in fields.SelectMany(child => child.Children))
-                Field.AddChild(field, 0, parameters, _sb, _offset, _endOfLine);
-            return _sb.ToString();
+                _sb.AddChild(field, 0, parameters, _offset, _endOfLine);
+            return _sb.Generated;
         }
     }
 }

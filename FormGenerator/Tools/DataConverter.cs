@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
 using TextParser;
+using TextParser.Operators;
 using TextParser.Tokens;
 
 namespace FormGenerator.Tools
@@ -36,7 +37,12 @@ namespace FormGenerator.Tools
                 converted = dataToken.Evaluate(new TokenTreeList {(TokenTree)value, parameters}, true);
             }
             ITypeToken typeToken = converted as ITypeToken;
-            return typeToken != null ? typeToken.Data : converted;
+            if (typeToken != null)
+                return typeToken.Data;
+            ExpressionToken expression = converted as ExpressionToken;
+            if (expression?.Operator is SubstitutionOperator)
+                return "";
+            return converted;
         }
 
         /// <summary>

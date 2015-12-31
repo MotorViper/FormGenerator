@@ -52,7 +52,6 @@
     <Compile Include="CommandBase.cs" />
     <Compile Include="FileUtils.cs" />
     <Compile Include="FocusExtension.cs" />
-    <Compile Include="GridData.cs" />
     <Compile Include="IOCContainer.cs" />
     <Compile Include="IWPFLogging.cs" />
     <Compile Include="MessageBoxLogger.cs" />

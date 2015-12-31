@@ -1,31 +1,50 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FormGenerator.Tools;
 using TextParser;
 using TextParser.Tokens;
 
 namespace FormGenerator.Fields
 {
+    // ReSharper disable once ClassNeverInstantiated.Global - used by IOC.
     public class Table : Grid
     {
-        private readonly Field _border;
+        private Field _border;
+        private TokenTree _data;
+        private int _level;
 
-        public Table(Field parent, TokenTree data, int level, StringBuilder builder) : base(parent, data, level + 1, builder)
+        public override TokenTree Data
         {
-            _border = new Border(parent, data, level, builder);
+            set
+            {
+                _data = value;
+                base.Data = value;
+            }
+        }
+
+        public override int Level
+        {
+            protected get { return _level; }
+            set { _level = value + 1; }
+        }
+
+        public override void AddStart(string endOfLine, TokenTree parameters)
+        {
+            _border = new Border
+            {
+                Level = Level - 1,
+                Parent = Parent,
+                Data = _data
+            };
             _border.AddProperty("BorderThickness", 1);
             _border.AddProperty("BorderBrush", "Black");
             Parent = _border;
-        }
-
-        protected internal override void AddStart(string endOfLine, TokenTree parameters)
-        {
+            _border.Builder = Builder;
             _border.AddStart(endOfLine, parameters);
             base.AddStart(endOfLine, parameters);
         }
 
-        protected internal override void AddEnd(string endOfLine)
+        public override void AddEnd(string endOfLine)
         {
             base.AddEnd(endOfLine);
             _border.AddEnd(endOfLine);
@@ -40,20 +59,21 @@ namespace FormGenerator.Fields
 
         protected override void AddChildren(TokenTree parameters, string endOfLine)
         {
-            List<TokenTree> fields = BeginAddChildren(parameters).ToList();
+            BeginAddChildren(parameters);
             string over = Children.FirstOrDefault(x => x.Name == "Content")?.Value.Text;
             TokenTree items = new TokenTree(DataConverter.Parameters.GetChildren(over));
+            List<TokenTree> fields = GetSubFields().ToList();
             foreach (TokenTree child in fields)
             {
                 TokenTree label = new TokenTree {Value = new StringToken("Label")};
                 label.Children.Add(new TokenTree("Content", child["Header"] ?? ""));
                 label.Children.Add(new TokenTree("BorderThickness", "1"));
                 label.Children.Add(new TokenTree("BorderBrush", "Black"));
-                AddChild(label, Level + 1, parameters, Builder, Offset, endOfLine, this);
+                Builder.AddChild(label, Level + 1, parameters, Offset, endOfLine, this);
             }
             foreach (TokenTree item in items.Children)
                 foreach (TokenTree child in fields)
-                    AddChild(child, Level + 1, parameters, Builder, Offset, endOfLine, this, item.Key);
+                    Builder.AddChild(child, Level + 1, parameters, Offset, endOfLine, this, item.Key);
             EndAddChildren();
         }
     }

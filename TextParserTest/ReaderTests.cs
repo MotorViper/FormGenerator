@@ -23,7 +23,7 @@ namespace TextParserTest
         {
             Reader reader = new Reader(new StreamReader(@"C:\Development\Projects\FormGenerator\FormGenerator\Data\Data.vtt"))
             {
-                DefaultDirectory = @"C:\Development\Projects\FormGenerator\FormGenerator\Data"
+                Options = {DefaultDirectory = @"C:\Development\Projects\FormGenerator\FormGenerator\Data"}
             };
             Assert.IsTrue(reader.Count() > 4);
         }
@@ -109,15 +109,68 @@ I
 J
 */
 K
+/*
+L
+*/
 "));
             List<Line> lines = reader.ToList();
-            Assert.AreEqual(6, lines.Count());
+            Assert.AreEqual(6, lines.Count);
             Assert.AreEqual("A", lines[0].Content);
             Assert.AreEqual("C", lines[1].Content);
             Assert.AreEqual("F", lines[2].Content);
             Assert.AreEqual("H", lines[3].Content);
             Assert.AreEqual("I", lines[4].Content);
             Assert.AreEqual("K", lines[5].Content);
+        }
+
+
+        [TestMethod]
+        public void TestCheckIfs()
+        {
+            const string testData = @"
+
+A
+#IF A B
+C
+#IF A
+D
+E
+#FI
+F
+#IF B G
+H
+#IF B 
+I
+J
+#FI
+K
+#IF A
+L
+";
+            Reader reader = new Reader(new StringReader(testData)) {Options = {Selector = "A"}};
+            List<Line> lines = reader.ToList();
+            Assert.AreEqual(9, lines.Count, lines.Aggregate("", (x, y) => x + y.Content + ", "));
+            Assert.AreEqual("A", lines[0].Content);
+            Assert.AreEqual("B", lines[1].Content);
+            Assert.AreEqual("C", lines[2].Content);
+            Assert.AreEqual("D", lines[3].Content);
+            Assert.AreEqual("E", lines[4].Content);
+            Assert.AreEqual("F", lines[5].Content);
+            Assert.AreEqual("H", lines[6].Content);
+            Assert.AreEqual("K", lines[7].Content);
+            Assert.AreEqual("L", lines[8].Content);
+
+            reader = new Reader(new StringReader(testData)) {Options = {Selector = "B"}};
+            lines = reader.ToList();
+            Assert.AreEqual(8, lines.Count, lines.Aggregate("", (x, y) => x + y.Content + ", "));
+            Assert.AreEqual("A", lines[0].Content);
+            Assert.AreEqual("C", lines[1].Content);
+            Assert.AreEqual("F", lines[2].Content);
+            Assert.AreEqual("G", lines[3].Content);
+            Assert.AreEqual("H", lines[4].Content);
+            Assert.AreEqual("I", lines[5].Content);
+            Assert.AreEqual("J", lines[6].Content);
+            Assert.AreEqual("K", lines[7].Content);
         }
     }
 }

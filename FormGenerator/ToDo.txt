@@ -1,19 +1,16 @@
 ﻿Language:
 	Simplify output to remove redundant brackets and use {} instead of $ where clearer.
 	Scope of P1 etc. for functions.
+	Add an evaluate block function.
 
 Gui:
 	Rethink use of TABLEITEM and P1..N
 	Check if data needs saving on exit.
 	Make syntax colouring work.
 	Add configuration - syntax colouring, tab stops etc.
-	Make field macros look more like functions e.g. 
-		Field: EditorWithLabelUnder
-			P1: Player
-			Across: 8
-		becomes
-		Field: EditorWithLabelUnder:Player
-			Across: 8
 
 Console:
 	Make work more like reading a file.
+
+WebForm:
+	Loads to do.

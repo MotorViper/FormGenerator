@@ -47,5 +47,13 @@ namespace TextParser.Tokens
                 list.Tokens.Add(token.Evaluate(parameters, isFinal));
             return list;
         }
+
+        public override IToken SubstituteParameters(TokenTree parameters)
+        {
+            ListToken list = new ListToken();
+            foreach (IToken token in Tokens)
+                list.Tokens.Add(token.SubstituteParameters(parameters));
+            return list;
+        }
     }
 }

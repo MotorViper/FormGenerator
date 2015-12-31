@@ -37,6 +37,9 @@ namespace TextParser.Operators
                     case AggregateFunction.ID:
                         _function = new AggregateFunction();
                         break;
+                    case CaseFunction.ID:
+                        _function = new CaseFunction();
+                        break;
                     case ComparisonFunction.ID:
                         _function = new ComparisonFunction();
                         break;
@@ -46,15 +49,17 @@ namespace TextParser.Operators
                     case CountFunction.ID:
                         _function = new CountFunction();
                         break;
-                    case DoubleSumFunction.ID:
-                        _function = new DoubleSumFunction();
+                    case DoubleFunction.ID:
+                        _function = new DoubleFunction();
                         break;
                     case IfFunction.ID:
                         _function = new IfFunction();
                         break;
-                    case IntSumFunction.ID:
-                    case IntSumFunction.ALT_ID:
-                        _function = new IntSumFunction();
+                    case IntFunction.ID:
+                        _function = new IntFunction();
+                        break;
+                    case SumFunction.ID:
+                        _function = new SumFunction();
                         break;
                     case OrFunction.ID:
                         _function = new OrFunction();

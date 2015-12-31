@@ -16,15 +16,15 @@ namespace FormGenerator.Tools
                 ComparisonFunction.ID,
                 ContainsFunction.ID,
                 CountFunction.ID,
-                DoubleSumFunction.ID,
                 IfFunction.ID,
-                IntSumFunction.ID,
-                IntSumFunction.ALT_ID,
+                SumFunction.ID,
                 OrFunction.ID,
                 OverFunction.ID,
                 RangeFunction.ID,
                 ReverseFunction.ID,
-                UserFunction.ID
+                UserFunction.ID,
+                IntFunction.ID,
+                DoubleFunction.ID
             };
             Tags = new List<string>(strs);
 

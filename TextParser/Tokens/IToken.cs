@@ -6,5 +6,6 @@ namespace TextParser.Tokens
         TTo Convert<TTo>();
         IToken Simplify();
         IToken Evaluate(TokenTreeList parameters, bool isFinal);
+        IToken SubstituteParameters(TokenTree parameters);
     }
 }

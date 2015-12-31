@@ -75,7 +75,6 @@
     <Compile Include="Tools\ListConverter.cs" />
     <Compile Include="Tools\DataConverter.cs" />
     <Compile Include="Fields\Field.cs" />
-    <Compile Include="Fields\FieldFactory.cs" />
     <Compile Include="Fields\Grid.cs" />
     <Compile Include="Fields\Selector.cs" />
     <Compile Include="Fields\Continuation.cs" />
@@ -150,6 +149,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Generator\Generator.csproj">
+      <Project>{7C50B9A4-FBE1-43A2-B5D4-D184434E04B1}</Project>
+      <Name>Generator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Helpers\Helpers.csproj">
       <Project>{74A488DD-2389-491E-B6AA-AEFACF3CC657}</Project>
       <Name>Helpers</Name>

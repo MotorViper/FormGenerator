@@ -1,12 +1,12 @@
-﻿using System.Text;
-using TextParser;
+﻿using TextParser;
 using TextParser.Tokens;
 
 namespace FormGenerator.Fields
 {
+    // ReSharper disable once ClassNeverInstantiated.Global - used by IOC.
     public class TextBox : Field
     {
-        public TextBox(Field parent, TokenTree data, int level, StringBuilder builder) : base(parent, "TextBox", data, level, builder)
+        public TextBox() : base("TextBox")
         {
         }
 

@@ -28,7 +28,7 @@ namespace FormGenerator.ViewModels
                     {
                         string dataDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
                         string dataFile = ConfigurationManager.AppSettings.Get("DataFile");
-                        s_allValues = Parser.ParseFile(dataFile, dataDirectory);
+                        s_allValues = Parser.ParseFile(dataFile, dataDirectory, "XML");
                     }
                     Keys = new List<string>();
                     foreach (TokenTree child in s_allValues.Children)
@@ -81,7 +81,7 @@ namespace FormGenerator.ViewModels
             {
                 string dataDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
                 string dataFile = ConfigurationManager.AppSettings.Get("StaticData");
-                s_staticData = Parser.ParseFile(dataFile, dataDirectory);
+                s_staticData = Parser.ParseFile(dataFile, dataDirectory, "XML");
                 return new XamlGenerator().GenerateXaml(s_staticData);
             }
         }

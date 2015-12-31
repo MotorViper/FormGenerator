@@ -36,9 +36,10 @@ namespace TextParser.Operators
 
             IToken tokenList = first.Evaluate(parameters, isFinal);
             ListToken listToken = tokenList as ListToken;
+            int index = intToken.Value;
             return listToken == null
-                ? new ExpressionToken(first, new IndexOperator(), intToken)
-                : listToken.Tokens[intToken.Value];
+                ? (index == 0 && tokenList is ITypeToken ? tokenList : new ExpressionToken(first, new IndexOperator(), intToken))
+                : listToken.Tokens[index];
         }
     }
 }

@@ -28,18 +28,21 @@ namespace TextParser.Functions
 
             IToken method = lastList[0];
 
-            TokenTreeList treeList = parameters?.Clone() ?? new TokenTreeList();
-            TokenTree tree = new TokenTree();
-            for (int i = 1; i < lastList.Count; ++i)
+            if (isFinal)
             {
-                IToken parameter = lastList[i];
-                tree.Children.Add(new TokenTree(new StringToken("P" + i), parameter));
+                TokenTree tree = new TokenTree();
+                for (int i = 1; i < lastList.Count; ++i)
+                {
+                    IToken parameter = lastList[i];
+                    tree.Children.Add(new TokenTree(new StringToken("P" + i), parameter));
+                }
+                method = method.SubstituteParameters(tree);
             }
-            treeList.Add(tree);
-            IToken parsed = method.Evaluate(treeList, isFinal);
+
+            IToken parsed = method.Evaluate(parameters, isFinal);
             if (parsed is ExpressionToken)
             {
-                if (parameters == null)
+                if (!isFinal)
                     return UnParsed(listToken);
             }
             else

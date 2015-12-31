@@ -35,11 +35,11 @@ namespace TextParser.Functions
                 }
                 foreach (IToken item in list.Tokens)
                 {
-                    TokenTreeList treeList = parameters?.Clone() ?? new TokenTreeList();
                     TokenTree tree = new TokenTree();
                     tree.Children.Add(new TokenTree(iterand, item));
-                    treeList.Add(tree);
-                    IToken parsed = method.Evaluate(treeList, isFinal);
+                    IToken toCall = method.SubstituteParameters(tree);
+
+                    IToken parsed = toCall.Evaluate(parameters, isFinal);
                     if (parsed is ExpressionToken)
                     {
                         if (!isFinal)

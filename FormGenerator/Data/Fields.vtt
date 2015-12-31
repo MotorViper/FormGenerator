@@ -17,11 +17,9 @@
 			Field: UnderLine
 			Field: LabelUnder	
 				Content: Character
-		Field: EditorWithLabelUnder
-			P1: Player
+		Field: EditorWithLabelUnder: Player
 			Across: 8
-		Field: EditorWithLabelUnder
-			P1: Experience
+		Field: EditorWithLabelUnder: Experience
 			Across: 4
 		Field: Label
 			Content: Dungeons
@@ -29,50 +27,37 @@
 			FontWeight: Bold
 			Across: 12
 
-		Field: LabelWithLabelUnder
+		Field: LabelWithLabelUnder: ClassList
 			Across: 12
-			P1: ClassList
-		Field: EditorWithLabelUnder
+		Field: CheckedEditorWithLabelUnder:(Race|CONTAINS:({Races.ALL.NAME}|$Race))
 			Across: 4
-			P1: Race
-				Checks: CONTAINS:({Races.ALL.NAME}|$Race)
-		Field: EditorWithLabelUnder
+
+		Field: CheckedEditorWithLabelUnder:(Alignment|CONTAINS:(LG|NG|CG|LN|N|CN|LE|NE|CE|$Alignment))
 			Across: 4
-			P1: Alignment
-				Checks: CONTAINS:(LG|NG|CG|LN|N|CN|LE|NE|CE|$Alignment)
-		Field: EditorWithLabelUnder
+		Field: EditorWithLabelUnder: Deity
 			Across: 4
-			P1: Deity
 		Field: Label
 			Content: '&amp; Dragons'
 			FontWeight: Bold
 			Align: Middle
 			Across: 12
 
-		Field: EditorWithLabelUnder
+		Field: EditorWithLabelUnder: Size
 			Across: 3
-			P1: Size
-		Field: EditorWithLabelUnder
+		Field: EditorWithLabelUnder: Age
 			Across: 3
-			P1: Age
-		Field: EditorWithLabelUnder
+		Field: EditorWithLabelUnder: Gender
 			Across: 3
-			P1: Gender
-		Field: EditorWithLabelUnder
+		Field: EditorWithLabelUnder: Height
 			Across: 3
-			P1: Height
-		Field: EditorWithLabelUnder
+		Field: EditorWithLabelUnder: Weight
 			Across: 3
-			P1: Weight
-		Field: EditorWithLabelUnder
+		Field: EditorWithLabelUnder: Eyes
 			Across: 3
-			P1: Eyes
-		Field: EditorWithLabelUnder
+		Field: EditorWithLabelUnder: Hair
 			Across: 3
-			P1: Hair
-		Field: EditorWithLabelUnder
+		Field: EditorWithLabelUnder: Skin
 			Across: 3
-			P1: Skin
 		Field: Label
 			Across: 12
 			Align: Middle
@@ -91,18 +76,12 @@
 		Field: Label
 			Content: Temporary
 			Across: 2
-		Field: AbilityGrid
-			P1: Strength
-		Field: AbilityGrid
-	        P1: Dexterity
-		Field: AbilityGrid
-			P1: Constitution
-		Field: AbilityGrid
-	        P1: Intelligence
-		Field: AbilityGrid
-			P1: Wisdom
-		Field: AbilityGrid
-	        P1: Charisma
+		Field: AbilityGrid: Strength
+		Field: AbilityGrid: Dexterity
+		Field: AbilityGrid: Constitution
+		Field: AbilityGrid: Intelligence
+		Field: AbilityGrid: Wisdom
+		Field: AbilityGrid: Charisma
 
 	Field: Grid
 		Columns: 'Auto,50,45' + (,$PlusWidth,32) * 7 + ',70'
@@ -123,7 +102,7 @@
 		Field: InvertedLabel
 			Content: HP
 		Field: BorderedLabel
-			Content: ?HP
+			Content: $HP
 		Field: BorderedLabel
 			Across: 10
 		Field: BorderedLabel
@@ -134,101 +113,80 @@
 		Field: InvertedLabel
 			Content: AC
 		Field: BorderedLabel
-			Content: ?AC
+			Content: $AC
 		Field: CentreLabel
 			Content: '= 10'
 		Field: CentreLabel
 			Content: '+'
 		Field: BorderedLabel
-			Content: ?ArmourBonus
+			Content: $ArmourBonus
 		Field: CentreLabel
 			Content: '+'
 		Field: BorderedLabel
-			Content: ?ShieldBonus
+			Content: $ShieldBonus
 		Field: CentreLabel
 			Content: '+'
 		Field: BorderedLabel
-			Content: ?DexModifier
+			Content: $DexModifier
 		Field: CentreLabel
 			Content: '+'
 		Field: BorderedLabel
-			Content: ?SizeACModifier
+			Content: $SizeACModifier
 		Field: CentreLabel
 			Content: '+'
 		Field: BorderedLabel
-			Content: ?NaturalArmour
+			Content: $NaturalArmour
 		Field: CentreLabel
 			Content: '+'
 		Field: BorderedLabel
-			Content: ?DeflectionModifier
+			Content: $DeflectionModifier
 		Field: CentreLabel
 			Content: '+'
 		Field: BorderedLabel
-			Content: ?MiscACModifier
+			Content: $MiscACModifier
 		Field: BorderedLabel
 
 		Field: Label
 		Field: LabelUnder
 			Content: Total
 		Field: Label
-		Field: DoubleLabelUnder
-			P1: 
-				First: Armour
-				Second: Bonus
+		Field: DoubleLabelUnder:(Armour|Bonus)
 			Across: 3
-		Field: DoubleLabelUnder
-			P1: 
-				First: Shield
-				Second: Bonus
-		Field: DoubleLabelUnder
+		Field: DoubleLabelUnder:(Shield|Bonus)
+		Field: DoubleLabelUnder:(Dex.|Modifier)
 			Across: 3
-			P1: 
-				First: Dex.
-				Second: Modifier
-		Field: DoubleLabelUnder
-			P1: 
-				First: Size
-				Second: Modifier
-		Field: DoubleLabelUnder
-			P1: 
-				First: Natural
-				Second: Armour
+		Field: DoubleLabelUnder:(Size|Modifier)
+		Field: DoubleLabelUnder:(Natural|Armour)
 			Across: 3
-		Field: DoubleLabelUnder
-			P1: 
-				First: Deflection
-				Second: Modifier
+		Field: DoubleLabelUnder:(Deflection|Modifier)
 		Field: Label
-		Field: DoubleLabelUnder
-			P1: 
-				First: Misc.
-				Second: Modifier
+		Field: DoubleLabelUnder:(Misc.Modifier)
 				
 	Field: Grid
 		Columns: "45," * 3 + $PlusWidth,45,$PlusWidth,45
 		Field: InvertedLabel
 			Content: Touch
 		Field: BorderedLabel
-			Content: ?Touch
+			Content: $Touch
 		Field: InvertedLabel
 			Across: 4
 			Content: 'Flat-Footed'
 		Field: BorderedLabel
-			Content: ?FlatFooted
+			Content: $FlatFooted
 
 		Field: InvertedLabel
 			Content: Initiative
 			Across: 2
 		Field: BorderedLabel
-			Content: ?Initiative
+			Content: $Initiative
 		Field: CentreLabel
 			Content: =
 		Field: BorderedLabel
-			Content: ?DexModifier
+			Content: $DexModifier
 		Field: CentreLabel
 			Content: '+'
 		Field: BorderedLabel
-			Content: ?MiscInitiative
+			Content: $MiscInitiative
 
 		Field: Label
 			Across: 2
@@ -236,15 +194,9 @@
 			Content: Total
 			HorizontalAlignment: Center
 		Field: Label
-		Field: DoubleLabelUnder
-			P1: 
-				First: Dex.
-				Second: Modifier
+		Field: DoubleLabelUnder: (Dex.|Modifier)
 		Field: Label
-		Field: DoubleLabelUnder
-			P1: 
-				First: Misc.
-				Second: Modifier
+		Field: DoubleLabelUnder:(Misc.|Modifier)
 
 	Field: Table
 		Content: Skills
@@ -302,40 +254,33 @@
 				Content: Modifiers
 				Align: Middle
 
-			Field: SavingGrid
-				P1: 
-					Name: Fortitude
-					Bonus: Con
+			Field: SavingGrid:(Fortitude|Con)
+				Debug: true
 			Field: BorderedLabel
 				Height: 83
 				Width: 90
 				Across: 1,3
-			Field: SavingGrid
-				P1: 
-					Name: Reflex
-					Bonus: Dex
-			Field: SavingGrid
-				P1: 
-					Name: Will
-					Bonus: Wis
+			Field: SavingGrid:(Reflex|Dex)
+			Field: SavingGrid:(Will|Wis)
+		
 		Field: Grid
 			Columns: 8
 			Field: InvertedLabel
 				Content: Base Attack Bonus
 			Field: BorderedLabel
-				Content: ?BAB
+				Content: $BAB
 			Field: InvertedLabel
 				Content: Melee
 			Field: BorderedLabel
-				Content: ?Melee
+				Content: $Melee
 			Field: InvertedLabel
 				Content: Missile
 			Field: BorderedLabel
-				Content: ?Missile
+				Content: $Missile
 			Field: InvertedLabel
 				Content: Spell Resistance
 			Field: BorderedLabel
-				Content: ?SpellResistance
+				Content: $SpellResistance
 
 		Field: Grid
 			Background: LightBlue
@@ -343,23 +288,23 @@
 			Field: InvertedLabel
 				Content: Grapple
 			Field: BorderedLabel
-				Content: ?Grapple
+				Content: $Grapple
 			Field: Label
 				Content: '='
 			Field: BorderedLabel
-				Content: ?BAB
+				Content: $BAB
 			Field: Label
 				Content: '+'
 			Field: BorderedLabel
-				Content: ?StrModifier
+				Content: $StrModifier
 			Field: Label
 				Content: '+'
 			Field: BorderedLabel
-				Content: ?SizeBABModifier
+				Content: $SizeBABModifier
 			Field: Label
 				Content: '+'
 			Field: BorderedLabel
-				Content: ?MiscBABModifier
+				Content: $MiscBABModifier
 
 		Field: Grid
 			Columns: 100,60,60,60,
@@ -372,8 +317,5 @@
 			Field: CentreLabel
 				Content: Range
 			Field: Label
-			Field: WeaponGrid
-				P1: Weapon1
-			Field: WeaponGrid
-				P1: Weapon2
-							
+			Field: WeaponGrid: Weapon1
+			Field: WeaponGrid: Weapon2

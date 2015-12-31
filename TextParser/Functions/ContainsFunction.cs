@@ -28,6 +28,7 @@ namespace TextParser.Functions
                     throw new Exception($"Could not find value for {toFind}");
                 return UnParsed(listToken);
             }
+
             for (int i = 0; i < count - 1; i++)
             {
                 IToken token = lastList[i];

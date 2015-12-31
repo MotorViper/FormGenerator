@@ -62,5 +62,10 @@ namespace TextParser.Tokens
         {
             return Operator.Evaluate(First, Second, parameters, isFinal);
         }
+
+        public override IToken SubstituteParameters(TokenTree parameters)
+        {
+            return Operator.SubstituteParameters(First, Second, parameters);
+        }
     }
 }

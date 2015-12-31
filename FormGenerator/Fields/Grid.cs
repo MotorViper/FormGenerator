@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Helpers;
+using Generator;
 using TextParser;
 using TextParser.Tokens;
 
@@ -10,45 +8,12 @@ namespace FormGenerator.Fields
 {
     public class Grid : Field
     {
-        private List<string> _columns;
         private string _columnWidth = "*";
         private GridData _positions;
-        private List<string> _rows;
 
-        public Grid(Field parent, TokenTree data, int level, StringBuilder builder) : base(parent, "Grid", data, level, builder)
+        // ReSharper disable once MemberCanBeProtected.Global - used by IOC.
+        public Grid() : base("Grid")
         {
-        }
-
-        protected virtual List<string> GetColumnData(TokenTreeList parameters)
-        {
-            return GetGridData("Columns", "*", _columnWidth, parameters);
-        }
-
-        protected List<string> GetRowData(TokenTreeList parameters)
-        {
-            return GetGridData("Rows", "Auto", "Auto", parameters);
-        }
-
-        protected virtual List<string> GetGridData(string dataName, string defaultValue, string size, TokenTreeList parameters)
-        {
-            TokenTree fields = Children.FirstOrDefault(child => child.Name == dataName);
-            List<string> fieldList = null;
-            if (fields != null)
-            {
-                fieldList = new List<string>();
-                string[] fieldData = fields.Value.Evaluate(parameters, false).Text.Split(',');
-                if (fieldData.Length == 1)
-                {
-                    int fieldCount = fields.Value.Convert<int>();
-                    for (int i = 0; i < fieldCount; i++)
-                        fieldList.Add(size);
-                }
-                else
-                {
-                    fieldList.AddRange(fieldData.Select(item => string.IsNullOrWhiteSpace(item) ? defaultValue : item));
-                }
-            }
-            return fieldList;
         }
 
         protected override List<string> IgnoredProperties()
@@ -69,11 +34,11 @@ namespace FormGenerator.Fields
         protected void AddColumnsAndRows()
         {
             AppendStartOfLine(Level + 1, "<Grid.ColumnDefinitions>").AppendLine();
-            foreach (string column in _columns)
+            foreach (string column in _positions.Columns)
                 AppendStartOfLine(Level + 2, $"<ColumnDefinition Width=\"{column}\"/>").AppendLine();
             AppendStartOfLine(Level + 1, "</Grid.ColumnDefinitions>").AppendLine();
 
-            if (_rows == null)
+            if (_positions.Rows == null)
             {
                 int rowCount = _positions.RowCount;
                 if (rowCount > 1)
@@ -87,7 +52,7 @@ namespace FormGenerator.Fields
             else
             {
                 AppendStartOfLine(Level + 1, "<Grid.RowDefinitions>").AppendLine();
-                foreach (string row in _rows)
+                foreach (string row in _positions.Rows)
                     AppendStartOfLine(Level + 2, $"<RowDefinition Height=\"{row}\"/>").AppendLine();
                 AppendStartOfLine(Level + 1, "</Grid.RowDefinitions>").AppendLine();
             }
@@ -95,36 +60,26 @@ namespace FormGenerator.Fields
 
         protected override void AddChildren(TokenTree parameters, string endOfLine)
         {
-            IEnumerable<TokenTree> fields = BeginAddChildren(parameters);
-            foreach (TokenTree child in fields)
-                AddChild(child, Level + 1, parameters, Builder, Offset, endOfLine, this);
+            BeginAddChildren(parameters);
+            base.AddChildren(parameters, endOfLine);
             EndAddChildren();
         }
 
         protected void EndAddChildren()
         {
-            if (_columns != null)
+            if (_positions.Columns != null)
                 AddColumnsAndRows();
         }
 
-        protected IEnumerable<TokenTree> BeginAddChildren(TokenTree parameters)
+        protected void BeginAddChildren(TokenTree parameters)
         {
-            IEnumerable<TokenTree> fields = GetSubFields();
-            TokenTreeList list = new TokenTreeList(parameters);
-            _columns = GetColumnData(list);
-            _rows = GetRowData(list);
-            if (_rows != null && _columns == null)
-                _columns = new List<string> {_columnWidth};
-
-            if (_columns != null)
-                _positions = new GridData(_columns.Count);
-            return fields;
+            _positions = new GridData(parameters, Children, _columnWidth);
         }
 
-        protected internal override void AddChildProperties(Field child, TokenTree parameters)
+        public override void AddChildProperties(IField child)
         {
-            base.AddChildProperties(child, parameters);
-            if (_columns != null)
+            base.AddChildProperties(child);
+            if (_positions.Columns != null)
             {
                 Tuple<int, int> rowAndColumn = _positions.GetNextRowAndColumn();
                 int column = rowAndColumn.Item2;

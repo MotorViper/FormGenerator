@@ -15,6 +15,11 @@
             return this;
         }
 
+        public virtual IToken SubstituteParameters(TokenTree parameters)
+        {
+            return this;
+        }
+
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>

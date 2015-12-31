@@ -1,28 +1,29 @@
 ﻿using System.Linq;
-using System.Text;
+using Generator;
 using TextParser;
 
 namespace FormGenerator.Fields
 {
+    // ReSharper disable once ClassNeverInstantiated.Global - used by IOC.
     public class Continuation : Field
     {
-        public Continuation(Field parent, TokenTree data, int level, StringBuilder builder) : base(parent, "", data, level, builder)
+        public Continuation() : base("")
         {
         }
 
-        protected internal override void AddStart(string endOfLine, TokenTree parameters)
+        public override void AddStart(string endOfLine, TokenTree parameters)
         {
-            foreach (var child in Children.Where(child => child.Name == "P1"))
+            foreach (var child in Children.Where(child => IsParameter(child.Name)))
                 parameters.Replace(child);
         }
 
-        protected internal override void AddEnd(string endOfLine)
+        public override void AddEnd(string endOfLine)
         {
         }
 
-        protected internal override void AddChildProperties(Field child, TokenTree parameters)
+        public override void AddChildProperties(IField child)
         {
-            Parent.AddChildProperties(child, parameters);
+            Parent.AddChildProperties(child);
         }
     }
 }

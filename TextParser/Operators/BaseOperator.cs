@@ -39,6 +39,13 @@ namespace TextParser.Operators
             throw new Exception($"Operation {Text} can not be binary.");
         }
 
+        public virtual IToken SubstituteParameters(IToken firstToken, IToken lastToken, TokenTree parameters)
+        {
+            IToken first = firstToken?.SubstituteParameters(parameters);
+            IToken last = lastToken?.SubstituteParameters(parameters);
+            return new ExpressionToken(first, this, last);
+        }
+
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>

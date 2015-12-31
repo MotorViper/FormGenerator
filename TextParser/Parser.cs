@@ -24,16 +24,18 @@ namespace TextParser
             return Parse(new StringReader(text));
         }
 
-        public static TokenTree ParseFile(string fileName, string defaultDirectory)
+        public static TokenTree ParseFile(string fileName, string defaultDirectory, string selector = null)
         {
             fileName = FileUtils.GetFullFileName(fileName, defaultDirectory);
-            return Parse(new StreamReader(fileName), defaultDirectory);
+            return Parse(new StreamReader(fileName), defaultDirectory, selector);
         }
 
-        public static TokenTree Parse(TextReader textReader, string defaultDirectory = null)
+        public static TokenTree Parse(TextReader textReader, string defaultDirectory = null, string selector = null)
         {
             Parser parser = new Parser();
-            Reader reader = new Reader(textReader) {DefaultDirectory = defaultDirectory};
+            Reader reader = new Reader(textReader) {Options = {DefaultDirectory = defaultDirectory}};
+            if (!string.IsNullOrWhiteSpace(selector))
+                reader.Options.Selector = selector;
             foreach (Line line in reader)
                 parser.AddLine(line);
             return parser.ParsedTree;

@@ -44,21 +44,22 @@ Character:
 	NaturalArmour: {Races.{Race}.ACBonus}
 	DeflectionModifier: 0
 	MiscACModifier: 0
-	SumOverAttribute: SUM:OVER:({Classes.ALL.NAME}|cl|{Classes.{cl}.Level=(COUNT:{Level.Class={cl}}).{P1}})
-	FortitudeBase: SumOverAttribute:Fort
-	ReflexBase: SumOverAttribute:Ref
-	WillBase: SumOverAttribute:Will
+	BABThrow: SUM:OVER:({Classes.ALL.NAME}|cl|INT:CASE:({Classes.{cl}.{P1}}|Poor|COUNT:{Level.Class={cl}}/2|Average|COUNT:{Level.Class={cl}}*3/4|Good|COUNT:{Level.Class={cl}}))
+	SavingThrow: SUM:OVER:({Classes.ALL.NAME}|cl|INT:COMP:({Classes.{cl}.{P1}}|Poor|COUNT:{Level.Class={cl}}/3|2 + COUNT:{Level.Class={cl}}/2))
+	FortitudeBase: SavingThrow: Fort
+	ReflexBase: SavingThrow: Ref
+	WillBase: SavingThrow: Will
 	FortitudeThrow: $ConModifier + $FortitudeBase
 	ReflexThrow: $DexModifier + $ReflexBase
 	WillThrow: $WisModifier + $WillBase
-	BAB: SumOverAttribute:BAB
+	BAB: BABThrow: BABonus
 	SpellResistance: 0
 	SizeBABModifier: 0
 	MiscBABModifier: 0
 	Grapple: $BAB + $StrModifier + $SizeBABModifier + $MiscBABModifier
 	Melee: $BAB + $StrModifier
 	Missile: $BAB + $DexModifier
-	IsClassSkill: CONTAINS:({Classes.({Level.Class}#1).ClassSkills}|$TABLEITEM)
+	IsClassSkill: CONTAINS:({Classes.({Level.Class}#0).ClassSkills}|$TABLEITEM)
 	SkillPoints: SUM:{Level.Skills.{TABLEITEM}}
 	SkillModifier: {{Skills.{TABLEITEM}.Key}Modifier}
 	CanUseSkill : OR:(IF:({Skills.{TABLEITEM}.TrainedOnly}|False|True)|COMP:(0|$SkillPoints|False|False|True))
@@ -72,7 +73,13 @@ Races:
 	ACBonus: 0
 
 Armour:
+	Cost: 0
 	ACBonus: 0
+	MaxDexBonus: 50
+	CheckPenalty: 0
+	SpellFailureChance: 0
+	Slows: false
+	Weight: 0
 
 Skills:
 	Key: ?
@@ -81,4 +88,5 @@ Skills:
 
 Classes:
 	SkillPoints: 2
+	Fort: Poor
 

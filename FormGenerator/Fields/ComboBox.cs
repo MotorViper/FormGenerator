@@ -1,12 +1,12 @@
-﻿using System.Text;
-using TextParser;
+﻿using TextParser;
 using TextParser.Tokens;
 
 namespace FormGenerator.Fields
 {
     public class ComboBox : Field
     {
-        public ComboBox(Field parent, TokenTree data, int level, StringBuilder builder) : base(parent, "ComboBox", data, level, builder)
+        // ReSharper disable once MemberCanBeProtected.Global - used by IOC.
+        public ComboBox() : base("ComboBox")
         {
         }
 
