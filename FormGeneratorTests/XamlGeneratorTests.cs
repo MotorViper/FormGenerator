@@ -1,4 +1,7 @@
-﻿using FormGenerator.Tools;
+﻿using FormGenerator.Fields;
+using FormGenerator.Tools;
+using Generator;
+using Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextParser;
 using TextParser.Tokens;
@@ -26,6 +29,7 @@ Fields:
         [TestMethod]
         public void TestSimpleGeneration()
         {
+            IOCContainer.Instance.Register<IField, Field>();
             TokenTree toGenerate = new TokenTree
             {
                 Key = new StringToken(""),
@@ -65,6 +69,7 @@ Fields:
         [TestMethod]
         public void TestVTL()
         {
+            IOCContainer.Instance.Register<IField, Field>();
             TokenTree tokenTree = Parser.ParseString(VTL);
             string generated = new XamlGenerator("").GenerateXaml(tokenTree);
             Assert.AreEqual(XAML.Replace(" ", ""), generated.Replace(" ", ""));

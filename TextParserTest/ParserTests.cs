@@ -1,5 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FormGenerator.Fields;
+using Generator;
+using Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextParser;
+using TextParser.Tokens;
 
 namespace TextParserTest
 {
@@ -14,6 +18,7 @@ Field: Grid
     Field: Label
         Content: Hi";
 
+            IOCContainer.Instance.Register<IField, Field>();
             TokenTree tokenTree = Parser.ParseString(VTL);
             Assert.AreEqual("Grid", tokenTree.Value.Text);
             Assert.AreEqual("Label", tokenTree.Children[0].Value.Text);
@@ -31,6 +36,41 @@ A.B: 3");
             Assert.AreEqual("1", tokenTree.FindFirst("A").Value.Text);
             Assert.AreEqual("2", tokenTree.FindFirst("B").Value.Text);
             Assert.AreEqual("3", tokenTree.FindFirst("A.B").Value.Text);
+        }
+
+
+        [TestMethod]
+        public void TestFunctions()
+        {
+            string text = @"
+F1: $P1/2
+F2: F1:($P1 + $P2)
+F3: F2:(4|6)
+PoorValue: $P1
+GoodValue: 2 + $P1
+TotalValue: SUM:OVER:({Items.ALL.NAME}|cl|INT:COMP:({Items.{cl}.{P1}}|Poor|COUNT:{Level.Which={cl}}|2 + COUNT:{Level.Which={cl}}))
+TotalValue1: SUM:OVER:({Items.ALL.NAME}|cl|INT:COMP:({Items.{cl}.{P1}}|Poor|PoorValue:COUNT:{Level.Which={cl}}|GoodValue:COUNT:{Level.Which={cl}}))
+Sum: TotalValue: Selection
+Sum1: TotalValue1: Selection
+Items:
+    Item1:
+    	Selection: Good
+    Item2:
+	    Selection: Good
+    Item3:
+	    Selection: Poor
+Level : 1
+    Which: Item2
+Level : 2
+	Which: Item3
+";
+            TokenTree parsed = Parser.ParseString(text);
+            IToken value = parsed.FindFirst("F3").Value.Simplify();
+            Assert.AreEqual("5", value.Evaluate(new TokenTreeList(parsed), true).Text);
+            value = parsed.FindFirst("Sum").Value.Simplify();
+            Assert.AreEqual("4", value.Evaluate(new TokenTreeList(parsed), true).Text);
+            value = parsed.FindFirst("Sum1").Value.Simplify();
+            Assert.AreEqual("4", value.Evaluate(new TokenTreeList(parsed), true).Text);
         }
     }
 }

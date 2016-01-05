@@ -26,6 +26,9 @@ namespace TextParser.Functions
             if (typeToken != null)
                 return new IntToken(typeToken.Convert<int>());
 
+            if (dataToken is NullToken)
+                return dataToken;
+
             throw new Exception($"Token must be list or convertible to int for {ID}");
         }
     }

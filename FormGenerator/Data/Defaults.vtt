@@ -44,8 +44,10 @@ Character:
 	NaturalArmour: {Races.{Race}.ACBonus}
 	DeflectionModifier: 0
 	MiscACModifier: 0
-	BABThrow: SUM:OVER:({Classes.ALL.NAME}|cl|INT:CASE:({Classes.{cl}.{P1}}|Poor|COUNT:{Level.Class={cl}}/2|Average|COUNT:{Level.Class={cl}}*3/4|Good|COUNT:{Level.Class={cl}}))
-	SavingThrow: SUM:OVER:({Classes.ALL.NAME}|cl|INT:COMP:({Classes.{cl}.{P1}}|Poor|COUNT:{Level.Class={cl}}/3|2 + COUNT:{Level.Class={cl}}/2))
+	CalculateBAB: INT:CASE:($P1|Poor|$P2 / 2|Average|$P2 * 3 / 4|Good|$P2)
+	BABThrow: SUM:OVER:({Classes.ALL.NAME}|cl|CalculateBAB:({Classes.{cl}.{P1}}|COUNT:{Level.Class={cl}}))
+	CalculateSave: INT:COMP:($P1|Poor|$P2/3|2 + $P2/2)
+	SavingThrow: SUM:OVER:({Classes.ALL.NAME}|cl|CalculateSave:({Classes.{cl}.{P1}}|COUNT:{Level.Class={cl}}))
 	FortitudeBase: SavingThrow: Fort
 	ReflexBase: SavingThrow: Ref
 	WillBase: SavingThrow: Will

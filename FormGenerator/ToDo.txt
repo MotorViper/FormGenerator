@@ -1,6 +1,5 @@
 ﻿Language:
 	Simplify output to remove redundant brackets and use {} instead of $ where clearer.
-	Scope of P1 etc. for functions.
 	Add an evaluate block function.
 
 Gui:
@@ -8,6 +7,7 @@ Gui:
 	Check if data needs saving on exit.
 	Make syntax colouring work.
 	Add configuration - syntax colouring, tab stops etc.
+	Add ability to create resources and use these for xaml items.
 
 Console:
 	Make work more like reading a file.

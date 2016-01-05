@@ -94,10 +94,30 @@ namespace TextParser.Operators
                 }
             }
 
-            IToken parameterList = last.Evaluate(parameters, !_function.FinalCanBeExpression && isFinal);
-
-            if (parameterList is ExpressionToken)
-                return new ExpressionToken(null, new FunctionOperator(_function), parameterList);
+            IToken parameterList;
+            if (isFinal && _function is UserFunction)
+            {
+                ListToken list = new ListToken();
+                ListToken toAdd = (ListToken)last;
+                IToken toParse = toAdd.Tokens[0];
+                IToken method = toParse;
+                foreach (TokenTree parameter in parameters)
+                {
+                    method = toParse.SubstituteParameters(parameter);
+                    if (method.Text != toParse.Text)
+                        break;
+                }
+                list.Tokens.Add(method);
+                for (int i = 1; i < toAdd.Tokens.Count; ++i)
+                    list.Tokens.Add(toAdd.Tokens[i].Evaluate(parameters, !_function.FinalCanBeExpression));
+                parameterList = list;
+            }
+            else
+            {
+                parameterList = last.Evaluate(parameters, !_function.FinalCanBeExpression && isFinal);
+                if (parameterList is ExpressionToken)
+                    return new ExpressionToken(null, new FunctionOperator(_function), parameterList);
+            }
 
             return _function.Perform(parameterList, parameters, isFinal);
         }

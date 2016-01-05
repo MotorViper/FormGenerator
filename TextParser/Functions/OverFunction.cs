@@ -12,6 +12,8 @@ namespace TextParser.Functions
         {
         }
 
+        public override bool FinalCanBeExpression => true;
+
         public override IToken Perform(IToken parameterList, TokenTreeList parameters, bool isFinal)
         {
             ListToken listToken = parameterList as ListToken;
@@ -45,7 +47,7 @@ namespace TextParser.Functions
                         if (!isFinal)
                             return UnParsed(listToken);
                     }
-                    else
+                    else if (!(parsed is NullToken))
                     {
                         tokens.Add(parsed);
                     }

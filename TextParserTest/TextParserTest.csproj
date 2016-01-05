@@ -62,6 +62,18 @@
     <Compile Include="ParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FormGenerator\FormGenerator.csproj">
+      <Project>{5A07FB68-CC8B-4F91-8E06-A7810628409F}</Project>
+      <Name>FormGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Generator\Generator.csproj">
+      <Project>{7C50B9A4-FBE1-43A2-B5D4-D184434E04B1}</Project>
+      <Name>Generator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{74A488DD-2389-491E-B6AA-AEFACF3CC657}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TextParser\TextParser.csproj">
       <Project>{A13B8ADA-6474-4E2A-B6B1-E150F5D7398B}</Project>
       <Name>TextParser</Name>
