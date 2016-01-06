@@ -84,7 +84,7 @@ Armour:
 	Weight: 0
 
 Skills:
-	Key: ?
+	Key: ''
 	TrainedOnly: False
 	ArmourCheckPenaltyMultiplier: 0
 

@@ -8,6 +8,7 @@ namespace FormGenerator
 {
     public class MainViewModel : ViewModel
     {
+        private readonly DataViewModel _dataViewModel = new DataViewModel();
         private readonly EditorsViewModel _editorsViewModel = new EditorsViewModel();
 
         private ICommand _closeFileCommand;
@@ -17,6 +18,7 @@ namespace FormGenerator
         private ICommand _reloadCommand;
         private ICommand _saveAllFilesCommand;
         private ICommand _saveFileCommand;
+        private ICommand _saveXamlCommand;
 
         public ICommand CloseFileCommand
         {
@@ -41,6 +43,11 @@ namespace FormGenerator
             =>
                 _saveFileCommand ??
                 (_saveFileCommand = new RelayCommand(x => _editorsViewModel.SaveFile(), x => !(_editorsViewModel.SelectedEditor?.IsSaved ?? true)));
+
+        public ICommand SaveXamlCommand
+            =>
+                _saveXamlCommand ??
+                (_saveXamlCommand = new RelayCommand(x => _dataViewModel.SaveXaml()));
 
         private void Exit(CancelEventArgs args)
         {

@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Generator;
 using TextParser;
+using TextParser.Tokens;
 
 namespace FormGenerator.Tools
 {
@@ -29,9 +31,58 @@ namespace FormGenerator.Tools
                         item.AddMissing(defaults);
             }
             TokenTreeList fields = data.GetAll("Fields");
-            foreach (TokenTree field in fields.SelectMany(child => child.Children))
-                _sb.AddChild(field, 0, parameters, _offset, _endOfLine);
+            TokenTreeList styles = fields.FindMatches("Style", true);
+            _sb.Append(
+                "<Border HorizontalAlignment=\"Stretch\" VerticalAlignment=\"Stretch\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">")
+                .AppendLine();
+            AddStyles(styles, parameters);
+            foreach (TokenTree field in fields.SelectMany(child => child.Children).Where(x => x.Name == "Field"))
+                _sb.AddChild(field, 1, parameters, _offset, _endOfLine);
+            _sb.Append("</Border>").AppendLine();
             return _sb.Generated;
+        }
+
+        protected void AddStyles(IReadOnlyList<TokenTree> styles, TokenTree parameters)
+        {
+            _sb.Append("  <Border.Resources>").AppendLine();
+            foreach (TokenTree tokenTree in styles)
+            {
+                _sb.Append("    <Style ");
+
+                IToken targetType = tokenTree.Value;
+                bool hasType = false;
+                if (!string.IsNullOrWhiteSpace(targetType.Text))
+                {
+                    _sb.Append("TargetType=\"{x:Type ").Append(targetType).Append("}\" ");
+                    hasType = true;
+                }
+
+                string key = tokenTree["Name"];
+                if (!string.IsNullOrWhiteSpace(key))
+                    _sb.Append("x:Key=\"").Append(key).Append("\" ");
+
+                string basedOn = tokenTree["BasedOn"];
+                if (!string.IsNullOrWhiteSpace(basedOn))
+                    _sb.Append("BasedOn=\"{StaticResource ").Append(basedOn).Append("}\" ");
+
+                _sb.Append(">").AppendLine();
+
+                foreach (TokenTree child in tokenTree.Children.Where(x => x.Name != "Name" && x.Name != "BasedOn"))
+                {
+                    _sb.Append("      <Setter Property=\"");
+                    if (!hasType)
+                        _sb.Append("Control.");
+                    _sb.Append(child.Name).Append("\" Value=\"")
+                        .Append(ProcessTokens(child.Value, new TokenTreeList(parameters))).Append("\"/>").AppendLine();
+                }
+                _sb.Append("    </Style>").AppendLine();
+            }
+            _sb.Append("  </Border.Resources>").AppendLine();
+        }
+
+        private static string ProcessTokens(IToken value, TokenTreeList parameters)
+        {
+            return value.Evaluate(parameters, false).Text;
         }
     }
 }

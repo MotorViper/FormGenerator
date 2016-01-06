@@ -22,18 +22,21 @@ namespace Generator
             }
             else
             {
+                TokenTree replacement = null;
                 ExpressionToken expression = data.Value as ExpressionToken;
                 if (expression != null)
                 {
-                    // There should be a better way of doing this using the language features.
                     FunctionOperator function = expression.Operator as FunctionOperator;
                     if (function != null)
                     {
                         ListToken list = (ListToken)expression.Second;
                         List<IToken> tokens = list.Tokens;
                         fieldName = ((ExpressionToken)tokens[0]).Second.Text;
+                        TokenTree tree = new TokenTree();
                         for (int i = 1; i < tokens.Count; ++i)
-                            data.Children.Add(new TokenTree("P" + i, tokens[i].Text));
+                            tree.Children.Add(new TokenTree("P" + i, tokens[i]));
+                        replacement = parameters.FindFirst(fieldName);
+                        replacement = replacement.SubstituteParameters(tree);
                     }
                     else
                     {
@@ -41,7 +44,9 @@ namespace Generator
                     }
                 }
 
-                TokenTree replacement = parameters?.FindFirst(fieldName);
+                if (replacement == null)
+                    replacement = parameters?.FindFirst(fieldName);
+
                 if (replacement != null)
                 {
                     fieldName = replacement.Value.Text;

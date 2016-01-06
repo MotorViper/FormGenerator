@@ -11,6 +11,8 @@ namespace FormGenerator.Fields
     {
         private Field _border;
         private TokenTree _data;
+        private IToken _headerBorder = new IntToken(1);
+        private IToken _headerStyle;
         private int _level;
 
         public override TokenTree Data
@@ -50,6 +52,22 @@ namespace FormGenerator.Fields
             _border.AddEnd(endOfLine);
         }
 
+        protected override void AddProperty(string name, IToken value, TokenTreeList parameters)
+        {
+            switch (name)
+            {
+                case "HeaderBorder":
+                    _headerBorder = value;
+                    break;
+                case "HeaderStyle":
+                    _headerStyle = value;
+                    break;
+                default:
+                    base.AddProperty(name, value, parameters);
+                    break;
+            }
+        }
+
         protected override List<string> IgnoredProperties()
         {
             List<string> properties = base.IgnoredProperties();
@@ -60,20 +78,43 @@ namespace FormGenerator.Fields
         protected override void AddChildren(TokenTree parameters, string endOfLine)
         {
             BeginAddChildren(parameters);
-            string over = Children.FirstOrDefault(x => x.Name == "Content")?.Value.Text;
-            TokenTree items = new TokenTree(DataConverter.Parameters.GetChildren(over));
             List<TokenTree> fields = GetSubFields().ToList();
             foreach (TokenTree child in fields)
             {
                 TokenTree label = new TokenTree {Value = new StringToken("Label")};
                 label.Children.Add(new TokenTree("Content", child["Header"] ?? ""));
-                label.Children.Add(new TokenTree("BorderThickness", "1"));
+                label.Children.Add(new TokenTree("BorderThickness", _headerBorder));
                 label.Children.Add(new TokenTree("BorderBrush", "Black"));
+                if (_headerStyle != null)
+                    label.Children.Add(new TokenTree("Style", _headerStyle));
                 Builder.AddChild(label, Level + 1, parameters, Offset, endOfLine, this);
             }
-            foreach (TokenTree item in items.Children)
-                foreach (TokenTree child in fields)
-                    Builder.AddChild(child, Level + 1, parameters, Offset, endOfLine, this, item.Key);
+            IToken over = Children.FirstOrDefault(x => x.Name == "Content")?.Value;
+            if (over is StringToken)
+            {
+                TokenTree items = new TokenTree(DataConverter.Parameters.GetChildren(over.Text));
+                foreach (TokenTree item in items.Children)
+                    foreach (TokenTree child in fields)
+                        Builder.AddChild(child, Level + 1, parameters, Offset, endOfLine, this, item.Key);
+            }
+            else
+            {
+                IToken evaluated = over.Evaluate(new TokenTreeList(parameters), true);
+                ListToken list = evaluated as ListToken;
+                if (list != null)
+                {
+                    foreach (IToken item in list.Tokens)
+                        foreach (TokenTree child in fields)
+                            Builder.AddChild(child, Level + 1, parameters, Offset, endOfLine, this, item);
+                }
+                else
+                {
+                    TokenTree items = new TokenTree(DataConverter.Parameters.GetChildren(evaluated.Text));
+                    foreach (TokenTree item in items.Children)
+                        foreach (TokenTree child in fields)
+                            Builder.AddChild(child, Level + 1, parameters, Offset, endOfLine, this, item.Key);
+                }
+            }
             EndAddChildren();
         }
     }

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.IO;
 using System.Windows;
 using FormGenerator.Tools;
 using Helpers;
+using Microsoft.Win32;
 using TextParser;
 
 namespace FormGenerator.ViewModels
@@ -94,6 +96,20 @@ namespace FormGenerator.ViewModels
         private void OnChildrenChanged(object sender, PropertyChangedEventArgs args)
         {
             OnPropertyChanged("Values");
+        }
+
+        public void SaveXaml()
+        {
+            SaveFileDialog s = new SaveFileDialog
+            {
+                Filter = "Xaml|*.xaml",
+                RestoreDirectory = true
+            };
+            if (s.ShowDialog() == true)
+            {
+                string path = s.FileName;
+                File.WriteAllText(path, Xaml);
+            }
         }
     }
 }

@@ -11,7 +11,73 @@ Bluff:
 Climb:
 	Key: Str
 	ArmourCheckPenaltyMultiplier: 1
-
+Concentration:
+	Key: Con
+Control Shape:
+	Key: Wis
+Craft:
+	Key: Int
+Decipher Script:
+	Key: Int
+Diplomacy:
+	Key: Cha
+Disable Device:
+	Key: Int
+Disguise:
+	Key: Cha
+Escape Artist:
+	Key: Dex
+Forgery:
+	Key: Int
+Gather Information:
+	Key: Cha
+Handle Animal:
+	Key: Cha
+Heal:
+	Key: Wis
+Hide:
+	Key: Dex
+Intimidate:
+	Key: Cha
+Jump:
+	Key: Str
+Knowledge:
+	Key: Int
+Listen:
+	Key: Wis
+Move Silently:
+	Key: Dex
+Open Lock:
+	Key: Dex
+Perform:
+	Key: Cha
+Psicraft:
+	Key: Int
+Profession:
+	Key: Wis
+Ride:
+	Key: Dex
+Search:
+	Key: Int
+Sense Motive:
+	Key: Wis
+Sleight of Hand:
+	Key: Dex
+Speak Language:
+Spellcraft:
+	Key: Int
+Spot:
+	Key: Wis
+Survival:
+	Key: Wis
 Swim:
 	Key: Str
 	ArmourCheckPenaltyMultiplier: 2
+Tumble:
+	Key: Dex
+Use Magic Device:
+	Key: Cha
+Use Psionic Device:
+	Key: Cha
+Use Rope:
+	Key: Dex

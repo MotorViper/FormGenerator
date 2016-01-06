@@ -27,6 +27,7 @@
                 <MenuItem Header="_New" Command="{Binding NewFileCommand}" />
                 <MenuItem Header="_Open" Command="{Binding OpenFileCommand}" />
                 <MenuItem Header="_Save" Command="{Binding SaveFileCommand}" />
+                <MenuItem Header="Save Xa_ml" Command="{Binding SaveXamlCommand}" />
                 <MenuItem Header="Save _All" Command="{Binding SaveAllFilesCommand}" />
                 <MenuItem Header="_Close" Command="{Binding CloseFileCommand}" />
                 <MenuItem Header="_Reload" Command="{Binding ReloadCommand}" />

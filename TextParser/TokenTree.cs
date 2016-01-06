@@ -27,6 +27,13 @@ namespace TextParser
             Children = children ?? new TokenTreeList();
         }
 
+        public TokenTree(string key, IToken value = null, TokenTreeList children = null)
+        {
+            Key = TokenGenerator.Parse(key).Simplify();
+            Value = value;
+            Children = children ?? new TokenTreeList();
+        }
+
         public TokenTreeList Children { get; private set; }
 
         public string this[string name]
@@ -151,6 +158,11 @@ namespace TextParser
                 else
                     found.UpdateFirstLeaf(tree.Children[0]);
             }
+        }
+
+        public TokenTree SubstituteParameters(TokenTree tree)
+        {
+            return new TokenTree(Key.SubstituteParameters(tree), Value.SubstituteParameters(tree)) {Children = Children.SubstituteParameters(tree)};
         }
     }
 }

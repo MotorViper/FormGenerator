@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TextParser;
 using TextParser.Tokens;
@@ -15,7 +14,7 @@ namespace Generator
         protected string Offset { get; private set; }
         public TokenTreeList Children { get; private set; }
         public virtual int Level { protected get; set; }
-        public string Name { private get; set; }
+        public string Name { get; set; }
         public IToken Parameter { protected get; set; }
         public IField Parent { protected get; set; }
         public TokenTree Selected { get; set; }
@@ -44,83 +43,10 @@ namespace Generator
         {
             switch (name)
             {
-                case "Align":
-                case "ContentAlign":
-                    string verticalAlignment;
-                    string horizontalAlignment;
-                    if (name == "Align")
-                    {
-                        verticalAlignment = "VerticalAlignment";
-                        horizontalAlignment = "HorizontalAlignment";
-                    }
-                    else
-                    {
-                        verticalAlignment = "VerticalContentAlignment";
-                        horizontalAlignment = "HorizontalContentAlignment";
-                    }
-
-                    string alignment = value.ToString();
-                    if (alignment.StartsWith("Top"))
-                    {
-                        AddProperty(verticalAlignment, "Top");
-                        alignment = alignment.Substring(3);
-                    }
-                    else if (alignment.StartsWith("Bottom"))
-                    {
-                        AddProperty(verticalAlignment, "Bottom");
-                        alignment = alignment.Substring(6);
-                    }
-                    else if (alignment.StartsWith("Center") || alignment.StartsWith("Centre"))
-                    {
-                        AddProperty(verticalAlignment, "Center");
-                        alignment = alignment.Substring(6);
-                    }
-                    else if (alignment.StartsWith("Middle"))
-                    {
-                        AddProperty(verticalAlignment, "Center");
-                        if (alignment != "Middle")
-                            alignment = alignment.Substring(6);
-                    }
-                    else if (alignment == "Fill")
-                    {
-                        AddProperty(verticalAlignment, "Stretch");
-                        alignment = "Stretch";
-                    }
-                    else
-                    {
-                        AddProperty(verticalAlignment, "Center");
-                    }
-
-                    switch (alignment)
-                    {
-                        case "Right":
-                        case "Left":
-                            AddProperty(horizontalAlignment, alignment);
-                            break;
-                        case "":
-                        case "Stretch":
-                            AddProperty(horizontalAlignment, "Stretch");
-                            break;
-                        case "Centre":
-                        case "Center":
-                        case "Middle":
-                            AddProperty(horizontalAlignment, "Center");
-                            break;
-                        default:
-                            throw new Exception($"Unrecognized alignment {alignment}");
-                    }
-                    break;
-                case "ShiftUp":
-                    _marginTop = -Convert.ToInt32(value);
-                    break;
-                case "ShiftRight":
-                    _marginLeft = Convert.ToInt32(value);
-                    break;
-                case "Invert":
-                    AddProperty("Background", "Black");
-                    AddProperty("Foreground", "White");
-                    break;
                 case "Debug":
+                    break;
+                case "Style":
+                    _properties["Style"] = "{StaticResource " + value + "}";
                     break;
                 default:
                     _properties[name] = value.ToString();
@@ -133,11 +59,8 @@ namespace Generator
             AppendStartOfLine(Level, "<").Append(Name).Append(" ");
             AddProperties(parameters);
             OutputProperties(_properties);
-            AddHeadings();
             Builder.Append(">").Append(endOfLine);
         }
-
-        protected abstract void AddHeadings();
 
         protected abstract void OutputProperties(Dictionary<string, string> properties);
 

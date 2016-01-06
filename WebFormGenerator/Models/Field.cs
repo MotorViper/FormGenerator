@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Generator;
-using Helpers;
 using TextParser;
 using TextParser.Operators;
 using TextParser.Tokens;
@@ -23,10 +22,6 @@ namespace WebFormGenerator.Models
         }
 
         public override void AddChildProperties(IField child)
-        {
-        }
-
-        protected override void AddHeadings()
         {
         }
 

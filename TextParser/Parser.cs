@@ -48,15 +48,15 @@ namespace TextParser
             if (key != null && key.Text.Contains("."))
             {
                 string[] parts = key.Text.Split('.');
-                TokenTree tree = new TokenTree(parts[0], null);
+                TokenTree tree = new TokenTree(parts[0]);
                 TokenTree top = tree;
                 for (int i = 1; i < parts.Length - 1; ++i)
                 {
-                    TokenTree child = new TokenTree(parts[i], null);
+                    TokenTree child = new TokenTree(parts[i]);
                     tree.Children.Add(child);
                     tree = child;
                 }
-                tree.Children.Add(new TokenTree(new StringToken(parts[parts.Length - 1]), tokenTree.Value, tokenTree.Children));
+                tree.Children.Add(new TokenTree(parts[parts.Length - 1], tokenTree.Value, tokenTree.Children));
                 tokenTree = top;
             }
             TokenTree parent = LastAtLevel[line.Offset - 1];

@@ -12,6 +12,8 @@ namespace FormGenerator.Fields
         {
             List<string> properties = base.IgnoredProperties();
             properties.Add("Content");
+            properties.Add("HeaderBorder");
+            properties.Add("HeaderStyle");
             return properties;
         }
     }

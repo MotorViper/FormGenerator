@@ -34,7 +34,7 @@ namespace TextParser.Functions
                 for (int i = 1; i < lastList.Count; ++i)
                 {
                     IToken parameter = lastList[i];
-                    tree.Children.Add(new TokenTree(new StringToken("P" + i), parameter));
+                    tree.Children.Add(new TokenTree("P" + i, parameter));
                 }
                 method = method.SubstituteParameters(tree);
             }

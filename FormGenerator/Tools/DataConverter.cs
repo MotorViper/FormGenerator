@@ -32,7 +32,7 @@ namespace FormGenerator.Tools
                 if (data.Parameter != null)
                 {
                     parameters = Parameters.Clone();
-                    parameters.Children.AddIfMissing(new TokenTree(new StringToken("TABLEITEM"), data.Parameter));
+                    parameters.Children.AddIfMissing(new TokenTree("TABLEITEM", data.Parameter));
                 }
                 converted = dataToken.Evaluate(new TokenTreeList {(TokenTree)value, parameters}, true);
             }

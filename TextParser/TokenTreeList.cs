@@ -122,5 +122,12 @@ namespace TextParser
             if (this.All(item => child.Name != item.Name))
                 Add(child);
         }
+
+        public TokenTreeList SubstituteParameters(TokenTree tree)
+        {
+            TokenTreeList list = new TokenTreeList();
+            list.AddRange(this.Select(tokenTree => tokenTree.SubstituteParameters(tree)));
+            return list;
+        }
     }
 }

@@ -1,30 +1,30 @@
 ﻿Field: Grid
+	Style: Fill
 	Height: 29.7cm
 	Width: 21cm
-	Align: Fill
 	Columns: Auto,Auto,Auto
 	Rows: Auto,Auto,,
 	Field: Grid
-		HorizontalAlignment: Stretch
+		Style: Stretch
 		Across: 3
 		Columns: 36
 		Field: Grid
+			Style: Stretch
 			Rows: 3
 			Across: 12
-			Align: Stretch
 			Field: Selector
 				VerticalAlignment: Top
 			Field: UnderLine
-			Field: LabelUnder	
+			Field: Label
+				Style: LabelUnder	
 				Content: Character
 		Field: EditorWithLabelUnder: Player
 			Across: 8
 		Field: EditorWithLabelUnder: Experience
 			Across: 4
 		Field: Label
+			Style: Bolded
 			Content: Dungeons
-			Align: Middle
-			FontWeight: Bold
 			Across: 12
 
 		Field: LabelWithLabelUnder: ClassList
@@ -37,9 +37,8 @@
 		Field: EditorWithLabelUnder: Deity
 			Across: 4
 		Field: Label
+			Style: Bolded
 			Content: '&amp; Dragons'
-			FontWeight: Bold
-			Align: Middle
 			Across: 12
 
 		Field: EditorWithLabelUnder: Size
@@ -59,19 +58,21 @@
 		Field: EditorWithLabelUnder: Skin
 			Across: 3
 		Field: Label
+			Style: Bolded
 			Across: 12
-			Align: Middle
-			FontWeight: Bold
 			Content: Character Record Sheet
 			
 	Field: Grid
 		Across: 1, 2
 		Columns: Auto,40,45,35,35
-		Field: CentreLabel
+		Field: Label
+			Style: CentreLabel
 			Content: Attribute
-		Field: CentreLabel
+		Field: Label
+			Style: CentreLabel
             Content: Value
-		Field: CentreLabel
+		Field: Label
+			Style: CentreLabel
 			Content: Bonus
 		Field: Label
 			Content: Temporary
@@ -84,7 +85,7 @@
 		Field: AbilityGrid: Charisma
 
 	Field: Grid
-		Columns: 'Auto,50,45' + (,$PlusWidth,32) * 7 + ',70'
+		Columns: 'Auto,50,45' + (,,32) * 7 + ',70'
 		Across: 2
 		Field: Label
 		Field: Label
@@ -99,55 +100,72 @@
 			Content: Speed
 			Across: 3
 
-		Field: InvertedLabel
+		Field: Label
+			Style: Inverted
 			Content: HP
-		Field: BorderedLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $HP
-		Field: BorderedLabel
+		Field: Label
+			Style: BorderedLabel
 			Across: 10
-		Field: BorderedLabel
+		Field: Label
+			Style: BorderedLabel
 			Across: 3
-		Field: BorderedLabel
+		Field: Label
+			Style: BorderedLabel
 			Across: 3
 	        
-		Field: InvertedLabel
+		Field: Label
+			Style: Inverted
 			Content: AC
-		Field: BorderedLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $AC
-		Field: CentreLabel
+		Field: Label
+			Style: CentreLabel
 			Content: '= 10'
-		Field: CentreLabel
-			Content: '+'
-		Field: BorderedLabel
+		Field: Label
+			Style: PlusLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $ArmourBonus
-		Field: CentreLabel
-			Content: '+'
-		Field: BorderedLabel
+		Field: Label
+			Style: PlusLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $ShieldBonus
-		Field: CentreLabel
-			Content: '+'
-		Field: BorderedLabel
+		Field: Label
+			Style: PlusLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $DexModifier
-		Field: CentreLabel
-			Content: '+'
-		Field: BorderedLabel
+		Field: Label
+			Style: PlusLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $SizeACModifier
-		Field: CentreLabel
-			Content: '+'
-		Field: BorderedLabel
+		Field: Label
+			Style: PlusLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $NaturalArmour
-		Field: CentreLabel
-			Content: '+'
-		Field: BorderedLabel
+		Field: Label
+			Style: PlusLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $DeflectionModifier
-		Field: CentreLabel
-			Content: '+'
-		Field: BorderedLabel
+		Field: Label
+			Style: PlusLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $MiscACModifier
-		Field: BorderedLabel
+		Field: Label
+			Style: BorderedLabel
 
 		Field: Label
-		Field: LabelUnder
+		Field: Label
+			Style: LabelUnder
 			Content: Total
 		Field: Label
 		Field: DoubleLabelUnder:(Armour|Bonus)
@@ -163,34 +181,44 @@
 		Field: DoubleLabelUnder:(Misc.Modifier)
 				
 	Field: Grid
-		Columns: "45," * 3 + $PlusWidth,45,$PlusWidth,45
-		Field: InvertedLabel
+		Columns: "45," * 3 + ,45,,45
+		Field: Label
+			Style: Inverted
 			Content: Touch
-		Field: BorderedLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $Touch
-		Field: InvertedLabel
+		Field: Label
+			Style: Inverted
 			Across: 4
 			Content: 'Flat-Footed'
-		Field: BorderedLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $FlatFooted
 
-		Field: InvertedLabel
+		Field: Label
+			Style: Inverted
 			Content: Initiative
 			Across: 2
-		Field: BorderedLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $Initiative
-		Field: CentreLabel
+		Field: Label
+			Style: CentreLabel
 			Content: =
-		Field: BorderedLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $DexModifier
-		Field: CentreLabel
-			Content: '+'
-		Field: BorderedLabel
+		Field: Label
+			Style: PlusLabel
+		Field: Label
+			Style: BorderedLabel
 			Content: $MiscInitiative
 
 		Field: Label
 			Across: 2
-		Field: LabelUnder
+		Field: Label
+			Style: LabelUnder
 			Content: Total
 			HorizontalAlignment: Center
 		Field: Label
@@ -205,7 +233,7 @@
 		Width: 230
 		Across: 1,2
 		Field: CheckBox
-			Align: Middle
+			Style: Middle
 			IsEnabled: false
 			Content: $IsClassSkill
 		Field: Label
@@ -225,11 +253,11 @@
 			Content: IF:($CanUseSkill|$SkillPoints + $SkillModifier|0)
 
 	Field: Grid
+		Style: Fill
 		Columns: 1
-		Align: Fill
 		Across: 2
 		Field: Grid
-			Columns: "Auto," + (45,$PlusWidth,) * 5 + 45,92
+			Columns: "Auto," + (45,,) * 5 + 45,92
 			Field: Label
 				Content: SAVING THROWS
 				FontSize: 10
@@ -251,12 +279,13 @@
 			Field: Label
 				Content: Temp.
 			Field: Label
+				Style: Middle
 				Content: Modifiers
-				Align: Middle
 
 			Field: SavingGrid:(Fortitude|Con)
 				Debug: true
-			Field: BorderedLabel
+			Field: Label
+				Style: BorderedLabel
 				Height: 83
 				Width: 90
 				Across: 1,3
@@ -265,57 +294,83 @@
 		
 		Field: Grid
 			Columns: 8
-			Field: InvertedLabel
+			Field: Label
+				Style: Inverted
 				Content: Base Attack Bonus
-			Field: BorderedLabel
+			Field: Label
+				Style: BorderedLabel
 				Content: $BAB
-			Field: InvertedLabel
+			Field: Label
+				Style: Inverted
 				Content: Melee
-			Field: BorderedLabel
+			Field: Label
+				Style: BorderedLabel
 				Content: $Melee
-			Field: InvertedLabel
+			Field: Label
+				Style: Inverted
 				Content: Missile
-			Field: BorderedLabel
+			Field: Label
+				Style: BorderedLabel
 				Content: $Missile
-			Field: InvertedLabel
+			Field: Label
+				Style: Inverted
 				Content: Spell Resistance
-			Field: BorderedLabel
+			Field: Label
+				Style: BorderedLabel
 				Content: $SpellResistance
 
 		Field: Grid
 			Background: LightBlue
-			Columns: Auto + (,,$PlusWidth) * 4 + ,
-			Field: InvertedLabel
+			Columns: Auto + ',' * 9
+			Field: Label
+				Style: Inverted
 				Content: Grapple
-			Field: BorderedLabel
+			Field: Label
+				Style: BorderedLabel
 				Content: $Grapple
 			Field: Label
 				Content: '='
-			Field: BorderedLabel
+			Field: Label
+				Style: BorderedLabel
 				Content: $BAB
 			Field: Label
-				Content: '+'
-			Field: BorderedLabel
+				Style: PlusLabel
+			Field: Label
+				Style: BorderedLabel
 				Content: $StrModifier
 			Field: Label
-				Content: '+'
-			Field: BorderedLabel
+				Style: PlusLabel
+			Field: Label
+				Style: BorderedLabel
 				Content: $SizeBABModifier
 			Field: Label
-				Content: '+'
-			Field: BorderedLabel
+				Style: PlusLabel
+			Field: Label
+				Style: BorderedLabel
 				Content: $MiscBABModifier
 
-		Field: Grid
+		Field: Table
+			Content: ($Weapon1|$Weapon2)
 			Columns: 100,60,60,60,
-			Field: CentreLabel
-				Content: Weapon
-			Field: CentreLabel
-				Content: BAB
-			Field: CentreLabel
-				Content: Damage
-			Field: CentreLabel
-				Content: Range
+			HeaderBorder: 0
+			BorderThickness: 0
+			HeaderStyle: CentreLabel
+			Field: ComboBox
+				Style: Stretch
+				Header: Weapon
+				Content: $TABLEITEM
+				SelectionOptions: Weapons
+				Height: 25
 			Field: Label
-			Field: WeaponGrid: Weapon1
-			Field: WeaponGrid: Weapon2
+				Style: BorderedLabel
+				Header: BAB
+				Content: $Melee
+			Field: Label
+				Style: BorderedLabel
+				Header: Damage
+				Content: {Weapons.{TABLEITEM}.Damage}
+			Field: Label
+				Style: BorderedLabel
+				Header: Range
+				Content: {Weapons.{TABLEITEM}.Range}
+			Field: Label

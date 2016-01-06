@@ -67,7 +67,7 @@ namespace TextParser.Operators
 
             string text = evaluated.Text;
             TokenTree found = parameters.FindFirst(text);
-            return found?.Value ?? new ExpressionToken(null, new SubstitutionOperator(), last);
+            return found?.Value ?? new ExpressionToken(null, new SubstitutionOperator(), evaluated);
         }
 
         protected override IToken Evaluate(ITypeToken token)

@@ -1,12 +1,4 @@
-﻿PlusWidth: 17
-Editor: TextBox
-	ShiftRight: 2
-    Align: Stretch
-InvertedLabel: Label
-	Invert:
-	Align: Stretch
-	ContentAlign: Middle
-#IF XML 
+﻿#IF XML 
 UnderLine: Border
 	Height: 2
 	Background: Black
@@ -15,112 +7,103 @@ UnderLine: Border
 UnderLine: hr
 	Style: "color:#00C;background-color:#00c;height:2px;border:none"
 #FI
-LabelUnder: Label
-	ShiftUp: 6
-	FontSize: 8
+
 DoubleLabelUnder: Grid
 	Rows: 2
 	HorizontalAlignment: Center
-	Field: LabelUnder
+	Field: Label
+		Style: LabelUnder
 		Content: {P1}
 		HorizontalAlignment: Center
-	Field: LabelUnder
+	Field: Label
+		Style: LabelUnder
 		Content: {P2}
-		ShiftUp: 12
+		Margin: '0,-12,0,0'
 		HorizontalAlignment: Center
+
 EditorWithLabelUnder: Grid
-	ShiftRight: 2
+	Style: ShiftRight
 	Rows: 3
 	Field: TextBox
-		Align: Stretch
+		Style: Stretch
 		Content: $$P1
 	Field: UnderLine
-		Align: Stretch
-	Field: LabelUnder	
-		Content: {{P1}.NAME}
-		Align: Left
+		Style: Stretch
+	Field: Label
+		Style: LabelUnderLeft
+		Content: {P1}
+
 CheckedEditorWithLabelUnder: Grid
-	ShiftRight: 2
+	Style: ShiftRight
 	Rows: 3
 	Field: TextBox
-		Align: Stretch
+		Style: Stretch
 		Content: $$P1
 		Background: IF:({P2}|White|MistyRose)
 	Field: UnderLine
-		Align: Stretch
-	Field: LabelUnder	
-		Content: {{P1}.NAME}
-		Align: Left
+		Style: Stretch
+	Field: Label
+		Style: LabelUnderLeft
+		Content: {P1}
+
 LabelWithLabelUnder: Grid
-	ShiftRight: 2
+	Style: ShiftRight
 	Rows: 3
 	Field: Label
+		Style: Left
 		Content: $$P1
 		Height: 25
-		ShiftUp: 3
-		Align: Left
+		Margin: '0,-3,0,0'
 	Field: UnderLine
-		Align: Stretch
-	Field: LabelUnder	
-		Content: {{P1}.NAME}
-		Align: Left
-CentreLabel: Label
-    Align: Stretch
-    ContentAlign: Middle
-BorderedLabel: CentreLabel
-	BorderThickness: 1
-	BorderBrush: Black
-	Margin: 1
-	Height: 26
-RightLabel: Label
-    Align: Right
+		Style: Stretch
+	Field: Label
+		Style: LabelUnderLeft
+		Content: {P1}
 
 AbilityGrid:
-    Field: InvertedLabel
-        Content: {{P1}.NAME}
-    Field: Editor
+    Field: Label
+		Style: Inverted
+        Content: {P1}
+    Field: TextBox
+	    Style: Stretch
+		Margin: '2,0,0,0'
         Content: $$P1
-    Field: BorderedLabel
+    Field: Label
+		Style: BorderedLabel
         Content: ($$P1 - 10) / 2
 		Width: 27
-    Field: BorderedLabel
-    Field: BorderedLabel
+    Field: Label
+		Style: BorderedLabel
+    Field: Label
+		Style: BorderedLabel
 
 SavingGrid:
-	Field: InvertedLabel
+	Field: Label
+		Style: Inverted
 		Content: {P1}
-	Field: BorderedLabel
+	Field: Label
+		Style: BorderedLabel
 		Content: {{P1}Throw}
 	Field: Label
 		Content: =
-	Field: BorderedLabel
+	Field: Label
+		Style: BorderedLabel
 		Content: {{P1}Base}
 	Field: Label
 		Content: '+'
-	Field: BorderedLabel
+	Field: Label
+		Style: BorderedLabel
 		Debug: true
 		Content: {{P2}Modifier}
 	Field: Label
 		Content: '+'
-	Field: BorderedLabel
+	Field: Label
+		Style: BorderedLabel
 	Field: Label
 		Content: '+'
-	Field: BorderedLabel
+	Field: Label
+		Style: BorderedLabel
 	Field: Label
 		Content: '+'
-	Field: BorderedLabel
-
-
-WeaponGrid:
-	Field: ComboBox
-		Content: $$P1
-		SelectionOptions: Weapons
-		HorizontalAlignment: Stretch
-		Height: 25
-	Field: BorderedLabel
-		Content: $Melee
-	Field: BorderedLabel
-		Content: {Weapons.{$P1}.Damage}
-	Field: BorderedLabel
-		Content: {Weapons.{$P1}.Range}
 	Field: Label
+		Style: BorderedLabel

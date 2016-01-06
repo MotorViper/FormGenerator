@@ -10,8 +10,6 @@ namespace FormGenerator.Fields
 {
     public class Field : BaseField
     {
-        private const string XLMNS = "xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"";
-
         // ReSharper disable once MemberCanBePrivate.Global - used by IOC.
         public Field()
         {
@@ -42,12 +40,6 @@ namespace FormGenerator.Fields
         {
             foreach (var property in properties)
                 Builder.Append(property.Key.ToCamelCase()).Append("=\"").Append(property.Value).Append("\" ");
-        }
-
-        protected override void AddHeadings()
-        {
-            if (Level == 0)
-                Builder.Append(XLMNS);
         }
     }
 }
