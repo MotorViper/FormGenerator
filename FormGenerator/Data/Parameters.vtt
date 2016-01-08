@@ -2,10 +2,7 @@
 UnderLine: Border
 	Height: 2
 	Background: Black
-#FI
-#IF HTML 
-UnderLine: hr
-	Style: "color:#00C;background-color:#00c;height:2px;border:none"
+	HorizontalAlignment: Stretch
 #FI
 
 DoubleLabelUnder: Grid
@@ -28,7 +25,6 @@ EditorWithLabelUnder: Grid
 		Style: Stretch
 		Content: $$P1
 	Field: UnderLine
-		Style: Stretch
 	Field: Label
 		Style: LabelUnderLeft
 		Content: {P1}
@@ -41,7 +37,6 @@ CheckedEditorWithLabelUnder: Grid
 		Content: $$P1
 		Background: IF:({P2}|White|MistyRose)
 	Field: UnderLine
-		Style: Stretch
 	Field: Label
 		Style: LabelUnderLeft
 		Content: {P1}
@@ -55,7 +50,6 @@ LabelWithLabelUnder: Grid
 		Height: 25
 		Margin: '0,-3,0,0'
 	Field: UnderLine
-		Style: Stretch
 	Field: Label
 		Style: LabelUnderLeft
 		Content: {P1}

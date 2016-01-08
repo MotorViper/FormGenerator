@@ -14,7 +14,9 @@ namespace WebFormGenerator
         private void Application_Start(object sender, EventArgs e)
         {
             // Code that runs on application startup
-            IOCContainer.Instance.Register<IField, Field>("Continuation");
+            IOCContainer.Instance.Register<IField, Underline>("UnderLine");
+            IOCContainer.Instance.Register<IField, Selector>("Selector");
+            IOCContainer.Instance.Register<IField, Select>("ComboBox");
             IOCContainer.Instance.Register<IField, Grid>("Grid");
             IOCContainer.Instance.Register<IField, Field>();
 

@@ -245,5 +245,21 @@ namespace Helpers
             }
             return result;
         }
+
+        public static string CamelCaseToHyphenated(this string text)
+        {
+            string result = "";
+            bool isFirst = true;
+            foreach (char c in text)
+            {
+                if (char.IsUpper(c) && !isFirst)
+                {
+                    result += "-";
+                }
+                result += c;
+                isFirst = false;
+            }
+            return result;
+        }
     }
 }

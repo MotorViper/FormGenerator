@@ -1,4 +1,5 @@
-﻿using TextParser;
+﻿using System.Collections.Generic;
+using TextParser;
 using TextParser.Tokens;
 
 namespace Generator
@@ -10,6 +11,6 @@ namespace Generator
         void AppendLine();
 
         void AddChild(TokenTree data, int level, TokenTree parameters, string offset, string endOfLine, IField parent = null, IToken parameter = null,
-            TokenTree selected = null);
+            TokenTree selected = null, List<string> keys = null);
     }
 }

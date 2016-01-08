@@ -1,0 +1,66 @@
+﻿Style: hr
+	Height:2px
+    Border: none
+    MarginTop: 0
+    MarginBottom: 0
+	Color:'#00C'
+	BackgroundColor:'#00c'
+Style: td img 
+	WhiteSpace: nowrap
+	Display: block
+Style: 
+	Name: Stretch
+	Width: 100%
+Style:
+	Name: Fill
+	BasedOn: Stretch
+	Height: 100%
+Style: 
+	Name: LabelUnder
+	FontSize: 8px
+Style: 
+	Name: LabelUnderLeft
+	FontSize: 8px
+Style: 
+	Name: ShiftRight
+	Width: 100%
+Style:
+	Name: Middle
+	TextAlign: Center
+Style: 
+	Name: Left
+	TextAlign: Left
+Style: 
+	Name: Right
+	TextAlign: Right
+Style: 
+	Name: ShiftRight
+	Margin: '2,0,0,0'
+Style: 
+	Name: Bolded
+	BasedOn: Stretch
+	FontStyle: Bold
+	FontSize: 16px
+	TextAlign: Center
+Style: 
+	Name: CentreLabel
+    BasedOn: Stretch
+	TextAlign: Center
+Style: 
+	Name: Inverted
+	BasedOn: CentreLabel
+	Background: Black
+	Foreground: White
+Style: 
+	Name: PlusLabel
+	BasedOn: CentreLabel
+	Width: 16
+Style: '.PlusLabel::first-letter'
+	Content: '+'
+Style: 
+	Name: BorderedLabel
+	BasedOn: CentreLabel
+	BorderThickness: 1
+	BorderBrush: Black
+	Margin: 1
+	Height: 26

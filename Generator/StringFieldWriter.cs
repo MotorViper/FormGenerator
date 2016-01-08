@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using TextParser;
 using TextParser.Tokens;
 
@@ -20,11 +21,12 @@ namespace Generator
         }
 
         public void AddChild(TokenTree data, int level, TokenTree parameters, string offset, string endOfLine, IField parent, IToken parameter,
-            TokenTree selected)
+            TokenTree selected, List<string> keys)
         {
             IField field = FieldFactory.CreateField(data.Value.Text, data, level, parameters, parent);
             field.Parameter = parameter;
             field.Selected = selected;
+            field.Keys = keys;
             field.OutputField(this, level, parameters, offset, endOfLine);
         }
 

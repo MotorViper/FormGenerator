@@ -41,5 +41,18 @@ namespace FormGenerator.Fields
             foreach (var property in properties)
                 Builder.Append(property.Key.ToCamelCase()).Append("=\"").Append(property.Value).Append("\" ");
         }
+
+        public override void AddProperty<T>(string name, T value)
+        {
+            switch (name)
+            {
+                case "Style":
+                    base.AddProperty("Style", "{StaticResource " + value + "}");
+                    break;
+                default:
+                    base.AddProperty(name, value);
+                    break;
+            }
+        }
     }
 }

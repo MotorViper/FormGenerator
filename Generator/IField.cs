@@ -1,4 +1,5 @@
-﻿using TextParser;
+﻿using System.Collections.Generic;
+using TextParser;
 using TextParser.Tokens;
 
 namespace Generator
@@ -7,6 +8,7 @@ namespace Generator
     {
         TokenTreeList Children { get; }
         TokenTree Data { set; }
+        List<string> Keys { get; set; }
         int Level { set; }
         string Name { set; }
         IToken Parameter { set; }

@@ -18,6 +18,7 @@ namespace Generator
         public IToken Parameter { protected get; set; }
         public IField Parent { protected get; set; }
         public TokenTree Selected { get; set; }
+        public List<string> Keys { get; set; }
 
         public virtual TokenTree Data
         {
@@ -39,14 +40,11 @@ namespace Generator
         {
         }
 
-        public void AddProperty<T>(string name, T value)
+        public virtual void AddProperty<T>(string name, T value)
         {
             switch (name)
             {
                 case "Debug":
-                    break;
-                case "Style":
-                    _properties["Style"] = "{StaticResource " + value + "}";
                     break;
                 default:
                     _properties[name] = value.ToString();
@@ -135,7 +133,7 @@ namespace Generator
         {
             IEnumerable<TokenTree> fields = GetSubFields();
             foreach (TokenTree child in fields)
-                Builder.AddChild(child, Level + 1, parameters, Offset, endOfLine, this, null, Selected);
+                Builder.AddChild(child, Level + 1, parameters, Offset, endOfLine, this, null, Selected, Keys);
         }
 
         protected IEnumerable<TokenTree> GetSubFields()

@@ -45,22 +45,16 @@ namespace WebFormGenerator.Models
                                 positions.MakeItemUsed(row + i, column + col);
                     }
                 }
-                Builder.Append("<td style=\"white-space:nowrap\"");
+                Builder.Append("<td ");
                 if (columns > 1)
                     Builder.Append($" colspan=\"{columns}\"").AppendLine();
                 if (rows > 1)
                     Builder.Append($" rowspan=\"{rows}\"").AppendLine();
                 Builder.Append(">");
-                Builder.AddChild(child, Level + 1, parameters, Offset, endOfLine, this, null, Selected);
+                Builder.AddChild(child, Level + 1, parameters, Offset, endOfLine, this, null, Selected, Keys);
                 Builder.Append("</td>").AppendLine();
             }
             Builder.Append("</tr>").AppendLine();
-        }
-
-        protected override void OutputProperties(Dictionary<string, string> properties)
-        {
-            properties.Add("border", "1");
-            base.OutputProperties(properties);
         }
     }
 }

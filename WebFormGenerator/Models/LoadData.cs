@@ -21,6 +21,17 @@ namespace WebFormGenerator.Models
             StaticData = Parser.ParseFile(StaticDataFile, Directory, "HTML");
         }
 
+        public TokenTree AllValues { get; set; }
+
+        public string Data
+        {
+            get
+            {
+                string data = _generator.GenerateHtml(StaticData, AllValues.Children[0], DataName, Keys);
+                return data;
+            }
+        }
+
         [Display(Name = "Data Name")]
         public string DataName { get; set; }
 
@@ -28,22 +39,11 @@ namespace WebFormGenerator.Models
 
         public string File { get; set; }
 
-        [Display(Name = "Static Data File")]
-        public string StaticDataFile { get; set; }
+        public List<string> Keys { get; set; }
 
         public TokenTree StaticData { get; set; }
 
-        public string Data
-        {
-            get
-            {
-                string data = _generator.GenerateHtml(StaticData, AllValues.Children[0], DataName);
-                return data;
-            }
-        }
-
-        public List<string> Keys { get; set; }
-
-        public TokenTree AllValues { get; set; }
+        [Display(Name = "Static Data File")]
+        public string StaticDataFile { get; set; }
     }
 }

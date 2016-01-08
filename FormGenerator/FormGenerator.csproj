@@ -126,6 +126,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Data\HTMLStyles.vtt" />
     <None Include="Data\Styles.vtt" />
     <None Include="Data\Skills.vtt" />
     <None Include="Data\Characters.vtt" />

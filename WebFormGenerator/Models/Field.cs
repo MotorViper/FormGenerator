@@ -48,10 +48,19 @@ namespace WebFormGenerator.Models
         {
             foreach (var property in properties)
             {
-                if (property.Key == "Content" || property.Key == "Text")
-                    _content = property.Value;
-                else
-                    Builder.Append(property.Key.ToLower()).Append("=\"").Append(property.Value).Append("\" ");
+                switch (property.Key)
+                {
+                    case "Content":
+                    case "Text":
+                        _content = property.Value;
+                        break;
+                    case "Style":
+                        Builder.Append("class").Append("=\"").Append(property.Value).Append("\" ");
+                        break;
+                    default:
+                        Builder.Append(property.Key.ToLower()).Append("=\"").Append(property.Value).Append("\" ");
+                        break;
+                }
             }
         }
 
