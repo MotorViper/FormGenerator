@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Generator;
 using TextParser;
+using TextParser.Tokens;
 
 namespace WebFormGenerator.Models
 {
@@ -30,16 +31,16 @@ namespace WebFormGenerator.Models
                 row = rowAndColumn.Item1;
                 int column = rowAndColumn.Item2;
                 positions.MakeItemUsed(row, column);
-                string across = child["Across"];
+                IToken across = child.FindFirst("Across")?.Value;
                 if (across != null)
                 {
-                    string[] bits = across.Split(',');
-                    columns = int.Parse(bits[0]);
+                    ListToken items = across as ListToken;
+                    columns = items?.Tokens[0].Convert<int>() ?? across.Convert<int>();
                     for (int i = 1; i < columns; ++i)
                         positions.MakeItemUsed(row, column + i);
-                    if (bits.Length >= 2)
+                    if (items != null && items.Tokens.Count > 1)
                     {
-                        rows = int.Parse(bits[1]);
+                        rows = items.Tokens[1].Convert<int>();
                         for (int col = 0; col < columns; ++col)
                             for (int i = 0; i < rows; ++i)
                                 positions.MakeItemUsed(row + i, column + col);

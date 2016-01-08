@@ -51,9 +51,12 @@ Character:
 	FortitudeBase: SavingThrow: Fort
 	ReflexBase: SavingThrow: Ref
 	WillBase: SavingThrow: Will
-	FortitudeThrow: $ConModifier + $FortitudeBase
-	ReflexThrow: $DexModifier + $ReflexBase
-	WillThrow: $WisModifier + $WillBase
+	FortitudeModifier: $ConModifier
+	ReflexModifier: $DexModifier
+	WillModifier: $WisModifier
+	FortitudeThrow: $FortitudeModifier + $FortitudeBase
+	ReflexThrow: $ReflexModifier + $ReflexBase
+	WillThrow: $WillModifier + $WillBase
 	BAB: BABThrow: BABonus
 	SpellResistance: 0
 	SizeBABModifier: 0

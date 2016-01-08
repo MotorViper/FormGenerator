@@ -1,56 +1,50 @@
-﻿Style: 
-	Name: Stretch
+﻿Stretch: 
 	HorizontalAlignment: Stretch
-Style:
-	Name: Fill
+Fill:
 	BasedOn: Stretch
 	VerticalAlignment: Stretch
-Style:
-	Name: Middle
+Middle:
 	HorizontalAlignment: Center
 	VerticalAlignment: Center
-Style: 
-	Name: Left
+Left: 
 	HorizontalAlignment: Left
-Style: 
-	Name: Right
+Right: 
 	HorizontalAlignment: Right
-Style: 
-	Name: ShiftRight
+ShiftRight: 
 	Margin: '2,0,0,0'
-Style: Label
-	Name: Bolded
+Bolded: Label
 	FontWeight: Bold
 	FontSize: 16
 	HorizontalAlignment: Center
 	VerticalAlignment: Center
-Style: Label
-	Name: CentreLabel
+CentreLabel: Label
     BasedOn: Stretch
 	HorizontalContentAlignment: Center
 	VerticalContentAlignment: Center
-Style: Label
-	Name: Inverted
+Inverted: Label
 	BasedOn: CentreLabel
 	Background: Black
 	Foreground: White
-Style: Label
-	Name: PlusLabel
+PlusLabel: Label
 	BasedOn: CentreLabel
 	Content: '+'
 	Width: 16
-Style: Label
-	Name: BorderedLabel
+BorderedLabel: Label
 	BasedOn: CentreLabel
 	BorderThickness: 1
 	BorderBrush: Black
 	Margin: 1
 	Height: 26
-Style: Label
-	Name: LabelUnder
+LabelUnder: Label
 	Margin: '0,-6,0,0'
 	FontSize: 8
-Style: Label
-	Name: LabelUnderLeft
+LabelUnderLeft: Label
 	BasedOn: LabelUnder
 	HorizontalAlignment: Left
+WeaponHeader: Label
+	BasedOn: CentreLabel
+	BorderThickness: 0
+SkillHeader: Label
+	BasedOn: CentreLabel
+	BorderThickness: 1
+	BorderBrush: Black

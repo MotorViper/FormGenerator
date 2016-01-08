@@ -67,7 +67,6 @@
     <Compile Include="Views\EditorsView.xaml.cs">
       <DependentUpon>EditorsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Fields\Border.cs" />
     <Compile Include="Fields\CheckBox.cs" />
     <Compile Include="Fields\ComboBox.cs" />
     <Compile Include="Fields\Table.cs" />
@@ -77,7 +76,6 @@
     <Compile Include="Fields\Field.cs" />
     <Compile Include="Fields\Grid.cs" />
     <Compile Include="Fields\Selector.cs" />
-    <Compile Include="Fields\Continuation.cs" />
     <Compile Include="Fields\TextBox.cs" />
     <Compile Include="Tools\RichTextBoxEditor.cs" />
     <Compile Include="Tools\SyntaxProvider.cs" />

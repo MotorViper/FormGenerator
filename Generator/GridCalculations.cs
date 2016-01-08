@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TextParser;
+using TextParser.Tokens;
 
 namespace Generator
 {
@@ -14,16 +14,26 @@ namespace Generator
             if (fields != null)
             {
                 fieldList = new List<string>();
-                string[] fieldData = fields.Value.Evaluate(parameters, false).Text.Split(',');
-                if (fieldData.Length == 1)
+                var columnData = fields.Value.Evaluate(parameters, false);
+                ListToken columnList = columnData as ListToken;
+                if (columnList != null)
                 {
-                    int fieldCount = fields.Value.Convert<int>();
-                    for (int i = 0; i < fieldCount; i++)
-                        fieldList.Add(size);
+                    fieldList.AddRange(columnList.Tokens.Select(item => string.IsNullOrWhiteSpace(item.Text) ? defaultValue : item.Text));
                 }
                 else
                 {
-                    fieldList.AddRange(fieldData.Select(item => String.IsNullOrWhiteSpace(item) ? defaultValue : item));
+                    IntToken columnSize = columnData as IntToken;
+                    if (columnSize != null)
+                    {
+                        int fieldCount = columnSize.Value;
+                        for (int i = 0; i < fieldCount; i++)
+                            fieldList.Add(size);
+                    }
+                    else
+                    {
+                        string[] fieldData = columnData.Text.Split('|');
+                        fieldList.AddRange(fieldData.Select(item => string.IsNullOrWhiteSpace(item) ? defaultValue : item));
+                    }
                 }
             }
             return fieldList;

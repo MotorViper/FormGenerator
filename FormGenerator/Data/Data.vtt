@@ -1,7 +1,7 @@
 ﻿#include Parameters.vtt Parameters
 #include Fields.vtt Fields
 #IF XML
-#include Styles.vtt Fields
+#include Styles.vtt Styles
 #FI
 #IF HTML
 #include HTMLStyles.vtt Fields

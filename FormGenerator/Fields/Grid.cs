@@ -90,17 +90,17 @@ namespace FormGenerator.Fields
                 _positions.MakeItemUsed(row, column);
                 if (tokenTreeList != null && tokenTreeList.Count == 1)
                 {
-                    string across = tokenTreeList[0]?.Value?.Text;
+                    IToken across = tokenTreeList[0].Value;
                     if (across != null)
                     {
-                        string[] bits = across.Split(',');
-                        int columns = int.Parse(bits[0]);
+                        ListToken items = across as ListToken;
+                        int columns = items?.Tokens[0].Convert<int>() ?? across.Convert<int>();
                         for (int i = 1; i < columns; ++i)
                             _positions.MakeItemUsed(row, column + i);
                         child.AddProperty("Grid.ColumnSpan", columns);
-                        if (bits.Length >= 2)
+                        if (items != null && items.Tokens.Count > 1)
                         {
-                            int rows = int.Parse(bits[1]);
+                            int rows = items.Tokens[1].Convert<int>();
                             child.AddProperty("Grid.RowSpan", rows);
                             for (int col = 0; col < columns; ++col)
                                 for (int i = 0; i < rows; ++i)

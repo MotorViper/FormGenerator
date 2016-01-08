@@ -31,12 +31,12 @@ namespace FormGenerator.Tools
                         item.AddMissing(defaults);
             }
             TokenTreeList fields = data.GetAll("Fields");
-            TokenTreeList styles = fields.FindMatches("Style", true);
+            TokenTreeList styles = data.GetAll("Styles");
             _sb.Append(
                 "<Border HorizontalAlignment=\"Stretch\" VerticalAlignment=\"Stretch\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">")
                 .AppendLine();
             AddStyles(styles, parameters);
-            foreach (TokenTree field in fields.SelectMany(child => child.Children).Where(x => x.Name == "Field"))
+            foreach (TokenTree field in fields.SelectMany(child => child.Children))
                 _sb.AddChild(field, 1, parameters, _offset, _endOfLine);
             _sb.Append("</Border>").AppendLine();
             return _sb.Generated;
@@ -45,7 +45,7 @@ namespace FormGenerator.Tools
         protected void AddStyles(IReadOnlyList<TokenTree> styles, TokenTree parameters)
         {
             _sb.Append("  <Border.Resources>").AppendLine();
-            foreach (TokenTree tokenTree in styles)
+            foreach (TokenTree tokenTree in styles[0].Children)
             {
                 _sb.Append("    <Style ");
 
@@ -53,13 +53,13 @@ namespace FormGenerator.Tools
                 bool hasType = false;
                 if (!string.IsNullOrWhiteSpace(targetType.Text))
                 {
-                    _sb.Append("TargetType=\"{x:Type ").Append(targetType).Append("}\" ");
+                    _sb.Append("TargetType=\"{x:Type ").Append(targetType.Text).Append("}\" ");
                     hasType = true;
                 }
 
-                string key = tokenTree["Name"];
-                if (!string.IsNullOrWhiteSpace(key))
-                    _sb.Append("x:Key=\"").Append(key).Append("\" ");
+                IToken key = tokenTree.Key;
+                if (!string.IsNullOrWhiteSpace(key.Text))
+                    _sb.Append("x:Key=\"").Append(key.Text).Append("\" ");
 
                 string basedOn = tokenTree["BasedOn"];
                 if (!string.IsNullOrWhiteSpace(basedOn))

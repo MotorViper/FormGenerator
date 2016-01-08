@@ -14,7 +14,6 @@ namespace FormGenerator
             IOCContainer ioc = IOCContainer.Instance;
             ioc.Register<IField, CheckBox>("CheckBox");
             ioc.Register<IField, ComboBox>("ComboBox");
-            ioc.Register<IField, Continuation>("Continuation");
             ioc.Register<IField, Grid>("Grid");
             ioc.Register<IField, Selector>("Selector");
             ioc.Register<IField, Table>("Table");

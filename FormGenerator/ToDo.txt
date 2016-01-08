@@ -8,8 +8,7 @@ Gui:
 	Add configuration - syntax colouring, tab stops etc.
 	Add ability to include resources from a file.
 	Allow multiple base level fields.
-	Replace Parameters.vtt with direct tables.
-	Need to get table headers working correctly to get rid of continuation.
+	Replace Parameters.vtt with macros.
 
 Console:
 	Make work more like reading a file.

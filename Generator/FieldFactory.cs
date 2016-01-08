@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Helpers;
 using TextParser;
@@ -11,7 +12,7 @@ namespace Generator
         public static IField CreateField(string fieldName, TokenTree data, int level, TokenTree parameters, IField parent)
         {
             if (string.IsNullOrWhiteSpace(fieldName))
-                fieldName = "Continuation";
+                throw new Exception("No field name given.");
 
             IField field = IOCContainer.Instance.Resolve<IField>(fieldName);
             if (field != null)
