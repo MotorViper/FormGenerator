@@ -59,6 +59,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\IXamlTokenData.cs" />
+    <Compile Include="Models\PregeneratedXamlTokenData.cs" />
+    <Compile Include="Models\TokenData.cs" />
     <Compile Include="Tools\IDataDisplayer.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Models\Editor.cs" />
@@ -84,6 +87,10 @@
     <Compile Include="Views\GeneratedView.xaml.cs">
       <DependentUpon>GeneratedView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Data\TestFile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\EditorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -164,6 +171,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ToDo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\TestData.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -10,7 +10,7 @@ namespace Generator
         private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
         private int _marginLeft;
         private int _marginTop;
-        public IFieldWriter Builder { get; set; }
+        protected IFieldWriter Builder { get; set; }
         protected string Offset { get; private set; }
         public TokenTreeList Children { get; private set; }
         public virtual int Level { protected get; set; }
@@ -24,7 +24,6 @@ namespace Generator
         {
             set { Children = value?.Children.Clone(); }
         }
-
 
         public void OutputField(IFieldWriter builder, int level, TokenTree parameters, string offset, string endOfLine)
         {
@@ -52,7 +51,7 @@ namespace Generator
             }
         }
 
-        public virtual void AddStart(string endOfLine, TokenTree parameters)
+        protected virtual void AddStart(string endOfLine, TokenTree parameters)
         {
             AppendStartOfLine(Level, "<").Append(Name).Append(" ");
             AddProperties(parameters);
@@ -117,6 +116,10 @@ namespace Generator
             return int.TryParse(sIndex, out index) && index.ToString() == sIndex;
         }
 
+        /// <summary>
+        /// Any properties that should not be processed.
+        /// </summary>
+        /// <returns>The list of properties to ignore.</returns>
         protected virtual List<string> IgnoredProperties()
         {
             return new List<string> {"Field", "Across", "Over", "Columns", "Rows", "Header"};
@@ -141,7 +144,7 @@ namespace Generator
             return Children.Where(child => child.Name == "Field");
         }
 
-        public virtual void AddEnd(string endOfLine)
+        protected virtual void AddEnd(string endOfLine)
         {
             AppendStartOfLine(Level, "</").Append(Name).Append(">").Append(endOfLine);
         }

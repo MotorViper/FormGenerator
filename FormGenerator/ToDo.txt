@@ -9,6 +9,7 @@ Gui:
 	Add ability to include resources from a file.
 	Allow multiple base level fields.
 	Replace Parameters.vtt with macros.
+	Move data files to new project as they are shared with web.
 
 Console:
 	Make work more like reading a file.

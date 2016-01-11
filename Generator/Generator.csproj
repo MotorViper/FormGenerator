@@ -46,6 +46,7 @@
     <Compile Include="GridData.cs" />
     <Compile Include="IField.cs" />
     <Compile Include="IFieldWriter.cs" />
+    <Compile Include="ITokenData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringFieldWriter.cs" />
   </ItemGroup>

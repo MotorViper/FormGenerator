@@ -1,0 +1,1505 @@
+<Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Border.Resources>
+    <Style x:Key="Stretch" >
+      <Setter Property="Control.HorizontalAlignment" Value="Stretch"/>
+    </Style>
+    <Style x:Key="Fill" BasedOn="{StaticResource Stretch}" >
+      <Setter Property="Control.VerticalAlignment" Value="Stretch"/>
+    </Style>
+    <Style x:Key="Middle" >
+      <Setter Property="Control.HorizontalAlignment" Value="Center"/>
+      <Setter Property="Control.VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="Left" >
+      <Setter Property="Control.HorizontalAlignment" Value="Left"/>
+    </Style>
+    <Style x:Key="Right" >
+      <Setter Property="Control.HorizontalAlignment" Value="Right"/>
+    </Style>
+    <Style x:Key="ShiftRight" >
+      <Setter Property="Control.Margin" Value="2,0,0,0"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="Bolded" >
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="FontSize" Value="16"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="CentreLabel" BasedOn="{StaticResource Stretch}" >
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="Inverted" BasedOn="{StaticResource CentreLabel}" >
+      <Setter Property="Background" Value="Black"/>
+      <Setter Property="Foreground" Value="White"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="PlusLabel" BasedOn="{StaticResource CentreLabel}" >
+      <Setter Property="Content" Value="+"/>
+      <Setter Property="Width" Value="16"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="BorderedLabel" BasedOn="{StaticResource CentreLabel}" >
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="BorderBrush" Value="Black"/>
+      <Setter Property="Margin" Value="1"/>
+      <Setter Property="Height" Value="26"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="LabelUnder" >
+      <Setter Property="Margin" Value="0,-6,0,0"/>
+      <Setter Property="FontSize" Value="8"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="LabelUnderLeft" BasedOn="{StaticResource LabelUnder}" >
+      <Setter Property="HorizontalAlignment" Value="Left"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="WeaponHeader" BasedOn="{StaticResource CentreLabel}" >
+      <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="SkillHeader" BasedOn="{StaticResource CentreLabel}" >
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="BorderBrush" Value="Black"/>
+    </Style>
+  </Border.Resources>
+  <Grid Style="{StaticResource Fill}" Height="29.7cm" Width="21cm" >
+    <Grid Style="{StaticResource Stretch}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" >
+      <Grid Style="{StaticResource Stretch}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="12" >
+        <ComboBox VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" SelectedValue="{Binding Selected}" SelectedIndex="0" ItemsSource="{Binding Keys}" >
+        </ComboBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnder}" Content="Character" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="12" Grid.Row="0" Grid.ColumnSpan="8" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Player]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Player" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="20" Grid.Row="0" Grid.ColumnSpan="4" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Experience]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Experience" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Label Style="{StaticResource Bolded}" Content="Dungeons" Grid.Column="24" Grid.Row="0" Grid.ColumnSpan="12" >
+      </Label>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="12" >
+        <Label Style="{StaticResource Left}" Content="{Binding Values[ClassList]}" Height="25" Margin="0,-3,0,0" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="ClassList" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="12" Grid.Row="1" Grid.ColumnSpan="4" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Race]}" Background="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=280}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Race" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="16" Grid.Row="1" Grid.ColumnSpan="4" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Alignment]}" Background="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=281}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Alignment" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="20" Grid.Row="1" Grid.ColumnSpan="4" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Deity]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Deity" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Label Style="{StaticResource Bolded}" Content="&amp; Dragons" Grid.Column="24" Grid.Row="1" Grid.ColumnSpan="12" >
+      </Label>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Size]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Size" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Age]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Age" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="6" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Gender]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Gender" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="9" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Height]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Height" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="12" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Weight]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Weight" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="15" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Eyes]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Eyes" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="18" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Hair]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Hair" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="21" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Skin]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Skin" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Label Style="{StaticResource Bolded}" Content="Character Record Sheet" Grid.Column="24" Grid.Row="2" Grid.ColumnSpan="12" >
+      </Label>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+    </Grid>
+    <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="2" >
+      <Label Style="{StaticResource CentreLabel}" Content="Attribute" Grid.Column="0" Grid.Row="0" >
+      </Label>
+      <Label Style="{StaticResource CentreLabel}" Content="Value" Grid.Column="1" Grid.Row="0" >
+      </Label>
+      <Label Style="{StaticResource CentreLabel}" Content="Bonus" Grid.Column="2" Grid.Row="0" >
+      </Label>
+      <Label Style="{StaticResource CentreLabel}" Content="Temporary" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=282}" Grid.Column="0" Grid.Row="1" >
+      </Label>
+      <TextBox Style="{StaticResource Stretch}" Margin="2,0,0,0" Text="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=283}" Grid.Column="1" Grid.Row="1" >
+      </TextBox>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=284}" Width="27" Grid.Column="2" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="3" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="4" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=285}" Grid.Column="0" Grid.Row="2" >
+      </Label>
+      <TextBox Style="{StaticResource Stretch}" Margin="2,0,0,0" Text="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=286}" Grid.Column="1" Grid.Row="2" >
+      </TextBox>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=287}" Width="27" Grid.Column="2" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="3" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="4" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=288}" Grid.Column="0" Grid.Row="3" >
+      </Label>
+      <TextBox Style="{StaticResource Stretch}" Margin="2,0,0,0" Text="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=289}" Grid.Column="1" Grid.Row="3" >
+      </TextBox>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=290}" Width="27" Grid.Column="2" Grid.Row="3" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="3" Grid.Row="3" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="4" Grid.Row="3" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=291}" Grid.Column="0" Grid.Row="4" >
+      </Label>
+      <TextBox Style="{StaticResource Stretch}" Margin="2,0,0,0" Text="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=292}" Grid.Column="1" Grid.Row="4" >
+      </TextBox>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=293}" Width="27" Grid.Column="2" Grid.Row="4" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="3" Grid.Row="4" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="4" Grid.Row="4" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=294}" Grid.Column="0" Grid.Row="5" >
+      </Label>
+      <TextBox Style="{StaticResource Stretch}" Margin="2,0,0,0" Text="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=295}" Grid.Column="1" Grid.Row="5" >
+      </TextBox>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=296}" Width="27" Grid.Column="2" Grid.Row="5" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="3" Grid.Row="5" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="4" Grid.Row="5" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=297}" Grid.Column="0" Grid.Row="6" >
+      </Label>
+      <TextBox Style="{StaticResource Stretch}" Margin="2,0,0,0" Text="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=298}" Grid.Column="1" Grid.Row="6" >
+      </TextBox>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=299}" Width="27" Grid.Column="2" Grid.Row="6" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="3" Grid.Row="6" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="4" Grid.Row="6" >
+      </Label>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="40"/>
+        <ColumnDefinition Width="45"/>
+        <ColumnDefinition Width="35"/>
+        <ColumnDefinition Width="35"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+    </Grid>
+    <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" >
+      <Label Grid.Column="0" Grid.Row="0" >
+      </Label>
+      <Label Content="Total" Grid.Column="1" Grid.Row="0" >
+      </Label>
+      <Label Content="Wounds/Current HP" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="10" >
+      </Label>
+      <Label Content="Non-Lethal" Grid.Column="12" Grid.Row="0" Grid.ColumnSpan="3" >
+      </Label>
+      <Label Content="Speed" Grid.Column="15" Grid.Row="0" Grid.ColumnSpan="3" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="HP" Grid.Column="0" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[HP]}" Grid.Column="1" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="10" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="12" Grid.Row="1" Grid.ColumnSpan="3" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="15" Grid.Row="1" Grid.ColumnSpan="3" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="AC" Grid.Column="0" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[AC]}" Grid.Column="1" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource CentreLabel}" Content="= 10" Grid.Column="2" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="3" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[ArmourBonus]}" Grid.Column="4" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="5" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[ShieldBonus]}" Grid.Column="6" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="7" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[DexModifier]}" Grid.Column="8" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="9" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[SizeACModifier]}" Grid.Column="10" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="11" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[NaturalArmour]}" Grid.Column="12" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="13" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[DeflectionModifier]}" Grid.Column="14" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="15" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[MiscACModifier]}" Grid.Column="16" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="17" Grid.Row="2" >
+      </Label>
+      <Label Grid.Column="0" Grid.Row="3" >
+      </Label>
+      <Label Style="{StaticResource LabelUnder}" Content="Total" Grid.Column="1" Grid.Row="3" >
+      </Label>
+      <Label Grid.Column="2" Grid.Row="3" >
+      </Label>
+      <Grid HorizontalAlignment="Center" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Armour" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Bonus" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid HorizontalAlignment="Center" Grid.Column="6" Grid.Row="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Shield" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Bonus" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid HorizontalAlignment="Center" Grid.Column="7" Grid.Row="3" Grid.ColumnSpan="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Dex." HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Modifier" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid HorizontalAlignment="Center" Grid.Column="10" Grid.Row="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Size" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Modifier" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid HorizontalAlignment="Center" Grid.Column="11" Grid.Row="3" Grid.ColumnSpan="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Natural" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Armour" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid HorizontalAlignment="Center" Grid.Column="14" Grid.Row="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Deflection" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Modifier" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Label Grid.Column="15" Grid.Row="3" >
+      </Label>
+      <Grid HorizontalAlignment="Center" Grid.Column="16" Grid.Row="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Misc.Modifier" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="{Binding Values[P2]}" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="50"/>
+        <ColumnDefinition Width="45"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="70"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+    </Grid>
+    <Grid Grid.Column="1" Grid.Row="2" >
+      <Label Style="{StaticResource Inverted}" Content="Touch" Grid.Column="0" Grid.Row="0" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[Touch]}" Grid.Column="1" Grid.Row="0" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="Flat-Footed" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="4" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[FlatFooted]}" Grid.Column="6" Grid.Row="0" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="Initiative" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[Initiative]}" Grid.Column="2" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource CentreLabel}" Content="=" Grid.Column="3" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[DexModifier]}" Grid.Column="4" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="5" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[MiscInitiative]}" Grid.Column="6" Grid.Row="1" >
+      </Label>
+      <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" >
+      </Label>
+      <Label Style="{StaticResource LabelUnder}" Content="Total" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" >
+      </Label>
+      <Label Grid.Column="3" Grid.Row="2" >
+      </Label>
+      <Grid HorizontalAlignment="Center" Grid.Column="4" Grid.Row="2" >
+        <Label Style="{StaticResource LabelUnder}" Content="Dex." HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Modifier" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Label Grid.Column="5" Grid.Row="2" >
+      </Label>
+      <Grid HorizontalAlignment="Center" Grid.Column="6" Grid.Row="2" >
+        <Label Style="{StaticResource LabelUnder}" Content="Misc." HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Modifier" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="45"/>
+        <ColumnDefinition Width="45"/>
+        <ColumnDefinition Width="45"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="45"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="45"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+    </Grid>
+    <Border BorderThickness="1" BorderBrush="Black" Background="PaleGreen" Width="230" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="2" >
+      <Grid >
+        <Label Style="{StaticResource SkillHeader}" Content="Key" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource SkillHeader}" Content="Skill Name" Grid.Column="1" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource SkillHeader}" Content="Key Ability" Grid.Column="2" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource SkillHeader}" Content="Modifier" Grid.Column="3" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource SkillHeader}" Content="Ranks" Grid.Column="4" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource SkillHeader}" Content="Value" Grid.Column="5" Grid.Row="0" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=300}" Grid.Column="0" Grid.Row="1" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=301}" Grid.Column="1" Grid.Row="1" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=302}" Grid.Column="2" Grid.Row="1" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=303}" Grid.Column="3" Grid.Row="1" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=304}" Grid.Column="4" Grid.Row="1" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=305}" Grid.Column="5" Grid.Row="1" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=306}" Grid.Column="0" Grid.Row="2" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=307}" Grid.Column="1" Grid.Row="2" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=308}" Grid.Column="2" Grid.Row="2" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=309}" Grid.Column="3" Grid.Row="2" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=310}" Grid.Column="4" Grid.Row="2" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=311}" Grid.Column="5" Grid.Row="2" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=312}" Grid.Column="0" Grid.Row="3" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=313}" Grid.Column="1" Grid.Row="3" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=314}" Grid.Column="2" Grid.Row="3" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=315}" Grid.Column="3" Grid.Row="3" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=316}" Grid.Column="4" Grid.Row="3" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=317}" Grid.Column="5" Grid.Row="3" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=318}" Grid.Column="0" Grid.Row="4" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=319}" Grid.Column="1" Grid.Row="4" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=320}" Grid.Column="2" Grid.Row="4" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=321}" Grid.Column="3" Grid.Row="4" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=322}" Grid.Column="4" Grid.Row="4" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=323}" Grid.Column="5" Grid.Row="4" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=324}" Grid.Column="0" Grid.Row="5" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=325}" Grid.Column="1" Grid.Row="5" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=326}" Grid.Column="2" Grid.Row="5" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=327}" Grid.Column="3" Grid.Row="5" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=328}" Grid.Column="4" Grid.Row="5" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=329}" Grid.Column="5" Grid.Row="5" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=330}" Grid.Column="0" Grid.Row="6" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=331}" Grid.Column="1" Grid.Row="6" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=332}" Grid.Column="2" Grid.Row="6" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=333}" Grid.Column="3" Grid.Row="6" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=334}" Grid.Column="4" Grid.Row="6" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=335}" Grid.Column="5" Grid.Row="6" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=336}" Grid.Column="0" Grid.Row="7" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=337}" Grid.Column="1" Grid.Row="7" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=338}" Grid.Column="2" Grid.Row="7" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=339}" Grid.Column="3" Grid.Row="7" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=340}" Grid.Column="4" Grid.Row="7" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=341}" Grid.Column="5" Grid.Row="7" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=342}" Grid.Column="0" Grid.Row="8" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=343}" Grid.Column="1" Grid.Row="8" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=344}" Grid.Column="2" Grid.Row="8" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=345}" Grid.Column="3" Grid.Row="8" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=346}" Grid.Column="4" Grid.Row="8" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=347}" Grid.Column="5" Grid.Row="8" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=348}" Grid.Column="0" Grid.Row="9" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=349}" Grid.Column="1" Grid.Row="9" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=350}" Grid.Column="2" Grid.Row="9" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=351}" Grid.Column="3" Grid.Row="9" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=352}" Grid.Column="4" Grid.Row="9" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=353}" Grid.Column="5" Grid.Row="9" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=354}" Grid.Column="0" Grid.Row="10" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=355}" Grid.Column="1" Grid.Row="10" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=356}" Grid.Column="2" Grid.Row="10" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=357}" Grid.Column="3" Grid.Row="10" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=358}" Grid.Column="4" Grid.Row="10" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=359}" Grid.Column="5" Grid.Row="10" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=360}" Grid.Column="0" Grid.Row="11" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=361}" Grid.Column="1" Grid.Row="11" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=362}" Grid.Column="2" Grid.Row="11" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=363}" Grid.Column="3" Grid.Row="11" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=364}" Grid.Column="4" Grid.Row="11" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=365}" Grid.Column="5" Grid.Row="11" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=366}" Grid.Column="0" Grid.Row="12" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=367}" Grid.Column="1" Grid.Row="12" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=368}" Grid.Column="2" Grid.Row="12" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=369}" Grid.Column="3" Grid.Row="12" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=370}" Grid.Column="4" Grid.Row="12" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=371}" Grid.Column="5" Grid.Row="12" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=372}" Grid.Column="0" Grid.Row="13" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=373}" Grid.Column="1" Grid.Row="13" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=374}" Grid.Column="2" Grid.Row="13" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=375}" Grid.Column="3" Grid.Row="13" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=376}" Grid.Column="4" Grid.Row="13" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=377}" Grid.Column="5" Grid.Row="13" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=378}" Grid.Column="0" Grid.Row="14" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=379}" Grid.Column="1" Grid.Row="14" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=380}" Grid.Column="2" Grid.Row="14" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=381}" Grid.Column="3" Grid.Row="14" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=382}" Grid.Column="4" Grid.Row="14" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=383}" Grid.Column="5" Grid.Row="14" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=384}" Grid.Column="0" Grid.Row="15" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=385}" Grid.Column="1" Grid.Row="15" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=386}" Grid.Column="2" Grid.Row="15" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=387}" Grid.Column="3" Grid.Row="15" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=388}" Grid.Column="4" Grid.Row="15" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=389}" Grid.Column="5" Grid.Row="15" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=390}" Grid.Column="0" Grid.Row="16" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=391}" Grid.Column="1" Grid.Row="16" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=392}" Grid.Column="2" Grid.Row="16" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=393}" Grid.Column="3" Grid.Row="16" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=394}" Grid.Column="4" Grid.Row="16" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=395}" Grid.Column="5" Grid.Row="16" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=396}" Grid.Column="0" Grid.Row="17" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=397}" Grid.Column="1" Grid.Row="17" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=398}" Grid.Column="2" Grid.Row="17" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=399}" Grid.Column="3" Grid.Row="17" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=400}" Grid.Column="4" Grid.Row="17" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=401}" Grid.Column="5" Grid.Row="17" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=402}" Grid.Column="0" Grid.Row="18" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=403}" Grid.Column="1" Grid.Row="18" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=404}" Grid.Column="2" Grid.Row="18" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=405}" Grid.Column="3" Grid.Row="18" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=406}" Grid.Column="4" Grid.Row="18" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=407}" Grid.Column="5" Grid.Row="18" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=408}" Grid.Column="0" Grid.Row="19" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=409}" Grid.Column="1" Grid.Row="19" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=410}" Grid.Column="2" Grid.Row="19" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=411}" Grid.Column="3" Grid.Row="19" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=412}" Grid.Column="4" Grid.Row="19" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=413}" Grid.Column="5" Grid.Row="19" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=414}" Grid.Column="0" Grid.Row="20" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=415}" Grid.Column="1" Grid.Row="20" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=416}" Grid.Column="2" Grid.Row="20" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=417}" Grid.Column="3" Grid.Row="20" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=418}" Grid.Column="4" Grid.Row="20" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=419}" Grid.Column="5" Grid.Row="20" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=420}" Grid.Column="0" Grid.Row="21" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=421}" Grid.Column="1" Grid.Row="21" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=422}" Grid.Column="2" Grid.Row="21" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=423}" Grid.Column="3" Grid.Row="21" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=424}" Grid.Column="4" Grid.Row="21" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=425}" Grid.Column="5" Grid.Row="21" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=426}" Grid.Column="0" Grid.Row="22" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=427}" Grid.Column="1" Grid.Row="22" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=428}" Grid.Column="2" Grid.Row="22" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=429}" Grid.Column="3" Grid.Row="22" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=430}" Grid.Column="4" Grid.Row="22" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=431}" Grid.Column="5" Grid.Row="22" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=432}" Grid.Column="0" Grid.Row="23" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=433}" Grid.Column="1" Grid.Row="23" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=434}" Grid.Column="2" Grid.Row="23" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=435}" Grid.Column="3" Grid.Row="23" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=436}" Grid.Column="4" Grid.Row="23" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=437}" Grid.Column="5" Grid.Row="23" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=438}" Grid.Column="0" Grid.Row="24" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=439}" Grid.Column="1" Grid.Row="24" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=440}" Grid.Column="2" Grid.Row="24" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=441}" Grid.Column="3" Grid.Row="24" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=442}" Grid.Column="4" Grid.Row="24" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=443}" Grid.Column="5" Grid.Row="24" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=444}" Grid.Column="0" Grid.Row="25" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=445}" Grid.Column="1" Grid.Row="25" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=446}" Grid.Column="2" Grid.Row="25" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=447}" Grid.Column="3" Grid.Row="25" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=448}" Grid.Column="4" Grid.Row="25" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=449}" Grid.Column="5" Grid.Row="25" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=450}" Grid.Column="0" Grid.Row="26" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=451}" Grid.Column="1" Grid.Row="26" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=452}" Grid.Column="2" Grid.Row="26" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=453}" Grid.Column="3" Grid.Row="26" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=454}" Grid.Column="4" Grid.Row="26" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=455}" Grid.Column="5" Grid.Row="26" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=456}" Grid.Column="0" Grid.Row="27" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=457}" Grid.Column="1" Grid.Row="27" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=458}" Grid.Column="2" Grid.Row="27" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=459}" Grid.Column="3" Grid.Row="27" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=460}" Grid.Column="4" Grid.Row="27" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=461}" Grid.Column="5" Grid.Row="27" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=462}" Grid.Column="0" Grid.Row="28" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=463}" Grid.Column="1" Grid.Row="28" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=464}" Grid.Column="2" Grid.Row="28" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=465}" Grid.Column="3" Grid.Row="28" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=466}" Grid.Column="4" Grid.Row="28" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=467}" Grid.Column="5" Grid.Row="28" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=468}" Grid.Column="0" Grid.Row="29" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=469}" Grid.Column="1" Grid.Row="29" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=470}" Grid.Column="2" Grid.Row="29" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=471}" Grid.Column="3" Grid.Row="29" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=472}" Grid.Column="4" Grid.Row="29" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=473}" Grid.Column="5" Grid.Row="29" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=474}" Grid.Column="0" Grid.Row="30" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=475}" Grid.Column="1" Grid.Row="30" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=476}" Grid.Column="2" Grid.Row="30" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=477}" Grid.Column="3" Grid.Row="30" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=478}" Grid.Column="4" Grid.Row="30" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=479}" Grid.Column="5" Grid.Row="30" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=480}" Grid.Column="0" Grid.Row="31" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=481}" Grid.Column="1" Grid.Row="31" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=482}" Grid.Column="2" Grid.Row="31" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=483}" Grid.Column="3" Grid.Row="31" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=484}" Grid.Column="4" Grid.Row="31" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=485}" Grid.Column="5" Grid.Row="31" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=486}" Grid.Column="0" Grid.Row="32" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=487}" Grid.Column="1" Grid.Row="32" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=488}" Grid.Column="2" Grid.Row="32" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=489}" Grid.Column="3" Grid.Row="32" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=490}" Grid.Column="4" Grid.Row="32" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=491}" Grid.Column="5" Grid.Row="32" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=492}" Grid.Column="0" Grid.Row="33" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=493}" Grid.Column="1" Grid.Row="33" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=494}" Grid.Column="2" Grid.Row="33" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=495}" Grid.Column="3" Grid.Row="33" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=496}" Grid.Column="4" Grid.Row="33" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=497}" Grid.Column="5" Grid.Row="33" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=498}" Grid.Column="0" Grid.Row="34" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=499}" Grid.Column="1" Grid.Row="34" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=500}" Grid.Column="2" Grid.Row="34" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=501}" Grid.Column="3" Grid.Row="34" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=502}" Grid.Column="4" Grid.Row="34" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=503}" Grid.Column="5" Grid.Row="34" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=504}" Grid.Column="0" Grid.Row="35" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=505}" Grid.Column="1" Grid.Row="35" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=506}" Grid.Column="2" Grid.Row="35" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=507}" Grid.Column="3" Grid.Row="35" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=508}" Grid.Column="4" Grid.Row="35" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=509}" Grid.Column="5" Grid.Row="35" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=510}" Grid.Column="0" Grid.Row="36" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=511}" Grid.Column="1" Grid.Row="36" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=512}" Grid.Column="2" Grid.Row="36" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=513}" Grid.Column="3" Grid.Row="36" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=514}" Grid.Column="4" Grid.Row="36" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=515}" Grid.Column="5" Grid.Row="36" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=516}" Grid.Column="0" Grid.Row="37" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=517}" Grid.Column="1" Grid.Row="37" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=518}" Grid.Column="2" Grid.Row="37" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=519}" Grid.Column="3" Grid.Row="37" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=520}" Grid.Column="4" Grid.Row="37" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=521}" Grid.Column="5" Grid.Row="37" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=522}" Grid.Column="0" Grid.Row="38" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=523}" Grid.Column="1" Grid.Row="38" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=524}" Grid.Column="2" Grid.Row="38" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=525}" Grid.Column="3" Grid.Row="38" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=526}" Grid.Column="4" Grid.Row="38" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=527}" Grid.Column="5" Grid.Row="38" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=528}" Grid.Column="0" Grid.Row="39" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=529}" Grid.Column="1" Grid.Row="39" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=530}" Grid.Column="2" Grid.Row="39" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=531}" Grid.Column="3" Grid.Row="39" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=532}" Grid.Column="4" Grid.Row="39" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=533}" Grid.Column="5" Grid.Row="39" >
+        </Label>
+        <CheckBox Style="{StaticResource Middle}" IsEnabled="False" IsChecked="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=534}" Grid.Column="0" Grid.Row="40" >
+        </CheckBox>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=535}" Grid.Column="1" Grid.Row="40" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=536}" Grid.Column="2" Grid.Row="40" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=537}" Grid.Column="3" Grid.Row="40" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=538}" Grid.Column="4" Grid.Row="40" >
+        </Label>
+        <Label Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=539}" Grid.Column="5" Grid.Row="40" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+    </Border>
+    <Grid Style="{StaticResource Fill}" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" >
+      <Grid Grid.Column="0" Grid.Row="0" >
+        <Grid Grid.Column="0" Grid.Row="0" >
+          <Label Content="SAVING THROWS" FontSize="10" Grid.Column="0" Grid.Row="0" >
+          </Label>
+          <Label Content="TOTAL" Grid.Column="1" Grid.Row="0" >
+          </Label>
+          <Label Content="" Grid.Column="2" Grid.Row="0" >
+          </Label>
+          <Label Content="Base" Grid.Column="3" Grid.Row="0" >
+          </Label>
+          <Label Content="" Grid.Column="4" Grid.Row="0" >
+          </Label>
+          <Label Content="Ability" Grid.Column="5" Grid.Row="0" >
+          </Label>
+          <Label Content="" Grid.Column="6" Grid.Row="0" >
+          </Label>
+          <Label Content="Magic" Grid.Column="7" Grid.Row="0" >
+          </Label>
+          <Label Content="" Grid.Column="8" Grid.Row="0" >
+          </Label>
+          <Label Content="Misc." Grid.Column="9" Grid.Row="0" >
+          </Label>
+          <Label Content="" Grid.Column="10" Grid.Row="0" >
+          </Label>
+          <Label Content="Temp." Grid.Column="11" Grid.Row="0" >
+          </Label>
+          <Label Style="{StaticResource Inverted}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=540}" Grid.Column="0" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=541}" Grid.Column="1" Grid.Row="1" >
+          </Label>
+          <Label Content="=" Grid.Column="2" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=542}" Grid.Column="3" Grid.Row="1" >
+          </Label>
+          <Label Content="+" Grid.Column="4" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=543}" Grid.Column="5" Grid.Row="1" >
+          </Label>
+          <Label Content="+" Grid.Column="6" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="7" Grid.Row="1" >
+          </Label>
+          <Label Content="+" Grid.Column="8" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="9" Grid.Row="1" >
+          </Label>
+          <Label Content="+" Grid.Column="10" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="11" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource Inverted}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=544}" Grid.Column="0" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=545}" Grid.Column="1" Grid.Row="2" >
+          </Label>
+          <Label Content="=" Grid.Column="2" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=546}" Grid.Column="3" Grid.Row="2" >
+          </Label>
+          <Label Content="+" Grid.Column="4" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=547}" Grid.Column="5" Grid.Row="2" >
+          </Label>
+          <Label Content="+" Grid.Column="6" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="7" Grid.Row="2" >
+          </Label>
+          <Label Content="+" Grid.Column="8" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="9" Grid.Row="2" >
+          </Label>
+          <Label Content="+" Grid.Column="10" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="11" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource Inverted}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=548}" Grid.Column="0" Grid.Row="3" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=549}" Grid.Column="1" Grid.Row="3" >
+          </Label>
+          <Label Content="=" Grid.Column="2" Grid.Row="3" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=550}" Grid.Column="3" Grid.Row="3" >
+          </Label>
+          <Label Content="+" Grid.Column="4" Grid.Row="3" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=551}" Grid.Column="5" Grid.Row="3" >
+          </Label>
+          <Label Content="+" Grid.Column="6" Grid.Row="3" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="7" Grid.Row="3" >
+          </Label>
+          <Label Content="+" Grid.Column="8" Grid.Row="3" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="9" Grid.Row="3" >
+          </Label>
+          <Label Content="+" Grid.Column="10" Grid.Row="3" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="11" Grid.Row="3" >
+          </Label>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="45"/>
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0" >
+          <Label Style="{StaticResource Middle}" Content="Modifiers" Grid.Column="0" Grid.Row="0" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Height="83" Width="90" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="3" >
+          </Label>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+        </Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="92"/>
+        </Grid.ColumnDefinitions>
+      </Grid>
+      <Grid Grid.Column="0" Grid.Row="1" >
+        <Label Style="{StaticResource Inverted}" Content="Base Attack Bonus" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[BAB]}" Grid.Column="1" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource Inverted}" Content="Melee" Grid.Column="2" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[Melee]}" Grid.Column="3" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource Inverted}" Content="Missile" Grid.Column="4" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[Missile]}" Grid.Column="5" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource Inverted}" Content="Spell Resistance" Grid.Column="6" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[SpellResistance]}" Grid.Column="7" Grid.Row="0" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+      </Grid>
+      <Grid Background="LightBlue" Grid.Column="0" Grid.Row="2" >
+        <Label Style="{StaticResource Inverted}" Content="Grapple" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[Grapple]}" Grid.Column="1" Grid.Row="0" >
+        </Label>
+        <Label Content="=" Grid.Column="2" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[BAB]}" Grid.Column="3" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource PlusLabel}" Grid.Column="4" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[StrModifier]}" Grid.Column="5" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource PlusLabel}" Grid.Column="6" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[SizeBABModifier]}" Grid.Column="7" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource PlusLabel}" Grid.Column="8" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[MiscBABModifier]}" Grid.Column="9" Grid.Row="0" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+      </Grid>
+      <Grid Grid.Column="0" Grid.Row="3" >
+        <Label Content="Weapon" Style="{StaticResource WeaponHeader}" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Content="BAB" Style="{StaticResource WeaponHeader}" Grid.Column="1" Grid.Row="0" >
+        </Label>
+        <Label Content="Damage" Style="{StaticResource WeaponHeader}" Grid.Column="2" Grid.Row="0" >
+        </Label>
+        <Label Content="Range" Style="{StaticResource WeaponHeader}" Grid.Column="3" Grid.Row="0" >
+        </Label>
+        <Label Content="" Grid.Column="4" Grid.Row="0" >
+        </Label>
+        <ComboBox Style="{StaticResource Stretch}" SelectedValue="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=552}" ItemsSource="{Binding Values, Converter={StaticResource ListConverter}, ConverterParameter=Weapons}" Height="25" Grid.Column="0" Grid.Row="1" >
+        </ComboBox>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=553}" Grid.Column="1" Grid.Row="1" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=554}" Grid.Column="2" Grid.Row="1" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=555}" Grid.Column="3" Grid.Row="1" >
+        </Label>
+        <Label Grid.Column="4" Grid.Row="1" >
+        </Label>
+        <ComboBox Style="{StaticResource Stretch}" SelectedValue="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=556}" ItemsSource="{Binding Values, Converter={StaticResource ListConverter}, ConverterParameter=Weapons}" Height="25" Grid.Column="0" Grid.Row="2" >
+        </ComboBox>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=557}" Grid.Column="1" Grid.Row="2" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=558}" Grid.Column="2" Grid.Row="2" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=559}" Grid.Column="3" Grid.Row="2" >
+        </Label>
+        <Label Grid.Column="4" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="100"/>
+          <ColumnDefinition Width="60"/>
+          <ColumnDefinition Width="60"/>
+          <ColumnDefinition Width="60"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+    </Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+  </Grid>
+</Border>

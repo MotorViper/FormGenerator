@@ -125,12 +125,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\IXamlTokenData.cs" />
+    <Compile Include="Models\PregeneratedHtmlTokenData.cs" />
     <Compile Include="Models\Select.cs" />
     <Compile Include="Models\Field.cs" />
     <Compile Include="Models\Grid.cs" />
     <Compile Include="Models\LoadData.cs" />
     <Compile Include="Models\HtmlGenerator.cs" />
     <Compile Include="Models\Selector.cs" />
+    <Compile Include="Models\Table.cs" />
+    <Compile Include="Models\CheckBox.cs" />
+    <Compile Include="Models\TextBox.cs" />
+    <Compile Include="Models\TokenData.cs" />
     <Compile Include="Models\Underline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

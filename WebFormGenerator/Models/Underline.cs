@@ -8,12 +8,12 @@ namespace WebFormGenerator.Models
         {
         }
 
-        public override void AddStart(string endOfLine, TokenTree parameters)
+        protected override void AddStart(string endOfLine, TokenTree parameters)
         {
             AppendStartOfLine(Level, "<hr/>");
         }
 
-        public override void AddEnd(string endOfLine)
+        protected override void AddEnd(string endOfLine)
         {
         }
 

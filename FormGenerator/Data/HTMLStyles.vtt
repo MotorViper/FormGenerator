@@ -8,6 +8,9 @@
 Style: td img 
 	WhiteSpace: nowrap
 	Display: block
+// Used for debugging
+//Style: table, th, td
+//	border: 1px solid green
 Style: 
 	Name: Stretch
 	Width: 100%
