@@ -57,9 +57,9 @@ namespace WebFormGenerator.Models
         /// <summary>
         /// Adds the end indicator for a field.
         /// </summary>
-        /// <param name="endOfLine">The end of line symbol.</param>
-        protected override void AddEnd(string endOfLine)
+        protected override void AddEnd()
         {
+            // This is a closed field and so has no end delimiter.
         }
     }
 }

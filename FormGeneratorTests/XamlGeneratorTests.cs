@@ -1,4 +1,5 @@
-﻿using FormGenerator.Fields;
+﻿using System;
+using FormGenerator.Fields;
 using FormGenerator.Tools;
 using Generator;
 using Helpers;
@@ -12,9 +13,11 @@ namespace FormGeneratorTests
     public class XamlGeneratorTests
     {
         private const string XAML =
-            "<Grid xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" +
-            "  <Label Content=\"Hi\" Width=\"200\" ></Label>" +
-            "</Grid>";
+            "<Border HorizontalAlignment=\"Stretch\" VerticalAlignment=\"Stretch\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">" +
+            "  <Grid>" +
+            "    <Label Content=\"Hi\" Width=\"200\" ></Label>" +
+            "  </Grid>" +
+            "</Border>";
 
         private const string VTL =
             @"
@@ -25,6 +28,12 @@ Fields:
         Field: Label
             Content: Hi
             Width: $FieldWidth";
+
+        [TestInitialize]
+        public void Initialisation()
+        {
+            IOCContainer.Instance.Register<IFieldWriter>(new StringFieldWriter<Field>(""));
+        }
 
         [TestMethod]
         public void TestSimpleGeneration()
@@ -62,8 +71,8 @@ Fields:
                     }
                 }
             };
-            string generated = new XamlGenerator("").GenerateXaml(toGenerate);
-            Assert.AreEqual(XAML.Replace(" ", ""), generated.Replace(" ", ""));
+            string generated = new XamlGenerator().GenerateXaml(toGenerate);
+            Assert.AreEqual(XAML.Replace(" ", ""), generated.Replace(" ", "").Replace(Environment.NewLine, ""));
         }
 
         [TestMethod]
@@ -71,8 +80,8 @@ Fields:
         {
             IOCContainer.Instance.Register<IField, Field>();
             TokenTree tokenTree = Parser.ParseString(VTL);
-            string generated = new XamlGenerator("").GenerateXaml(tokenTree);
-            Assert.AreEqual(XAML.Replace(" ", ""), generated.Replace(" ", ""));
+            string generated = new XamlGenerator().GenerateXaml(tokenTree);
+            Assert.AreEqual(XAML.Replace(" ", ""), generated.Replace(" ", "").Replace(Environment.NewLine, ""));
         }
     }
 }

@@ -12,10 +12,17 @@ namespace FormGenerator.Fields
         private GridData _positions;
 
         // ReSharper disable once MemberCanBeProtected.Global - used by IOC.
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public Grid() : base("Grid")
         {
         }
 
+        /// <summary>
+        /// Any properties that should not be processed.
+        /// </summary>
+        /// <returns>The list of properties to ignore.</returns>
         protected override List<string> IgnoredProperties()
         {
             List<string> ignored = base.IgnoredProperties();
@@ -23,6 +30,12 @@ namespace FormGenerator.Fields
             return ignored;
         }
 
+        /// <summary>
+        /// Add a single property to the list of those to output.
+        /// </summary>
+        /// <param name="name">The property name.</param>
+        /// <param name="value"></param>
+        /// <param name="parameters">Calculation parameters.</param>
         protected override void AddProperty(string name, IToken value, TokenTreeList parameters)
         {
             if (name == "ColumnWidth")
@@ -31,7 +44,10 @@ namespace FormGenerator.Fields
                 base.AddProperty(name, value, parameters);
         }
 
-        protected void AddColumnsAndRows()
+        /// <summary>
+        /// Adds the column and row definitions for the table.
+        /// </summary>
+        private void AddColumnsAndRows()
         {
             AppendStartOfLine(Level + 1, "<Grid.ColumnDefinitions>").AppendLine();
             foreach (string column in _positions.Columns)
@@ -58,27 +74,44 @@ namespace FormGenerator.Fields
             }
         }
 
-        protected override void AddChildren(TokenTree parameters, string endOfLine)
+        /// <summary>
+        /// Adds the fields children.
+        /// </summary>
+        /// <param name="parameters">Calculation parameters.</param>
+        protected override void AddChildren(TokenTree parameters)
         {
             BeginAddChildren(parameters);
-            base.AddChildren(parameters, endOfLine);
+            base.AddChildren(parameters);
             EndAddChildren();
         }
 
+        /// <summary>
+        /// Outputs the row and column information if there is any.
+        /// </summary>
         protected void EndAddChildren()
         {
             if (_positions.Columns != null)
                 AddColumnsAndRows();
         }
 
+        /// <summary>
+        /// Start adding the grids children.
+        /// </summary>
+        /// <param name="parameters">The data containing the children.</param>
         protected void BeginAddChildren(TokenTree parameters)
         {
             _positions = new GridData(parameters, Children, _columnWidth);
         }
 
+        /// <summary>
+        /// Adds any child properties that are linked to the field.
+        /// </summary>
+        /// <param name="child">The child whose properties are being added.</param>
         public override void AddChildProperties(IField child)
         {
             base.AddChildProperties(child);
+
+            // Position the child within the grid.
             if (_positions.Columns != null)
             {
                 Tuple<int, int> rowAndColumn = _positions.GetNextRowAndColumn();

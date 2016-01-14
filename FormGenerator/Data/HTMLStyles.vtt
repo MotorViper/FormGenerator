@@ -8,9 +8,14 @@
 Style: td img 
 	WhiteSpace: nowrap
 	Display: block
+Style: Select
+	Height: 25px
 // Used for debugging
 //Style: table, th, td
 //	border: 1px solid green
+Style:
+	Name: 'text-box'
+	Height: 25px
 Style: 
 	Name: Stretch
 	Width: 100%
@@ -21,9 +26,10 @@ Style:
 Style: 
 	Name: LabelUnder
 	FontSize: 8px
+	Height: 10px
 Style: 
 	Name: LabelUnderLeft
-	FontSize: 8px
+	BasedOn: LabelUnder
 Style: 
 	Name: ShiftRight
 	Width: 100%
@@ -37,12 +43,9 @@ Style:
 	Name: Right
 	TextAlign: Right
 Style: 
-	Name: ShiftRight
-	Margin: '2,0,0,0'
-Style: 
 	Name: Bolded
 	BasedOn: Stretch
-	FontStyle: Bold
+	FontWeight: Bold
 	FontSize: 16px
 	TextAlign: Center
 Style: 
@@ -53,17 +56,35 @@ Style:
 	Name: Inverted
 	BasedOn: CentreLabel
 	Background: Black
-	Foreground: White
+	color: White
 Style: 
 	Name: PlusLabel
 	BasedOn: CentreLabel
-	Width: 16
+	Width: 16px
 Style: '.PlusLabel::first-letter'
 	Content: '+'
 Style: 
 	Name: BorderedLabel
 	BasedOn: CentreLabel
-	BorderThickness: 1
-	BorderBrush: Black
-	Margin: 1
-	Height: 26
+	Border: 1px solid black
+	Margin: 1px
+	Height: 26px
+
+/*
+Style:
+	Name: table1
+	background-color: lightcyan
+	margin: 2px
+Style:
+	Name: table2
+	background-color: lightpink
+	margin: 2px
+Style:
+	Name: table3
+	background-color: lightgoldenrodyellow
+	margin: 2px
+Style:
+	Name: table4
+	background-color: lightblue
+	margin: 2px
+*/

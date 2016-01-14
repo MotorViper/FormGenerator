@@ -14,24 +14,27 @@ namespace WebFormGenerator
         private void Application_Start(object sender, EventArgs e)
         {
             // Code that runs on application startup
+            IOCContainer ioc = IOCContainer.Instance;
 
             // Register the fields that can be displayed.
-            IOCContainer.Instance.Register<IField, Underline>("UnderLine");
-            IOCContainer.Instance.Register<IField, Selector>("Selector");
-            IOCContainer.Instance.Register<IField, Select>("ComboBox");
-            IOCContainer.Instance.Register<IField, Grid>("Grid");
-            IOCContainer.Instance.Register<IField, Grid>("Border");
-            IOCContainer.Instance.Register<IField, Table>("Table");
-            IOCContainer.Instance.Register<IField, TextBox>("TextBox");
-            IOCContainer.Instance.Register<IField, CheckBox>("CheckBox");
-            IOCContainer.Instance.Register<IField, Field>();
+            ioc.Register<IField, Underline>("UnderLine");
+            ioc.Register<IField, Selector>("Selector");
+            ioc.Register<IField, Select>("ComboBox");
+            ioc.Register<IField, Grid>("Grid");
+            ioc.Register<IField, Grid>("Border");
+            ioc.Register<IField, Table>("Table");
+            ioc.Register<IField, TextBox>("TextBox");
+            ioc.Register<IField, CheckBox>("CheckBox");
+            ioc.Register<IField, Field>();
 
             // Register the token data generator.
-            IOCContainer.Instance.Register<IHtmlTokenData, TokenData>();
+            ioc.Register<IHtmlTokenData, TokenData>();
 
             // To use the html in the data directory to test the c# code.
             // Replace the line above with this.
             //IOCContainer.Instance.Register<IHtmlTokenData, PregeneratedHtmlTokenData>();
+
+            ioc.Register<IFieldWriter, StringFieldWriter<Field>>().AsSingleton();
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Generator;
+using Helpers;
 using TextParser;
 using TextParser.Tokens;
 
@@ -8,16 +9,13 @@ namespace FormGenerator.Tools
 {
     public class XamlGenerator
     {
-        private readonly string _endOfLine;
-        private readonly string _offset;
-        private readonly IFieldWriter _sb = new StringFieldWriter();
+        private readonly IFieldWriter _sb = IOCContainer.Instance.Resolve<IFieldWriter>();
 
-        public XamlGenerator(string endOfLine = "\n", string offset = "  ")
-        {
-            _endOfLine = endOfLine;
-            _offset = offset;
-        }
-
+        /// <summary>
+        /// Generates the xaml that is to be displayed.
+        /// </summary>
+        /// <param name="data">The data the xaml is constructed from.</param>
+        /// <returns>The xaml representation of the input.</returns>
         public string GenerateXaml(TokenTree data)
         {
             TokenTree parameters = new TokenTree(data.GetChildren("Parameters"));
@@ -35,14 +33,20 @@ namespace FormGenerator.Tools
             _sb.Append(
                 "<Border HorizontalAlignment=\"Stretch\" VerticalAlignment=\"Stretch\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">")
                 .AppendLine();
-            AddStyles(styles, parameters);
+            if (styles != null && styles.Count > 0)
+                AddStyles(styles, parameters);
             foreach (TokenTree field in fields.SelectMany(child => child.Children))
-                _sb.AddChild(field, 1, parameters, _offset, _endOfLine);
+                _sb.AddElement(field, 1, parameters);
             _sb.Append("</Border>").AppendLine();
             return _sb.Generated;
         }
 
-        protected void AddStyles(IReadOnlyList<TokenTree> styles, TokenTree parameters)
+        /// <summary>
+        /// Adds style information.
+        /// </summary>
+        /// <param name="styles">List of styles to add.</param>
+        /// <param name="parameters">Calculation parameters.</param>
+        private void AddStyles(IReadOnlyList<TokenTree> styles, TokenTree parameters)
         {
             _sb.Append("  <Border.Resources>").AppendLine();
             foreach (TokenTree tokenTree in styles[0].Children)
@@ -80,6 +84,12 @@ namespace FormGenerator.Tools
             _sb.Append("  </Border.Resources>").AppendLine();
         }
 
+        /// <summary>
+        /// Evaluates a token.
+        /// </summary>
+        /// <param name="value">The token to process.</param>
+        /// <param name="parameters">Calculation parameters.</param>
+        /// <returns>The processed token.</returns>
         private static string ProcessTokens(IToken value, TokenTreeList parameters)
         {
             return value.Evaluate(parameters, false).Text;

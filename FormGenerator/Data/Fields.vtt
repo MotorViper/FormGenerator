@@ -240,12 +240,12 @@
 	Field: Border
         BorderThickness: 1
         BorderBrush: Black
-		Background: PaleGreen
 		Width: 230
 		Across: 1|2
 		Field: Table
 			Content: Skills
 			Columns: 'Auto|||||'
+			Background: PaleGreen
 			Field: CheckBox
 				Header: 
 					Style: SkillHeader

@@ -6,13 +6,26 @@ using TextParser.Tokens;
 
 namespace WebFormGenerator.Models
 {
+    /// <summary>
+    /// Class that handles output of a grid field.
+    /// </summary>
     public class Grid : Field
     {
+        private string _class;
+
+        // ReSharper disable once MemberCanBeProtected.Global - ued by IOC
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public Grid() : base("Table")
         {
         }
 
-        protected override void AddChildren(TokenTree parameters, string endOfLine)
+        /// <summary>
+        /// Outputs the fields children.
+        /// </summary>
+        /// <param name="parameters">The data used for evaluation.</param>
+        protected override void AddChildren(TokenTree parameters)
         {
             GridData positions = new GridData(parameters, Children, "10");
             IEnumerable<TokenTree> fields = GetSubFields();
@@ -52,10 +65,36 @@ namespace WebFormGenerator.Models
                 if (rows > 1)
                     Builder.Append($" rowspan=\"{rows}\"").AppendLine();
                 Builder.Append(">");
-                Builder.AddChild(child, Level + 1, parameters, Offset, endOfLine, this, null, Selected, Keys);
+                AddElement(child, Level + 1, parameters, this, Selected, Keys);
                 Builder.Append("</td>").AppendLine();
             }
             Builder.Append("</tr>").AppendLine();
+        }
+
+        /// <summary>
+        /// Loops through the properties and outputs each one according to it's content.
+        /// </summary>
+        /// <param name="properties">The properties to loop over.</param>
+        protected override void OutputProperties(Dictionary<string, string> properties)
+        {
+            base.OutputProperties(properties);
+            if (_class != null)
+                base.OutputProperty("class", _class + " table" + Level);
+            else
+                base.OutputProperty("class", "tr" + Level);
+        }
+
+        /// <summary>
+        /// Outputs a single property.
+        /// </summary>
+        /// <param name="key">The property name.</param>
+        /// <param name="value">The property value.</param>
+        protected override void OutputProperty(string key, string value)
+        {
+            if (key == "class")
+                _class = value;
+            else
+                base.OutputProperty(key, value);
         }
     }
 }

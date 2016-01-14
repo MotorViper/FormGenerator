@@ -1,16 +1,42 @@
 ﻿using System.Collections.Generic;
 using TextParser;
-using TextParser.Tokens;
 
 namespace Generator
 {
     public interface IFieldWriter
     {
+        /// <summary>
+        /// The generated text.
+        /// </summary>
         string Generated { get; }
-        IFieldWriter Append<T>(T s);
+
+        /// <summary>
+        /// Outputs the start of a new line.
+        /// </summary>
+        /// <returns></returns>
+        IFieldWriter AppendStart(int level);
+
+        /// <summary>
+        /// Appends text to the contents.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the object to append.</typeparam>
+        /// <param name="s">The object to append.</param>
+        /// <returns>The field writer, to allow chaining.</returns>
+        IFieldWriter Append<TValue>(TValue s);
+
+        /// <summary>
+        /// Appends a new line character.
+        /// </summary>
         void AppendLine();
 
-        void AddChild(TokenTree data, int level, TokenTree parameters, string offset, string endOfLine, IField parent = null, IToken parameter = null,
-            TokenTree selected = null, List<string> keys = null);
+        /// <summary>
+        /// Add an element to the output.
+        /// </summary>
+        /// <param name="data">The data making up the element.</param>
+        /// <param name="level">The indentation level.</param>
+        /// <param name="parameters">Calculation parameters.</param>
+        /// <param name="selected">The selected output element.</param>
+        /// <param name="keys">List of available elements.</param>
+        void AddElement(TokenTree data, int level, TokenTree parameters, TokenTree selected = null, List<string> keys = null);
     }
 }

@@ -30,6 +30,8 @@ namespace FormGenerator
             // Replace the line above with this.
             //ioc.Register<IXamlTokenData, PregeneratedXamlTokenData>();
 
+            ioc.Register<IFieldWriter, StringFieldWriter<Field>>().AsSingleton();
+
             InitializeComponent();
         }
     }

@@ -27,8 +27,7 @@ namespace WebFormGenerator.Models
         /// Outputs the fields children.
         /// </summary>
         /// <param name="parameters">The data used for evaluation.</param>
-        /// <param name="endOfLine">The end of line character.</param>
-        protected override void AddChildren(TokenTree parameters, string endOfLine)
+        protected override void AddChildren(TokenTree parameters)
         {
             List<TokenTree> fields = GetSubFields().ToList();
             Builder.Append("<tr>").AppendLine();
@@ -46,7 +45,7 @@ namespace WebFormGenerator.Models
                     if (header.Value is NullToken)
                         header.Value = new StringToken("Label");
                     Builder.Append("<th>").AppendLine();
-                    Builder.AddChild(header, Level + 1, parameters, Offset, endOfLine, this);
+                    AddElement(header, Level + 1, parameters, this);
                     Builder.Append("</th>").AppendLine();
                 }
             }
@@ -58,7 +57,7 @@ namespace WebFormGenerator.Models
             {
                 TokenTree items = new TokenTree(parameters.GetChildren(over.Text));
                 foreach (TokenTree item in items.Children)
-                    AddRow(parameters, endOfLine, fields, item.Key);
+                    AddRow(parameters, fields, item.Key);
             }
             else
             {
@@ -67,13 +66,13 @@ namespace WebFormGenerator.Models
                 if (list != null)
                 {
                     foreach (IToken item in list.Tokens)
-                        AddRow(parameters, endOfLine, fields, item);
+                        AddRow(parameters, fields, item);
                 }
                 else
                 {
                     TokenTree items = new TokenTree(parameters.GetChildren(evaluated.Text));
                     foreach (TokenTree item in items.Children)
-                        AddRow(parameters, endOfLine, fields, item.Key);
+                        AddRow(parameters, fields, item.Key);
                 }
             }
         }
@@ -82,10 +81,9 @@ namespace WebFormGenerator.Models
         /// Adds a single row of the table.
         /// </summary>
         /// <param name="parameters">The parameters to use for evaluating tokens.</param>
-        /// <param name="endOfLine">End of line character.</param>
         /// <param name="fields">The fields that will be displayed.</param>
         /// <param name="item">The selected item.</param>
-        private void AddRow(TokenTree parameters, string endOfLine, List<TokenTree> fields, IToken item)
+        private void AddRow(TokenTree parameters, List<TokenTree> fields, IToken item)
         {
             parameters = parameters.Clone();
             parameters.Children.AddIfMissing(new TokenTree("TABLEITEM", item));
@@ -93,7 +91,7 @@ namespace WebFormGenerator.Models
             foreach (TokenTree child in fields)
             {
                 Builder.Append("<td>");
-                Builder.AddChild(child, Level + 1, parameters, Offset, endOfLine, this, selected: Selected);
+                AddElement(child, Level + 1, parameters, this, Selected);
                 Builder.Append("</td>");
             }
             Builder.Append("<tr>").AppendLine();

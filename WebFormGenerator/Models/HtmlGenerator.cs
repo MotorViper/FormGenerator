@@ -9,16 +9,16 @@ namespace WebFormGenerator.Models
 {
     public class HtmlGenerator
     {
-        private readonly string _endOfLine;
-        private readonly string _offset;
-        private readonly IFieldWriter _sb = new StringFieldWriter();
+        private readonly IFieldWriter _sb = IOCContainer.Instance.Resolve<IFieldWriter>();
 
-        public HtmlGenerator(string endOfLine = "\n", string offset = "  ")
-        {
-            _endOfLine = endOfLine;
-            _offset = offset;
-        }
-
+        /// <summary>
+        /// Generates the html that is to be displayed.
+        /// </summary>
+        /// <param name="data">The data the html is constructed from.</param>
+        /// <param name="selected">The selected item for displaying.</param>
+        /// <param name="dataName">The name of the data structure that contains item information.</param>
+        /// <param name="keys">List of selectable items.</param>
+        /// <returns>The html representation of the input.</returns>
         public string GenerateHtml(TokenTree data, TokenTree selected, string dataName, List<string> keys)
         {
             TokenTree parameters = new TokenTree(data.GetChildren("Parameters"));
@@ -40,10 +40,15 @@ namespace WebFormGenerator.Models
             TokenTreeList styles = fields.FindMatches("Style", true);
             AddStyles(styles, parameters);
             foreach (TokenTree field in fields.SelectMany(child => child.Children).Where(x => x.Name == "Field"))
-                _sb.AddChild(field, 0, parameters, _offset, _endOfLine, null, null, values, keys);
+                _sb.AddElement(field, 0, parameters, values, keys);
             return _sb.Generated;
         }
 
+        /// <summary>
+        /// Adds style information.
+        /// </summary>
+        /// <param name="styles">List of styles to add.</param>
+        /// <param name="parameters">Calculation parameters.</param>
         protected void AddStyles(IReadOnlyList<TokenTree> styles, TokenTree parameters)
         {
             _sb.Append("<style>").AppendLine();
@@ -72,30 +77,48 @@ namespace WebFormGenerator.Models
             _sb.Append("</style>").AppendLine();
         }
 
+        /// <summary>
+        /// Add the list of properties for a style.
+        /// </summary>
+        /// <param name="styles">The styles, needed in case the current style has a BasedOn property.</param>
+        /// <param name="parameters">Calculation parameters.</param>
+        /// <param name="style">The style being added.</param>
         private void AddProperties(IReadOnlyList<TokenTree> styles, TokenTree parameters, TokenTree style)
         {
             foreach (TokenTree child in style.Children.Where(x => x.Name != "Name"))
                 AddProperty(parameters, child, styles);
         }
 
-        private void AddProperty(TokenTree parameters, TokenTree child, IReadOnlyList<TokenTree> styles)
+        /// <summary>
+        /// Adds a property for a styles.
+        /// </summary>
+        /// <param name="parameters">Calculation parameters.</param>
+        /// <param name="property">The property being added.</param>
+        /// <param name="styles">The styles, needed in case the current style has a BasedOn property.</param>
+        private void AddProperty(TokenTree parameters, TokenTree property, IReadOnlyList<TokenTree> styles)
         {
-            if (child.Name == "BasedOn")
+            if (property.Name == "BasedOn")
             {
-                child = styles.FirstOrDefault(x => x["Name"] == child.Value.Text);
-                AddProperties(styles, parameters, child);
+                property = styles.FirstOrDefault(x => x["Name"] == property.Value.Text);
+                AddProperties(styles, parameters, property);
             }
             else
             {
                 _sb.Append("  ")
-                    .Append(child.Name.CamelCaseToHyphenated())
+                    .Append(property.Name.CamelCaseToHyphenated())
                     .Append(": ")
-                    .Append(ProcessTokens(child.Value, new TokenTreeList(parameters)))
+                    .Append(ProcessTokens(property.Value, new TokenTreeList(parameters)))
                     .Append(";")
                     .AppendLine();
             }
         }
 
+        /// <summary>
+        /// Evaluates a token.
+        /// </summary>
+        /// <param name="value">The token to process.</param>
+        /// <param name="parameters">Calculation parameters.</param>
+        /// <returns>The processed token.</returns>
         private static string ProcessTokens(IToken value, TokenTreeList parameters)
         {
             return value.Evaluate(parameters, false).Text;

@@ -19,7 +19,6 @@ namespace WebFormGenerator.Models
         /// </summary>
         public Field()
         {
-            Parameter = null;
         }
 
         /// <summary>
@@ -32,6 +31,16 @@ namespace WebFormGenerator.Models
         }
 
         /// <summary>
+        /// List of selectable items.
+        /// </summary>
+        protected List<string> Keys { get; private set; }
+
+        /// <summary>
+        /// The currently selected item.
+        /// </summary>
+        protected TokenTree Selected { get; private set; }
+
+        /// <summary>
         /// Adds any child properties that are linked to the field.
         /// </summary>
         /// <param name="child">The child whose properties are being added.</param>
@@ -40,9 +49,19 @@ namespace WebFormGenerator.Models
         }
 
         /// <summary>
+        /// Adds properties to the list of those to output.
+        /// </summary>
+        /// <param name="parameters">Calculation parameters.</param>
+        protected override void AddProperties(TokenTree parameters)
+        {
+            // Adds the Selected item, if any to the parameters.
+            AddProperties(parameters, Selected);
+        }
+
+        /// <summary>
         /// Process each token that is to be used.
         /// </summary>
-        /// <param name="value">The token to process.</param>
+        /// <param name="value"></param>
         /// <param name="parameters">The data used to evaluate the token.</param>
         /// <returns>The value of the token after evaluation.</returns>
         protected override string ProcessTokens(IToken value, TokenTreeList parameters)
@@ -111,11 +130,30 @@ namespace WebFormGenerator.Models
         /// Outputs the fields children.
         /// </summary>
         /// <param name="parameters">The data used for evaluation.</param>
-        /// <param name="endOfLine">The end of line character.</param>
-        protected override void AddChildren(TokenTree parameters, string endOfLine)
+        protected override void AddChildren(TokenTree parameters)
         {
             Builder.Append(_content).AppendLine();
-            base.AddChildren(parameters, endOfLine);
+            IEnumerable<TokenTree> fields = GetSubFields();
+            foreach (TokenTree child in fields)
+                AddElement(child, Level + 1, parameters, this, Selected, Keys);
+        }
+
+        /// <summary>
+        /// Add an element to the output.
+        /// </summary>
+        /// <param name="data">The data making up the element.</param>
+        /// <param name="level">The indentation level.</param>
+        /// <param name="parameters">Calculation parameters.</param>
+        /// <param name="parent">The elements parent.</param>
+        /// <param name="selected">The selected output element.</param>
+        /// <param name="keys">List of available elements.</param>
+        public override void AddElement(TokenTree data, int level, TokenTree parameters, IField parent = null, TokenTree selected = null,
+            List<string> keys = null)
+        {
+            Field field = (Field)FieldFactory.CreateField(data.Value.Text, data, level, parameters, parent);
+            field.Selected = selected;
+            field.Keys = keys;
+            field.OutputField(level, parameters);
         }
     }
 }

@@ -3,8 +3,15 @@ using System.Collections.Generic;
 
 namespace Helpers
 {
+    /// <summary>
+    /// String utilities class.
+    /// </summary>
     public static class StringUtils
     {
+        /// <summary>
+        /// Enum specifying how to include delimiters.
+        /// See SplitIntoBlocks below.
+        /// </summary>
         public enum DelimiterInclude
         {
             IncludeInline,
@@ -12,6 +19,14 @@ namespace Helpers
             DontInclude
         }
 
+        /// <summary>
+        /// Splits a string into blocks.
+        /// </summary>
+        /// <param name="parent">The string to split.</param>
+        /// <param name="delimiters">The delimiters to split at, defaults to ''' and '"'.</param>
+        /// <param name="paired">Whether the delimiters are paired, i.e. '[' with ']' or not, i.e. ','.</param>
+        /// <param name="includeDelimiters">How to include delimiters in the output.</param>
+        /// <returns>The string split into blocks.</returns>
         public static List<string> SplitIntoBlocks(this string parent, char[] delimiters = null, bool paired = false,
             DelimiterInclude includeDelimiters = DelimiterInclude.IncludeInline)
         {
@@ -142,6 +157,14 @@ namespace Helpers
             }
         }
 
+        /// <summary>
+        /// Finds the first instance of a character that is not included within delimited blocks.
+        /// </summary>
+        /// <param name="parent">The string to split.</param>
+        /// <param name="toFind">The character to find.</param>
+        /// <param name="delimiters">The delimiters to split at, defaults to ''' and '"', without the relevant one if toFind is one of them.</param>
+        /// <param name="paired">Whether the delimiters are paired, i.e. '[' with ']' or not, i.e. ','.</param>
+        /// <returns>The position of the first character that matches the criteria.</returns>
         public static int FirstNotInBlock(this string parent, char toFind, char[] delimiters = null, bool paired = false)
         {
             int position = -1;
@@ -194,6 +217,12 @@ namespace Helpers
             return position == -1 ? maybe : position;
         }
 
+        /// <summary>
+        /// Counts the number of instances of a string included in another string.
+        /// </summary>
+        /// <param name="parent">The string to check.</param>
+        /// <param name="text">The string to look for.</param>
+        /// <returns>The number of instances</returns>
         public static int CountInstances(this string parent, string text)
         {
             int count = 0;
@@ -206,6 +235,12 @@ namespace Helpers
             return count;
         }
 
+        /// <summary>
+        /// Creates a string that is a concatenation of multiple copies of a single string.
+        /// </summary>
+        /// <param name="seed">The string to create the new string from.</param>
+        /// <param name="count">The number of instances of the seed.</param>
+        /// <returns>The generated string.</returns>
         public static string CreateString(string seed, double count)
         {
             string result = "";
@@ -218,11 +253,21 @@ namespace Helpers
             return result;
         }
 
+        /// <summary>
+        /// Creates a string that can be used in regexes.
+        /// </summary>
+        /// <param name="text">The string to convert.</param>
+        /// <returns>The regex string.</returns>
         public static string CreateRegexpString(this string text)
         {
             return text.Replace("\\", "\\\\").Replace("*", "\\*");
         }
 
+        /// <summary>
+        /// Converts a hyphenated string to CamelCase.
+        /// </summary>
+        /// <param name="text">The text to convert.</param>
+        /// <returns>The converted string.</returns>
         public static string ToCamelCase(this string text)
         {
             string result = "";
@@ -246,7 +291,13 @@ namespace Helpers
             return result;
         }
 
-        public static string CamelCaseToHyphenated(this string text)
+        /// <summary>
+        /// Converts a string in CamelCase to a hyphenated string.
+        /// </summary>
+        /// <param name="text">The string to convert.</param>
+        /// <param name="toLower">Whether the output should be all lower case.</param>
+        /// <returns>The converted string.</returns>
+        public static string CamelCaseToHyphenated(this string text, bool toLower = true)
         {
             string result = "";
             bool isFirst = true;
@@ -259,7 +310,7 @@ namespace Helpers
                 result += c;
                 isFirst = false;
             }
-            return result;
+            return toLower ? result.ToLower() : result;
         }
     }
 }
