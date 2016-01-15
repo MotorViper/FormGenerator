@@ -1,6 +1,4 @@
-﻿using TextParser;
-
-namespace WebFormGenerator.Models
+﻿namespace WebFormGenerator.Models
 {
     /// <summary>
     /// Output an uderline.
@@ -18,8 +16,7 @@ namespace WebFormGenerator.Models
         /// <summary>
         /// Outputs the start text of a field.
         /// </summary>
-        /// <param name="parameters">Calculation parameters.</param>
-        protected override void AddStart(TokenTree parameters)
+        protected override void AddStart()
         {
             AppendStartOfLine(Level, "<hr/>");
         }
@@ -35,8 +32,7 @@ namespace WebFormGenerator.Models
         /// <summary>
         /// Outputs the fields children.
         /// </summary>
-        /// <param name="parameters">The data used for evaluation.</param>
-        protected override void AddChildren(TokenTree parameters)
+        protected override void AddChildren()
         {
             // Underline cannot have children.
         }

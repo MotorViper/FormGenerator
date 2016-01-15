@@ -6,6 +6,9 @@ using TextParser.Tokens;
 
 namespace Generator
 {
+    /// <summary>
+    /// Base class for generated fields.
+    /// </summary>
     public abstract class BaseField : IField
     {
         private readonly Dictionary<string, string> _properties = new Dictionary<string, string>();
@@ -14,11 +17,6 @@ namespace Generator
         /// Object used to output fields.
         /// </summary>
         protected IFieldWriter Builder { get; private set; }
-
-        /// <summary>
-        /// The fields children.
-        /// </summary>
-        public TokenTreeList Children => Data.Children;
 
         /// <summary>
         /// Level of indentation.
@@ -38,19 +36,18 @@ namespace Generator
         /// <summary>
         /// The fields data, i.e. children and properties.
         /// </summary>
-        public virtual TokenTree Data { set; protected get; }
+        public virtual IElement Element { set; get; }
 
         /// <summary>
         /// Outputs the field to the writer.
         /// </summary>
         /// <param name="level">The indentation level.</param>
-        /// <param name="parameters">Parameters used for any calculations.</param>
-        public void OutputField(int level, TokenTree parameters)
+        public void OutputField(int level)
         {
             Builder = IOCContainer.Instance.Resolve<IFieldWriter>();
             Level = level;
-            AddStart(parameters);
-            AddChildren(parameters);
+            AddStart();
+            AddChildren();
             AddEnd();
         }
 
@@ -85,21 +82,17 @@ namespace Generator
         /// </summary>
         /// <param name="data">The data making up the element.</param>
         /// <param name="level">The indentation level.</param>
-        /// <param name="parameters">Calculation parameters.</param>
         /// <param name="parent">The elements parent.</param>
-        /// <param name="selected">The selected output element.</param>
         /// <param name="keys">List of available elements.</param>
-        public abstract void AddElement(TokenTree data, int level, TokenTree parameters, IField parent = null, TokenTree selected = null,
-            List<string> keys = null);
+        public abstract void AddElement(IElement data, int level, IField parent = null, List<string> keys = null);
 
         /// <summary>
         /// Outputs the start text of a field.
         /// </summary>
-        /// <param name="parameters">Calculation parameters.</param>
-        protected virtual void AddStart(TokenTree parameters)
+        protected virtual void AddStart()
         {
             AppendStartOfLine(Level, "<").Append(Name).Append(" ");
-            AddProperties(parameters);
+            AddProperties();
             OutputProperties(_properties);
             Builder.Append(">").AppendLine();
         }
@@ -113,22 +106,11 @@ namespace Generator
         /// <summary>
         /// Adds properties to the list of those to output.
         /// </summary>
-        /// <param name="parameters">Calculation parameters.</param>
-        protected virtual void AddProperties(TokenTree parameters)
-        {
-            AddProperties(parameters, null);
-        }
-
-        /// <summary>
-        /// Adds properties to the list of those to output.
-        /// </summary>
-        /// <param name="parameters">Calculation parameters.</param>
-        /// <param name="selected">The selected item, used for </param>
-        protected void AddProperties(TokenTree parameters, TokenTree selected)
+        protected virtual void AddProperties()
         {
             bool parametersRemoved = false;
 
-            foreach (TokenTree child in Children.Where(child => !IgnoredProperties().Contains(child.Name)))
+            foreach (TokenTree child in Element.Data.Children.Where(child => !IgnoredProperties().Contains(child.Name)))
             {
                 if (IsParameter(child.Name))
                 {
@@ -136,18 +118,15 @@ namespace Generator
                     if (!parametersRemoved)
                     {
                         parametersRemoved = true;
-                        List<string> toRemove = parameters.Children.Select(x => x.Name).Where(IsParameter).ToList();
+                        List<string> toRemove = Element.Parameters[0].Children.Select(x => x.Name).Where(IsParameter).ToList();
                         foreach (string name in toRemove)
-                            parameters.Remove(name);
+                            Element.Parameters[0].Remove(name);
                     }
-                    parameters.Children.Add(child);
+                    Element.Parameters[0].Children.Add(child);
                 }
                 else
                 {
-                    TokenTreeList list = new TokenTreeList(parameters);
-                    if (selected != null)
-                        list.Add(selected);
-                    AddProperty(child, list);
+                    AddProperty(child);
                 }
             }
             Parent?.AddChildProperties(this);
@@ -157,21 +136,19 @@ namespace Generator
         /// Add a single property to the list of those to output.
         /// </summary>
         /// <param name="child">The token containing the parameter.</param>
-        /// <param name="parameters">Calculation parameters.</param>
-        protected void AddProperty(TokenTree child, TokenTreeList parameters)
+        protected void AddProperty(TokenTree child)
         {
-            AddProperty(child.Name, child.Value, parameters);
+            AddProperty(child.Name, child.Value);
         }
 
         /// <summary>
         /// Add a single property to the list of those to output.
         /// </summary>
         /// <param name="name">The property name.</param>
-        /// <param name="value"></param>
-        /// <param name="parameters">Calculation parameters.</param>
-        protected virtual void AddProperty(string name, IToken value, TokenTreeList parameters)
+        /// <param name="value">The value to add.</param>
+        protected virtual void AddProperty(string name, IToken value)
         {
-            AddProperty(name, ProcessTokens(value, parameters));
+            AddProperty(name, ProcessTokens(value, Element.Parameters));
         }
 
         /// <summary>
@@ -220,17 +197,7 @@ namespace Generator
         /// <summary>
         /// Adds the fields children.
         /// </summary>
-        /// <param name="parameters">Calculation parameters.</param>
-        protected abstract void AddChildren(TokenTree parameters);
-
-        /// <summary>
-        /// Get the fields children.
-        /// </summary>
-        /// <returns>The fields children.</returns>
-        protected IEnumerable<TokenTree> GetSubFields()
-        {
-            return Children.Where(child => child.Name == "Field");
-        }
+        protected abstract void AddChildren();
 
         /// <summary>
         /// Adds the end of a field.

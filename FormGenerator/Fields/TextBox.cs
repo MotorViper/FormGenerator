@@ -1,16 +1,26 @@
-﻿using TextParser;
-using TextParser.Tokens;
+﻿using TextParser.Tokens;
 
 namespace FormGenerator.Fields
 {
     // ReSharper disable once ClassNeverInstantiated.Global - used by IOC.
+    /// <summary>
+    /// Class representing a text box.
+    /// </summary>
     public class TextBox : Field
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public TextBox() : base("TextBox")
         {
         }
 
-        protected override void AddProperty(string name, IToken value, TokenTreeList parameters)
+        /// <summary>
+        /// Add a single property to the list of those to output.
+        /// </summary>
+        /// <param name="name">The property name.</param>
+        /// <param name="value">The value to add.</param>
+        protected override void AddProperty(string name, IToken value)
         {
             switch (name)
             {
@@ -18,7 +28,7 @@ namespace FormGenerator.Fields
                     name = "Text";
                     break;
             }
-            base.AddProperty(name, value, parameters);
+            base.AddProperty(name, value);
         }
     }
 }

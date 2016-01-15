@@ -1,9 +1,14 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TextParser;
+using TextParser.Tokens;
 
 namespace Generator
 {
+    /// <summary>
+    /// Property list based on token data.
+    /// </summary>
     public class TokenTreePropertyList : IPropertyList
     {
         private readonly List<TokenTree> _data;
@@ -16,27 +21,77 @@ namespace Generator
             _parameters = parameters;
         }
 
-        public IProperty Find(string name)
-        {
-            return FindAll(name).FirstOrDefault();
-        }
-
-        public IList<IProperty> FindAll(string name)
+        /// <summary>
+        /// Finds a property in the list.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <returns>List of properties matching the name.</returns>
+        public IList<IProperty> Find(string name)
         {
             IList<IProperty> value;
             if (!_values.TryGetValue(name, out value))
             {
-                value = _data.Where(child => child.Name == name).Select(x => (IProperty)new TokenTreeProperty(x, _parameters)).ToList();
+                List<IProperty> values = new List<IProperty>();
+                IEnumerable<TokenTree> tokenTrees = _data.Where(child => child.Name == name);
+                TokenTreeList parameters = new TokenTreeList(_parameters);
+                foreach (TokenTree item in tokenTrees)
+                {
+                    IToken evaluated = item.Value.Evaluate(parameters, false);
+                    ListToken list = evaluated as ListToken;
+                    if (list != null)
+                    {
+                        foreach (IToken token in list.Tokens)
+                        {
+                            values.Add(new TokenTreeProperty(new TokenTree(name, token)));
+                        }
+                    }
+                    else
+                    {
+                        values.Add(new TokenTreeProperty(new TokenTree(name, evaluated)));
+                    }
+                }
+                value = values;
                 _values[name] = value;
             }
             return value;
         }
 
+        /// <summary>
+        /// Finds a property that represents an element.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <returns></returns>
         public IElement FindChild(string name)
         {
-            return null;
+            IEnumerable<TokenTree> tokenTrees = _data.Where(child => child.Name == name);
+            return new TokenTreeElement(tokenTrees.FirstOrDefault(), new TokenTreeList(_parameters));
         }
 
+        /// <summary>
+        /// Gets the number of properties.
+        /// </summary>
         public int Count => _data.Count;
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// An enumerator that can be used to iterate through the collection.
+        /// </returns>
+        public IEnumerator<IProperty> GetEnumerator()
+        {
+            return _data.SelectMany(tree => Find(tree.Name)).GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

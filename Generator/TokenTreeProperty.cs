@@ -1,29 +1,31 @@
-using System.Collections.Generic;
-using System.Linq;
 using TextParser;
-using TextParser.Tokens;
 
 namespace Generator
 {
+    /// <summary>
+    /// Property specified using token data.
+    /// </summary>
     public class TokenTreeProperty : IProperty
     {
         private readonly TokenTree _data;
-        private readonly TokenTreeList _parameters;
-        private IToken _evaluated;
 
-        public TokenTreeProperty(TokenTree data, TokenTree parameters)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="data">Token data.</param>
+        public TokenTreeProperty(TokenTree data)
         {
             _data = data;
-            _parameters = new TokenTreeList(parameters);
         }
 
-        private IToken Evaluated => _evaluated ?? (_evaluated = _data.Value.Evaluate(_parameters, false));
-
+        /// <summary>
+        /// The property name.
+        /// </summary>
         public string Name => _data.Name;
 
-        public bool IsList => Evaluated is ListToken;
-        public IValue Value => new TokenTreeValue(Evaluated);
-
-        public IList<IValue> Values => (Evaluated as ListToken)?.Tokens.Select(x => (IValue)new TokenTreeValue(x)).ToList();
+        /// <summary>
+        /// The property value.
+        /// </summary>
+        public IValue Value => new TokenTreeValue(_data.Value);
     }
 }

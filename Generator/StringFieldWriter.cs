@@ -71,7 +71,11 @@ namespace Generator
         /// <param name="keys">List of available elements.</param>
         public void AddElement(TokenTree data, int level, TokenTree parameters, TokenTree selected = null, List<string> keys = null)
         {
-            new T().AddElement(data, level, parameters, null, selected, keys);
+            TokenTreeList list = new TokenTreeList(parameters);
+            if (selected != null)
+                list.Add(selected);
+            TokenTreeElement tokenTreeElement = new TokenTreeElement(data, list);
+            new T().AddElement(tokenTreeElement, level, null, keys);
         }
 
         /// <summary>

@@ -29,8 +29,7 @@ namespace WebFormGenerator.Models
         /// </summary>
         /// <param name="name">The property name.</param>
         /// <param name="value"></param>
-        /// <param name="parameters">Calculation parameters.</param>
-        protected override void AddProperty(string name, IToken value, TokenTreeList parameters)
+        protected override void AddProperty(string name, IToken value)
         {
             switch (name)
             {
@@ -38,12 +37,12 @@ namespace WebFormGenerator.Models
                     SelectedItem = value.Text;
                     break;
                 case "SelectionOptions":
-                    TokenTree items = new TokenTree(parameters[0].GetChildren(value.Text));
+                    TokenTree items = new TokenTree(Element.Parameters[0].GetChildren(value.Text));
                     foreach (TokenTree item in items.Children)
                         Options.Add(item.Name);
                     break;
                 default:
-                    base.AddProperty(name, value, parameters);
+                    base.AddProperty(name, value);
                     break;
             }
         }
@@ -51,17 +50,16 @@ namespace WebFormGenerator.Models
         /// <summary>
         /// Outputs the fields children.
         /// </summary>
-        /// <param name="parameters">The data used for evaluation.</param>
-        protected override void AddChildren(TokenTree parameters)
+        protected override void AddChildren()
         {
-            foreach (var option in Options)
+            foreach (string option in Options)
             {
                 Builder.Append("<option ");
                 if (option == SelectedItem)
                     Builder.Append("selected =\"selected\" ");
                 Builder.Append($"value=\"{option}\">{option}</option>");
             }
-            base.AddChildren(parameters);
+            base.AddChildren();
         }
     }
 }

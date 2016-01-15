@@ -36,26 +36,11 @@ namespace WebFormGenerator.Models
         protected List<string> Keys { get; private set; }
 
         /// <summary>
-        /// The currently selected item.
-        /// </summary>
-        protected TokenTree Selected { get; private set; }
-
-        /// <summary>
         /// Adds any child properties that are linked to the field.
         /// </summary>
         /// <param name="child">The child whose properties are being added.</param>
         public override void AddChildProperties(IField child)
         {
-        }
-
-        /// <summary>
-        /// Adds properties to the list of those to output.
-        /// </summary>
-        /// <param name="parameters">Calculation parameters.</param>
-        protected override void AddProperties(TokenTree parameters)
-        {
-            // Adds the Selected item, if any to the parameters.
-            AddProperties(parameters, Selected);
         }
 
         /// <summary>
@@ -129,13 +114,11 @@ namespace WebFormGenerator.Models
         /// <summary>
         /// Outputs the fields children.
         /// </summary>
-        /// <param name="parameters">The data used for evaluation.</param>
-        protected override void AddChildren(TokenTree parameters)
+        protected override void AddChildren()
         {
             Builder.Append(_content).AppendLine();
-            IEnumerable<TokenTree> fields = GetSubFields();
-            foreach (TokenTree child in fields)
-                AddElement(child, Level + 1, parameters, this, Selected, Keys);
+            foreach (IElement child in Element.Children)
+                AddElement(child, Level + 1, this, Keys);
         }
 
         /// <summary>
@@ -143,17 +126,13 @@ namespace WebFormGenerator.Models
         /// </summary>
         /// <param name="data">The data making up the element.</param>
         /// <param name="level">The indentation level.</param>
-        /// <param name="parameters">Calculation parameters.</param>
         /// <param name="parent">The elements parent.</param>
-        /// <param name="selected">The selected output element.</param>
         /// <param name="keys">List of available elements.</param>
-        public override void AddElement(TokenTree data, int level, TokenTree parameters, IField parent = null, TokenTree selected = null,
-            List<string> keys = null)
+        public override void AddElement(IElement data, int level, IField parent = null, List<string> keys = null)
         {
-            Field field = (Field)FieldFactory.CreateField(data.Value.Text, data, level, parameters, parent);
-            field.Selected = selected;
+            Field field = (Field)FieldFactory.CreateField(data, level, parent);
             field.Keys = keys;
-            field.OutputField(level, parameters);
+            field.OutputField(level);
         }
     }
 }

@@ -1,12 +1,18 @@
-﻿using System.Collections.Generic;
-
-namespace Generator
+﻿namespace Generator
 {
+    /// <summary>
+    /// Interface representing a property.
+    /// </summary>
     public interface IProperty
     {
-        bool IsList { get; }
+        /// <summary>
+        /// The property name.
+        /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// The property value.
+        /// </summary>
         IValue Value { get; }
-        IList<IValue> Values { get; }
     }
 }

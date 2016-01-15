@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Generator;
-using TextParser;
-using TextParser.Tokens;
 
 namespace WebFormGenerator.Models
 {
@@ -24,16 +22,15 @@ namespace WebFormGenerator.Models
         /// <summary>
         /// Outputs the fields children.
         /// </summary>
-        /// <param name="parameters">The data used for evaluation.</param>
-        protected override void AddChildren(TokenTree parameters)
+        protected override void AddChildren()
         {
-            GridData positions = new GridData(new TokenTreeElement(Data, parameters).Properties, "10");
-            IEnumerable<TokenTree> fields = GetSubFields();
+            GridData positions = new GridData(Element.Properties, "10");
+            IEnumerable<IElement> fields = Element.Children;
             int row = 0;
             int columns = 1;
             int rows = 1;
             Builder.Append("<tr>");
-            foreach (TokenTree child in fields)
+            foreach (IElement child in fields)
             {
                 Tuple<int, int> rowAndColumn = positions.GetNextRowAndColumn();
                 if (rowAndColumn.Item1 != row)
@@ -44,16 +41,15 @@ namespace WebFormGenerator.Models
                 row = rowAndColumn.Item1;
                 int column = rowAndColumn.Item2;
                 positions.MakeItemUsed(row, column);
-                IToken across = child.FindFirst("Across")?.Value;
-                if (across != null)
+                IList<IProperty> across = child.Properties.Find("Across");
+                if (across != null && across.Count > 0)
                 {
-                    ListToken items = across as ListToken;
-                    columns = items?.Tokens[0].Convert<int>() ?? across.Convert<int>();
+                    columns = across[0].Value.IntValue;
                     for (int i = 1; i < columns; ++i)
                         positions.MakeItemUsed(row, column + i);
-                    if (items != null && items.Tokens.Count > 1)
+                    if (across.Count > 1)
                     {
-                        rows = items.Tokens[1].Convert<int>();
+                        rows = across[1].Value.IntValue;
                         for (int col = 0; col < columns; ++col)
                             for (int i = 0; i < rows; ++i)
                                 positions.MakeItemUsed(row + i, column + col);
@@ -65,7 +61,7 @@ namespace WebFormGenerator.Models
                 if (rows > 1)
                     Builder.Append($" rowspan=\"{rows}\"").AppendLine();
                 Builder.Append(">");
-                AddElement(child, Level + 1, parameters, this, Selected, Keys);
+                AddElement(child, Level + 1, this, Keys);
                 Builder.Append("</td>").AppendLine();
             }
             Builder.Append("</tr>").AppendLine();

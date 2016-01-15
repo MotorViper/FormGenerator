@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TextParser;
 
 namespace Generator
 {
@@ -13,12 +14,22 @@ namespace Generator
 
         public SimplePropertyList RWProperties { get; }
 
+        /// <summary>
+        /// The elements children.
+        /// </summary>
         public IEnumerable<IElement> Children { get; }
+
+        /// <summary>
+        /// The elements type.
+        /// </summary>
         public string ElementType { get; set; }
+
+        /// <summary>
+        /// The elements properties.
+        /// </summary>
         public IPropertyList Properties => RWProperties;
-        public IList<IValue> GetDataList(string name)
-        {
-            return null;
-        }
+
+        public TokenTree Data => null;
+        public TokenTreeList Parameters { get; set; }
     }
 }

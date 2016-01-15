@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Generator;
-using TextParser;
 using TextParser.Tokens;
 
 namespace FormGenerator.Fields
 {
+    /// <summary>
+    /// Class representing a grid.
+    /// </summary>
     public class Grid : Field
     {
         private string _columnWidth = "*";
@@ -35,13 +37,12 @@ namespace FormGenerator.Fields
         /// </summary>
         /// <param name="name">The property name.</param>
         /// <param name="value"></param>
-        /// <param name="parameters">Calculation parameters.</param>
-        protected override void AddProperty(string name, IToken value, TokenTreeList parameters)
+        protected override void AddProperty(string name, IToken value)
         {
             if (name == "ColumnWidth")
                 _columnWidth = value.Text;
             else
-                base.AddProperty(name, value, parameters);
+                base.AddProperty(name, value);
         }
 
         /// <summary>
@@ -77,11 +78,10 @@ namespace FormGenerator.Fields
         /// <summary>
         /// Adds the fields children.
         /// </summary>
-        /// <param name="parameters">Calculation parameters.</param>
-        protected override void AddChildren(TokenTree parameters)
+        protected override void AddChildren()
         {
-            BeginAddChildren(parameters);
-            base.AddChildren(parameters);
+            BeginAddChildren();
+            base.AddChildren();
             EndAddChildren();
         }
 
@@ -97,10 +97,9 @@ namespace FormGenerator.Fields
         /// <summary>
         /// Start adding the grids children.
         /// </summary>
-        /// <param name="parameters">The data containing the children.</param>
-        protected void BeginAddChildren(TokenTree parameters)
+        protected void BeginAddChildren()
         {
-            _positions = new GridData(new TokenTreeElement(Data, parameters).Properties, _columnWidth);
+            _positions = new GridData(Element.Properties, _columnWidth);
         }
 
         /// <summary>
@@ -119,21 +118,20 @@ namespace FormGenerator.Fields
                 int row = rowAndColumn.Item1;
                 child.AddProperty("Grid.Column", column);
                 child.AddProperty("Grid.Row", row);
-                TokenTreeList tokenTreeList = child.Children.FindMatches("Across");
+                IList<IProperty> properties = child.Element.Properties.Find("Across");
                 _positions.MakeItemUsed(row, column);
-                if (tokenTreeList != null && tokenTreeList.Count == 1)
+                if (properties != null && properties.Count > 0)
                 {
-                    IToken across = tokenTreeList[0].Value;
+                    IProperty across = properties[0];
                     if (across != null)
                     {
-                        ListToken items = across as ListToken;
-                        int columns = items?.Tokens[0].Convert<int>() ?? across.Convert<int>();
+                        int columns = across.Value.IntValue;
                         for (int i = 1; i < columns; ++i)
                             _positions.MakeItemUsed(row, column + i);
                         child.AddProperty("Grid.ColumnSpan", columns);
-                        if (items != null && items.Tokens.Count > 1)
+                        if (properties.Count > 1)
                         {
-                            int rows = items.Tokens[1].Convert<int>();
+                            int rows = properties[1].Value.IntValue;
                             child.AddProperty("Grid.RowSpan", rows);
                             for (int col = 0; col < columns; ++col)
                                 for (int i = 0; i < rows; ++i)

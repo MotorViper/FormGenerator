@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using FormGenerator.Tools;
+using Generator;
 using TextParser;
 using TextParser.Tokens;
 
 namespace FormGenerator.Fields
 {
     // ReSharper disable once ClassNeverInstantiated.Global - used by IOC.
+    /// <summary>
+    /// Class representing a grid.
+    /// </summary>
     public class Table : Grid
     {
         /// <summary>
@@ -25,16 +29,15 @@ namespace FormGenerator.Fields
         /// <summary>
         /// Adds the fields children.
         /// </summary>
-        /// <param name="parameters">Calculation parameters.</param>
-        protected override void AddChildren(TokenTree parameters)
+        protected override void AddChildren()
         {
-            BeginAddChildren(parameters);
-            List<TokenTree> fields = GetSubFields().ToList();
+            BeginAddChildren();
+            IEnumerable<IElement> fields = Element.Children.ToList();
 
             // Add the headers.
-            foreach (TokenTree child in fields)
+            foreach (IElement child in fields)
             {
-                TokenTree header = child.FindFirst("Header");
+                TokenTree header = child.Data.FindFirst("Header");
                 if (header != null)
                 {
                     if (header.Children.Count == 0)
@@ -45,35 +48,24 @@ namespace FormGenerator.Fields
                     }
                     if (header.Value is NullToken)
                         header.Value = new StringToken("Label");
-                    AddElement(header, Level + 1, parameters, this);
+                    AddElement(new TokenTreeElement(header, Element.Parameters), Level + 1, this);
                 }
             }
 
             // Add a set of children for every item in the content list.
-            IToken over = Children.FirstOrDefault(x => x.Name == "Content")?.Value;
-            if (over == null || over is NullToken)
+            IList<IProperty> over = Element.Properties.Find("Content");
+            if (over == null || over.Count == 0)
                 throw new Exception("Tried to create table with no Content.");
-            if (over is StringToken)
+            if (over.Count == 1)
             {
-                TokenTree items = new TokenTree(DataConverter.Parameters.GetChildren(over.Text));
+                TokenTree items = new TokenTree(DataConverter.Parameters.GetChildren(over[0].Value.StringValue));
                 foreach (TokenTree item in items.Children)
-                    AddElements(parameters, fields, item.Key);
+                    AddElements(fields, item.Key);
             }
             else
             {
-                IToken evaluated = over.Evaluate(new TokenTreeList(parameters), true);
-                ListToken list = evaluated as ListToken;
-                if (list != null)
-                {
-                    foreach (IToken item in list.Tokens)
-                        AddElements(parameters, fields, item);
-                }
-                else
-                {
-                    TokenTree items = new TokenTree(DataConverter.Parameters.GetChildren(evaluated.Text));
-                    foreach (TokenTree item in items.Children)
-                        AddElements(parameters, fields, item.Key);
-                }
+                foreach (IProperty item in over)
+                    AddElements(fields, new StringToken(item.Value.StringValue));
             }
             EndAddChildren();
         }
@@ -81,14 +73,13 @@ namespace FormGenerator.Fields
         /// <summary>
         /// Adds one child element per field.
         /// </summary>
-        /// <param name="parameters">Calculation parameters.</param>
         /// <param name="fields">The fields to add.</param>
         /// <param name="parameter">The table parameter for distinguishing each element.</param>
-        private void AddElements(TokenTree parameters, List<TokenTree> fields, IToken parameter)
+        private void AddElements(IEnumerable<IElement> fields, IToken parameter)
         {
             Parameter = parameter;
-            foreach (TokenTree child in fields)
-                AddElement(child, Level + 1, parameters, this);
+            foreach (IElement child in fields)
+                AddElement(child, Level + 1, this);
         }
     }
 }

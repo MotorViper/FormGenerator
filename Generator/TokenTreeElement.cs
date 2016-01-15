@@ -6,18 +6,27 @@ using TextParser.Tokens;
 
 namespace Generator
 {
+    /// <summary>
+    /// A element based on token data.
+    /// </summary>
     public class TokenTreeElement : IElement
     {
-        private readonly TokenTree _data;
-        private readonly TokenTree _parameters;
         private string _type;
 
-        public TokenTreeElement(TokenTree data, TokenTree parameters)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="data">The main data.</param>
+        /// <param name="parameters">Calculation data.</param>
+        public TokenTreeElement(TokenTree data, TokenTreeList parameters)
         {
-            _data = data;
-            _parameters = parameters;
+            Data = data;
+            Parameters = parameters;
         }
 
+        /// <summary>
+        /// The elements type.
+        /// </summary>
         public string ElementType
         {
             set { _type = value; }
@@ -25,12 +34,12 @@ namespace Generator
             {
                 if (_type == null)
                 {
-                    _type = _data.Value.Text;
+                    _type = Data.Value.Text;
                     TokenTree replacement = null;
-                    StringToken stringToken = _data.Value as StringToken;
+                    StringToken stringToken = Data.Value as StringToken;
                     if (stringToken == null)
                     {
-                        ExpressionToken expression = _data.Value as ExpressionToken;
+                        ExpressionToken expression = Data.Value as ExpressionToken;
                         if (expression != null)
                         {
                             FunctionOperator function = expression.Operator as FunctionOperator;
@@ -42,18 +51,18 @@ namespace Generator
                                 TokenTree tree = new TokenTree();
                                 for (int i = 1; i < tokens.Count; ++i)
                                     tree.Children.Add(new TokenTree("P" + i, tokens[i]));
-                                replacement = _parameters?.FindFirst(_type);
+                                replacement = Parameters[0]?.FindFirst(_type);
                                 replacement = replacement?.SubstituteParameters(tree);
                             }
                             else
                             {
-                                _type = expression.Evaluate(new TokenTreeList(_parameters), false).Text;
+                                _type = expression.Evaluate(Parameters, false).Text;
                             }
                         }
                     }
 
                     if (replacement == null)
-                        replacement = _parameters?.FindFirst(_type);
+                        replacement = Parameters[0]?.FindFirst(_type);
 
                     if (replacement != null)
                     {
@@ -61,9 +70,9 @@ namespace Generator
                         foreach (TokenTree child in replacement.Children)
                         {
                             if (child.Name == "Field")
-                                _data.Children.Add(child);
+                                Data.Children.Add(child);
                             else
-                                _data.Children.AddIfMissing(child);
+                                Data.Children.AddIfMissing(child);
                         }
                     }
                 }
@@ -71,17 +80,21 @@ namespace Generator
             }
         }
 
+        /// <summary>
+        /// The elements children.
+        /// </summary>
         public IEnumerable<IElement> Children
         {
-            get { return _data.Children.Where(x => x.Name == "Field").Select(x => new TokenTreeElement(x, _parameters)); }
+            get { return Data.Children.Where(x => x.Name == "Field").Select(x => new TokenTreeElement(x, Parameters)); }
         }
 
-        public IPropertyList Properties => new TokenTreePropertyList(_data, _parameters);
+        /// <summary>
+        /// The elements properties.
+        /// </summary>
+        public IPropertyList Properties => new TokenTreePropertyList(Data, Parameters[0]);
 
-        public IList<IValue> GetDataList(string name)
-        {
-            TokenTree children = new TokenTree(_parameters.GetChildren(name));
-            return children.Children.Select(child => new TokenTreeValue(child.Value)).Cast<IValue>().ToList();
-        }
+        public TokenTree Data { get; }
+
+        public TokenTreeList Parameters { get; set; }
     }
 }

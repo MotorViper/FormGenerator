@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Generator;
 using TextParser;
 using TextParser.Tokens;
 
@@ -26,14 +27,13 @@ namespace WebFormGenerator.Models
         /// <summary>
         /// Outputs the fields children.
         /// </summary>
-        /// <param name="parameters">The data used for evaluation.</param>
-        protected override void AddChildren(TokenTree parameters)
+        protected override void AddChildren()
         {
-            List<TokenTree> fields = GetSubFields().ToList();
+            List<IElement> fields = Element.Children.ToList();
             Builder.Append("<tr>").AppendLine();
-            foreach (TokenTree child in fields)
+            foreach (IElement child in fields)
             {
-                TokenTree header = child.FindFirst("Header");
+                TokenTree header = child.Data.FindFirst("Header");
                 if (header != null)
                 {
                     if (header.Children.Count == 0)
@@ -45,53 +45,45 @@ namespace WebFormGenerator.Models
                     if (header.Value is NullToken)
                         header.Value = new StringToken("Label");
                     Builder.Append("<th>").AppendLine();
-                    AddElement(header, Level + 1, parameters, this);
+                    AddElement(new TokenTreeElement(header, Element.Parameters), Level + 1, this);
                     Builder.Append("</th>").AppendLine();
                 }
             }
             Builder.Append("</tr>").AppendLine();
-            IToken over = Children.FirstOrDefault(x => x.Name == "Content")?.Value;
-            if (over == null || over is NullToken)
+            IList<IProperty> over = Element.Properties.Find("Content");
+            if (over == null || over.Count == 0)
                 throw new Exception("Tried to create table with no Content.");
-            if (over is StringToken)
+            if (over.Count == 1)
             {
-                TokenTree items = new TokenTree(parameters.GetChildren(over.Text));
+                TokenTree items = new TokenTree(Element.Parameters[0].GetChildren(over[0].Value.StringValue));
                 foreach (TokenTree item in items.Children)
-                    AddRow(parameters, fields, item.Key);
+                    AddRow(fields, item.Key);
             }
             else
             {
-                IToken evaluated = over.Evaluate(new TokenTreeList(parameters), true);
-                ListToken list = evaluated as ListToken;
-                if (list != null)
-                {
-                    foreach (IToken item in list.Tokens)
-                        AddRow(parameters, fields, item);
-                }
-                else
-                {
-                    TokenTree items = new TokenTree(parameters.GetChildren(evaluated.Text));
-                    foreach (TokenTree item in items.Children)
-                        AddRow(parameters, fields, item.Key);
-                }
+                foreach (IProperty item in over)
+                    AddRow(fields, new StringToken(item.Value.StringValue));
             }
         }
 
         /// <summary>
         /// Adds a single row of the table.
         /// </summary>
-        /// <param name="parameters">The parameters to use for evaluating tokens.</param>
         /// <param name="fields">The fields that will be displayed.</param>
         /// <param name="item">The selected item.</param>
-        private void AddRow(TokenTree parameters, List<TokenTree> fields, IToken item)
+        private void AddRow(List<IElement> fields, IToken item)
         {
-            parameters = parameters.Clone();
+            TokenTree parameters = Element.Parameters[0].Clone();
             parameters.Children.AddIfMissing(new TokenTree("TABLEITEM", item));
             Builder.Append("<tr>").AppendLine();
-            foreach (TokenTree child in fields)
+            foreach (IElement child in fields)
             {
                 Builder.Append("<td>");
-                AddElement(child, Level + 1, parameters, this, Selected);
+                TokenTreeList tokenTreeList = new TokenTreeList(parameters);
+                if (Element.Parameters.Count > 1)
+                    tokenTreeList.Add(Element.Parameters[1]);
+                child.Parameters = tokenTreeList;
+                AddElement(child, Level + 1, this);
                 Builder.Append("</td>");
             }
             Builder.Append("<tr>").AppendLine();
