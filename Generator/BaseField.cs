@@ -18,7 +18,7 @@ namespace Generator
         /// <summary>
         /// The fields children.
         /// </summary>
-        public TokenTreeList Children { get; private set; }
+        public TokenTreeList Children => Data.Children;
 
         /// <summary>
         /// Level of indentation.
@@ -38,10 +38,7 @@ namespace Generator
         /// <summary>
         /// The fields data, i.e. children and properties.
         /// </summary>
-        public virtual TokenTree Data
-        {
-            set { Children = value?.Children.Clone(); }
-        }
+        public virtual TokenTree Data { set; protected get; }
 
         /// <summary>
         /// Outputs the field to the writer.

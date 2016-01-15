@@ -100,7 +100,7 @@ namespace FormGenerator.Fields
         /// <param name="parameters">The data containing the children.</param>
         protected void BeginAddChildren(TokenTree parameters)
         {
-            _positions = new GridData(parameters, Children, _columnWidth);
+            _positions = new GridData(new TokenTreeElement(Data, parameters).Properties, _columnWidth);
         }
 
         /// <summary>

@@ -27,7 +27,7 @@ namespace WebFormGenerator.Models
         /// <param name="parameters">The data used for evaluation.</param>
         protected override void AddChildren(TokenTree parameters)
         {
-            GridData positions = new GridData(parameters, Children, "10");
+            GridData positions = new GridData(new TokenTreeElement(Data, parameters).Properties, "10");
             IEnumerable<TokenTree> fields = GetSubFields();
             int row = 0;
             int columns = 1;

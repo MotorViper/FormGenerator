@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TextParser;
 
 namespace Generator
 {
@@ -14,14 +13,12 @@ namespace Generator
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="parameters">The data that determines how the grid is set up.</param>
         /// <param name="children">The children that need to be included in the grid.</param>
         /// <param name="columnWidth">The width of each column.</param>
-        public GridData(TokenTree parameters, TokenTreeList children, string columnWidth)
+        public GridData(IPropertyList children, string columnWidth)
         {
-            TokenTreeList list = new TokenTreeList(parameters);
-            List<string> columns = GridCalculations.GetColumnData(children, list, columnWidth);
-            List<string> rows = GridCalculations.GetRowData(children, list);
+            List<string> columns = GridCalculations.GetColumnData(children, columnWidth);
+            List<string> rows = GridCalculations.GetRowData(children);
 
             if (rows != null && columns == null)
                 columns = new List<string> {columnWidth};

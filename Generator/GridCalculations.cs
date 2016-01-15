@@ -1,52 +1,44 @@
 using System.Collections.Generic;
 using System.Linq;
-using TextParser;
-using TextParser.Tokens;
 
 namespace Generator
 {
     public static class GridCalculations
     {
-        private static List<string> GetGridData(TokenTreeList children, string dataName, string defaultValue, string size, TokenTreeList parameters)
+        private static List<string> GetGridData(IPropertyList properties, string dataName, string defaultValue, string size)
         {
-            TokenTree fields = children.FirstOrDefault(child => child.Name == dataName);
-            List<string> fieldList = null;
-            if (fields != null)
+            IProperty property = properties.Find(dataName);
+            List<string> columnList = null;
+            if (property != null)
             {
-                fieldList = new List<string>();
-                var columnData = fields.Value.Evaluate(parameters, false);
-                ListToken columnList = columnData as ListToken;
-                if (columnList != null)
+                columnList = new List<string>();
+                if (property.IsList)
                 {
-                    fieldList.AddRange(columnList.Tokens.Select(item => string.IsNullOrWhiteSpace(item.Text) ? defaultValue : item.Text));
+                    columnList.AddRange(property.Values.Select(item => string.IsNullOrWhiteSpace(item.StringValue) ? defaultValue : item.StringValue));
+                }
+                else if (property.Value.IsInt)
+                {
+                    int fieldCount = property.Value.IntValue;
+                    for (int i = 0; i < fieldCount; i++)
+                        columnList.Add(size);
                 }
                 else
                 {
-                    IntToken columnSize = columnData as IntToken;
-                    if (columnSize != null)
-                    {
-                        int fieldCount = columnSize.Value;
-                        for (int i = 0; i < fieldCount; i++)
-                            fieldList.Add(size);
-                    }
-                    else
-                    {
-                        string[] fieldData = columnData.Text.Split('|');
-                        fieldList.AddRange(fieldData.Select(item => string.IsNullOrWhiteSpace(item) ? defaultValue : item));
-                    }
+                    string[] fieldData = property.Value.StringValue.Split('|');
+                    columnList.AddRange(fieldData.Select(item => string.IsNullOrWhiteSpace(item) ? defaultValue : item));
                 }
             }
-            return fieldList;
+            return columnList;
         }
 
-        public static List<string> GetColumnData(TokenTreeList children, TokenTreeList parameters, string columnWidth)
+        public static List<string> GetColumnData(IPropertyList children, string columnWidth)
         {
-            return GetGridData(children, "Columns", "*", columnWidth, parameters);
+            return GetGridData(children, "Columns", "*", columnWidth);
         }
 
-        public static List<string> GetRowData(TokenTreeList children, TokenTreeList parameters)
+        public static List<string> GetRowData(IPropertyList children)
         {
-            return GetGridData(children, "Rows", "Auto", "Auto", parameters);
+            return GetGridData(children, "Rows", "Auto", "Auto");
         }
     }
 }
