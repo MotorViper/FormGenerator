@@ -55,14 +55,14 @@ namespace WebFormGenerator.Models
                 throw new Exception("Tried to create table with no Content.");
             if (over.Count == 1)
             {
-                TokenTree items = new TokenTree(Element.Parameters[0].GetChildren(over[0].Value.StringValue));
+                TokenTree items = new TokenTree(Element.Parameters[0].GetChildren(over[0].StringValue));
                 foreach (TokenTree item in items.Children)
                     AddRow(fields, item.Key);
             }
             else
             {
                 foreach (IProperty item in over)
-                    AddRow(fields, new StringToken(item.Value.StringValue));
+                    AddRow(fields, new StringToken(item.StringValue));
             }
         }
 

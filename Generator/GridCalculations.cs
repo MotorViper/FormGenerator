@@ -25,17 +25,17 @@ namespace Generator
                 columnList = new List<string>();
                 if (property.Count > 1)
                 {
-                    columnList.AddRange(property.Select(item => string.IsNullOrWhiteSpace(item.Value.StringValue) ? defaultValue : item.Value.StringValue));
+                    columnList.AddRange(property.Select(item => string.IsNullOrWhiteSpace(item.StringValue) ? defaultValue : item.StringValue));
                 }
-                else if (property[0].Value.IsInt)
+                else if (property[0].IsInt)
                 {
-                    int fieldCount = property[0].Value.IntValue;
+                    int fieldCount = property[0].IntValue;
                     for (int i = 0; i < fieldCount; i++)
                         columnList.Add(size);
                 }
                 else
                 {
-                    string[] fieldData = property[0].Value.StringValue.Split('|');
+                    string[] fieldData = property[0].StringValue.Split('|');
                     columnList.AddRange(fieldData.Select(item => string.IsNullOrWhiteSpace(item) ? defaultValue : item));
                 }
             }

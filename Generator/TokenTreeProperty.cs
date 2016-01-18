@@ -1,4 +1,5 @@
 using TextParser;
+using TextParser.Tokens;
 
 namespace Generator
 {
@@ -7,25 +8,26 @@ namespace Generator
     /// </summary>
     public class TokenTreeProperty : IProperty
     {
-        private readonly TokenTree _data;
-
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="data">Token data.</param>
         public TokenTreeProperty(TokenTree data)
         {
-            _data = data;
+            Tree = data;
         }
+
+        public TokenTree Tree { get; }
 
         /// <summary>
         /// The property name.
         /// </summary>
-        public string Name => _data.Name;
+        public string Name => Tree.Name;
 
-        /// <summary>
-        /// The property value.
-        /// </summary>
-        public IValue Value => new TokenTreeValue(_data.Value);
+        public bool IsInt => Token is IntToken;
+        public int IntValue => (Token as IntToken)?.Value ?? 0;
+        public string StringValue => Token.Text;
+
+        public IToken Token => Tree.Value;
     }
 }

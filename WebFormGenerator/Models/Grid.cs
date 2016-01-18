@@ -44,12 +44,12 @@ namespace WebFormGenerator.Models
                 IList<IProperty> across = child.Properties.Find("Across");
                 if (across != null && across.Count > 0)
                 {
-                    columns = across[0].Value.IntValue;
+                    columns = across[0].IntValue;
                     for (int i = 1; i < columns; ++i)
                         positions.MakeItemUsed(row, column + i);
                     if (across.Count > 1)
                     {
-                        rows = across[1].Value.IntValue;
+                        rows = across[1].IntValue;
                         for (int col = 0; col < columns; ++col)
                             for (int i = 0; i < rows; ++i)
                                 positions.MakeItemUsed(row + i, column + col);

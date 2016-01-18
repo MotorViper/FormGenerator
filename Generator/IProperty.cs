@@ -1,4 +1,7 @@
-﻿namespace Generator
+﻿using TextParser;
+using TextParser.Tokens;
+
+namespace Generator
 {
     /// <summary>
     /// Interface representing a property.
@@ -10,9 +13,11 @@
         /// </summary>
         string Name { get; }
 
-        /// <summary>
-        /// The property value.
-        /// </summary>
-        IValue Value { get; }
+        int IntValue { get; }
+        bool IsInt { get; }
+        string StringValue { get; }
+
+        IToken Token { get; }
+        TokenTree Tree { get; }
     }
 }

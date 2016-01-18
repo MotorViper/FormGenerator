@@ -125,13 +125,13 @@ namespace FormGenerator.Fields
                     IProperty across = properties[0];
                     if (across != null)
                     {
-                        int columns = across.Value.IntValue;
+                        int columns = across.IntValue;
                         for (int i = 1; i < columns; ++i)
                             _positions.MakeItemUsed(row, column + i);
                         child.AddProperty("Grid.ColumnSpan", columns);
                         if (properties.Count > 1)
                         {
-                            int rows = properties[1].Value.IntValue;
+                            int rows = properties[1].IntValue;
                             child.AddProperty("Grid.RowSpan", rows);
                             for (int col = 0; col < columns; ++col)
                                 for (int i = 0; i < rows; ++i)

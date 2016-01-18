@@ -58,14 +58,14 @@ namespace FormGenerator.Fields
                 throw new Exception("Tried to create table with no Content.");
             if (over.Count == 1)
             {
-                TokenTree items = new TokenTree(DataConverter.Parameters.GetChildren(over[0].Value.StringValue));
+                TokenTree items = new TokenTree(DataConverter.Parameters.GetChildren(over[0].StringValue));
                 foreach (TokenTree item in items.Children)
                     AddElements(fields, item.Key);
             }
             else
             {
                 foreach (IProperty item in over)
-                    AddElements(fields, new StringToken(item.Value.StringValue));
+                    AddElements(fields, item.Token);
             }
             EndAddChildren();
         }

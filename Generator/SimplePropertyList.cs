@@ -22,7 +22,7 @@ namespace Generator
         /// <returns></returns>
         public IElement FindChild(string name)
         {
-            return new SimpleElement(Find(name)[0].Value.StringValue);
+            return new SimpleElement(Find(name)[0].StringValue);
         }
     }
 }
