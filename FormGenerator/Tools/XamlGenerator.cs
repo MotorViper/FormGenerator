@@ -18,26 +18,29 @@ namespace FormGenerator.Tools
         /// <returns>The xaml representation of the input.</returns>
         public string GenerateXaml(TokenTree data)
         {
-            TokenTree parameters = new TokenTree(data.GetChildren("Parameters"));
-            DataConverter.Parameters = parameters;
-            foreach (TokenTree child in parameters.Children)
+            if (_sb.Generated.Length <= 0)
             {
-                string name = child.Name;
-                TokenTree defaults = parameters.FindFirst("Defaults." + name);
-                if (defaults != null)
-                    foreach (TokenTree item in child.Children)
-                        item.AddMissing(defaults);
+                TokenTree parameters = new TokenTree(data.GetChildren("Parameters"));
+                DataConverter.Parameters = parameters;
+                foreach (TokenTree child in parameters.Children)
+                {
+                    string name = child.Name;
+                    TokenTree defaults = parameters.FindFirst("Defaults." + name);
+                    if (defaults != null)
+                        foreach (TokenTree item in child.Children)
+                            item.AddMissing(defaults);
+                }
+                TokenTreeList fields = data.GetAll("Fields");
+                TokenTreeList styles = data.GetAll("Styles");
+                _sb.Append(
+                    "<Border HorizontalAlignment=\"Stretch\" VerticalAlignment=\"Stretch\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">")
+                    .AppendLine();
+                if (styles != null && styles.Count > 0)
+                    AddStyles(styles, parameters);
+                foreach (TokenTree field in fields.SelectMany(child => child.Children))
+                    _sb.AddElement(field, 1, parameters);
+                _sb.Append("</Border>").AppendLine();
             }
-            TokenTreeList fields = data.GetAll("Fields");
-            TokenTreeList styles = data.GetAll("Styles");
-            _sb.Append(
-                "<Border HorizontalAlignment=\"Stretch\" VerticalAlignment=\"Stretch\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">")
-                .AppendLine();
-            if (styles != null && styles.Count > 0)
-                AddStyles(styles, parameters);
-            foreach (TokenTree field in fields.SelectMany(child => child.Children))
-                _sb.AddElement(field, 1, parameters);
-            _sb.Append("</Border>").AppendLine();
             return _sb.Generated;
         }
 
