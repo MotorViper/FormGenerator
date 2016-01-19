@@ -75,7 +75,7 @@ namespace FormGenerator.Fields
                 return evaluated.Text;
 
             // A simple expression with no table parameter so can use the [] operator.
-            if (Parameter == null && (expression.Operator is SubstitutionOperator && expression.Second is StringToken))
+            if (Parameter == null && expression.Operator is SubstitutionOperator && expression.Second is StringToken)
                 return "{Binding Values[" + ((StringToken)expression.Second).Text + "]}";
 
             // This uses a table parameter or is a complicated expression so need to use the converter.

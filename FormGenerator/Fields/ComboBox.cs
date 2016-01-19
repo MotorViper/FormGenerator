@@ -1,4 +1,5 @@
-﻿using TextParser.Tokens;
+﻿using TextParser;
+using TextParser.Tokens;
 
 namespace FormGenerator.Fields
 {
@@ -25,7 +26,17 @@ namespace FormGenerator.Fields
             switch (name)
             {
                 case "Content":
-                    base.AddProperty("SelectedValue", value);
+                    // Need to make sure that the correct binding is chosen which requires Parameter to be null.
+                    // Otherwise changing the selection does not cause an update which goes against the use of a combo box.
+                    IToken evaluated = value;
+                    if (Parameter != null)
+                    {
+                        TokenTree tree = new TokenTree();
+                        tree.Children.Add(new TokenTree("TABLEITEM", Parameter));
+                        evaluated = evaluated.SubstituteParameters(tree);
+                    }
+                    Parameter = null;
+                    base.AddProperty("SelectedValue", evaluated);
                     break;
                 case "SelectedItem":
                     base.AddProperty("SelectedValue", new StringToken("{Binding " + value.Text + "}"));
