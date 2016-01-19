@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Generator;
-using TextParser.Tokens;
 
 namespace FormGenerator.Fields
 {
@@ -37,10 +36,10 @@ namespace FormGenerator.Fields
         /// </summary>
         /// <param name="name">The property name.</param>
         /// <param name="value"></param>
-        protected override void AddProperty(string name, IToken value)
+        protected override void AddProperty(string name, IValue value)
         {
             if (name == "ColumnWidth")
-                _columnWidth = value.Text;
+                _columnWidth = value.StringValue;
             else
                 base.AddProperty(name, value);
         }
@@ -116,8 +115,8 @@ namespace FormGenerator.Fields
                 Tuple<int, int> rowAndColumn = _positions.GetNextRowAndColumn();
                 int column = rowAndColumn.Item2;
                 int row = rowAndColumn.Item1;
-                child.AddProperty("Grid.Column", column);
-                child.AddProperty("Grid.Row", row);
+                child.AddTypedProperty("Grid.Column", column);
+                child.AddTypedProperty("Grid.Row", row);
                 IList<IProperty> properties = child.Element.Properties.Find("Across");
                 _positions.MakeItemUsed(row, column);
                 if (properties != null && properties.Count > 0)
@@ -128,11 +127,11 @@ namespace FormGenerator.Fields
                         int columns = across.IntValue;
                         for (int i = 1; i < columns; ++i)
                             _positions.MakeItemUsed(row, column + i);
-                        child.AddProperty("Grid.ColumnSpan", columns);
+                        child.AddTypedProperty("Grid.ColumnSpan", columns);
                         if (properties.Count > 1)
                         {
                             int rows = properties[1].IntValue;
-                            child.AddProperty("Grid.RowSpan", rows);
+                            child.AddTypedProperty("Grid.RowSpan", rows);
                             for (int col = 0; col < columns; ++col)
                                 for (int i = 0; i < rows; ++i)
                                     _positions.MakeItemUsed(row + i, column + col);

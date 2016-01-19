@@ -1,4 +1,4 @@
-﻿using TextParser.Tokens;
+﻿using Generator;
 
 namespace FormGenerator.Fields
 {
@@ -20,7 +20,7 @@ namespace FormGenerator.Fields
         /// </summary>
         /// <param name="name">The property name.</param>
         /// <param name="value">The value to add.</param>
-        protected override void AddProperty(string name, IToken value)
+        protected override void AddProperty(string name, IValue value)
         {
             switch (name)
             {

@@ -29,10 +29,10 @@ namespace FormGenerator.Tools
                 ItemData data = s_fieldData[index];
                 IToken dataToken = data.Token;
                 TokenTree parameters = Parameters;
-                if (data.Parameter != null)
+                if (data.Parameters != null)
                 {
                     parameters = Parameters.Clone();
-                    parameters.Children.AddIfMissing(new TokenTree("TABLEITEM", data.Parameter));
+                    parameters.Children.AddIfMissing(data.Parameters);
                 }
                 converted = dataToken.Evaluate(new TokenTreeList {(TokenTree)value, parameters}, true);
             }
@@ -57,21 +57,21 @@ namespace FormGenerator.Tools
             return null;
         }
 
-        public static int SetFieldData(IToken data, IToken parameter)
+        public static int SetFieldData(IToken data, TokenTree parameters)
         {
-            s_fieldData.Add(new ItemData(data, parameter));
+            s_fieldData.Add(new ItemData(data, parameters));
             return s_fieldData.Count - 1;
         }
 
         private struct ItemData
         {
             public readonly IToken Token;
-            public readonly IToken Parameter;
+            public readonly TokenTree Parameters;
 
-            public ItemData(IToken token, IToken parameter)
+            public ItemData(IToken token, TokenTree parameters)
             {
                 Token = token;
-                Parameter = parameter;
+                Parameters = parameters;
             }
 
             /// <summary>

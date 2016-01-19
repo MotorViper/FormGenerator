@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TextParser;
+﻿using TextParser;
 using TextParser.Tokens;
 
 namespace Generator
@@ -28,5 +27,10 @@ namespace Generator
         public string StringValue { get; }
         public IToken Token => null;
         public TokenTree Tree => null;
+
+        public IValue ApplyParameters(TokenTree parameters)
+        {
+            return null;
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Helpers;
-using TextParser;
 using TextParser.Tokens;
 
 namespace Generator
@@ -65,7 +64,7 @@ namespace Generator
         /// <typeparam name="T">The property type.</typeparam>
         /// <param name="name">The property name.</param>
         /// <param name="value">The property value.</param>
-        public virtual void AddProperty<T>(string name, T value)
+        public virtual void AddTypedProperty<T>(string name, T value)
         {
             switch (name)
             {
@@ -110,7 +109,7 @@ namespace Generator
         {
             bool parametersRemoved = false;
 
-            foreach (TokenTree child in Element.Data.Children.Where(child => !IgnoredProperties().Contains(child.Name)))
+            foreach (IProperty child in Element.Properties.Where(child => !IgnoredProperties().Contains(child.Name)))
             {
                 if (IsParameter(child.Name))
                 {
@@ -122,11 +121,11 @@ namespace Generator
                         foreach (string name in toRemove)
                             Element.Parameters[0].Remove(name);
                     }
-                    Element.Parameters[0].Children.Add(child);
+                    Element.Parameters[0].Children.Add(child.Tree);
                 }
                 else
                 {
-                    AddProperty(child);
+                    AddProperty(child.Name, child);
                 }
             }
             Parent?.AddChildProperties(this);
@@ -135,29 +134,19 @@ namespace Generator
         /// <summary>
         /// Add a single property to the list of those to output.
         /// </summary>
-        /// <param name="child">The token containing the parameter.</param>
-        protected void AddProperty(TokenTree child)
-        {
-            AddProperty(child.Name, child.Value);
-        }
-
-        /// <summary>
-        /// Add a single property to the list of those to output.
-        /// </summary>
         /// <param name="name">The property name.</param>
         /// <param name="value">The value to add.</param>
-        protected virtual void AddProperty(string name, IToken value)
+        protected virtual void AddProperty(string name, IValue value)
         {
-            AddProperty(name, ProcessTokens(value, Element.Parameters));
+            AddTypedProperty(name, ProcessTokens(value.Token));
         }
 
         /// <summary>
         /// Evaluates a tokens.
         /// </summary>
         /// <param name="value">The token to evaluate.</param>
-        /// <param name="parameters">Calculation parameters.</param>
         /// <returns>The string representing the token in the output.</returns>
-        protected abstract string ProcessTokens(IToken value, TokenTreeList parameters);
+        protected abstract string ProcessTokens(IToken value);
 
         /// <summary>
         /// Checks if the property is a function parameter.

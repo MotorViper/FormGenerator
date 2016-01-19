@@ -45,7 +45,7 @@ namespace Generator
         /// <typeparam name="T">The property type.</typeparam>
         /// <param name="name">The property name.</param>
         /// <param name="value">The property value.</param>
-        void AddProperty<T>(string name, T value);
+        void AddTypedProperty<T>(string name, T value);
 
         /// <summary>
         /// Add an element to the output.

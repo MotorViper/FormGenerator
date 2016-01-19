@@ -58,7 +58,7 @@ namespace GeneratorsTest
             {
             }
 
-            public void AddProperty<T>(string name, T value)
+            public void AddTypedProperty<T>(string name, T value)
             {
             }
 

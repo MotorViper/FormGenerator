@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Generator;
 using TextParser;
-using TextParser.Tokens;
 
 namespace WebFormGenerator.Models
 {
@@ -29,15 +29,15 @@ namespace WebFormGenerator.Models
         /// </summary>
         /// <param name="name">The property name.</param>
         /// <param name="value"></param>
-        protected override void AddProperty(string name, IToken value)
+        protected override void AddProperty(string name, IValue value)
         {
             switch (name)
             {
                 case "SelectedItem":
-                    SelectedItem = value.Text;
+                    SelectedItem = value.StringValue;
                     break;
                 case "SelectionOptions":
-                    TokenTree items = new TokenTree(Element.Parameters[0].GetChildren(value.Text));
+                    TokenTree items = new TokenTree(Element.Parameters[0].GetChildren(value.StringValue));
                     foreach (TokenTree item in items.Children)
                         Options.Add(item.Name);
                     break;

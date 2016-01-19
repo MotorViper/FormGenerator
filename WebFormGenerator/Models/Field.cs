@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Generator;
-using TextParser;
 using TextParser.Operators;
 using TextParser.Tokens;
 
@@ -47,13 +46,12 @@ namespace WebFormGenerator.Models
         /// Process each token that is to be used.
         /// </summary>
         /// <param name="value"></param>
-        /// <param name="parameters">The data used to evaluate the token.</param>
         /// <returns>The value of the token after evaluation.</returns>
-        protected override string ProcessTokens(IToken value, TokenTreeList parameters)
+        protected override string ProcessTokens(IToken value)
         {
             try
             {
-                IToken converted = value.Evaluate(parameters, true);
+                IToken converted = value.Evaluate(Element.Parameters, true);
                 ITypeToken typeToken = converted as ITypeToken;
                 if (typeToken != null)
                     return typeToken.Data.ToString();

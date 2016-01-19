@@ -49,6 +49,7 @@
     <Compile Include="IProperty.cs" />
     <Compile Include="IPropertyList.cs" />
     <Compile Include="ITokenData.cs" />
+    <Compile Include="IValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleElement.cs" />
     <Compile Include="SimpleProperty.cs" />

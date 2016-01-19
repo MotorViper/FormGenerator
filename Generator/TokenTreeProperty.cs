@@ -19,6 +19,18 @@ namespace Generator
 
         public TokenTree Tree { get; }
 
+        public IValue ApplyParameters(TokenTree parameters)
+        {
+            IToken evaluated = Token;
+            if (parameters != null)
+            {
+                TokenTree tree = new TokenTree();
+                tree.Children.Add(parameters);
+                evaluated = evaluated.SubstituteParameters(tree);
+            }
+            return new TokenTreeProperty(new TokenTree("", evaluated));
+        }
+
         /// <summary>
         /// The property name.
         /// </summary>

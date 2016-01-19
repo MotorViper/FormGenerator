@@ -19,7 +19,7 @@ namespace FormGenerator.Fields
         /// </summary>
         public Field()
         {
-            Parameter = null;
+            Parameters = null;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace FormGenerator.Fields
         /// <summary>
         /// Parameters used for any necessary evaluation.
         /// </summary>
-        protected IToken Parameter { get; set; }
+        protected TokenTree Parameters { get; set; }
 
         /// <summary>
         /// Adds the fields children.
@@ -55,7 +55,7 @@ namespace FormGenerator.Fields
         public override void AddElement(IElement data, int level, IField parent = null, List<string> keys = null)
         {
             Field field = (Field)FieldFactory.CreateField(data, level, parent);
-            field.Parameter = Parameter;
+            field.Parameters = Parameters;
             field.OutputField(level);
         }
 
@@ -63,23 +63,22 @@ namespace FormGenerator.Fields
         /// Evaluates a tokens.
         /// </summary>
         /// <param name="value">The token to evaluate.</param>
-        /// <param name="parameters">Calculation parameters.</param>
         /// <returns>The string representing the token in the output.</returns>
-        protected override string ProcessTokens(IToken value, TokenTreeList parameters)
+        protected override string ProcessTokens(IToken value)
         {
-            IToken evaluated = value.Evaluate(parameters, false);
+            IToken evaluated = value.Evaluate(Element.Parameters, false);
             ExpressionToken expression = evaluated as ExpressionToken;
 
             // Simple string so can just output it.
             if (expression == null)
                 return evaluated.Text;
 
-            // A simple expression with no table parameter so can use the [] operator.
-            if (Parameter == null && expression.Operator is SubstitutionOperator && expression.Second is StringToken)
+            // A simple expression with no extra parameters so can use the [] operator.
+            if (Parameters == null && expression.Operator is SubstitutionOperator && expression.Second is StringToken)
                 return "{Binding Values[" + ((StringToken)expression.Second).Text + "]}";
 
             // This uses a table parameter or is a complicated expression so need to use the converter.
-            int id = DataConverter.SetFieldData(evaluated, Parameter);
+            int id = DataConverter.SetFieldData(evaluated, Parameters);
             return "{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=" + id + "}";
         }
 
@@ -99,15 +98,15 @@ namespace FormGenerator.Fields
         /// <typeparam name="T">The property type.</typeparam>
         /// <param name="name">The property name.</param>
         /// <param name="value">The property value.</param>
-        public override void AddProperty<T>(string name, T value)
+        public override void AddTypedProperty<T>(string name, T value)
         {
             switch (name)
             {
                 case "Style":
-                    base.AddProperty("Style", "{StaticResource " + value + "}");
+                    base.AddTypedProperty("Style", "{StaticResource " + value + "}");
                     break;
                 default:
-                    base.AddProperty(name, value);
+                    base.AddTypedProperty(name, value);
                     break;
             }
         }

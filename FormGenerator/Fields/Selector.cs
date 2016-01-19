@@ -14,9 +14,9 @@
             base.AddProperties();
 
             // Add in the properties that allow user interaction.
-            AddProperty("SelectedValue", "{Binding Selected}");
-            AddProperty("SelectedIndex", 0);
-            AddProperty("ItemsSource", "{Binding Keys}");
+            AddTypedProperty("SelectedValue", "{Binding Selected}");
+            AddTypedProperty("SelectedIndex", 0);
+            AddTypedProperty("ItemsSource", "{Binding Keys}");
         }
     }
 }
