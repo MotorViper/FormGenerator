@@ -107,27 +107,8 @@ namespace Generator
         /// </summary>
         protected virtual void AddProperties()
         {
-            bool parametersRemoved = false;
-
             foreach (IProperty child in Element.Properties.Where(child => !IgnoredProperties().Contains(child.Name)))
-            {
-                if (IsParameter(child.Name))
-                {
-                    // This is nasty but until I add scoping to function parameters it will have to do.
-                    if (!parametersRemoved)
-                    {
-                        parametersRemoved = true;
-                        List<string> toRemove = Element.Parameters[0].Children.Select(x => x.Name).Where(IsParameter).ToList();
-                        foreach (string name in toRemove)
-                            Element.Parameters[0].Remove(name);
-                    }
-                    Element.Parameters[0].Children.Add(child.Tree);
-                }
-                else
-                {
-                    AddProperty(child.Name, child);
-                }
-            }
+                AddProperty(child.Name, child);
             Parent?.AddChildProperties(this);
         }
 

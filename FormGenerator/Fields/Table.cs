@@ -58,14 +58,14 @@ namespace FormGenerator.Fields
                 throw new Exception("Tried to create table with no Content.");
             if (over.Count == 1)
             {
-                TokenTree items = new TokenTree(DataConverter.Parameters.GetChildren(over[0].StringValue));
-                foreach (TokenTree item in items.Children)
-                    AddElements(fields, item.Key);
+                IPropertyList items = DataConverter.GetList(over[0].StringValue);
+                foreach (IProperty item in items)
+                    AddElements(fields, item);
             }
             else
             {
                 foreach (IProperty item in over)
-                    AddElements(fields, item.Token);
+                    AddElements(fields, item);
             }
             EndAddChildren();
         }
@@ -75,9 +75,9 @@ namespace FormGenerator.Fields
         /// </summary>
         /// <param name="fields">The fields to add.</param>
         /// <param name="parameter">The table parameter for distinguishing each element.</param>
-        private void AddElements(IEnumerable<IElement> fields, IToken parameter)
+        private void AddElements(IEnumerable<IElement> fields, IValue parameter)
         {
-            Parameters = new TokenTree("TABLEITEM", parameter);
+            Parameters = new TokenTree("TABLEITEM", parameter.Token);
             foreach (IElement child in fields)
                 AddElement(child, Level + 1, this);
         }

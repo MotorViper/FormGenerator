@@ -23,8 +23,12 @@ namespace Generator
         #region Temporary
 
         IToken Token { get; }
-        TokenTree Tree { get; }
 
+        /// <summary>
+        /// Applies the properties that act as parameters.
+        /// </summary>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns>The value created by applying the parameters.</returns>
         IValue ApplyParameters(TokenTree parameters);
 
         #endregion
