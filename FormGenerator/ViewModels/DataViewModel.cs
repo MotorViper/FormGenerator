@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using FormGenerator.Models;
 using FormGenerator.Tools;
@@ -135,7 +136,9 @@ namespace FormGenerator.ViewModels
             if (s.ShowDialog() == true)
             {
                 string path = s.FileName;
-                File.WriteAllText(path, Xaml);
+                Regex regex = new Regex("Content=\"\\{Binding Values, Converter=\\{StaticResource DataConverter\\}, Mode=OneWay, ConverterParameter=([0-9]+)\\}");
+                string xaml = regex.Replace(Xaml, "Content=\"$1");
+                File.WriteAllText(path, xaml);
             }
         }
     }

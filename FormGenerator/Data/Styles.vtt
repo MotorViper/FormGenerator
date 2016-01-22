@@ -12,9 +12,10 @@ Right:
 	HorizontalAlignment: Right
 ShiftRight: 
 	Margin: '2,0,0,0'
-Bolded: Label
+SideHeading: Label
 	FontWeight: Bold
-	FontSize: 16
+	FontSize: 22
+	FontFamily: Blackadder ITC
 	HorizontalAlignment: Center
 	VerticalAlignment: Center
 CentreLabel: Label
@@ -45,6 +46,12 @@ WeaponHeader: Label
 	BasedOn: CentreLabel
 	BorderThickness: 0
 SkillHeader: Label
+	FontSize: 10
+	Padding: 3,3
 	BasedOn: CentreLabel
 	BorderThickness: 1
 	BorderBrush: Black
+SkillEntry: Label
+	FontSize: 9
+	Padding: 3,0
+	HorizontalAlignment: Center

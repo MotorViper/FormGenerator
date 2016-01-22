@@ -64,6 +64,7 @@ Sense Motive:
 Sleight of Hand:
 	Key: Dex
 Speak Language:
+	Key: Int
 Spellcraft:
 	Key: Int
 Spot:

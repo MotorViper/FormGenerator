@@ -43,7 +43,7 @@ Style:
 	Name: Right
 	TextAlign: Right
 Style: 
-	Name: Bolded
+	Name: SideHeading
 	BasedOn: Stretch
 	FontWeight: Bold
 	FontSize: 16px

@@ -23,7 +23,7 @@
 		Field: EditorWithLabelUnder: Experience
 			Across: 4
 		Field: Label
-			Style: Bolded
+			Style: SideHeading
 			Content: Dungeons
 			Across: 12
 
@@ -37,7 +37,7 @@
 		Field: EditorWithLabelUnder: Deity
 			Across: 4
 		Field: Label
-			Style: Bolded
+			Style: SideHeading
 			Content: '&amp; Dragons'
 			Across: 12
 
@@ -58,7 +58,7 @@
 		Field: EditorWithLabelUnder: Skin
 			Across: 3
 		Field: Label
-			Style: Bolded
+			Style: SideHeading
 			Across: 12
 			Content: Character Record Sheet
 			
@@ -244,40 +244,38 @@
 		Across: 1|2
 		Field: Table
 			Content: Skills
-			Columns: 'Auto|||||'
+			Columns: '|Auto|Auto|Auto|Auto'
 			Background: PaleGreen
-			Field: CheckBox
-				Header: 
-					Style: SkillHeader
-					Content: Key 
-				Style: Middle
-				IsEnabled: false
-				Content: $IsClassSkill
 			Field: Label
 				Header: 
 					Style: SkillHeader
-					Content: Skill Name
+					Content: Name
 				Content: $TABLEITEM
+				Style: SkillEntry
 			Field: Label
 				Header: 
 					Style: SkillHeader
-					Content: Key Ability
+					Content: Ability
 				Content: {Skills.{TABLEITEM}.Key}
+				Style: SkillEntry
 			Field: Label
 				Header: 
 					Style: SkillHeader
-					Content: Modifier
+					Content: Mod.
 				Content: $SkillModifier
+				Style: SkillEntry
 			Field: Label
 				Header: 
 					Style: SkillHeader
 					Content: Ranks
 				Content: $SkillPoints
+				Style: SkillEntry
 			Field: Label
 				Header: 
 					Style: SkillHeader
 					Content: Value
 				Content: IF:($CanUseSkill|$SkillPoints + $SkillModifier|0)
+				Style: SkillEntry
 
 	Field: Grid
 		Style: Fill
