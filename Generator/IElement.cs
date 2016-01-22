@@ -14,20 +14,24 @@ namespace Generator
         IEnumerable<IElement> Children { get; }
 
         /// <summary>
+        /// The elements name.
+        /// </summary>
+        string ElementName { get; }
+
+        /// <summary>
         /// The elements type.
         /// </summary>
-        string ElementType { get; }
+        string ElementType { get; set; }
+
+        #region Temporary properties
+
+        TokenTreeList Parameters { get; set; }
+
+        #endregion
 
         /// <summary>
         /// The elements properties.
         /// </summary>
         IPropertyList Properties { get; }
-
-        #region Temporary properties
-
-        TokenTree Data { get; }
-        TokenTreeList Parameters { get; set; }
-
-        #endregion
     }
 }

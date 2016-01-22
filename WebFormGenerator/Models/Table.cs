@@ -33,19 +33,19 @@ namespace WebFormGenerator.Models
             Builder.Append("<tr>").AppendLine();
             foreach (IElement child in fields)
             {
-                TokenTree header = child.Data.FindFirst("Header");
+                IElement header = child.Properties.FindChild("Header");
                 if (header != null)
                 {
-                    if (header.Children.Count == 0)
+                    if (header.Properties.Count == 0)
                     {
-                        TokenTree label = new TokenTree {Value = new StringToken("Label")};
-                        label.Children.Add(new TokenTree("Content", header.Value.Text ?? ""));
+                        SimpleElement label = new SimpleElement("Label");
+                        label.Properties.Add(new SimpleProperty("Content", new SimpleValue(header.ElementName)));
                         header = label;
                     }
-                    if (header.Value is NullToken)
-                        header.Value = new StringToken("Label");
+                    if (string.IsNullOrWhiteSpace(header.ElementType))
+                        header.ElementType = "Label";
                     Builder.Append("<th>").AppendLine();
-                    AddElement(new TokenTreeElement(header, Element.Parameters), Level + 1, this);
+                    AddElement(header, Level + 1, this);
                     Builder.Append("</th>").AppendLine();
                 }
             }

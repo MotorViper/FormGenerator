@@ -25,5 +25,11 @@ namespace Generator
         /// <param name="name">The name of the property.</param>
         /// <returns></returns>
         IElement FindChild(string name);
+
+        /// <summary>
+        /// Adds a property to the list.
+        /// </summary>
+        /// <param name="property">The property to add.</param>
+        void Add(IProperty property);
     }
 }

@@ -67,7 +67,7 @@
         /// <returns>The value created by applying the parameters.</returns>
         public IValue ApplyParameters(IProperty parameters)
         {
-            return null;
+            return this;
         }
 
         /// <summary>
@@ -78,7 +78,7 @@
         /// <returns>The evaluated value.</returns>
         public IValue Evaluate(IElement element, bool isFinal)
         {
-            return null;
+            return this;
         }
     }
 }

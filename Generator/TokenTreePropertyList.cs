@@ -15,6 +15,11 @@ namespace Generator
         private readonly TokenTree _parameters;
         private readonly Dictionary<string, IList<IProperty>> _values = new Dictionary<string, IList<IProperty>>();
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="data">Parent token tree.</param>
+        /// <param name="parameters">Calculation parameters.</param>
         public TokenTreePropertyList(TokenTree data, TokenTree parameters)
         {
             _data = data.Children.Where(x => x.Name != "Field").ToList();
@@ -63,8 +68,16 @@ namespace Generator
         /// <returns></returns>
         public IElement FindChild(string name)
         {
-            IEnumerable<TokenTree> tokenTrees = _data.Where(child => child.Name == name);
-            return new TokenTreeElement(tokenTrees.FirstOrDefault(), new TokenTreeList(_parameters));
+            TokenTree tokenTree = _data.FirstOrDefault(child => child.Name == name);
+            return tokenTree == null ? null : new TokenTreeElement(tokenTree, new TokenTreeList(_parameters));
+        }
+
+        /// <summary>
+        /// Adds a property to the list.
+        /// </summary>
+        /// <param name="property">The property to add.</param>
+        public void Add(IProperty property)
+        {
         }
 
         /// <summary>

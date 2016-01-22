@@ -29,7 +29,11 @@ namespace Generator
         /// </summary>
         public IPropertyList Properties => RWProperties;
 
-        public TokenTree Data => null;
+        /// <summary>
+        /// The elements name.
+        /// </summary>
+        public string ElementName { get; set; }
+
         public TokenTreeList Parameters { get; set; }
     }
 }

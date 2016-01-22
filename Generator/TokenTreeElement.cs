@@ -11,6 +11,7 @@ namespace Generator
     /// </summary>
     public class TokenTreeElement : IElement
     {
+        private readonly TokenTree _data;
         private string _type;
 
         /// <summary>
@@ -20,7 +21,7 @@ namespace Generator
         /// <param name="parameters">Calculation data.</param>
         public TokenTreeElement(TokenTree data, TokenTreeList parameters)
         {
-            Data = data;
+            _data = data;
             Parameters = parameters;
         }
 
@@ -34,12 +35,12 @@ namespace Generator
             {
                 if (_type == null)
                 {
-                    _type = Data.Value.Text;
+                    _type = _data.Value.Text;
                     TokenTree replacement = null;
-                    StringToken stringToken = Data.Value as StringToken;
+                    StringToken stringToken = _data.Value as StringToken;
                     if (stringToken == null)
                     {
-                        ExpressionToken expression = Data.Value as ExpressionToken;
+                        ExpressionToken expression = _data.Value as ExpressionToken;
                         if (expression != null)
                         {
                             FunctionOperator function = expression.Operator as FunctionOperator;
@@ -70,9 +71,9 @@ namespace Generator
                         foreach (TokenTree child in replacement.Children)
                         {
                             if (child.Name == "Field")
-                                Data.Children.Add(child);
+                                _data.Children.Add(child);
                             else
-                                Data.Children.AddIfMissing(child);
+                                _data.Children.AddIfMissing(child);
                         }
                     }
                 }
@@ -85,15 +86,18 @@ namespace Generator
         /// </summary>
         public IEnumerable<IElement> Children
         {
-            get { return Data.Children.Where(x => x.Name == "Field").Select(x => new TokenTreeElement(x, Parameters)); }
+            get { return _data.Children.Where(x => x.Name == "Field").Select(x => new TokenTreeElement(x, Parameters)); }
         }
 
         /// <summary>
         /// The elements properties.
         /// </summary>
-        public IPropertyList Properties => new TokenTreePropertyList(Data, Parameters[0]);
+        public IPropertyList Properties => new TokenTreePropertyList(_data, Parameters[0]);
 
-        public TokenTree Data { get; }
+        /// <summary>
+        /// The elements name.
+        /// </summary>
+        public string ElementName => _data.Value.Text;
 
         public TokenTreeList Parameters { get; set; }
     }
