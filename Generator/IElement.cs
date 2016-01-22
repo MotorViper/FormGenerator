@@ -16,7 +16,7 @@ namespace Generator
         /// <summary>
         /// The elements type.
         /// </summary>
-        string ElementType { get; set; }
+        string ElementType { get; }
 
         /// <summary>
         /// The elements properties.

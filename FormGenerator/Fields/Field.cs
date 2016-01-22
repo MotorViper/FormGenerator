@@ -2,9 +2,6 @@
 using FormGenerator.Tools;
 using Generator;
 using Helpers;
-using TextParser;
-using TextParser.Operators;
-using TextParser.Tokens;
 
 namespace FormGenerator.Fields
 {
@@ -34,7 +31,7 @@ namespace FormGenerator.Fields
         /// <summary>
         /// Parameters used for any necessary evaluation.
         /// </summary>
-        protected TokenTree Parameters { get; set; }
+        protected IProperty Parameters { get; set; }
 
         /// <summary>
         /// Adds the fields children.
@@ -64,18 +61,17 @@ namespace FormGenerator.Fields
         /// </summary>
         /// <param name="value">The token to evaluate.</param>
         /// <returns>The string representing the token in the output.</returns>
-        protected override string ProcessTokens(IToken value)
+        protected override string ProcessValue(IValue value)
         {
-            IToken evaluated = value.Evaluate(Element.Parameters, false);
-            ExpressionToken expression = evaluated as ExpressionToken;
+            IValue evaluated = value.Evaluate(Element, false);
 
             // Simple string so can just output it.
-            if (expression == null)
-                return evaluated.Text;
+            if (!evaluated.IsExpression)
+                return evaluated.StringValue;
 
             // A simple expression with no extra parameters so can use the [] operator.
-            if (Parameters == null && expression.Operator is SubstitutionOperator && expression.Second is StringToken)
-                return "{Binding Values[" + ((StringToken)expression.Second).Text + "]}";
+            if (Parameters == null && evaluated.IsVariableExpression)
+                return "{Binding Values[" + evaluated.VariableName + "]}";
 
             // This uses a table parameter or is a complicated expression so need to use the converter.
             int id = DataConverter.SetFieldData(evaluated, Parameters);

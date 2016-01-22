@@ -35,12 +35,12 @@ namespace FormGenerator.Tools
             if (index < s_fieldData.Count)
             {
                 ItemData data = s_fieldData[index];
-                IToken dataToken = data.Token;
+                IToken dataToken = ((TokenTreeProperty)data.Value).Token;
                 TokenTree parameters = Parameters;
                 if (data.ParameterData != null)
                 {
                     parameters = Parameters.Clone();
-                    parameters.Children.AddIfMissing(data.ParameterData);
+                    parameters.Children.AddIfMissing(new TokenTree(data.ParameterData.Name, ((TokenTreeProperty)data.ParameterData).Token));
                 }
                 converted = dataToken.Evaluate(new TokenTreeList {(TokenTree)value, parameters}, true);
             }
@@ -71,7 +71,7 @@ namespace FormGenerator.Tools
         /// <param name="data">The basic data.</param>
         /// <param name="parameters">Extra parameters to be used.</param>
         /// <returns>Id to be used as a parameter in the binding definition.</returns>
-        public static int SetFieldData(IToken data, TokenTree parameters)
+        public static int SetFieldData(IValue data, IProperty parameters)
         {
             s_fieldData.Add(new ItemData(data, parameters));
             return s_fieldData.Count - 1;
@@ -92,12 +92,12 @@ namespace FormGenerator.Tools
 
         private struct ItemData
         {
-            public readonly IToken Token;
-            public readonly TokenTree ParameterData;
+            public readonly IValue Value;
+            public readonly IProperty ParameterData;
 
-            public ItemData(IToken token, TokenTree parameterData)
+            public ItemData(IValue value, IProperty parameterData)
             {
-                Token = token;
+                Value = value;
                 ParameterData = parameterData;
             }
 
@@ -109,7 +109,7 @@ namespace FormGenerator.Tools
             /// </returns>
             public override string ToString()
             {
-                return Token.Text;
+                return ((TokenTreeProperty)Value).Token.Text;
             }
         }
     }

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using Generator;
-using TextParser.Operators;
-using TextParser.Tokens;
 
 namespace WebFormGenerator.Models
 {
@@ -47,16 +45,14 @@ namespace WebFormGenerator.Models
         /// </summary>
         /// <param name="value"></param>
         /// <returns>The value of the token after evaluation.</returns>
-        protected override string ProcessTokens(IToken value)
+        protected override string ProcessValue(IValue value)
         {
             try
             {
-                IToken converted = value.Evaluate(Element.Parameters, true);
-                ITypeToken typeToken = converted as ITypeToken;
-                if (typeToken != null)
-                    return typeToken.Data.ToString();
-                ExpressionToken expression = converted as ExpressionToken;
-                if (expression?.Operator is SubstitutionOperator && expression.Second is StringToken)
+                IValue converted = value.Evaluate(Element, true);
+                if (!converted.IsExpression)
+                    return converted.StringValue;
+                if (value.IsVariableExpression)
                     return "&nbsp;";
                 return converted.ToString();
             }

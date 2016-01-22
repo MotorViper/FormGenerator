@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Helpers;
-using TextParser.Tokens;
 
 namespace Generator
 {
@@ -119,7 +118,7 @@ namespace Generator
         /// <param name="value">The value to add.</param>
         protected virtual void AddProperty(string name, IValue value)
         {
-            AddTypedProperty(name, ProcessTokens(value.Token));
+            AddTypedProperty(name, ProcessValue(value));
         }
 
         /// <summary>
@@ -127,21 +126,7 @@ namespace Generator
         /// </summary>
         /// <param name="value">The token to evaluate.</param>
         /// <returns>The string representing the token in the output.</returns>
-        protected abstract string ProcessTokens(IToken value);
-
-        /// <summary>
-        /// Checks if the property is a function parameter.
-        /// </summary>
-        /// <param name="name">The name of the property.</param>
-        /// <returns>True if this is a function parameter.</returns>
-        protected static bool IsParameter(string name)
-        {
-            if (!name.StartsWith("P"))
-                return false;
-            int index;
-            string sIndex = name.Substring(1);
-            return int.TryParse(sIndex, out index) && index.ToString() == sIndex;
-        }
+        protected abstract string ProcessValue(IValue value);
 
         /// <summary>
         /// Any properties that should not be processed.

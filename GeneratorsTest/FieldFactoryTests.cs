@@ -2,7 +2,6 @@
 using Generator;
 using Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TextParser;
 
 namespace GeneratorsTest
 {
@@ -44,7 +43,6 @@ namespace GeneratorsTest
                 Name = name;
             }
 
-            public TokenTreeList Children { get; }
             public IElement Element { get; set; }
             public int Level { get; set; }
             public string Name { get; set; }

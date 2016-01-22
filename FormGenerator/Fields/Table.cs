@@ -77,7 +77,7 @@ namespace FormGenerator.Fields
         /// <param name="parameter">The table parameter for distinguishing each element.</param>
         private void AddElements(IEnumerable<IElement> fields, IValue parameter)
         {
-            Parameters = new TokenTree("TABLEITEM", parameter.Token);
+            Parameters = parameter.CreateProperty("TABLEITEM");
             foreach (IElement child in fields)
                 AddElement(child, Level + 1, this);
         }
