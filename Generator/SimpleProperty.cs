@@ -16,6 +16,15 @@
         }
 
         /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">Property name.</param>
+        /// <param name="value">Property value.</param>
+        public SimpleProperty(string key, string value) : this(key, new SimpleValue(value))
+        {
+        }
+
+        /// <summary>
         /// The property name.
         /// </summary>
         public string Name { get; }

@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
-using TextParser;
 
 namespace Generator
 {
     public class SimpleElement : IElement
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="elementType">The element type.</param>
         public SimpleElement(string elementType)
         {
             Children = new List<IElement>();
             ElementType = elementType;
-            RWProperties = new SimplePropertyList();
+            Properties = new SimplePropertyList();
         }
-
-        public SimplePropertyList RWProperties { get; }
 
         /// <summary>
         /// The elements children.
@@ -27,13 +28,16 @@ namespace Generator
         /// <summary>
         /// The elements properties.
         /// </summary>
-        public IPropertyList Properties => RWProperties;
+        public IPropertyList Properties { get; }
 
         /// <summary>
         /// The elements name.
         /// </summary>
         public string ElementName { get; set; }
 
-        public TokenTreeList Parameters { get; set; }
+        /// <summary>
+        /// Parameters used for any calculations.
+        /// </summary>
+        public IParameters Parameters { get; set; }
     }
 }

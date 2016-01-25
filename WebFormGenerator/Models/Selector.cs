@@ -13,7 +13,7 @@
         {
             foreach (string child in Keys)
                 Options.Add(child);
-            SelectedItem = Element.Parameters[1].Name;
+            SelectedItem = Element.Parameters.SelectedItem;
             base.AddProperties();
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TextParser;
 
 namespace Generator
 {
@@ -23,11 +22,10 @@ namespace Generator
         /// </summary>
         string ElementType { get; set; }
 
-        #region Temporary properties
-
-        TokenTreeList Parameters { get; set; }
-
-        #endregion
+        /// <summary>
+        /// Parameters used for any calculations.
+        /// </summary>
+        IParameters Parameters { get; set; }
 
         /// <summary>
         /// The elements properties.

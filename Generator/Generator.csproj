@@ -46,6 +46,7 @@
     <Compile Include="IElement.cs" />
     <Compile Include="IField.cs" />
     <Compile Include="IFieldWriter.cs" />
+    <Compile Include="IParameters.cs" />
     <Compile Include="IProperty.cs" />
     <Compile Include="IPropertyList.cs" />
     <Compile Include="ITokenData.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="SimplePropertyList.cs" />
     <Compile Include="SimpleValue.cs" />
     <Compile Include="TokenTreeElement.cs" />
+    <Compile Include="TokenTreeParameters.cs" />
     <Compile Include="TokenTreePropertyList.cs" />
     <Compile Include="StringFieldWriter.cs" />
     <Compile Include="FieldFactory.cs" />

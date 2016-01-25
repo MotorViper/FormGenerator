@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FormGenerator.Tools;
 using Generator;
 
 namespace FormGenerator.Fields
@@ -56,7 +55,7 @@ namespace FormGenerator.Fields
                 throw new Exception("Tried to create table with no Content.");
             if (over.Count == 1)
             {
-                IPropertyList items = DataConverter.GetList(over[0].StringValue);
+                IPropertyList items = Element.Parameters.GetList(over[0].StringValue);
                 foreach (IProperty item in items)
                     AddElements(fields, item);
             }

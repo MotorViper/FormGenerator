@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Data;
 using Generator;
 using TextParser;
@@ -40,7 +39,7 @@ namespace FormGenerator.Tools
                 if (data.ParameterData != null)
                 {
                     parameters = Parameters.Clone();
-                    parameters.Children.AddIfMissing(new TokenTree(data.ParameterData.Name, ((TokenTreeProperty)data.ParameterData).Token));
+                    parameters.Children.AddIfMissing(new TokenTree(data.ParameterData.Name, data.ParameterData.StringValue));
                 }
                 converted = dataToken.Evaluate(new TokenTreeList {(TokenTree)value, parameters}, true);
             }
@@ -75,19 +74,6 @@ namespace FormGenerator.Tools
         {
             s_fieldData.Add(new ItemData(data, parameters));
             return s_fieldData.Count - 1;
-        }
-
-        /// <summary>
-        /// Gets a list of fields from the parameters.
-        /// </summary>
-        /// <param name="name">The name of the list.</param>
-        /// <returns>The entries in the list.</returns>
-        public static IPropertyList GetList(string name)
-        {
-            SimplePropertyList list = new SimplePropertyList();
-            TokenTreeList parameters = Parameters.GetChildren(name);
-            list.AddRange(parameters.Select(parameter => new TokenTreeProperty(new TokenTree(parameter.Key, parameter.Key))));
-            return list;
         }
 
         private struct ItemData

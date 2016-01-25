@@ -53,7 +53,7 @@ namespace Generator
         /// <returns>The evaluated value.</returns>
         public IValue Evaluate(IElement element, bool isFinal)
         {
-            IToken evaluated = Token.Evaluate(element.Parameters, isFinal);
+            IToken evaluated = Token.Evaluate((TokenTreeParameters)element.Parameters, isFinal);
             return new TokenTreeProperty(new TokenTree("", evaluated));
         }
 

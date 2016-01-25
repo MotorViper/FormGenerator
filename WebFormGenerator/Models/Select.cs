@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Generator;
-using TextParser;
 
 namespace WebFormGenerator.Models
 {
@@ -37,9 +36,9 @@ namespace WebFormGenerator.Models
                     SelectedItem = value.StringValue;
                     break;
                 case "SelectionOptions":
-                    TokenTree items = new TokenTree(Element.Parameters[0].GetChildren(value.StringValue));
-                    foreach (TokenTree item in items.Children)
-                        Options.Add(item.Name);
+                    IPropertyList items = Element.Parameters.GetList(value.StringValue);
+                    foreach (IProperty item in items)
+                        Options.Add(item.StringValue);
                     break;
                 default:
                     base.AddProperty(name, value);

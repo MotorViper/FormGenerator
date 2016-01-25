@@ -12,6 +12,7 @@ namespace Generator
     public class TokenTreeElement : IElement
     {
         private readonly TokenTree _data;
+        private TokenTreeParameters _parameters;
         private string _type;
 
         /// <summary>
@@ -22,7 +23,7 @@ namespace Generator
         public TokenTreeElement(TokenTree data, TokenTreeList parameters)
         {
             _data = data;
-            Parameters = parameters;
+            _parameters = new TokenTreeParameters(parameters);
         }
 
         /// <summary>
@@ -52,18 +53,18 @@ namespace Generator
                                 TokenTree tree = new TokenTree();
                                 for (int i = 1; i < tokens.Count; ++i)
                                     tree.Children.Add(new TokenTree("P" + i, tokens[i]));
-                                replacement = Parameters[0]?.FindFirst(_type);
+                                replacement = _parameters[0]?.FindFirst(_type);
                                 replacement = replacement?.SubstituteParameters(tree);
                             }
                             else
                             {
-                                _type = expression.Evaluate(Parameters, false).Text;
+                                _type = expression.Evaluate(_parameters, false).Text;
                             }
                         }
                     }
 
                     if (replacement == null)
-                        replacement = Parameters[0]?.FindFirst(_type);
+                        replacement = _parameters[0]?.FindFirst(_type);
 
                     if (replacement != null)
                     {
@@ -86,19 +87,26 @@ namespace Generator
         /// </summary>
         public IEnumerable<IElement> Children
         {
-            get { return _data.Children.Where(x => x.Name == "Field").Select(x => new TokenTreeElement(x, Parameters)); }
+            get { return _data.Children.Where(x => x.Name == "Field").Select(x => new TokenTreeElement(x, _parameters)); }
         }
 
         /// <summary>
         /// The elements properties.
         /// </summary>
-        public IPropertyList Properties => new TokenTreePropertyList(_data, Parameters[0]);
+        public IPropertyList Properties => new TokenTreePropertyList(_data, _parameters[0]);
 
         /// <summary>
         /// The elements name.
         /// </summary>
         public string ElementName => _data.Value.Text;
 
-        public TokenTreeList Parameters { get; set; }
+        /// <summary>
+        /// Parameters used for any calculations.
+        /// </summary>
+        public IParameters Parameters
+        {
+            get { return _parameters; }
+            set { _parameters = value as TokenTreeParameters; }
+        }
     }
 }

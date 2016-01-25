@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Generator;
-using TextParser;
-using TextParser.Tokens;
 
 namespace WebFormGenerator.Models
 {
@@ -55,14 +53,14 @@ namespace WebFormGenerator.Models
                 throw new Exception("Tried to create table with no Content.");
             if (over.Count == 1)
             {
-                TokenTree items = new TokenTree(Element.Parameters[0].GetChildren(over[0].StringValue));
-                foreach (TokenTree item in items.Children)
-                    AddRow(fields, item.Key);
+                IPropertyList items = Element.Parameters.GetList(over[0].StringValue);
+                foreach (IProperty item in items)
+                    AddRow(fields, item.StringValue);
             }
             else
             {
                 foreach (IProperty item in over)
-                    AddRow(fields, new StringToken(item.StringValue));
+                    AddRow(fields, item.StringValue);
             }
         }
 
@@ -71,18 +69,14 @@ namespace WebFormGenerator.Models
         /// </summary>
         /// <param name="fields">The fields that will be displayed.</param>
         /// <param name="item">The selected item.</param>
-        private void AddRow(List<IElement> fields, IToken item)
+        private void AddRow(List<IElement> fields, string item)
         {
-            TokenTree parameters = Element.Parameters[0].Clone();
-            parameters.Children.AddIfMissing(new TokenTree("TABLEITEM", item));
+            IParameters parameters = Element.Parameters.Add(new SimpleProperty("TABLEITEM", item));
             Builder.Append("<tr>").AppendLine();
             foreach (IElement child in fields)
             {
                 Builder.Append("<td>");
-                TokenTreeList tokenTreeList = new TokenTreeList(parameters);
-                if (Element.Parameters.Count > 1)
-                    tokenTreeList.Add(Element.Parameters[1]);
-                child.Parameters = tokenTreeList;
+                child.Parameters = parameters;
                 AddElement(child, Level + 1, this);
                 Builder.Append("</td>");
             }
