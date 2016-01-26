@@ -10,21 +10,14 @@ namespace FormGenerator.Fields
     /// </summary>
     public class Field : BaseField
     {
-        // ReSharper disable once MemberCanBePrivate.Global - used by IOC.
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        public Field()
-        {
-            Parameters = null;
-        }
-
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="name">The field name.</param>
-        protected Field(string name) : this()
+        // ReSharper disable once MemberCanBeProtected.Global - used by IOC.
+        public Field(string name)
         {
+            Parameters = null;
             Name = name;
         }
 

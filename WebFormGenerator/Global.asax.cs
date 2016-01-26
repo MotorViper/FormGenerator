@@ -25,7 +25,7 @@ namespace WebFormGenerator
             ioc.Register<IField, Table>("Table");
             ioc.Register<IField, TextBox>("TextBox");
             ioc.Register<IField, CheckBox>("CheckBox");
-            ioc.Register<IField, Field>();
+            ioc.Register<IField, GenericField>();
 
             // Register the token data generator.
             ioc.Register<IHtmlTokenData, TokenData>();
@@ -34,7 +34,7 @@ namespace WebFormGenerator
             // Replace the line above with this.
             //IOCContainer.Instance.Register<IHtmlTokenData, PregeneratedHtmlTokenData>();
 
-            ioc.Register<IFieldWriter, StringFieldWriter<Field>>().AsSingleton();
+            ioc.Register<IFieldWriter, StringFieldWriter<GenericField>>().AsSingleton();
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);

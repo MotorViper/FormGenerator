@@ -8,7 +8,7 @@ namespace Generator
     /// Class that outputs the text generated from the token data.
     /// </summary>
     /// <typeparam name="T">The type of the basic fields that are created.</typeparam>
-    public class StringFieldWriter<T> : IFieldWriter where T : IField, new()
+    public class StringFieldWriter<T> : IFieldWriter where T : IFieldAdder, new()
     {
         private readonly string _offset;
         private readonly StringBuilder _sb = new StringBuilder();
@@ -76,6 +76,14 @@ namespace Generator
                 list.Add(selected);
             TokenTreeElement tokenTreeElement = new TokenTreeElement(data, list);
             new T().AddElement(tokenTreeElement, level, null, keys);
+        }
+
+        /// <summary>
+        /// Clear the output.
+        /// </summary>
+        public void Clear()
+        {
+            _sb.Clear();
         }
 
         /// <summary>

@@ -59,6 +59,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Fields\GenericField.cs" />
+    <Compile Include="Fields\TabItem.cs" />
     <Compile Include="Models\IXamlTokenData.cs" />
     <Compile Include="Models\PregeneratedXamlTokenData.cs" />
     <Compile Include="Models\TokenData.cs" />
@@ -131,6 +133,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Data\Screens.vtt" />
     <None Include="Data\HTMLStyles.vtt" />
     <None Include="Data\Styles.vtt" />
     <None Include="Data\Skills.vtt" />

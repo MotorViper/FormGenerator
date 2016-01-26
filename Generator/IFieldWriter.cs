@@ -3,6 +3,9 @@ using TextParser;
 
 namespace Generator
 {
+    /// <summary>
+    /// Interface for classes that can write out field data.
+    /// </summary>
     public interface IFieldWriter
     {
         /// <summary>
@@ -38,5 +41,10 @@ namespace Generator
         /// <param name="selected">The selected output element.</param>
         /// <param name="keys">List of available elements.</param>
         void AddElement(TokenTree data, int level, TokenTree parameters, TokenTree selected = null, List<string> keys = null);
+
+        /// <summary>
+        /// Clear the output.
+        /// </summary>
+        void Clear();
     }
 }

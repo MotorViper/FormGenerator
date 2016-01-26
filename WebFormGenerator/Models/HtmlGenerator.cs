@@ -30,7 +30,7 @@ namespace WebFormGenerator.Models
                     foreach (TokenTree item in child.Children)
                         item.AddMissing(defaults);
             }
-
+            _sb.Clear();
             TokenTree values = selected.Clone();
             TokenTree defaultValues = parameters.FindFirst("Defaults." + dataName);
             values.AddMissing(defaultValues);

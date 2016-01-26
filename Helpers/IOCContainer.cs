@@ -81,10 +81,12 @@ namespace Helpers
         /// <typeparam name="TInterface">The type of the interface.</typeparam>
         /// <typeparam name="TClass">The type of the class.</typeparam>
         /// <param name="name">The named instance.</param>
+        /// <param name="parameters">Parameters for the constructor, must have entries less than or equal to the number of parameters in the constructor. 
+        ///                          The parameters are filled in order. N.B. parameter types are not checked.</param>
         /// <returns>The dependency manager so that attributes can be added.</returns>
-        public DependencyManager Register<TInterface, TClass>(string name) where TClass : TInterface
+        public DependencyManager Register<TInterface, TClass>(string name, IReadOnlyList<object> parameters = null) where TClass : TInterface
         {
-            return new DependencyManager(new Key<TInterface>(name), typeof(TClass));
+            return new DependencyManager(new Key<TInterface>(name), typeof(TClass), parameters);
         }
 
         /// <summary>
@@ -189,32 +191,50 @@ namespace Helpers
             /// </summary>
             /// <param name="key">The key for storing the object.</param>
             /// <param name="type">The type of the class being registered.</param>
-            internal DependencyManager(Key key, Type type)
+            /// <param name="parameters">Parameters for the constructor, must have less than or equal to the number of parameters in the constructor. 
+            ///                          The parameters are filled in order. N.B. parameter types are not checked.</param>
+            internal DependencyManager(Key key, Type type, IReadOnlyList<object> parameters = null)
             {
                 _key = key;
+                if (parameters == null)
+                    parameters = new object[] {};
 
                 IOCContainer container = Instance;
-                ConstructorInfo c = type.GetConstructors().First();
-                _args = c.GetParameters().ToDictionary<ParameterInfo, Key, Func<object>>
-                    (
-                        x => new Key(x.Name, x.ParameterType),
-                        x => (() =>
+                ConstructorInfo c = parameters.Count == 0
+                    ? type.GetConstructors().First()
+                    : type.GetConstructors().FirstOrDefault(x => x.GetParameters().Length == parameters.Count) ??
+                      type.GetConstructors().First(x => x.GetParameters().Length > parameters.Count);
+
+                Dictionary<Key, Func<object>> dictionary = new Dictionary<Key, Func<object>>();
+                ParameterInfo[] info = c.GetParameters();
+                int i = 0;
+                for (; i < info.Length && i < parameters.Count; ++i)
+                {
+                    ParameterInfo parameterInfo = info[i];
+                    object parameter = parameters[i];
+                    dictionary.Add(new Key(parameterInfo.Name, parameterInfo.ParameterType), () => parameter);
+                }
+                for (; i < info.Length; ++i)
+                {
+                    ParameterInfo parameter = info[i];
+                    dictionary.Add(new Key(parameter.Name, parameter.ParameterType), () =>
+                    {
+                        Key k = new Key(parameter.Name, parameter.ParameterType);
+                        lock (container._lock)
                         {
-                            Key k = new Key(x.Name, x.ParameterType);
-                            lock (container._lock)
+                            Key componentKey = container._components.ContainsKey(k) ? k : new Key("", parameter.ParameterType);
+                            try
                             {
-                                Key componentKey = container._components.ContainsKey(k) ? k : new Key("", x.ParameterType);
-                                try
-                                {
-                                    return container._components[componentKey]();
-                                }
-                                catch (KeyNotFoundException)
-                                {
-                                    throw new MissingIOCKeyException(componentKey);
-                                }
+                                return container._components[componentKey]();
                             }
-                        })
-                    );
+                            catch (KeyNotFoundException)
+                            {
+                                throw new MissingIOCKeyException(componentKey);
+                            }
+                        }
+                    });
+                }
+                _args = dictionary;
 
                 lock (container._lock)
                     container._components[key] = () => c.Invoke(_args.Values.Select(x => x()).ToArray());

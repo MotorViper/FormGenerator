@@ -36,7 +36,6 @@ namespace FormGenerator.Models
         /// </summary>
         public bool HasMainData => !string.IsNullOrWhiteSpace(DefaultDirectory) && !string.IsNullOrWhiteSpace(MainDataFile);
 
-
         /// <summary>
         /// The static data.
         /// </summary>

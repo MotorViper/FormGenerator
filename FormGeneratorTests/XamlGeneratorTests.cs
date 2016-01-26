@@ -32,7 +32,7 @@ Fields:
         [TestInitialize]
         public void Initialisation()
         {
-            IOCContainer.Instance.Register<IFieldWriter>(new StringFieldWriter<Field>(""));
+            IOCContainer.Instance.Register<IFieldWriter>(new StringFieldWriter<GenericField>(""));
         }
 
         [TestMethod]

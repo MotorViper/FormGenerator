@@ -10,19 +10,12 @@ namespace WebFormGenerator.Models
     {
         private string _content;
 
-        // ReSharper disable once MemberCanBePrivate.Global - used by IOC.
-        /// <summary>
-        /// Constructor - only used by IOC.
-        /// </summary>
-        public Field()
-        {
-        }
-
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the field to be output.</param>
-        protected Field(string name) : this()
+        // ReSharper disable once MemberCanBeProtected.Global - may be used by IOC.
+        public Field(string name)
         {
             Name = name;
         }

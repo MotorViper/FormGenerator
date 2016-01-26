@@ -45,6 +45,7 @@
     <Compile Include="GridData.cs" />
     <Compile Include="IElement.cs" />
     <Compile Include="IField.cs" />
+    <Compile Include="IFieldAdder.cs" />
     <Compile Include="IFieldWriter.cs" />
     <Compile Include="IParameters.cs" />
     <Compile Include="IProperty.cs" />

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Generator
+﻿namespace Generator
 {
     /// <summary>
     /// Interface representing a field to output.
@@ -46,14 +44,5 @@ namespace Generator
         /// <param name="name">The property name.</param>
         /// <param name="value">The property value.</param>
         void AddTypedProperty<T>(string name, T value);
-
-        /// <summary>
-        /// Add an element to the output.
-        /// </summary>
-        /// <param name="data">The data making up the element.</param>
-        /// <param name="level">The indentation level.</param>
-        /// <param name="parent">The elements parent.</param>
-        /// <param name="keys">List of available elements.</param>
-        void AddElement(IElement data, int level, IField parent = null, List<string> keys = null);
     }
 }

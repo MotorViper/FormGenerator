@@ -61,7 +61,7 @@ namespace WebFormGenerator.Models
         }
 
         /// <summary>
-        /// The item that has been selected for display.EF
+        /// The item that has been selected for display.
         /// </summary>
         public string SelectedItem { get; set; }
     }

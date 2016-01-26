@@ -21,7 +21,9 @@ namespace FormGenerator
             ioc.Register<IField, Selector>("Selector");
             ioc.Register<IField, Table>("Table");
             ioc.Register<IField, TextBox>("TextBox");
-            ioc.Register<IField, Field>();
+            ioc.Register<IField, TabItem>("TabItem");
+            ioc.Register<IField, Field>("Tab", new object[] {"TabControl"});
+            ioc.Register<IField, GenericField>();
 
             // Register the token data generator.
             ioc.Register<IXamlTokenData, TokenData>();
@@ -30,7 +32,7 @@ namespace FormGenerator
             // Replace the line above with this.
             //ioc.Register<IXamlTokenData, PregeneratedXamlTokenData>();
 
-            ioc.Register<IFieldWriter, StringFieldWriter<Field>>().AsSingleton();
+            ioc.Register<IFieldWriter, StringFieldWriter<GenericField>>().AsSingleton();
 
             InitializeComponent();
         }

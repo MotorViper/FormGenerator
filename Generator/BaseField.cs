@@ -140,6 +140,17 @@ namespace Generator
         /// <summary>
         /// Outputs the start of a line.
         /// </summary>
+        /// <param name="start">The initial text.</param>
+        /// <returns>The output object.</returns>
+        protected IFieldWriter AppendStartOfLine(string start)
+        {
+            Builder.AppendStart(Level);
+            return Builder.Append(start);
+        }
+
+        /// <summary>
+        /// Outputs the start of a line.
+        /// </summary>
         /// <param name="level">The indentation level.</param>
         /// <param name="start">The initial text.</param>
         /// <returns>The output object.</returns>

@@ -13,7 +13,7 @@ namespace WebFormGenerator.Models
         string Html { get; }
 
         /// <summary>
-        /// The item that has been selected for display.EF
+        /// The item that has been selected for display.
         /// </summary>
         string SelectedItem { set; }
     }

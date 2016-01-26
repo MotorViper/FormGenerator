@@ -27,16 +27,17 @@ namespace WebFormGenerator.Models
             GridData positions = new GridData(Element.Properties, "10");
             IEnumerable<IElement> fields = Element.Children;
             int row = 0;
-            int columns = 1;
-            int rows = 1;
-            Builder.Append("<tr>");
+
+            AppendStartOfLine("<tr>").AppendLine();
             foreach (IElement child in fields)
             {
+                int columns = 1;
+                int rows = 1;
                 Tuple<int, int> rowAndColumn = positions.GetNextRowAndColumn();
                 if (rowAndColumn.Item1 != row)
                 {
-                    Builder.Append("</tr>").AppendLine();
-                    Builder.Append("<tr>");
+                    AppendStartOfLine("</tr>").AppendLine();
+                    AppendStartOfLine("<tr>").AppendLine();
                 }
                 row = rowAndColumn.Item1;
                 int column = rowAndColumn.Item2;
@@ -57,10 +58,10 @@ namespace WebFormGenerator.Models
                 }
                 Builder.Append("<td ");
                 if (columns > 1)
-                    Builder.Append($" colspan=\"{columns}\"").AppendLine();
+                    Builder.Append($" colspan=\"{columns}\"");
                 if (rows > 1)
-                    Builder.Append($" rowspan=\"{rows}\"").AppendLine();
-                Builder.Append(">");
+                    Builder.Append($" rowspan=\"{rows}\"");
+                Builder.Append(">").AppendLine();
                 AddElement(child, Level + 1, this, Keys);
                 Builder.Append("</td>").AppendLine();
             }
@@ -77,7 +78,7 @@ namespace WebFormGenerator.Models
             if (_class != null)
                 base.OutputProperty("class", _class + " table" + Level);
             else
-                base.OutputProperty("class", "tr" + Level);
+                base.OutputProperty("class", "table" + Level);
         }
 
         /// <summary>

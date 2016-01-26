@@ -6,15 +6,26 @@ using Helpers;
 
 namespace TextParser
 {
+    /// <summary>
+    /// Converts the input from a text reader into a set of lines.
+    /// Handles ifs, includes and continuations.
+    /// </summary>
     public class Reader : IEnumerable<Line>
     {
         private readonly TextReader _reader;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="reader">The text reader.</param>
         public Reader(TextReader reader)
         {
             _reader = reader;
         }
 
+        /// <summary>
+        /// Options the reader will use when processing theinput.
+        /// </summary>
         public ReaderOptions Options { get; set; } = new ReaderOptions
         {
             DefaultDirectory = "",
@@ -24,6 +35,10 @@ namespace TextParser
             Selector = null
         };
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns> An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<Line> GetEnumerator()
         {
             string line;
@@ -77,8 +92,17 @@ namespace TextParser
                         {
                             string[] parts = line.Split(' ');
                             int indentCount = parts.Length - 2;
-                            for (int i = 2; i < parts.Length; ++i)
-                                yield return new Line(parts[i] + ":") {Offset = i - 2};
+                            if (start.Length != line.Length)
+                            {
+                                string rest = line.Replace(start, "");
+                                Line indent = new Line(rest, false);
+                                indentCount = indent.Offset;
+                            }
+                            else
+                            {
+                                for (int i = 2; i < parts.Length; ++i)
+                                    yield return new Line(parts[i] + ":") {Offset = i - 2};
+                            }
                             Reader reader = new Reader(new StreamReader(FileUtils.GetFullFileName(parts[1], Options.DefaultDirectory)))
                             {
                                 Options = Options
@@ -101,11 +125,21 @@ namespace TextParser
             }
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns> An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection. </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Process a line to take into account continuation characters.
+        /// </summary>
+        /// <param name="line">The line to process.</param>
+        /// <param name="lineNumber">The current line number.</param>
+        /// <returns>The current line including any continuations.</returns>
         private string AddContinutation(string line, ref int lineNumber)
         {
             line = line.TrimEnd();
