@@ -70,6 +70,7 @@
     <Compile Include="Tokens\BoolTooken.cs" />
     <Compile Include="Tokens\ITypeToken.cs" />
     <Compile Include="Tokens\ListToken.cs" />
+    <Compile Include="Tokens\NewLineToken.cs" />
     <Compile Include="Tokens\NullToken.cs" />
     <Compile Include="Tokens\TokenType.cs" />
     <Compile Include="TokenTree.cs" />

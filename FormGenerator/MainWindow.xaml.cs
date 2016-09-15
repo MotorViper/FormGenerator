@@ -1,5 +1,6 @@
 ﻿using FormGenerator.Fields;
 using FormGenerator.Models;
+using FormGenerator.Tools;
 using Generator;
 using Helpers;
 
@@ -24,6 +25,7 @@ namespace FormGenerator
             ioc.Register<IField, TabItem>("TabItem");
             ioc.Register<IField, Field>("Tab", new object[] {"TabControl"});
             ioc.Register<IField, GenericField>();
+            ioc.Register<IHighlighter, VttHighlighter>();
 
             // Register the token data generator.
             ioc.Register<IXamlTokenData, TokenData>();

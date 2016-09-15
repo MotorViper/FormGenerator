@@ -38,6 +38,18 @@ namespace Helpers
         private readonly Dictionary<Key, Func<object>> _components = new Dictionary<Key, Func<object>>();
         private readonly object _lock = new object();
 
+        public event EventHandler<string> ElementRegistered;
+
+        /// <summary>
+        ///     Method to send a property changed event.
+        /// </summary>
+        /// <param name="name">The name of the property that has been changed.</param>
+        public void OnElementRegistered(string name)
+        {
+            EventHandler<string> handler = ElementRegistered;
+            handler?.Invoke(this, name);
+        }
+
         /// <summary>
         ///     Private constructor to force use only through Instance.
         /// </summary>
@@ -86,7 +98,9 @@ namespace Helpers
         /// <returns>The dependency manager so that attributes can be added.</returns>
         public DependencyManager Register<TInterface, TClass>(string name, IReadOnlyList<object> parameters = null) where TClass : TInterface
         {
-            return new DependencyManager(new Key<TInterface>(name), typeof(TClass), parameters);
+            DependencyManager dm = new DependencyManager(new Key<TInterface>(name), typeof(TClass), parameters);
+            OnElementRegistered(name);
+            return dm;
         }
 
         /// <summary>
@@ -96,7 +110,9 @@ namespace Helpers
         /// <param name="type">The type of the object.</param>
         public DependencyManager Register<TInterface>(string name, Type type)
         {
-            return new DependencyManager(new Key<TInterface>(name), type);
+            DependencyManager dm = new DependencyManager(new Key<TInterface>(name), type);
+            OnElementRegistered(name);
+            return dm;
         }
 
         /// <summary>
@@ -109,6 +125,7 @@ namespace Helpers
         {
             lock (_lock)
                 _components[new Key<T>(name)] = () => value;
+            OnElementRegistered(string.IsNullOrWhiteSpace(name) ? typeof(T).Name : name);
         }
 
         /// <summary>

@@ -1,0 +1,11 @@
+﻿<Window x:Class="Test.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:helpers="clr-namespace:Helpers;assembly=Helpers"
+		Title="CodeBox Example" Height="500"
+		Width="600">
+	
+	<Grid>
+		<helpers:HighlightingTextBox x:Name="mc_box" />
+	</Grid>
+	
+</Window>

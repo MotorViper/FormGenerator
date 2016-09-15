@@ -23,9 +23,8 @@
             <TabControl.ContentTemplate>
                 <DataTemplate>
                     <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                    <TextBox Text="{Binding Path=FileText, Mode=TwoWay, Delay=500, UpdateSourceTrigger=PropertyChanged}"
-                             helpers:FocusExtension.IsFocused="{Binding IsCurrent}" AcceptsTab="True" AcceptsReturn="True"
-                             HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+                    <helpers:HighlightingTextBox Text="{Binding Path=FileText, Mode=TwoWay, Delay=500, UpdateSourceTrigger=PropertyChanged}"
+                             helpers:FocusExtension.IsFocused="{Binding IsCurrent}" />
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>

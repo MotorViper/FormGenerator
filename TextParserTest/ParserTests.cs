@@ -25,6 +25,16 @@ Field: Grid
             Assert.AreEqual("Hi", tokenTree.Children[0].Children[0].Value.Text);
         }
 
+        [TestMethod]
+        public void TestContinuations()
+        {
+            string text = @"a: b --
+  c";
+            TokenTree tokenTree = Parser.ParseString(text);
+            Assert.AreEqual("a", tokenTree.Key.Text);
+            Assert.AreEqual(@"b
+  c", tokenTree.Value.Text);
+        }
 
         [TestMethod]
         public void TestHandleMultiPartKey()

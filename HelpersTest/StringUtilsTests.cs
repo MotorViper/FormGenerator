@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static Helpers.StringUtils;
 
@@ -146,6 +147,76 @@ namespace HelpersTest
             Assert.AreEqual("123456789", CreateString("1234567890", 0.9));
             Assert.AreEqual("1234567890", CreateString("1234567890", 1.0));
             Assert.AreEqual("12345678901", CreateString("1234567890", 1.1));
+        }
+
+        [TestMethod]
+        public void TestLineCount()
+        {
+            const string text1 = "";
+            const string text2 = "a";
+            const string text3 = @"a
+a
+test a line";
+            const string text4 = @"a
+a
+test a line
+";
+            Assert.AreEqual(1, text1.LineCount());
+            Assert.AreEqual(1, text2.LineCount());
+            Assert.AreEqual(3, text3.LineCount());
+            Assert.AreEqual(4, text4.LineCount());
+        }
+
+        [TestMethod]
+        public void TestGetPositionOfLastCharInLine()
+        {
+            const string text1 = "";
+            const string text2 = "a";
+            const string text3 = @"a
+a
+test a line";
+            const string text4 = @"a
+a
+test a line
+";
+            Assert.AreEqual(0, text1.GetPositionOfLineEnd(0));
+            Assert.AreEqual(0, text1.GetPositionOfLineEnd(1));
+            Assert.AreEqual(0, text2.GetPositionOfLineEnd(0));
+            Assert.AreEqual(0, text2.GetPositionOfLineEnd(1));
+            Assert.AreEqual(2, text3.GetPositionOfLineEnd(0));
+            Assert.AreEqual(5, text3.GetPositionOfLineEnd(1));
+            Assert.AreEqual(16, text3.GetPositionOfLineEnd(2));
+            Assert.AreEqual(16, text3.GetPositionOfLineEnd(3));
+            Assert.AreEqual(2, text4.GetPositionOfLineEnd(0));
+            Assert.AreEqual(5, text4.GetPositionOfLineEnd(1));
+            Assert.AreEqual(18, text4.GetPositionOfLineEnd(2));
+            Assert.AreEqual(18, text4.GetPositionOfLineEnd(3));
+        }
+
+        [TestMethod]
+        public void TestGetPositionOfFirstCharInLine()
+        {
+            const string text1 = "";
+            const string text2 = "a";
+            const string text3 = @"a
+a
+test a line";
+            const string text4 = @"a
+a
+test a line
+";
+            Assert.AreEqual(0, text1.GetPositionOfLineStart(0));
+            Assert.AreEqual(0, text1.GetPositionOfLineStart(1));
+            Assert.AreEqual(0, text2.GetPositionOfLineStart(0));
+            Assert.AreEqual(0, text2.GetPositionOfLineStart(1));
+            Assert.AreEqual(0, text3.GetPositionOfLineStart(0));
+            Assert.AreEqual(3, text3.GetPositionOfLineStart(1));
+            Assert.AreEqual(6, text3.GetPositionOfLineStart(2));
+            Assert.AreEqual(16, text3.GetPositionOfLineStart(3));
+            Assert.AreEqual(0, text4.GetPositionOfLineStart(0));
+            Assert.AreEqual(3, text4.GetPositionOfLineStart(1));
+            Assert.AreEqual(6, text4.GetPositionOfLineStart(2));
+            Assert.AreEqual(18, text4.GetPositionOfLineStart(3));
         }
     }
 }

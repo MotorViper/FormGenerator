@@ -19,9 +19,9 @@ namespace TextParser
 
         public TokenTree ParsedTree => LastAtLevel[LastAtLevel[-1].Children.Count == 1 ? 0 : -1];
 
-        public static TokenTree ParseString(string text)
+        public static TokenTree ParseString(string text, bool ignoreErrors = false)
         {
-            return Parse(new StringReader(text));
+            return Parse(new StringReader(text), ignoreErrors: ignoreErrors);
         }
 
         public static TokenTree ParseFile(string fileName, string defaultDirectory, string selector = null)
@@ -30,20 +30,20 @@ namespace TextParser
             return Parse(new StreamReader(fileName), defaultDirectory, selector);
         }
 
-        public static TokenTree Parse(TextReader textReader, string defaultDirectory = null, string selector = null)
+        public static TokenTree Parse(TextReader textReader, string defaultDirectory = null, string selector = null, bool ignoreErrors = false)
         {
             Parser parser = new Parser();
             Reader reader = new Reader(textReader) {Options = {DefaultDirectory = defaultDirectory}};
             if (!string.IsNullOrWhiteSpace(selector))
                 reader.Options.Selector = selector;
             foreach (Line line in reader)
-                parser.AddLine(line);
+                parser.AddLine(line, ignoreErrors);
             return parser.ParsedTree;
         }
 
-        public TokenTree AddLine(Line line)
+        public TokenTree AddLine(Line line, bool ignoreErrors = false)
         {
-            TokenTree tokenTree = Splitter.Split(line.Content);
+            TokenTree tokenTree = Splitter.Split(line.Content, ignoreErrors);
             StringToken key = tokenTree.Key as StringToken;
             if (key != null && key.Text.Contains("."))
             {

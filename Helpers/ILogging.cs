@@ -1,9 +1,9 @@
 ﻿namespace Helpers
 {
     /// <summary>
-    /// Interface for logging WPF messages.
+    /// Interface for logging messages.
     /// </summary>
-    public interface IWPFLogging
+    public interface ILogging
     {
         /// <summary>
         /// Log an error.

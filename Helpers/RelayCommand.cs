@@ -34,7 +34,7 @@ namespace Helpers
         /// <summary>
         /// The class to use for WPF logging.
         /// </summary>
-        public static IWPFLogging Logging { get; set; }
+        public static ILogging Logging { get; set; }
 
         /// <summary>
         ///     Method called when the command is invoked.

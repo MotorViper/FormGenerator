@@ -69,6 +69,7 @@
     <Compile Include="Models\Editor.cs" />
     <Compile Include="Tools\EditorGenerator.cs" />
     <Compile Include="Models\EditorList.cs" />
+    <Compile Include="Tools\VttHighlighter.cs" />
     <Compile Include="Views\EditorsView.xaml.cs">
       <DependentUpon>EditorsView.xaml</DependentUpon>
     </Compile>

@@ -55,6 +55,7 @@
     <Compile Include="TokenTreeElementTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FieldFactoryTests.cs" />
+    <Compile Include="GenericGeneratorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Generator\Generator.csproj">

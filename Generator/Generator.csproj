@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseField.cs" />
+    <Compile Include="GenericGenerator.cs" />
     <Compile Include="GridCalculations.cs" />
     <Compile Include="GridData.cs" />
     <Compile Include="IElement.cs" />

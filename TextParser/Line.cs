@@ -38,5 +38,16 @@
         /// How many spaces a tab should represent.
         /// </summary>
         public static int TabSize { get; set; } = 4;
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        public override string ToString()
+        {
+            return $"[{Offset}]{Content}";
+        }
     }
 }

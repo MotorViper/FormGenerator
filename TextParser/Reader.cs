@@ -146,18 +146,32 @@ namespace TextParser
             while (line.EndsWith("-"))
             {
                 line = line.Remove(line.Length - 1);
-                int length = line.Length;
-                line = line.TrimEnd();
-                bool needWhitespace = line.Length != length;
-                string extra = _reader.ReadLine();
-                ++lineNumber;
+                string extra;
+                if (line.EndsWith("-"))
+                {
+                    line = line.Remove(line.Length - 1).TrimEnd();
+                    line += Environment.NewLine;
+                    extra = _reader.ReadLine();
+                    ++lineNumber;
+                }
+                else
+                {
+                    int length = line.Length;
+                    line = line.TrimEnd();
+                    bool needWhitespace = line.Length != length;
+                    extra = _reader.ReadLine();
+                    ++lineNumber;
+                    if (extra != null)
+                    {
+                        length = extra.Length;
+                        extra = extra.TrimStart();
+                        if (length != extra.Length || needWhitespace)
+                            extra = " " + extra;
+                    }
+                }
                 if (extra == null)
                     break;
                 extra = extra.TrimEnd();
-                length = extra.Length;
-                extra = extra.TrimStart();
-                if (length != extra.Length || needWhitespace)
-                    extra = " " + extra;
                 line += extra;
             }
             return line;

@@ -14,7 +14,7 @@ namespace TextParser.Functions
         public override IToken Perform(IToken dataToken, TokenTreeList parameters, bool isFinal)
         {
             ListToken listToken = dataToken as ListToken;
-            if (listToken != null)
+            if (listToken != null && listToken.Tokens.Count > 0)
             {
                 IToken current = listToken.Tokens[0];
                 for (int i = 1; i < listToken.Tokens.Count; ++i)

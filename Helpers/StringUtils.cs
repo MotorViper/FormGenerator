@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Helpers
 {
@@ -87,7 +88,7 @@ namespace Helpers
                     if (starts.Contains(c))
                     {
                         delimiter = starts.IndexOf(c);
-                        if (!string.IsNullOrWhiteSpace(current))
+                        if (!String.IsNullOrWhiteSpace(current))
                         {
                             if (includeDelimiters == DelimiterInclude.IncludeSeparately)
                                 blocks.Add("");
@@ -107,7 +108,7 @@ namespace Helpers
                     }
                 }
             }
-            if (!string.IsNullOrWhiteSpace(current))
+            if (!String.IsNullOrWhiteSpace(current))
             {
                 if (includeDelimiters == DelimiterInclude.IncludeSeparately)
                     blocks.Add("");
@@ -280,7 +281,7 @@ namespace Helpers
                 }
                 else if (capitalise)
                 {
-                    result += char.ToUpper(c);
+                    result += Char.ToUpper(c);
                     capitalise = false;
                 }
                 else
@@ -311,6 +312,81 @@ namespace Helpers
                 isFirst = false;
             }
             return toLower ? result.ToLower() : result;
+        }
+
+        /// <summary>
+        /// Returns the number of instances of a character in a string.
+        /// </summary>
+        public static int CountInstances(this string text, char toCount)
+        {
+            return text.Count(t => t == toCount);
+        }
+
+        /// <summary>
+        /// Returns the number of lines in a string.
+        /// </summary>
+        public static int LineCount(this string text)
+        {
+            return 1 + text.CountInstances('\n');
+        }
+
+        public static int NthInstance(this string text, char item, int n)
+        {
+            if (n > 0)
+            {
+                int count = 0;
+                for (int i = 0; i < text.Length; i++)
+                {
+                    if (text[i] == item)
+                    {
+                        count++;
+                        if (count == n)
+                            return i;
+                    }
+                }
+                return -2;
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// Returns the zero-based position of the first character of the specified line.
+        /// If the line number is greater than the current line count, the method returns the position of the last character.
+        /// </summary>
+        public static int GetPositionOfLineStart(this string text, int lineIndex)
+        {
+            if (text == null)
+                throw new ArgumentNullException(nameof(text));
+            int index = text.NthInstance('\n', lineIndex);
+            switch (index)
+            {
+                case -1:
+                    return 0;
+                case -2:
+                    return Math.Max(text.Length - 1, 0);
+                default:
+                    return Math.Min(text.Length - 1, index + 1);
+            }
+        }
+
+        /// <summary>
+        /// Returns the zero-based position of the last character of the specified line.
+        /// If the line number is greater than the current line count, the method returns the position of the last character.
+        /// </summary>
+        public static int GetPositionOfLineEnd(this string text, int lineIndex)
+        {
+            if (text == null)
+                throw new ArgumentNullException(nameof(text));
+            int index = text.NthInstance('\n', lineIndex + 1);
+            switch (index)
+            {
+                case -1:
+                    return 0;
+                case -2:
+                    return Math.Max(text.Length - 1, 0);
+                default:
+                    return index;
+            }
         }
     }
 }

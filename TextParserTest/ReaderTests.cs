@@ -38,6 +38,16 @@ namespace TextParserTest
         }
 
         [TestMethod]
+        public void TestReadsLinesWithNewLineContinuations()
+        {
+            string[] expected = new[] {"Line 0\n   0", "Line 1 1", "Line 2\n   2", "Line 3\n    3" };
+            Reader reader = new Reader(new StringReader("Line 0--\n   0 \nLine 1    -  \n1\nLine 2 --\n   2 \n   Line 3    --\n    3    "));
+            int lineNumber = 0;
+            foreach (Line line in reader)
+                Assert.AreEqual(expected[lineNumber++], line.Content);
+        }
+
+        [TestMethod]
         public void TestReadsLinesWithContinuationsNoSpaces()
         {
             Reader reader = new Reader(new StringReader("Line 0-\n0\nLine 1-  \n1\nLine 2-\n2 \n  Line 3-\n3   "));

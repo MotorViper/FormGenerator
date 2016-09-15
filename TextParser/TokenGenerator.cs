@@ -20,6 +20,7 @@ namespace TextParser
             ["(.*)\\$([A-Za-z█][A-Za-z0-9█]*(\\.[A-Za-z█][A-Za-z0-9█]*)*)?([^$]*)"] = tokens => PerformSubstitutionOperation(tokens),
             ["([1-9][0-9]*\\.[0-9]+)"] = tokens => new DoubleToken(double.Parse(tokens[0])),
             ["(0|[1-9][0-9]*)"] = tokens => new IntToken(int.Parse(tokens[0])),
+            ["\\r\\n"] = tokens => new NewLineToken(),
             [".*"] = tokens => new StringToken(tokens[0])
         };
 

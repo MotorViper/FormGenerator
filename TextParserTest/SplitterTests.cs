@@ -12,6 +12,9 @@ namespace TextParserTest
             Test("   a   : string   ", "a", "string");
             Test("a:string", "a", "string");
             Test("   'a:b'   : string   ", "a:b", "string");
+            Test(@"a: b
+  c", "a", @"b
+  c");
         }
 
         private static void Test(string toSplit, string key, string value)

@@ -5,7 +5,7 @@ namespace Helpers
     /// <summary>
     /// Class to log WPF messages using a MessageBox.
     /// </summary>
-    public class MessageBoxLogger : IWPFLogging
+    public class MessageBoxLogger : ILogging
     {
         /// <summary>
         /// Log an error.
