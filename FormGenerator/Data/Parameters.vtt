@@ -10,11 +10,11 @@ DoubleLabelUnder: Grid
 	HorizontalAlignment: Center
 	Field: Label
 		Style: LabelUnder
-		Content: {P1}
+		Content: $1
 		HorizontalAlignment: Center
 	Field: Label
 		Style: LabelUnder
-		Content: {P2}
+		Content: $2
 		Margin: '0,-12,0,0'
 		HorizontalAlignment: Center
 
@@ -23,33 +23,33 @@ EditorWithLabelUnder: Grid
 	Rows: 3
 	Field: TextBox
 		Style: Stretch
-		Content: $$P1
+		Content: $$1
 	Field: UnderLine
 	Field: Label
 		Style: LabelUnderLeft
-		Content: {P1}
+		Content: $1
 
 CheckedEditorWithLabelUnder: Grid
 	Style: ShiftRight
 	Rows: 3
 	Field: TextBox
 		Style: Stretch
-		Content: $$P1
-		Background: IF:({P2}|White|MistyRose)
+		Content: $$1
+		Background: IF:({2}|White|MistyRose)
 	Field: UnderLine
 	Field: Label
 		Style: LabelUnderLeft
-		Content: {P1}
+		Content: $1
 
 LabelWithLabelUnder: Grid
 	Style: ShiftRight
 	Rows: 3
 	Field: Label
 		Style: Left
-		Content: $$P1
+		Content: $$1
 		Height: 25
 		Margin: '0,-3,0,0'
 	Field: UnderLine
 	Field: Label
 		Style: LabelUnderLeft
-		Content: {P1}
+		Content: $1

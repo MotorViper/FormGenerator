@@ -3,9 +3,8 @@
 	Provide code to convert token data to classes?
 
 Gui:
-	Rethink use of TABLEITEM and P1..N
 	Check if data needs saving on exit.
-	Make syntax colouring work.
+	Improve syntax colouring.
 	Add configuration - syntax colouring, tab stops etc.
 	Add ability to include resources from a file.
 	Allow multiple base level fields.

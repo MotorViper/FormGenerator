@@ -52,7 +52,7 @@ namespace Generator
                                 _type = ((ExpressionToken)tokens[0]).Second.Text;
                                 TokenTree tree = new TokenTree();
                                 for (int i = 1; i < tokens.Count; ++i)
-                                    tree.Children.Add(new TokenTree("P" + i, tokens[i]));
+                                    tree.Children.Add(new TokenTree(i.ToString(), tokens[i]));
                                 replacement = _parameters[0]?.FindFirst(_type);
                                 replacement = replacement?.SubstituteParameters(tree);
                             }

@@ -71,7 +71,7 @@ namespace WebFormGenerator.Models
         /// <param name="item">The selected item.</param>
         private void AddRow(List<IElement> fields, string item)
         {
-            IParameters parameters = Element.Parameters.Add(new SimpleProperty("TABLEITEM", item));
+            IParameters parameters = Element.Parameters.Add(new SimpleProperty("1", item));
             Builder.Append("<tr>").AppendLine();
             foreach (IElement child in fields)
             {

@@ -13,7 +13,7 @@ namespace Test
         {
             IOCContainer.Instance.Register<IHighlighter, VttHighlighter>().AsSingleton();
             InitializeComponent();
-            mc_box.Text = File.ReadAllText(@"C:\Development\Projects\FormGenerator\FormGenerator\Data\Defaults.vtt");
+            mc_box.Text = File.ReadAllText(@"C:\Development\Projects\FormGenerator\FormGenerator\Data\Fields.vtt");
         }
     }
 }

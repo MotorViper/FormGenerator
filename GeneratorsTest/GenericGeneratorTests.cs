@@ -10,8 +10,8 @@ namespace GeneratorsTest
         public void TestGeneration()
         {
             string input = @"
-func: 'a1: ' + {P1}; + '--
-    a2: ' + {P2}
+func: 'a1: ' + {1}; + '--
+    a2: ' + {2}
 
 baseheight: 40
 
@@ -36,8 +36,8 @@ style: simple
             string template = @"
 dummy: 1
 
-OutputItems: COMP:(COUNT:({{P1}})|0|''|SUM:OVER:({{P1}}|x|{P2}{x} + ' {' + SUM:OVER:({{P1}={x}.ALL.NAME}|y|' --
-    ' + COMP:({y}|INT:({y})|''|{y}  + ': ') + {{P1}={x}.{y}} + ';') + '--
+OutputItems: COMP:(COUNT:({{1}})|0|''|SUM:OVER:({{1}}|x|{2}{x} + ' {' + SUM:OVER:({{1}={x}.ALL.NAME}|y|' --
+    ' + COMP:({y}|INT:({y})|''|{y}  + ': ') + {{1}={x}.{y}} + ';') + '--
 } --
 ' + '--
 '))

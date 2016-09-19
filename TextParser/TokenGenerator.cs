@@ -17,7 +17,8 @@ namespace TextParser
             ["(.*)([\\*/×÷])([^\\*/×÷]*)"] = tokens => PerformOperation(tokens),
             ["(.*)(#)([^#]*)"] = tokens => PerformOperation(tokens),
             ["([^:]*)(:)(.*)"] = tokens => PerformOperation(tokens),
-            ["(.*)\\$([A-Za-z█][A-Za-z0-9█]*(\\.[A-Za-z█][A-Za-z0-9█]*)*)?([^$]*)"] = tokens => PerformSubstitutionOperation(tokens),
+            ["(.*)\\$(([A-Za-z█][A-Za-z0-9█]*|[1-9][0-9]*)(\\.[A-Za-z█][A-Za-z0-9█]*)*)?([^$]*)"] = tokens =>
+                PerformSubstitutionOperation(tokens),
             ["([1-9][0-9]*\\.[0-9]+)"] = tokens => new DoubleToken(double.Parse(tokens[0])),
             ["(0|[1-9][0-9]*)"] = tokens => new IntToken(int.Parse(tokens[0])),
             ["\\r\\n"] = tokens => new NewLineToken(),
@@ -46,9 +47,9 @@ namespace TextParser
                 else
                     result = new ExpressionToken(token, new StringPlusOperator(), result);
             }
-            if (!string.IsNullOrWhiteSpace(tokens[3]))
+            if (!string.IsNullOrWhiteSpace(tokens[4]))
             {
-                token = ParseExpressionNoBrackets(tokens[3].Trim());
+                token = ParseExpressionNoBrackets(tokens[4].Trim());
                 result = new ExpressionToken(result, new StringPlusOperator(), token);
             }
             return result;

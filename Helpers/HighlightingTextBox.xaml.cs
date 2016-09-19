@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -20,7 +19,7 @@ namespace Helpers
 
         private double _blockHeight;
         private double _lineHeight;
-        private int _maxLineCountInBlock;
+        private uint _maxLineCountInBlock;
         private DrawingControl _renderCanvas;
         private int _totalLineCount;
 
@@ -28,7 +27,7 @@ namespace Helpers
         {
             InitializeComponent();
 
-            MaxLineCountInBlock = 100;
+            MaxLineCountInBlock = 50;
             LineHeight = FontSize * 1.3;
             _totalLineCount = 1;
             _blocks = new List<FormattedTextBlock>();
@@ -46,6 +45,7 @@ namespace Helpers
                 };
 
                 InvalidateBlocks(0);
+                InvalidateVisual();
             };
 
             SizeChanged += (s, e) =>
@@ -53,16 +53,18 @@ namespace Helpers
                 if (!e.HeightChanged)
                     return;
                 UpdateBlocks();
+                InvalidateVisual();
             };
 
             TextChanged += (s, e) =>
             {
                 _totalLineCount = Text.LineCount();
                 InvalidateBlocks(e.Changes.First().Offset);
+                InvalidateVisual();
             };
         }
 
-        public IHighlighter CurrentHighlighter => IOCContainer.Instance.Resolve<IHighlighter>();
+        private static IHighlighter CurrentHighlighter => IOCContainer.Instance.Resolve<IHighlighter>();
 
         public double LineHeight
         {
@@ -76,12 +78,12 @@ namespace Helpers
             }
         }
 
-        public int MaxLineCountInBlock
+        public uint MaxLineCountInBlock
         {
             get { return _maxLineCountInBlock; }
             set
             {
-                _maxLineCountInBlock = value > 0 ? value : 0;
+                _maxLineCountInBlock = value;
                 _blockHeight = _maxLineCountInBlock * LineHeight;
             }
         }
@@ -101,7 +103,7 @@ namespace Helpers
             while (!_blocks.Last().IsLast && _blocks.Last().Position + _blockHeight - VerticalOffset < ActualHeight)
             {
                 int firstLineIndex = _blocks.Last().LastLineNumber + 1;
-                int lastLineIndex = firstLineIndex + _maxLineCountInBlock - 1;
+                int lastLineIndex = firstLineIndex + (int)MaxLineCountInBlock - 1;
                 lastLineIndex = lastLineIndex <= _totalLineCount - 1 ? lastLineIndex : _totalLineCount - 1;
 
                 int firstCharIndex = _blocks.Last().LastCharPosition + 1;
@@ -127,7 +129,7 @@ namespace Helpers
         private void AddBlock(FormattedTextBlock block)
         {
             _blocks.Add(block);
-            FormatBlock(block, _blocks.Count == 1 ? BlockState.Normal : _blocks[_blocks.Count - 2].State);
+            CurrentHighlighter?.Highlight(block, _blocks.Count == 1 ? BlockState.Normal : _blocks[_blocks.Count - 2].State);
         }
 
         private void InvalidateBlocks(int changeOffset)
@@ -166,7 +168,8 @@ namespace Helpers
                 }
                 if (localLineCount > _maxLineCountInBlock)
                 {
-                    FormattedTextBlock block = CreateTextBlock(charStart, i, lineStart, lineStart + _maxLineCountInBlock - 1);
+                    FormattedTextBlock block =
+                        CreateTextBlock(charStart, i, lineStart, lineStart + (int)MaxLineCountInBlock - 1);
 
                     if (_blocks.Any(b => b.FirstLineNumber == block.FirstLineNumber))
                         throw new Exception();
@@ -174,7 +177,7 @@ namespace Helpers
                     AddBlock(block);
 
                     charStart = i + 1;
-                    lineStart += _maxLineCountInBlock;
+                    lineStart += (int)MaxLineCountInBlock;
                     localLineCount = 1;
 
                     if (i > lastChar)
@@ -189,7 +192,7 @@ namespace Helpers
                 return;
 
             using (DrawingContext dc = _renderCanvas.GetContext())
-                foreach (FormattedTextBlock block in _blocks.Where(x => !x.Formatting && x.IsVisible(VerticalOffset, ActualHeight, _blockHeight)))
+                foreach (FormattedTextBlock block in _blocks.Where(x => x.IsVisible(VerticalOffset, ActualHeight, _blockHeight)))
                     block.Draw(dc, HorizontalOffset, VerticalOffset);
         }
 
@@ -199,26 +202,6 @@ namespace Helpers
         private int GetIndexOfLastVisibleLine()
         {
             return Math.Min((int)(VerticalOffset + ViewportHeight / _lineHeight), _totalLineCount - 1);
-        }
-
-        /// <summary>
-        /// Formats and Highlights the text of a block.
-        /// </summary>
-        private void FormatBlock(FormattedTextBlock currentBlock, BlockState lastState)
-        {
-            ThreadPool.QueueUserWorkItem(p =>
-            {
-                try
-                {
-                    currentBlock.Formatting = true;
-                    CurrentHighlighter?.Highlight(currentBlock, lastState);
-                }
-                finally
-                {
-                    currentBlock.Formatting = false;
-                    Dispatcher.Invoke(InvalidateVisual);
-                }
-            });
         }
     }
 }

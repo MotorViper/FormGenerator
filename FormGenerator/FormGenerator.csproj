@@ -67,24 +67,22 @@
     <Compile Include="Tools\IDataDisplayer.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Models\Editor.cs" />
-    <Compile Include="Tools\EditorGenerator.cs" />
     <Compile Include="Models\EditorList.cs" />
     <Compile Include="Tools\VttHighlighter.cs" />
+    <Compile Include="Tools\VttSection.cs" />
+    <Compile Include="Tools\VttTextOptions.cs" />
     <Compile Include="Views\EditorsView.xaml.cs">
       <DependentUpon>EditorsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Fields\CheckBox.cs" />
     <Compile Include="Fields\ComboBox.cs" />
     <Compile Include="Fields\Table.cs" />
-    <Compile Include="Tools\IEditor.cs" />
     <Compile Include="Tools\ListConverter.cs" />
     <Compile Include="Tools\DataConverter.cs" />
     <Compile Include="Fields\Field.cs" />
     <Compile Include="Fields\Grid.cs" />
     <Compile Include="Fields\Selector.cs" />
     <Compile Include="Fields\TextBox.cs" />
-    <Compile Include="Tools\RichTextBoxEditor.cs" />
-    <Compile Include="Tools\SyntaxProvider.cs" />
     <Compile Include="ViewModels\EditorsViewModel.cs" />
     <Compile Include="Tools\XamlGenerator.cs" />
     <Compile Include="Views\GeneratedView.xaml.cs">
@@ -134,6 +132,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Data\Options.vtt" />
     <None Include="Data\Screens.vtt" />
     <None Include="Data\HTMLStyles.vtt" />
     <None Include="Data\Styles.vtt" />

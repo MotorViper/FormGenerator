@@ -25,7 +25,7 @@ namespace Helpers
         /// </summary>
         /// <param name="parent">The string to split.</param>
         /// <param name="delimiters">The delimiters to split at, defaults to ''' and '"'.</param>
-        /// <param name="paired">Whether the delimiters are paired, i.e. '[' with ']' or not, i.e. ','.</param>
+        /// <param name="paired">Whether the delimiters are paired, i.e. '[' with ']' or not, i.e. '"'.</param>
         /// <param name="includeDelimiters">How to include delimiters in the output.</param>
         /// <returns>The string split into blocks.</returns>
         public static List<string> SplitIntoBlocks(this string parent, char[] delimiters = null, bool paired = false,
@@ -88,7 +88,7 @@ namespace Helpers
                     if (starts.Contains(c))
                     {
                         delimiter = starts.IndexOf(c);
-                        if (!String.IsNullOrWhiteSpace(current))
+                        if (!string.IsNullOrEmpty(current))
                         {
                             if (includeDelimiters == DelimiterInclude.IncludeSeparately)
                                 blocks.Add("");
@@ -108,7 +108,9 @@ namespace Helpers
                     }
                 }
             }
-            if (!String.IsNullOrWhiteSpace(current))
+            if (delimiter != -1)
+                throw new Exception($"Delimiters are not balanced in {parent}");
+            if (!string.IsNullOrEmpty(current))
             {
                 if (includeDelimiters == DelimiterInclude.IncludeSeparately)
                     blocks.Add("");

@@ -53,13 +53,13 @@ A.B: 3");
         public void TestFunctions()
         {
             string text = @"
-F1: $P1/2
-F2: F1:($P1 + $P2)
+F1: $1/2
+F2: F1:($1 + $2)
 F3: F2:(4|6)
-PoorValue: $P1
-GoodValue: 2 + $P1
-TotalValue: SUM:OVER:({Items.ALL.NAME}|cl|INT:COMP:({Items.{cl}.{P1}}|Poor|COUNT:{Level.Which={cl}}|2 + COUNT:{Level.Which={cl}}))
-TotalValue1: SUM:OVER:({Items.ALL.NAME}|cl|INT:COMP:({Items.{cl}.{P1}}|Poor|PoorValue:COUNT:{Level.Which={cl}}|GoodValue:COUNT:{Level.Which={cl}}))
+PoorValue: $1
+GoodValue: 2 + $1
+TotalValue: SUM:OVER:({Items.ALL.NAME}|cl|INT:COMP:({Items.{cl}.{1}}|Poor|COUNT:{Level.Which={cl}}|2 + COUNT:{Level.Which={cl}}))
+TotalValue1: SUM:OVER:({Items.ALL.NAME}|cl|INT:COMP:({Items.{cl}.{1}}|Poor|PoorValue:COUNT:{Level.Which={cl}}|GoodValue:COUNT:{Level.Which={cl}}))
 Sum: TotalValue: Selection
 Sum1: TotalValue1: Selection
 Items:

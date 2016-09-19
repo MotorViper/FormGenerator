@@ -6,8 +6,6 @@ namespace Helpers
 {
     public class FormattedTextBlock : FormattedText
     {
-        private volatile bool _formatting;
-
         public FormattedTextBlock(string text, int charStart, int charEnd, int lineStart, int lineEnd, double lineHeight, Typeface typeface,
             double fontSize, bool isLast = false) :
                 base(text.Substring(charStart, charEnd - charStart + 1), CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, fontSize,
@@ -24,16 +22,8 @@ namespace Helpers
             State = BlockState.Normal;
         }
 
-        public BlockState State { get; set; }
-
         public int FirstCharPosition { get; }
         public int FirstLineNumber { get; }
-
-        public bool Formatting
-        {
-            get { return _formatting; }
-            set { _formatting = value; }
-        }
 
         public bool IsLast { get; set; }
 
@@ -41,6 +31,8 @@ namespace Helpers
         public int LastLineNumber { get; }
 
         public double Position { get; }
+
+        public BlockState State { get; set; }
 
         public bool IsVisible(double offset, double height, double blockHeight)
         {
