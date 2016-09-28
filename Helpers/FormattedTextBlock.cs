@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace Helpers
 {
-    public class FormattedTextBlock : FormattedText
+    public class FormattedTextBlock : FormattedText, IFormattedTextBlock
     {
         public FormattedTextBlock(string text, int charStart, int charEnd, int lineStart, int lineEnd, double lineHeight, Typeface typeface,
             double fontSize, bool isLast = false) :
@@ -23,11 +23,13 @@ namespace Helpers
         }
 
         public int FirstCharPosition { get; }
+
         public int FirstLineNumber { get; }
 
         public bool IsLast { get; set; }
 
         public int LastCharPosition { get; }
+
         public int LastLineNumber { get; }
 
         public double Position { get; }

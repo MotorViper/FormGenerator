@@ -20,7 +20,7 @@ Field3: Macro2
             TokenTree tokenTree = Parser.ParseString(data);
             TokenTreeList list = new TokenTreeList(tokenTree);
             TokenTree tree = tokenTree.FindFirst("Field1");
-            TokenTreeElement element = new TokenTreeElement(tree, null);
+            TokenTreeElement element = new TokenTreeElement(tree);
             Assert.AreEqual("TypeF", element.ElementType);
 
             tree = tokenTree.FindFirst("Field2");

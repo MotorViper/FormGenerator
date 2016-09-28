@@ -1,6 +1,4 @@
-﻿using System.Windows.Media;
-
-namespace Helpers
+﻿namespace Helpers
 {
     public interface IHighlighter
     {
@@ -8,6 +6,7 @@ namespace Helpers
         /// Highlights the text of the current block.
         /// </summary>
         /// <param name="formattedText">The text from the current block to highlight</param>
-        void Highlight(FormattedTextBlock formattedText, BlockState lastBlockState);
+        /// <param name="lastBlockState">The state the previous block was in.</param>
+        void Highlight(IFormattedTextBlock formattedText, BlockState lastBlockState);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Runtime.Remoting.Lifetime;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextParser.Functions;
 using TextParser.Tokens;
 

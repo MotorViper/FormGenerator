@@ -20,10 +20,10 @@ namespace Generator
         /// </summary>
         /// <param name="data">The main data.</param>
         /// <param name="parameters">Calculation data.</param>
-        public TokenTreeElement(TokenTree data, TokenTreeList parameters)
+        public TokenTreeElement(TokenTree data, TokenTreeList parameters = null)
         {
             _data = data;
-            _parameters = new TokenTreeParameters(parameters);
+            _parameters = parameters == null ? null : new TokenTreeParameters(parameters);
         }
 
         /// <summary>
@@ -38,32 +38,28 @@ namespace Generator
                 {
                     _type = _data.Value.Text;
                     TokenTree replacement = null;
-                    StringToken stringToken = _data.Value as StringToken;
-                    if (stringToken == null)
+                    ExpressionToken expression = _data.Value as ExpressionToken;
+                    if (expression != null)
                     {
-                        ExpressionToken expression = _data.Value as ExpressionToken;
-                        if (expression != null)
+                        FunctionOperator function = expression.Operator as FunctionOperator;
+                        if (function != null)
                         {
-                            FunctionOperator function = expression.Operator as FunctionOperator;
-                            if (function != null)
-                            {
-                                ListToken list = (ListToken)expression.Second;
-                                List<IToken> tokens = list.Tokens;
-                                _type = ((ExpressionToken)tokens[0]).Second.Text;
-                                TokenTree tree = new TokenTree();
-                                for (int i = 1; i < tokens.Count; ++i)
-                                    tree.Children.Add(new TokenTree(i.ToString(), tokens[i]));
-                                replacement = _parameters[0]?.FindFirst(_type);
-                                replacement = replacement?.SubstituteParameters(tree);
-                            }
-                            else
-                            {
-                                _type = expression.Evaluate(_parameters, false).Text;
-                            }
+                            ListToken list = (ListToken)expression.Second;
+                            List<IToken> tokens = list.Tokens;
+                            _type = ((ExpressionToken)tokens[0]).Second.Text;
+                            TokenTree tree = new TokenTree();
+                            for (int i = 1; i < tokens.Count; ++i)
+                                tree.Children.Add(new TokenTree(i.ToString(), tokens[i]));
+                            replacement = _parameters[0]?.FindFirst(_type);
+                            replacement = replacement?.SubstituteParameters(tree);
+                        }
+                        else
+                        {
+                            _type = expression.Evaluate(_parameters, false).Text;
                         }
                     }
 
-                    if (replacement == null)
+                    if (replacement == null && _parameters != null)
                         replacement = _parameters[0]?.FindFirst(_type);
 
                     if (replacement != null)

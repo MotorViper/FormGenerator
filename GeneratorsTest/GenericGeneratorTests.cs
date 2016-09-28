@@ -59,15 +59,23 @@ tr {
 }
 
 #funcStyle {
-    a1: a3
-    a2: a4
+    a1: a3;
+    a2: a4;
 }
 
-#simple {    color: pink;}";
+#simple {    color: pink;}".Replace("\n", "\r").Replace("\r\r", "\n").Replace("\r", "\n"); // Something odd when creating expected so using this to regularise.
 
             GenericGenerator generator = new GenericGenerator();
-            string generated = generator.Generate(input, template);
-            Assert.AreEqual(expected, generated);
+            string generated = generator.Generate(input, template).Replace("\r", "");
+            string soFar = "";
+            //Assert.AreEqual(expected, generated);
+            for (int i = 0; i < expected.Length; ++i)
+            {
+                char e = expected[i];
+                char g = generated[i];
+                soFar += e;
+                Assert.AreEqual(e, g, $"error at {i}, '{e}'[{(int)e}] != '{g}'[{(int)g}]\n'{soFar}'");
+            }
         }
     }
 }

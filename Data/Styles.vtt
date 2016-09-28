@@ -1,0 +1,58 @@
+﻿Stretch: 
+	HorizontalAlignment: Stretch
+Fill:
+	BasedOn: Stretch
+	VerticalAlignment: Stretch
+Middle:
+	HorizontalAlignment: Centre
+	VerticalAlignment: Centre
+Left: 
+	HorizontalAlignment: Left
+Right: 
+	HorizontalAlignment: Right
+ShiftRight: 
+	Margin: '2,0,0,0'
+SideHeading: Label
+	FontWeight: Bold
+	FontSize: 22
+	FontFamily: Blackadder ITC
+	HorizontalAlignment: Centre
+	VerticalAlignment: Centre
+CentreLabel: Label
+    BasedOn: Stretch
+	HorizontalContentAlignment: Centre
+	VerticalContentAlignment: Centre
+Inverted: Label
+	BasedOn: CentreLabel
+	Background: Black
+	Foreground: White
+PlusLabel: Label
+	BasedOn: CentreLabel
+	Content: '+'
+	Width: 16
+	Margin: '-3,0,0,0'
+BorderedLabel: Label
+	BasedOn: CentreLabel
+	BorderThickness: 1
+	BorderBrush: Black
+	Margin: 1
+	Height: 26
+LabelUnder: Label
+	Margin: '0,-6,0,0'
+	FontSize: 8
+LabelUnderLeft: Label
+	BasedOn: LabelUnder
+	HorizontalAlignment: Left
+WeaponHeader: Label
+	BasedOn: CentreLabel
+	BorderThickness: 0
+SkillHeader: Label
+	FontSize: 10
+	Padding: 3,3
+	BasedOn: CentreLabel
+	BorderThickness: 1
+	BorderBrush: Black
+SkillEntry: Label
+	FontSize: 9
+	Padding: 3,0
+	HorizontalAlignment: Centre

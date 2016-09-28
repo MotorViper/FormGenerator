@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using Helpers;
 using TextParser.Tokens;
 
 namespace TextParser
 {
     public class TokenTree
     {
+        private static bool s_initialising;
+        private static TokenTree s_replacements;
+
         private TokenTreeList _parameters;
 
         public TokenTree(TokenTreeList children = null) : this("", "", children)
@@ -15,6 +21,7 @@ namespace TextParser
         public TokenTree(string key, string value, TokenTreeList children = null)
         {
             Key = TokenGenerator.Parse(key).Simplify();
+            value = ReplaceValue(key, value);
             IToken tokenList = value == null ? new NullToken() : TokenGenerator.Parse(value).Simplify();
             Value = tokenList ?? new StringToken("");
             Children = children ?? new TokenTreeList();
@@ -62,6 +69,37 @@ namespace TextParser
         public string Name => Key.Text;
         public IToken Value { get; set; }
 
+        private void Initialise()
+        {
+            if (s_replacements == null)
+            {
+                s_initialising = true;
+                s_replacements = new TokenTree();
+                string optionsFile = ConfigurationManager.AppSettings.Get("OptionsFile");
+                if (optionsFile != null && !optionsFile.Contains(":"))
+                {
+                    string dataDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
+                    optionsFile = FileUtils.GetFullFileName(optionsFile, dataDirectory);
+                }
+
+                if (File.Exists(optionsFile))
+                    s_replacements = Parser.Parse(new StreamReader(optionsFile)).FindFirst("Replacements") ?? new TokenTree();
+                s_initialising = false;
+            }
+        }
+
+        public string ReplaceValue(string key, string value)
+        {
+            if (!s_initialising)
+            {
+                Initialise();
+                string replacement = string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(value) ? null : s_replacements[$"{key}.{value}"];
+                if (!string.IsNullOrWhiteSpace(replacement))
+                    return replacement;
+            }
+            return value;
+        }
+
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
@@ -75,6 +113,8 @@ namespace TextParser
 
         public TokenTree FindFirst(string name)
         {
+            if (!string.IsNullOrWhiteSpace(name) && Key.Text == name)
+                return this;
             TokenTreeList tokenTreeList = GetAll(name);
             return tokenTreeList.Count > 0 ? tokenTreeList[0] : null;
         }

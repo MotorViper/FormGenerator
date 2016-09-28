@@ -88,10 +88,6 @@
     <Compile Include="Views\GeneratedView.xaml.cs">
       <DependentUpon>GeneratedView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Data\TestFile.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\EditorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -132,21 +128,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Data\Options.vtt" />
-    <None Include="Data\Screens.vtt" />
-    <None Include="Data\HTMLStyles.vtt" />
-    <None Include="Data\Styles.vtt" />
-    <None Include="Data\Skills.vtt" />
-    <None Include="Data\Characters.vtt" />
-    <None Include="Data\Data.vtt" />
-    <None Include="Data\Defaults.vtt" />
-    <None Include="Data\Fields.vtt" />
-    <None Include="Data\Misc.vtt" />
-    <None Include="Data\Parameters.vtt" />
-    <None Include="Data\Classes.vtt" />
-    <None Include="Data\Races.vtt" />
-    <None Include="Data\Armour.vtt" />
-    <None Include="Data\Weapons.vtt" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -174,9 +155,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ToDo.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Data\TestData.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

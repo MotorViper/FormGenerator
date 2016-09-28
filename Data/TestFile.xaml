@@ -1,0 +1,1427 @@
+<Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Border.Resources>
+    <Style x:Key="Stretch" >
+      <Setter Property="Control.HorizontalAlignment" Value="Stretch"/>
+    </Style>
+    <Style x:Key="Fill" BasedOn="{StaticResource Stretch}" >
+      <Setter Property="Control.VerticalAlignment" Value="Stretch"/>
+    </Style>
+    <Style x:Key="Middle" >
+      <Setter Property="Control.HorizontalAlignment" Value="Center"/>
+      <Setter Property="Control.VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="Left" >
+      <Setter Property="Control.HorizontalAlignment" Value="Left"/>
+    </Style>
+    <Style x:Key="Right" >
+      <Setter Property="Control.HorizontalAlignment" Value="Right"/>
+    </Style>
+    <Style x:Key="ShiftRight" >
+      <Setter Property="Control.Margin" Value="2,0,0,0"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="SideHeading" >
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="FontSize" Value="22"/>
+      <Setter Property="FontFamily" Value="Blackadder ITC"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="CentreLabel" BasedOn="{StaticResource Stretch}" >
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="Inverted" BasedOn="{StaticResource CentreLabel}" >
+      <Setter Property="Background" Value="Black"/>
+      <Setter Property="Foreground" Value="White"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="PlusLabel" BasedOn="{StaticResource CentreLabel}" >
+      <Setter Property="Content" Value="+"/>
+      <Setter Property="Width" Value="16"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="BorderedLabel" BasedOn="{StaticResource CentreLabel}" >
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="BorderBrush" Value="Black"/>
+      <Setter Property="Margin" Value="1"/>
+      <Setter Property="Height" Value="26"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="LabelUnder" >
+      <Setter Property="Margin" Value="0,-6,0,0"/>
+      <Setter Property="FontSize" Value="8"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="LabelUnderLeft" BasedOn="{StaticResource LabelUnder}" >
+      <Setter Property="HorizontalAlignment" Value="Left"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="WeaponHeader" BasedOn="{StaticResource CentreLabel}" >
+      <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="SkillHeader" BasedOn="{StaticResource CentreLabel}" >
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="BorderBrush" Value="Black"/>
+    </Style>
+    <Style TargetType="{x:Type Label}" x:Key="SkillEntry" >
+      <Setter Property="FontSize" Value="8"/>
+      <Setter Property="Padding" Value="5,0"/>
+    </Style>
+  </Border.Resources>
+  <Grid Style="{StaticResource Fill}" Height="29.7cm" Width="21cm" >
+    <Grid Style="{StaticResource Stretch}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" >
+      <Grid Style="{StaticResource Stretch}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="12" >
+        <ComboBox VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" SelectedValue="{Binding Selected}" SelectedIndex="0" ItemsSource="{Binding Keys}" >
+        </ComboBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnder}" Content="Character" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="12" Grid.Row="0" Grid.ColumnSpan="8" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Player]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Player" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="20" Grid.Row="0" Grid.ColumnSpan="4" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Experience]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Experience" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Label Style="{StaticResource SideHeading}" Content="Dungeons" Grid.Column="24" Grid.Row="0" Grid.ColumnSpan="12" >
+      </Label>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="12" >
+        <Label Style="{StaticResource Left}" Content="{Binding Values[ClassList]}" Height="25" Margin="0,-3,0,0" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="ClassList" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="12" Grid.Row="1" Grid.ColumnSpan="4" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Race]}" Background="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=0}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Race" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="16" Grid.Row="1" Grid.ColumnSpan="4" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Alignment]}" Background="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=1}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Alignment" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="20" Grid.Row="1" Grid.ColumnSpan="4" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Deity]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Deity" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Label Style="{StaticResource SideHeading}" Content="&amp; Dragons" Grid.Column="24" Grid.Row="1" Grid.ColumnSpan="12" >
+      </Label>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Size]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Size" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Age]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Age" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="6" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Gender]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Gender" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="9" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Height]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Height" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="12" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Weight]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Weight" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="15" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Eyes]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Eyes" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="18" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Hair]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Hair" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid Style="{StaticResource ShiftRight}" Grid.Column="21" Grid.Row="2" Grid.ColumnSpan="3" >
+        <TextBox Style="{StaticResource Stretch}" Text="{Binding Values[Skin]}" Grid.Column="0" Grid.Row="0" >
+        </TextBox>
+        <Border Height="2" Background="Black" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
+        </Border>
+        <Label Style="{StaticResource LabelUnderLeft}" Content="Skin" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Label Style="{StaticResource SideHeading}" Content="Character Record Sheet" Grid.Column="24" Grid.Row="2" Grid.ColumnSpan="12" >
+      </Label>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+    </Grid>
+    <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="2" >
+      <Label Style="{StaticResource CentreLabel}" Content="Attribute" Grid.Column="0" Grid.Row="0" >
+      </Label>
+      <Label Style="{StaticResource CentreLabel}" Content="Value" Grid.Column="1" Grid.Row="0" >
+      </Label>
+      <Label Style="{StaticResource CentreLabel}" Content="Bonus" Grid.Column="2" Grid.Row="0" >
+      </Label>
+      <Label Style="{StaticResource CentreLabel}" Content="Temporary" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="2" Grid.Column="0" Grid.Row="1" >
+      </Label>
+      <TextBox Style="{StaticResource Stretch}" Margin="2,0,0,0" Text="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=3}" Grid.Column="1" Grid.Row="1" >
+      </TextBox>
+      <Label Style="{StaticResource BorderedLabel}" Content="4" Width="27" Grid.Column="2" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="3" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="4" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="5" Grid.Column="0" Grid.Row="2" >
+      </Label>
+      <TextBox Style="{StaticResource Stretch}" Margin="2,0,0,0" Text="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=6}" Grid.Column="1" Grid.Row="2" >
+      </TextBox>
+      <Label Style="{StaticResource BorderedLabel}" Content="7" Width="27" Grid.Column="2" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="3" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="4" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="8" Grid.Column="0" Grid.Row="3" >
+      </Label>
+      <TextBox Style="{StaticResource Stretch}" Margin="2,0,0,0" Text="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=9}" Grid.Column="1" Grid.Row="3" >
+      </TextBox>
+      <Label Style="{StaticResource BorderedLabel}" Content="10" Width="27" Grid.Column="2" Grid.Row="3" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="3" Grid.Row="3" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="4" Grid.Row="3" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="11" Grid.Column="0" Grid.Row="4" >
+      </Label>
+      <TextBox Style="{StaticResource Stretch}" Margin="2,0,0,0" Text="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=12}" Grid.Column="1" Grid.Row="4" >
+      </TextBox>
+      <Label Style="{StaticResource BorderedLabel}" Content="13" Width="27" Grid.Column="2" Grid.Row="4" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="3" Grid.Row="4" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="4" Grid.Row="4" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="14" Grid.Column="0" Grid.Row="5" >
+      </Label>
+      <TextBox Style="{StaticResource Stretch}" Margin="2,0,0,0" Text="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=15}" Grid.Column="1" Grid.Row="5" >
+      </TextBox>
+      <Label Style="{StaticResource BorderedLabel}" Content="16" Width="27" Grid.Column="2" Grid.Row="5" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="3" Grid.Row="5" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="4" Grid.Row="5" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="17" Grid.Column="0" Grid.Row="6" >
+      </Label>
+      <TextBox Style="{StaticResource Stretch}" Margin="2,0,0,0" Text="{Binding Values, Converter={StaticResource DataConverter}, Mode=OneWay, ConverterParameter=18}" Grid.Column="1" Grid.Row="6" >
+      </TextBox>
+      <Label Style="{StaticResource BorderedLabel}" Content="19" Width="27" Grid.Column="2" Grid.Row="6" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="3" Grid.Row="6" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="4" Grid.Row="6" >
+      </Label>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="40"/>
+        <ColumnDefinition Width="45"/>
+        <ColumnDefinition Width="35"/>
+        <ColumnDefinition Width="35"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+    </Grid>
+    <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" >
+      <Label Grid.Column="0" Grid.Row="0" >
+      </Label>
+      <Label Content="Total" Grid.Column="1" Grid.Row="0" >
+      </Label>
+      <Label Content="Wounds/Current HP" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="10" >
+      </Label>
+      <Label Content="Non-Lethal" Grid.Column="12" Grid.Row="0" Grid.ColumnSpan="3" >
+      </Label>
+      <Label Content="Speed" Grid.Column="15" Grid.Row="0" Grid.ColumnSpan="3" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="HP" Grid.Column="0" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[HP]}" Grid.Column="1" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="10" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="12" Grid.Row="1" Grid.ColumnSpan="3" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="15" Grid.Row="1" Grid.ColumnSpan="3" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="AC" Grid.Column="0" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[AC]}" Grid.Column="1" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource CentreLabel}" Content="= 10" Grid.Column="2" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="3" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[ArmourBonus]}" Grid.Column="4" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="5" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[ShieldBonus]}" Grid.Column="6" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="7" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[DexModifier]}" Grid.Column="8" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="9" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[SizeACModifier]}" Grid.Column="10" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="11" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[NaturalArmour]}" Grid.Column="12" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="13" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[DeflectionModifier]}" Grid.Column="14" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="15" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[MiscACModifier]}" Grid.Column="16" Grid.Row="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Grid.Column="17" Grid.Row="2" >
+      </Label>
+      <Label Grid.Column="0" Grid.Row="3" >
+      </Label>
+      <Label Style="{StaticResource LabelUnder}" Content="Total" Grid.Column="1" Grid.Row="3" >
+      </Label>
+      <Label Grid.Column="2" Grid.Row="3" >
+      </Label>
+      <Grid HorizontalAlignment="Center" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Armour" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Bonus" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid HorizontalAlignment="Center" Grid.Column="6" Grid.Row="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Shield" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Bonus" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid HorizontalAlignment="Center" Grid.Column="7" Grid.Row="3" Grid.ColumnSpan="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Dex." HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Modifier" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid HorizontalAlignment="Center" Grid.Column="10" Grid.Row="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Size" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Modifier" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid HorizontalAlignment="Center" Grid.Column="11" Grid.Row="3" Grid.ColumnSpan="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Natural" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Armour" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid HorizontalAlignment="Center" Grid.Column="14" Grid.Row="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Deflection" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Modifier" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Label Grid.Column="15" Grid.Row="3" >
+      </Label>
+      <Grid HorizontalAlignment="Center" Grid.Column="16" Grid.Row="3" >
+        <Label Style="{StaticResource LabelUnder}" Content="Misc.Modifier" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="{Binding Values[P2]}" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="50"/>
+        <ColumnDefinition Width="45"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="32"/>
+        <ColumnDefinition Width="70"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+    </Grid>
+    <Grid Grid.Column="1" Grid.Row="2" >
+      <Label Style="{StaticResource Inverted}" Content="Touch" Grid.Column="0" Grid.Row="0" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[Touch]}" Grid.Column="1" Grid.Row="0" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="Flat-Footed" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="4" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[FlatFooted]}" Grid.Column="6" Grid.Row="0" >
+      </Label>
+      <Label Style="{StaticResource Inverted}" Content="Initiative" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[Initiative]}" Grid.Column="2" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource CentreLabel}" Content="=" Grid.Column="3" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[DexModifier]}" Grid.Column="4" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource PlusLabel}" Grid.Column="5" Grid.Row="1" >
+      </Label>
+      <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[MiscInitiative]}" Grid.Column="6" Grid.Row="1" >
+      </Label>
+      <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" >
+      </Label>
+      <Label Style="{StaticResource LabelUnder}" Content="Total" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" >
+      </Label>
+      <Label Grid.Column="3" Grid.Row="2" >
+      </Label>
+      <Grid HorizontalAlignment="Center" Grid.Column="4" Grid.Row="2" >
+        <Label Style="{StaticResource LabelUnder}" Content="Dex." HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Modifier" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Label Grid.Column="5" Grid.Row="2" >
+      </Label>
+      <Grid HorizontalAlignment="Center" Grid.Column="6" Grid.Row="2" >
+        <Label Style="{StaticResource LabelUnder}" Content="Misc." HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource LabelUnder}" Content="Modifier" Margin="0,-12,0,0" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="45"/>
+        <ColumnDefinition Width="45"/>
+        <ColumnDefinition Width="45"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="45"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="45"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+    </Grid>
+    <Border BorderThickness="1" BorderBrush="Black" Width="230" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="2" >
+      <Grid Background="PaleGreen" >
+        <Label Style="{StaticResource SkillHeader}" Content="Skill Name" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource SkillHeader}" Content="Key Ability" Grid.Column="1" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource SkillHeader}" Content="Modifier" Grid.Column="2" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource SkillHeader}" Content="Ranks" Grid.Column="3" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource SkillHeader}" Content="Value" Grid.Column="4" Grid.Row="0" >
+        </Label>
+        <Label Content="20" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="1" >
+        </Label>
+        <Label Content="21" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="1" >
+        </Label>
+        <Label Content="22" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="1" >
+        </Label>
+        <Label Content="23" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="1" >
+        </Label>
+        <Label Content="24" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="1" >
+        </Label>
+        <Label Content="25" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="2" >
+        </Label>
+        <Label Content="26" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="2" >
+        </Label>
+        <Label Content="27" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="2" >
+        </Label>
+        <Label Content="28" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="2" >
+        </Label>
+        <Label Content="29" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="2" >
+        </Label>
+        <Label Content="30" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="3" >
+        </Label>
+        <Label Content="31" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="3" >
+        </Label>
+        <Label Content="32" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="3" >
+        </Label>
+        <Label Content="33" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="3" >
+        </Label>
+        <Label Content="34" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="3" >
+        </Label>
+        <Label Content="35" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="4" >
+        </Label>
+        <Label Content="36" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="4" >
+        </Label>
+        <Label Content="37" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="4" >
+        </Label>
+        <Label Content="38" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="4" >
+        </Label>
+        <Label Content="39" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="4" >
+        </Label>
+        <Label Content="40" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="5" >
+        </Label>
+        <Label Content="41" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="5" >
+        </Label>
+        <Label Content="42" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="5" >
+        </Label>
+        <Label Content="43" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="5" >
+        </Label>
+        <Label Content="44" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="5" >
+        </Label>
+        <Label Content="45" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="6" >
+        </Label>
+        <Label Content="46" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="6" >
+        </Label>
+        <Label Content="47" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="6" >
+        </Label>
+        <Label Content="48" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="6" >
+        </Label>
+        <Label Content="49" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="6" >
+        </Label>
+        <Label Content="50" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="7" >
+        </Label>
+        <Label Content="51" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="7" >
+        </Label>
+        <Label Content="52" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="7" >
+        </Label>
+        <Label Content="53" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="7" >
+        </Label>
+        <Label Content="54" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="7" >
+        </Label>
+        <Label Content="55" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="8" >
+        </Label>
+        <Label Content="56" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="8" >
+        </Label>
+        <Label Content="57" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="8" >
+        </Label>
+        <Label Content="58" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="8" >
+        </Label>
+        <Label Content="59" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="8" >
+        </Label>
+        <Label Content="60" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="9" >
+        </Label>
+        <Label Content="61" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="9" >
+        </Label>
+        <Label Content="62" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="9" >
+        </Label>
+        <Label Content="63" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="9" >
+        </Label>
+        <Label Content="64" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="9" >
+        </Label>
+        <Label Content="65" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="10" >
+        </Label>
+        <Label Content="66" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="10" >
+        </Label>
+        <Label Content="67" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="10" >
+        </Label>
+        <Label Content="68" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="10" >
+        </Label>
+        <Label Content="69" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="10" >
+        </Label>
+        <Label Content="70" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="11" >
+        </Label>
+        <Label Content="71" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="11" >
+        </Label>
+        <Label Content="72" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="11" >
+        </Label>
+        <Label Content="73" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="11" >
+        </Label>
+        <Label Content="74" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="11" >
+        </Label>
+        <Label Content="75" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="12" >
+        </Label>
+        <Label Content="76" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="12" >
+        </Label>
+        <Label Content="77" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="12" >
+        </Label>
+        <Label Content="78" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="12" >
+        </Label>
+        <Label Content="79" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="12" >
+        </Label>
+        <Label Content="80" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="13" >
+        </Label>
+        <Label Content="81" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="13" >
+        </Label>
+        <Label Content="82" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="13" >
+        </Label>
+        <Label Content="83" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="13" >
+        </Label>
+        <Label Content="84" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="13" >
+        </Label>
+        <Label Content="85" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="14" >
+        </Label>
+        <Label Content="86" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="14" >
+        </Label>
+        <Label Content="87" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="14" >
+        </Label>
+        <Label Content="88" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="14" >
+        </Label>
+        <Label Content="89" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="14" >
+        </Label>
+        <Label Content="90" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="15" >
+        </Label>
+        <Label Content="91" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="15" >
+        </Label>
+        <Label Content="92" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="15" >
+        </Label>
+        <Label Content="93" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="15" >
+        </Label>
+        <Label Content="94" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="15" >
+        </Label>
+        <Label Content="95" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="16" >
+        </Label>
+        <Label Content="96" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="16" >
+        </Label>
+        <Label Content="97" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="16" >
+        </Label>
+        <Label Content="98" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="16" >
+        </Label>
+        <Label Content="99" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="16" >
+        </Label>
+        <Label Content="100" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="17" >
+        </Label>
+        <Label Content="101" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="17" >
+        </Label>
+        <Label Content="102" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="17" >
+        </Label>
+        <Label Content="103" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="17" >
+        </Label>
+        <Label Content="104" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="17" >
+        </Label>
+        <Label Content="105" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="18" >
+        </Label>
+        <Label Content="106" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="18" >
+        </Label>
+        <Label Content="107" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="18" >
+        </Label>
+        <Label Content="108" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="18" >
+        </Label>
+        <Label Content="109" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="18" >
+        </Label>
+        <Label Content="110" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="19" >
+        </Label>
+        <Label Content="111" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="19" >
+        </Label>
+        <Label Content="112" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="19" >
+        </Label>
+        <Label Content="113" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="19" >
+        </Label>
+        <Label Content="114" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="19" >
+        </Label>
+        <Label Content="115" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="20" >
+        </Label>
+        <Label Content="116" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="20" >
+        </Label>
+        <Label Content="117" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="20" >
+        </Label>
+        <Label Content="118" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="20" >
+        </Label>
+        <Label Content="119" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="20" >
+        </Label>
+        <Label Content="120" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="21" >
+        </Label>
+        <Label Content="121" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="21" >
+        </Label>
+        <Label Content="122" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="21" >
+        </Label>
+        <Label Content="123" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="21" >
+        </Label>
+        <Label Content="124" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="21" >
+        </Label>
+        <Label Content="125" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="22" >
+        </Label>
+        <Label Content="126" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="22" >
+        </Label>
+        <Label Content="127" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="22" >
+        </Label>
+        <Label Content="128" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="22" >
+        </Label>
+        <Label Content="129" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="22" >
+        </Label>
+        <Label Content="130" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="23" >
+        </Label>
+        <Label Content="131" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="23" >
+        </Label>
+        <Label Content="132" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="23" >
+        </Label>
+        <Label Content="133" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="23" >
+        </Label>
+        <Label Content="134" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="23" >
+        </Label>
+        <Label Content="135" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="24" >
+        </Label>
+        <Label Content="136" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="24" >
+        </Label>
+        <Label Content="137" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="24" >
+        </Label>
+        <Label Content="138" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="24" >
+        </Label>
+        <Label Content="139" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="24" >
+        </Label>
+        <Label Content="140" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="25" >
+        </Label>
+        <Label Content="141" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="25" >
+        </Label>
+        <Label Content="142" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="25" >
+        </Label>
+        <Label Content="143" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="25" >
+        </Label>
+        <Label Content="144" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="25" >
+        </Label>
+        <Label Content="145" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="26" >
+        </Label>
+        <Label Content="146" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="26" >
+        </Label>
+        <Label Content="147" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="26" >
+        </Label>
+        <Label Content="148" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="26" >
+        </Label>
+        <Label Content="149" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="26" >
+        </Label>
+        <Label Content="150" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="27" >
+        </Label>
+        <Label Content="151" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="27" >
+        </Label>
+        <Label Content="152" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="27" >
+        </Label>
+        <Label Content="153" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="27" >
+        </Label>
+        <Label Content="154" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="27" >
+        </Label>
+        <Label Content="155" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="28" >
+        </Label>
+        <Label Content="156" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="28" >
+        </Label>
+        <Label Content="157" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="28" >
+        </Label>
+        <Label Content="158" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="28" >
+        </Label>
+        <Label Content="159" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="28" >
+        </Label>
+        <Label Content="160" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="29" >
+        </Label>
+        <Label Content="161" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="29" >
+        </Label>
+        <Label Content="162" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="29" >
+        </Label>
+        <Label Content="163" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="29" >
+        </Label>
+        <Label Content="164" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="29" >
+        </Label>
+        <Label Content="165" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="30" >
+        </Label>
+        <Label Content="166" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="30" >
+        </Label>
+        <Label Content="167" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="30" >
+        </Label>
+        <Label Content="168" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="30" >
+        </Label>
+        <Label Content="169" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="30" >
+        </Label>
+        <Label Content="170" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="31" >
+        </Label>
+        <Label Content="171" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="31" >
+        </Label>
+        <Label Content="172" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="31" >
+        </Label>
+        <Label Content="173" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="31" >
+        </Label>
+        <Label Content="174" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="31" >
+        </Label>
+        <Label Content="175" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="32" >
+        </Label>
+        <Label Content="176" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="32" >
+        </Label>
+        <Label Content="177" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="32" >
+        </Label>
+        <Label Content="178" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="32" >
+        </Label>
+        <Label Content="179" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="32" >
+        </Label>
+        <Label Content="180" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="33" >
+        </Label>
+        <Label Content="181" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="33" >
+        </Label>
+        <Label Content="182" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="33" >
+        </Label>
+        <Label Content="183" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="33" >
+        </Label>
+        <Label Content="184" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="33" >
+        </Label>
+        <Label Content="185" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="34" >
+        </Label>
+        <Label Content="186" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="34" >
+        </Label>
+        <Label Content="187" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="34" >
+        </Label>
+        <Label Content="188" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="34" >
+        </Label>
+        <Label Content="189" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="34" >
+        </Label>
+        <Label Content="190" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="35" >
+        </Label>
+        <Label Content="191" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="35" >
+        </Label>
+        <Label Content="192" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="35" >
+        </Label>
+        <Label Content="193" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="35" >
+        </Label>
+        <Label Content="194" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="35" >
+        </Label>
+        <Label Content="195" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="36" >
+        </Label>
+        <Label Content="196" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="36" >
+        </Label>
+        <Label Content="197" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="36" >
+        </Label>
+        <Label Content="198" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="36" >
+        </Label>
+        <Label Content="199" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="36" >
+        </Label>
+        <Label Content="200" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="37" >
+        </Label>
+        <Label Content="201" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="37" >
+        </Label>
+        <Label Content="202" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="37" >
+        </Label>
+        <Label Content="203" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="37" >
+        </Label>
+        <Label Content="204" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="37" >
+        </Label>
+        <Label Content="205" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="38" >
+        </Label>
+        <Label Content="206" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="38" >
+        </Label>
+        <Label Content="207" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="38" >
+        </Label>
+        <Label Content="208" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="38" >
+        </Label>
+        <Label Content="209" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="38" >
+        </Label>
+        <Label Content="210" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="39" >
+        </Label>
+        <Label Content="211" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="39" >
+        </Label>
+        <Label Content="212" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="39" >
+        </Label>
+        <Label Content="213" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="39" >
+        </Label>
+        <Label Content="214" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="39" >
+        </Label>
+        <Label Content="215" Style="{StaticResource SkillEntry}" Grid.Column="0" Grid.Row="40" >
+        </Label>
+        <Label Content="216" Style="{StaticResource SkillEntry}" Grid.Column="1" Grid.Row="40" >
+        </Label>
+        <Label Content="217" Style="{StaticResource SkillEntry}" Grid.Column="2" Grid.Row="40" >
+        </Label>
+        <Label Content="218" Style="{StaticResource SkillEntry}" Grid.Column="3" Grid.Row="40" >
+        </Label>
+        <Label Content="219" Style="{StaticResource SkillEntry}" Grid.Column="4" Grid.Row="40" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+    </Border>
+    <Grid Style="{StaticResource Fill}" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" >
+      <Grid Grid.Column="0" Grid.Row="0" >
+        <Grid Grid.Column="0" Grid.Row="0" >
+          <Label Content="SAVING THROWS" FontSize="10" Grid.Column="0" Grid.Row="0" >
+          </Label>
+          <Label Content="TOTAL" Grid.Column="1" Grid.Row="0" >
+          </Label>
+          <Label Content="" Grid.Column="2" Grid.Row="0" >
+          </Label>
+          <Label Content="Base" Grid.Column="3" Grid.Row="0" >
+          </Label>
+          <Label Content="" Grid.Column="4" Grid.Row="0" >
+          </Label>
+          <Label Content="Ability" Grid.Column="5" Grid.Row="0" >
+          </Label>
+          <Label Content="" Grid.Column="6" Grid.Row="0" >
+          </Label>
+          <Label Content="Magic" Grid.Column="7" Grid.Row="0" >
+          </Label>
+          <Label Content="" Grid.Column="8" Grid.Row="0" >
+          </Label>
+          <Label Content="Misc." Grid.Column="9" Grid.Row="0" >
+          </Label>
+          <Label Content="" Grid.Column="10" Grid.Row="0" >
+          </Label>
+          <Label Content="Temp." Grid.Column="11" Grid.Row="0" >
+          </Label>
+          <Label Style="{StaticResource Inverted}" Content="220" Grid.Column="0" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="221" Grid.Column="1" Grid.Row="1" >
+          </Label>
+          <Label Content="=" Grid.Column="2" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="222" Grid.Column="3" Grid.Row="1" >
+          </Label>
+          <Label Content="+" Grid.Column="4" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="223" Grid.Column="5" Grid.Row="1" >
+          </Label>
+          <Label Content="+" Grid.Column="6" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="7" Grid.Row="1" >
+          </Label>
+          <Label Content="+" Grid.Column="8" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="9" Grid.Row="1" >
+          </Label>
+          <Label Content="+" Grid.Column="10" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="11" Grid.Row="1" >
+          </Label>
+          <Label Style="{StaticResource Inverted}" Content="224" Grid.Column="0" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="225" Grid.Column="1" Grid.Row="2" >
+          </Label>
+          <Label Content="=" Grid.Column="2" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="226" Grid.Column="3" Grid.Row="2" >
+          </Label>
+          <Label Content="+" Grid.Column="4" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="227" Grid.Column="5" Grid.Row="2" >
+          </Label>
+          <Label Content="+" Grid.Column="6" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="7" Grid.Row="2" >
+          </Label>
+          <Label Content="+" Grid.Column="8" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="9" Grid.Row="2" >
+          </Label>
+          <Label Content="+" Grid.Column="10" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="11" Grid.Row="2" >
+          </Label>
+          <Label Style="{StaticResource Inverted}" Content="228" Grid.Column="0" Grid.Row="3" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="229" Grid.Column="1" Grid.Row="3" >
+          </Label>
+          <Label Content="=" Grid.Column="2" Grid.Row="3" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="230" Grid.Column="3" Grid.Row="3" >
+          </Label>
+          <Label Content="+" Grid.Column="4" Grid.Row="3" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Content="231" Grid.Column="5" Grid.Row="3" >
+          </Label>
+          <Label Content="+" Grid.Column="6" Grid.Row="3" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="7" Grid.Row="3" >
+          </Label>
+          <Label Content="+" Grid.Column="8" Grid.Row="3" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="9" Grid.Row="3" >
+          </Label>
+          <Label Content="+" Grid.Column="10" Grid.Row="3" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Grid.Column="11" Grid.Row="3" >
+          </Label>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="45"/>
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0" >
+          <Label Style="{StaticResource Middle}" Content="Modifiers" Grid.Column="0" Grid.Row="0" >
+          </Label>
+          <Label Style="{StaticResource BorderedLabel}" Height="83" Width="90" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="3" >
+          </Label>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+        </Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="92"/>
+        </Grid.ColumnDefinitions>
+      </Grid>
+      <Grid Grid.Column="0" Grid.Row="1" >
+        <Label Style="{StaticResource Inverted}" Content="Base Attack Bonus" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[BAB]}" Grid.Column="1" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource Inverted}" Content="Melee" Grid.Column="2" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[Melee]}" Grid.Column="3" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource Inverted}" Content="Missile" Grid.Column="4" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[Missile]}" Grid.Column="5" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource Inverted}" Content="Spell Resistance" Grid.Column="6" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[SpellResistance]}" Grid.Column="7" Grid.Row="0" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+      </Grid>
+      <Grid Background="LightBlue" Grid.Column="0" Grid.Row="2" >
+        <Label Style="{StaticResource Inverted}" Content="Grapple" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[Grapple]}" Grid.Column="1" Grid.Row="0" >
+        </Label>
+        <Label Content="=" Grid.Column="2" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[BAB]}" Grid.Column="3" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource PlusLabel}" Grid.Column="4" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[StrModifier]}" Grid.Column="5" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource PlusLabel}" Grid.Column="6" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[SizeBABModifier]}" Grid.Column="7" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource PlusLabel}" Grid.Column="8" Grid.Row="0" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="{Binding Values[MiscBABModifier]}" Grid.Column="9" Grid.Row="0" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+      </Grid>
+      <Grid Grid.Column="0" Grid.Row="3" >
+        <Label Content="Weapon" Style="{StaticResource WeaponHeader}" Grid.Column="0" Grid.Row="0" >
+        </Label>
+        <Label Content="BAB" Style="{StaticResource WeaponHeader}" Grid.Column="1" Grid.Row="0" >
+        </Label>
+        <Label Content="Damage" Style="{StaticResource WeaponHeader}" Grid.Column="2" Grid.Row="0" >
+        </Label>
+        <Label Content="Range" Style="{StaticResource WeaponHeader}" Grid.Column="3" Grid.Row="0" >
+        </Label>
+        <Label Content="" Grid.Column="4" Grid.Row="0" >
+        </Label>
+        <ComboBox Style="{StaticResource Stretch}" SelectedValue="{Binding Values[Weapon1]}" ItemsSource="{Binding Values, Converter={StaticResource ListConverter}, ConverterParameter=Weapons}" Height="25" Grid.Column="0" Grid.Row="1" >
+        </ComboBox>
+        <Label Style="{StaticResource BorderedLabel}" Content="232" Grid.Column="1" Grid.Row="1" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="233" Grid.Column="2" Grid.Row="1" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="234" Grid.Column="3" Grid.Row="1" >
+        </Label>
+        <Label Grid.Column="4" Grid.Row="1" >
+        </Label>
+        <ComboBox Style="{StaticResource Stretch}" SelectedValue="{Binding Values[Weapon2]}" ItemsSource="{Binding Values, Converter={StaticResource ListConverter}, ConverterParameter=Weapons}" Height="25" Grid.Column="0" Grid.Row="2" >
+        </ComboBox>
+        <Label Style="{StaticResource BorderedLabel}" Content="235" Grid.Column="1" Grid.Row="2" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="236" Grid.Column="2" Grid.Row="2" >
+        </Label>
+        <Label Style="{StaticResource BorderedLabel}" Content="237" Grid.Column="3" Grid.Row="2" >
+        </Label>
+        <Label Grid.Column="4" Grid.Row="2" >
+        </Label>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="100"/>
+          <ColumnDefinition Width="60"/>
+          <ColumnDefinition Width="60"/>
+          <ColumnDefinition Width="60"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+      </Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+    </Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+  </Grid>
+</Border>

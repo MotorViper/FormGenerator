@@ -1,0 +1,16 @@
+﻿#include Parameters.vtt Parameters
+#IF XML
+#include Screens.vtt Fields
+#include Styles.vtt Styles
+#FI
+#IF HTML
+#include Fields.vtt Fields
+#include HTMLStyles.vtt Fields
+#FI
+#include Defaults.vtt Parameters Defaults
+#include Weapons.vtt Parameters Weapons
+#include Armour.vtt Parameters Armour
+#include Races.vtt Parameters Races
+#include Classes.vtt Parameters Classes
+#include Skills.vtt Parameters Skills
+#include Misc.vtt Parameters

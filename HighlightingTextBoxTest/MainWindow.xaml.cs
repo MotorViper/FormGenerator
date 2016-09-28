@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Configuration;
+using System.IO;
 using FormGenerator.Tools;
 using Helpers;
 
@@ -13,7 +14,13 @@ namespace Test
         {
             IOCContainer.Instance.Register<IHighlighter, VttHighlighter>().AsSingleton();
             InitializeComponent();
-            mc_box.Text = File.ReadAllText(@"C:\Development\Projects\FormGenerator\FormGenerator\Data\Fields.vtt");
+            string testFile = ConfigurationManager.AppSettings.Get("TestFile");
+            if (testFile != null && !testFile.Contains(":"))
+            {
+                string dataDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
+                testFile = FileUtils.GetFullFileName(testFile, dataDirectory);
+            }
+            mc_box.Text = File.ReadAllText(testFile);
         }
     }
 }

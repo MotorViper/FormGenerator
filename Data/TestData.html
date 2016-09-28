@@ -1,0 +1,244 @@
+﻿        <style>
+            hr {
+                height: 2px;
+                border: none;
+                margin-top: 0;
+                margin-bottom: 0;
+                color: #00C;
+                background-color: #00c;
+            }
+
+            td img {
+                white-space: nowrap;
+                display: block;
+            }
+
+            Select {
+                height: 25px;
+            }
+
+            table {
+                width: 100%;
+            }
+
+            table, th, td {
+                border: 1px solid green;
+            }
+
+            tr {
+                vertical-align: top;
+                height: 1px;
+            }
+
+            .text-box {
+                height: 25px;
+            }
+
+            .Stretch {
+                width: 100%;
+            }
+
+            .Fill {
+                width: 100%;
+                height: 100%;
+            }
+
+            .LabelUnder {
+                font-size: 8px;
+                height: 10px;
+            }
+
+            .LabelUnderLeft {
+                font-size: 8px;
+                height: 10px;
+            }
+
+            .ShiftRight {
+                width: 100%;
+            }
+
+            .Middle {
+                text-align: Center;
+            }
+
+            .Left {
+                text-align: Left;
+            }
+
+            .Right {
+                text-align: Right;
+            }
+
+            .SideHeading {
+                width: 100%;
+                font-weight: Bold;
+                font-size: 16px;
+                text-align: Center;
+            }
+
+            .CentreLabel {
+                width: 100%;
+                text-align: Center;
+            }
+
+            .Inverted {
+                width: 100%;
+                text-align: Center;
+                background: Black;
+                color: White;
+            }
+
+            .PlusLabel {
+                width: 100%;
+                text-align: Center;
+                width: 16px;
+            }
+
+                .PlusLabel::first-letter {
+                    content: '+';
+                }
+
+            .BorderedLabel {
+                width: 100%;
+                text-align: Center;
+                border: 1px solid black;
+                margin: 1px;
+                height: 26px;
+            }
+
+            .table1 {
+                background: lightcyan;
+                margin: 2px;
+            }
+
+            .table2 {
+                background: lightpink;
+                margin: 2px;
+            }
+
+            .table3 {
+                background: lightgoldenrodyellow;
+                margin: 2px;
+            }
+
+            .table4 {
+                background: lightblue;
+                margin: 2px;
+            }
+
+            .table5 {
+                background: lightgreen;
+                margin: 2px;
+            }
+        </style>
+    <Table height="29.7cm" width="21cm" class="Fill table0">
+        <tr><th>1</th><th>2</th><th>3</th></tr>
+        <tr>
+            <td colspan="3">
+                <Table class="Stretch table1">
+                    <tr>
+                        <td>
+                            <Label>
+                                1
+                            </Label>
+                        </td>
+                        <td>
+                            <Label>
+                                2
+                            </Label>
+                        </td>
+                        <td>
+                            <Label>
+                                3
+                            </Label>
+                        </td>
+                    </tr>
+                </Table>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2">
+                <Table class="table1">
+                    <tr>
+                        <td>
+                            <Label>
+                                4
+                            </Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <Label>
+                                5
+                            </Label>
+                        </td>
+                    </tr>
+                </Table>
+            </td>
+            <td colspan="2">
+                <Table class="table1">
+                    <tr>
+                        <td>
+                            <Label>
+                                6
+                            </Label>
+                        </td>
+                        <td>
+                            <Label>
+                                7
+                            </Label>
+                        </td>
+                    </tr>
+                </Table>
+            </td>
+        </tr>
+        <tr>
+            <td >
+                <Table class="table1">
+                    <tr>
+                        <td>
+                            <Label>
+                                8
+                            </Label>
+                        </td>
+                    </tr>
+                </Table>
+            </td>
+            <td rowspan="2">
+                <Table class="table1">
+                    <tr>
+                        <td>
+                            <Label>
+                                9
+                            </Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <Label>
+                                10
+                            </Label>
+                        </td>
+                    </tr>
+                </Table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <Table class="table1">
+                    <tr>
+                        <td>
+                            <Label>
+                                11
+                            </Label>
+                        </td>
+                        <td>
+                            <Label>
+                                12
+                            </Label>
+                        </td>
+                    </tr>
+                </Table>
+            </td>
+        </tr>
+    </Table>

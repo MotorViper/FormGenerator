@@ -1,4 +1,0 @@
-Field: Tab
-	Field: TabItem
-		Header: First Page
-		#include Fields.vtt 

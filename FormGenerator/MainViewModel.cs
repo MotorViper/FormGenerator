@@ -34,20 +34,17 @@ namespace FormGenerator
         public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new RelayCommand(x => _editorsViewModel.OpenFile()));
         public ICommand ReloadCommand => _reloadCommand ?? (_reloadCommand = new RelayCommand(x => Reload()));
 
-        public ICommand SaveAllFilesCommand
-            =>
-                _saveAllFilesCommand ??
-                (_saveAllFilesCommand = new RelayCommand(x => _editorsViewModel.SaveAllFiles(), x => _editorsViewModel.Editors.AnyUnSaved()));
+        public ICommand SaveAllFilesCommand =>
+            _saveAllFilesCommand ??
+            (_saveAllFilesCommand = new RelayCommand(x => _editorsViewModel.SaveAllFiles(), x => _editorsViewModel.Editors.AnyUnSaved()));
 
-        public ICommand SaveFileCommand
-            =>
-                _saveFileCommand ??
-                (_saveFileCommand = new RelayCommand(x => _editorsViewModel.SaveFile(), x => !(_editorsViewModel.SelectedEditor?.IsSaved ?? true)));
+        public ICommand SaveFileCommand =>
+            _saveFileCommand ??
+            (_saveFileCommand = new RelayCommand(x => _editorsViewModel.SaveFile(), x => !(_editorsViewModel.SelectedEditor?.IsSaved ?? true)));
 
-        public ICommand SaveXamlCommand
-            =>
-                _saveXamlCommand ??
-                (_saveXamlCommand = new RelayCommand(x => _dataViewModel.SaveXaml()));
+        public ICommand SaveXamlCommand =>
+            _saveXamlCommand ??
+            (_saveXamlCommand = new RelayCommand(x => _dataViewModel.SaveXaml()));
 
         private void Exit(CancelEventArgs args)
         {

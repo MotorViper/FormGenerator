@@ -12,17 +12,21 @@
         /// <param name="trim">Whether the end of the line can be trimmed before processing.</param>
         public Line(string line, bool trim = true)
         {
-            line = line.Replace("\t", new string(' ', TabSize));
             if (trim)
                 line = line.TrimEnd();
+            int length = line.Length;
             Content = line.TrimStart();
-            Offset = (line.Length - Content.Length + OffsetSize - 1) / OffsetSize;
+            LineStart = length - Content.Length;
+            string start = line.Substring(0, LineStart).Replace("\t", new string(' ', TabSize));
+            Offset = (start.Length + OffsetSize - 1) / OffsetSize;
         }
 
         /// <summary>
         /// The process content of the line.
         /// </summary>
         public string Content { get; }
+
+        public int LineStart { get; }
 
         /// <summary>
         /// The offset from the start of the line in offset unit.

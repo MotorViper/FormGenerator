@@ -5,14 +5,14 @@
 Gui:
 	Check if data needs saving on exit.
 	Improve syntax colouring.
-	Add configuration - syntax colouring, tab stops etc.
+	Add more configuration - tab stops etc.
 	Add ability to include resources from a file.
 	Allow multiple base level fields.
-	Replace Parameters.vtt with macros.
-	Move data files to new project as they are shared with web.
+	Replace Parameters.vtt with macros (TokenTreeElement).
+	Go to editor when file loaded.
+	Add ability to reload screen.
 
 Generator:
-	Remove AddChild method and rationalise.
 
 Console:
 	Make work more like reading a file.

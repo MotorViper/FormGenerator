@@ -9,6 +9,12 @@ namespace TextParserTest
     [TestClass]
     public class ReaderTests
     {
+        [TestCleanup]
+        public void CleanUpAfterTest()
+        {
+            Line.OffsetSize = 4;
+        }
+
         [TestMethod]
         public void TestReadsLines()
         {
@@ -21,9 +27,9 @@ namespace TextParserTest
         [TestMethod]
         public void TestsHandlesIncludes()
         {
-            Reader reader = new Reader(new StreamReader(@"C:\Development\Projects\FormGenerator\FormGenerator\Data\Data.vtt"))
+            Reader reader = new Reader(new StreamReader(@"C:\Development\Projects\FormGenerator\Data\Data.vtt"))
             {
-                Options = {DefaultDirectory = @"C:\Development\Projects\FormGenerator\FormGenerator\Data"}
+                Options = {DefaultDirectory = @"C:\Development\Projects\FormGenerator\Data"}
             };
             Assert.IsTrue(reader.Count() > 4);
         }
@@ -40,7 +46,7 @@ namespace TextParserTest
         [TestMethod]
         public void TestReadsLinesWithNewLineContinuations()
         {
-            string[] expected = new[] {"Line 0\n   0", "Line 1 1", "Line 2\n   2", "Line 3\n    3" };
+            string[] expected = {"Line 0\r\n   0", "Line 1 1", "Line 2\r\n   2", "Line 3\r\n    3"};
             Reader reader = new Reader(new StringReader("Line 0--\n   0 \nLine 1    -  \n1\nLine 2 --\n   2 \n   Line 3    --\n    3    "));
             int lineNumber = 0;
             foreach (Line line in reader)

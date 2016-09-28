@@ -51,6 +51,7 @@
     <Compile Include="BlockState.cs" />
     <Compile Include="DrawingControl.cs" />
     <Compile Include="FormattedTextBlock.cs" />
+    <Compile Include="IFormattedTextBlock.cs" />
     <Compile Include="IHighlighter.cs" />
     <Compile Include="HighlightingTextBox.xaml.cs">
       <DependentUpon>HighlightingTextBox.xaml</DependentUpon>

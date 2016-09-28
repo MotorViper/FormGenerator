@@ -1,6 +1,6 @@
 ﻿namespace FormGenerator.Tools
 {
-    internal enum VttSection
+    public enum VttSection
     {
         Boolean,
         Comment,

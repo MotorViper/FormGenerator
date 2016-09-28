@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace FormGenerator.Tools
 {
-    internal class VttTextOptions
+    public class VttTextOptions
     {
         private static readonly BrushConverter s_brushConverter = new BrushConverter();
         private static readonly FontFamilyConverter s_familyConverter = new FontFamilyConverter();
@@ -12,7 +12,7 @@ namespace FormGenerator.Tools
         private static readonly FontStyleConverter s_styleConverter = new FontStyleConverter();
         private static readonly FontWeightConverter s_weightConverter = new FontWeightConverter();
 
-        public VttTextOptions(string options)
+        public VttTextOptions()
         {
             Colour = null;
             Decorations = null;
@@ -21,16 +21,13 @@ namespace FormGenerator.Tools
             Stretch = FontStretches.Medium;
             Style = FontStyles.Normal;
             Weight = FontWeights.Normal;
+        }
 
+        public VttTextOptions(string options) : this()
+        {
             string[] parts = options.Split('|');
             foreach (string bit in parts)
-            {
-                string part = bit.Trim();
-                bool converted = ConvertColour(part) || ConvertDecoration(part) || ConvertWeight(part) ||
-                                 ConvertSize(part) || ConvertStretch(part) || ConvertStyle(part) || ConvertFamily(part);
-                if (!converted)
-                    throw new Exception($"Could not convert formatting option {part}");
-            }
+                Add(bit);
         }
 
         public Brush Colour { get; set; }
@@ -40,6 +37,15 @@ namespace FormGenerator.Tools
         public FontStretch Stretch { get; set; }
         public FontStyle Style { get; set; }
         public FontWeight Weight { get; set; }
+
+        public void Add(string option)
+        {
+            string part = option.Trim();
+            bool converted = ConvertColour(part) || ConvertDecoration(part) || ConvertWeight(part) ||
+                             ConvertSize(part) || ConvertStretch(part) || ConvertStyle(part) || ConvertFamily(part);
+            if (!converted)
+                throw new Exception($"Could not convert formatting option {part}");
+        }
 
         private bool ConvertSize(string part)
         {

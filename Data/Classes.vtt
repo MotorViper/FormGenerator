@@ -1,0 +1,19 @@
+﻿Cleric:
+	Fort: Good
+	Ref: Poor
+	Will: Good
+	BABonus: Average
+Fighter:
+	ClassSkills: Climb|Craft|Handle Animal|Intimidate|Jump|Ride|Swim
+	Fort: Good
+	Ref: Poor
+	Will: Poor
+	BABonus: Good
+Rogue:
+	ClassSkills: Appraise|Balance|Bluff|Climb|Craft|Decipher Script|Diplomacy|Disable Device|Disguise|Escape Artist|Forgery|Gather Information|Hide|Intimidate|Jump|Knowledge (local)|Listen -
+		|Move Silently|Open Lock|Perform|Profession|Search|Sense Motive|Sleight of Hand|Spot|Swim|Tumble|Use Magic Device|Use Rope
+	SkillPoints: 8
+	Fort: Poor
+	Ref: Good
+	Will: Poor
+	BABonus: Average

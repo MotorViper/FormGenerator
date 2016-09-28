@@ -24,7 +24,7 @@ namespace TextParser
         }
 
         /// <summary>
-        /// Options the reader will use when processing theinput.
+        /// Options the reader will use when processing the input.
         /// </summary>
         public ReaderOptions Options { get; set; } = new ReaderOptions
         {

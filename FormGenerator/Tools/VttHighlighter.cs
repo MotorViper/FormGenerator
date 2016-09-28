@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Windows;
-using System.Windows.Media;
 using Helpers;
 using TextParser;
 using TextParser.Operators;
@@ -19,7 +20,7 @@ namespace FormGenerator.Tools
         /// <param name="formattedText">The text from the current block to highlight</param>
         /// <param name="lastBlockState"></param>
         /// <returns>The current block code</returns>
-        public void Highlight(FormattedTextBlock formattedText, BlockState lastBlockState)
+        public void Highlight(IFormattedTextBlock formattedText, BlockState lastBlockState)
         {
             Initialise();
             bool inComment = lastBlockState == BlockState.InComment;
@@ -38,25 +39,59 @@ namespace FormGenerator.Tools
         {
             if (s_options == null)
             {
-                s_options = new Dictionary<VttSection, VttTextOptions>
+                string optionsFile = ConfigurationManager.AppSettings.Get("OptionsFile");
+                if (optionsFile != null && !optionsFile.Contains(":"))
                 {
-                    {VttSection.Boolean, new VttTextOptions("Blue")},
-                    {VttSection.Comment, new VttTextOptions("Gray | Italic")},
-                    {VttSection.Default, new VttTextOptions("Orange")},
-                    {VttSection.Double, new VttTextOptions("Blue")},
-                    {VttSection.Error, new VttTextOptions("Red | Strikethrough")},
-                    {VttSection.Expression, new VttTextOptions("Orange")},
-                    {VttSection.Function, new VttTextOptions("OrangeRed")},
-                    {VttSection.Integer, new VttTextOptions("Blue")},
-                    {VttSection.Key, new VttTextOptions("Brown | Bold")},
-                    {VttSection.Separator, new VttTextOptions("CadetBlue")},
-                    {VttSection.String, new VttTextOptions("Green")},
-                    {VttSection.Substitution, new VttTextOptions("DarkBlue")}
-                };
+                    string dataDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
+                    optionsFile = FileUtils.GetFullFileName(optionsFile, dataDirectory);
+                }
+
+                if (File.Exists(optionsFile))
+                {
+                    s_options = new Dictionary<VttSection, VttTextOptions>();
+
+                    TokenTree options = Parser.Parse(new StreamReader(optionsFile)).FindFirst("Highlighting");
+                    foreach (TokenTree child in options.Children)
+                    {
+                        VttSection section = child.Key.Text.ParseEnum<VttSection>();
+                        IToken value = child.Value;
+                        ListToken list = value as ListToken;
+                        if (list != null)
+                        {
+                            VttTextOptions values = new VttTextOptions();
+                            foreach (IToken token in list.Tokens)
+                                values.Add(token.Text);
+                            s_options.Add(section, values);
+                        }
+                        else
+                        {
+                            string values = child.Value.Text;
+                            s_options.Add(section, new VttTextOptions(values));
+                        }
+                    }
+                }
+                else
+                {
+                    s_options = new Dictionary<VttSection, VttTextOptions>
+                    {
+                        {VttSection.Boolean, new VttTextOptions("Blue")},
+                        {VttSection.Comment, new VttTextOptions("Gray | Italic")},
+                        {VttSection.Default, new VttTextOptions("Orange")},
+                        {VttSection.Double, new VttTextOptions("Blue")},
+                        {VttSection.Error, new VttTextOptions("Red | Strikethrough")},
+                        {VttSection.Expression, new VttTextOptions("Orange")},
+                        {VttSection.Function, new VttTextOptions("OrangeRed")},
+                        {VttSection.Integer, new VttTextOptions("Blue")},
+                        {VttSection.Key, new VttTextOptions("Brown | Bold")},
+                        {VttSection.Separator, new VttTextOptions("CadetBlue")},
+                        {VttSection.String, new VttTextOptions("Green")},
+                        {VttSection.Substitution, new VttTextOptions("Turquoise")}
+                    };
+                }
             }
         }
 
-        private static bool FormatLine(FormattedText formattedText, string line, int offset, bool inComment)
+        private static bool FormatLine(IFormattedTextBlock formattedText, string line, int offset, bool inComment)
         {
             string trimmed = line.TrimEnd('\r', ' ', '\t');
             if (trimmed.Length > 0)
@@ -91,36 +126,28 @@ namespace FormGenerator.Tools
             return inComment;
         }
 
-        private static void FormatValue(FormattedText formattedText, string text, int offset)
+        private static void StoreFormattedToken(IList<FormattedToken> tokens, IToken token, int blockOffset, string block)
         {
-            string errorString = text;
-            int errorPosition = offset;
+            tokens.Insert(0, new FormattedToken(token, block, blockOffset));
+        }
+
+        private static void FormatValue(IFormattedTextBlock formattedText, string text, int offset)
+        {
             try
             {
-                List<string> blocks = text.SplitIntoBlocks();
-                foreach (string block in blocks)
-                {
-                    if (block.StartsWith("'") || block.StartsWith("\""))
-                    {
-                        FormatItem(VttSection.String, formattedText, offset, block + "'");
-                    }
-                    else
-                    {
-                        errorString = block;
-                        errorPosition = offset;
-                        IToken token = TokenGenerator.Parse(block);
-                        FormatToken(formattedText, token, offset, block);
-                    }
-                    offset += block.Length;
-                }
+                List<FormattedToken> formattedTokens = new List<FormattedToken>();
+                IToken token = TokenGenerator.Parse(text, offset, (x, y, z) => StoreFormattedToken(formattedTokens, x, y, z));
+                FormatToken(formattedText, token, offset, text);
+                foreach (FormattedToken formattedToken in formattedTokens)
+                    FormatToken(formattedText, formattedToken.Token, formattedToken.Offset, formattedToken.Text);
             }
             catch (Exception)
             {
-                FormatItem(VttSection.Error, formattedText, errorPosition, errorString);
+                FormatItem(VttSection.Error, formattedText, offset, text);
             }
         }
 
-        private static void FormatToken(FormattedText formattedText, IToken token, int blockOffset, string block)
+        private static void FormatToken(IFormattedTextBlock formattedText, IToken token, int blockOffset, string block)
         {
             if (token is StringToken)
                 FormatItem(VttSection.String, formattedText, blockOffset, block);
@@ -136,7 +163,7 @@ namespace FormGenerator.Tools
                 FormatItem(VttSection.Default, formattedText, blockOffset, block);
         }
 
-        private static void FormatExpression(FormattedText formattedText, IToken token, int blockOffset, string block)
+        private static void FormatExpression(IFormattedTextBlock formattedText, IToken token, int blockOffset, string block)
         {
             ExpressionToken expression = (ExpressionToken)token;
             IOperator op = expression.Operator;
@@ -148,7 +175,7 @@ namespace FormGenerator.Tools
                 FormatItem(VttSection.Expression, formattedText, blockOffset, block);
         }
 
-        private static void FormatFunction(FormattedText formattedText, ExpressionToken token, int blockOffset, string block)
+        private static void FormatFunction(IFormattedTextBlock formattedText, ExpressionToken token, int blockOffset, string block)
         {
             if (token.First is StringToken)
             {
@@ -164,10 +191,16 @@ namespace FormGenerator.Tools
             }
         }
 
-        private static void FormatItem(VttSection section, FormattedText formattedText, int blockOffset, string block)
+        public VttTextOptions Options(VttSection section)
         {
             VttTextOptions options;
-            if (s_options.TryGetValue(section, out options))
+            return s_options.TryGetValue(section, out options) ? options : null;
+        }
+
+        private static void FormatItem(VttSection section, IFormattedTextBlock formattedText, int blockOffset, string block)
+        {
+            VttTextOptions options;
+            if (blockOffset + block.Length <= formattedText.Text.Length && s_options.TryGetValue(section, out options))
             {
                 int length = block.Length;
                 if (options.Colour != null)
@@ -185,6 +218,20 @@ namespace FormGenerator.Tools
                 if (options.Weight != FontWeights.Normal)
                     formattedText.SetFontWeight(options.Weight, blockOffset, length);
             }
+        }
+
+        private struct FormattedToken
+        {
+            public FormattedToken(IToken token, string text, int offset)
+            {
+                Token = token;
+                Text = text;
+                Offset = offset;
+            }
+
+            public IToken Token { get; }
+            public string Text { get; }
+            public int Offset { get; }
         }
     }
 }

@@ -12,13 +12,6 @@ namespace FormGeneratorTests
     [TestClass]
     public class XamlGeneratorTests
     {
-        private const string XAML =
-            "<Border HorizontalAlignment=\"Stretch\" VerticalAlignment=\"Stretch\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">" +
-            "  <Grid>" +
-            "    <Label Content=\"Hi\" Width=\"200\" ></Label>" +
-            "  </Grid>" +
-            "</Border>";
-
         private const string VTL =
             @"
 Parameters:
@@ -29,16 +22,23 @@ Fields:
             Content: Hi
             Width: $FieldWidth";
 
+        private const string XAML =
+            "<Border HorizontalAlignment=\"Stretch\" VerticalAlignment=\"Stretch\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">" +
+            "  <Grid>" +
+            "    <Label Content=\"Hi\" Width=\"200\" ></Label>" +
+            "  </Grid>" +
+            "</Border>";
+
         [TestInitialize]
         public void Initialisation()
         {
             IOCContainer.Instance.Register<IFieldWriter>(new StringFieldWriter<GenericField>(""));
+            IOCContainer.Instance.Register<IField, GenericField>();
         }
 
         [TestMethod]
         public void TestSimpleGeneration()
         {
-            IOCContainer.Instance.Register<IField, Field>();
             TokenTree toGenerate = new TokenTree
             {
                 Key = new StringToken(""),
@@ -78,7 +78,6 @@ Fields:
         [TestMethod]
         public void TestVTL()
         {
-            IOCContainer.Instance.Register<IField, Field>();
             TokenTree tokenTree = Parser.ParseString(VTL);
             string generated = new XamlGenerator().GenerateXaml(tokenTree);
             Assert.AreEqual(XAML.Replace(" ", ""), generated.Replace(" ", "").Replace(Environment.NewLine, ""));
