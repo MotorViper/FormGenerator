@@ -56,6 +56,7 @@
     <Compile Include="HighlightingTextBox.xaml.cs">
       <DependentUpon>HighlightingTextBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StorageLogger.cs" />
     <Compile Include="TypedDependencyProperty.cs" />
     <Compile Include="ComparisonExtensions.cs" />
     <Compile Include="EnumParser.cs" />

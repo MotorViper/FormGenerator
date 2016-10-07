@@ -1,17 +1,3 @@
-Highlighting:
-	String:			Green
-	Integer:		Blue
-	Double:			Blue
-	Boolean:		Blue
-	Expression:		Orange
-	Default:		Orange
-	Key:			Brown | Bold
-	Function:		OrangeRed
-	Substitution:	DarkBlue
-	Separator:		CadetBlue
-	Error:			Red | Strikethrough
-	Comment:		Gray | Italic
-
 Replacements:
 	HorizontalContentAlignment:
 		Centre: Center
@@ -23,3 +9,17 @@ Replacements:
 		Centre: Center
 	TextAlign:
 		Centre: Center
+
+Highlighting:
+	String:			Green
+	Integer:		Blue
+	Double:			Blue
+	Boolean:		Blue
+	Expression:		Orange
+	Default:		Black
+	Key:			Brown | Bold
+	Function:		OrangeRed
+	Substitution:	DarkBlue
+	Separator:		CadetBlue
+	Error:			Red | Strikethrough
+	Comment:		Gray | Italic

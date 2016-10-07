@@ -1,7 +1,9 @@
 ﻿Sword:
+	Group: Martial
 	Damage: 1D6
 	Range: S
 Dagger:
+	Group: Simple
 	Damage: 1D4
 	Range: C
 None:

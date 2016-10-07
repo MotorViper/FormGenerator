@@ -1,12 +1,9 @@
-﻿using System.Windows;
-
-namespace Helpers
+﻿namespace Helpers
 {
-    /// <summary>
-    /// Class to log WPF messages using a MessageBox.
-    /// </summary>
-    public class MessageBoxLogger : ILogging
+    public class StorageLogger: ILogging
     {
+        public string Text { get; set; }
+
         /// <summary>
         /// Log an error.
         /// </summary>
@@ -14,7 +11,7 @@ namespace Helpers
         /// <param name="overview">Shortened version of the message.</param>
         public void LogError(string message, string overview)
         {
-            MessageBox.Show(message, overview, MessageBoxButton.OK, MessageBoxImage.Error);
+            Text += $"{overview}[E]: {message}\n";
         }
 
         /// <summary>
@@ -24,7 +21,7 @@ namespace Helpers
         /// <param name="overview">Shortened version of the message.</param>
         public void LogMessage(string message, string overview)
         {
-            MessageBox.Show(message, overview, MessageBoxButton.OK, MessageBoxImage.Information);
+            Text += $"{overview}[I]: {message}\n";
         }
 
         /// <summary>
@@ -32,6 +29,7 @@ namespace Helpers
         /// </summary>
         public void Reset()
         {
+            Text = "";
         }
     }
 }

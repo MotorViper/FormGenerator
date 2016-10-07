@@ -1,16 +1,21 @@
 ﻿using System;
+using Helpers;
 using TextParser.Operators;
 
 namespace TextParser.Tokens
 {
     public class ExpressionToken : BaseToken
     {
+        private readonly Lazy<ILogging> _logger = IOCContainer.Instance.LazyResolve<ILogging>();
+
         public ExpressionToken(IToken first, IOperator op, IToken second = null)
         {
             First = first;
             Operator = op;
             Second = second;
         }
+
+        private ILogging Logger => _logger.Value;
 
         public IToken First { get; }
 
@@ -60,7 +65,9 @@ namespace TextParser.Tokens
 
         public override IToken Evaluate(TokenTreeList parameters, bool isFinal)
         {
-            return Operator.Evaluate(First, Second, parameters, isFinal);
+            IToken result = Operator.Evaluate(First, Second, parameters, isFinal);
+            Logger?.LogMessage($"{this} -> {result}", "Evaluate");
+            return result;
         }
 
         public override IToken SubstituteParameters(TokenTree parameters)

@@ -33,7 +33,8 @@ namespace WebFormGenerator.Models
             _sb.Clear();
             TokenTree values = selected.Clone();
             TokenTree defaultValues = parameters.FindFirst("Defaults." + dataName);
-            values.AddMissing(defaultValues);
+            if (defaultValues != null)
+                values.AddMissing(defaultValues);
             values.SetParameters(parameters);
 
             TokenTreeList fields = data.GetAll("Fields");

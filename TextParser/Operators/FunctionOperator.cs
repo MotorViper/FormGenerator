@@ -58,6 +58,9 @@ namespace TextParser.Operators
                     case IntFunction.ID:
                         _function = new IntFunction();
                         break;
+                    case SplitFunction.ID:
+                        _function = new SplitFunction();
+                        break;
                     case SumFunction.ID:
                         _function = new SumFunction();
                         break;

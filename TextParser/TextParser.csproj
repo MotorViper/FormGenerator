@@ -55,6 +55,7 @@
     <Compile Include="Functions\IfFunction.cs" />
     <Compile Include="Functions\CountFunction.cs" />
     <Compile Include="Functions\ContainsFunction.cs" />
+    <Compile Include="Functions\SplitFunction.cs" />
     <Compile Include="Functions\UserFunction.cs" />
     <Compile Include="Functions\IFunction.cs" />
     <Compile Include="Functions\OverFunction.cs" />

@@ -1,8 +1,44 @@
 ﻿Cleric:
-	Fort: Good
-	Ref: Poor
-	Will: Good
+	ClassSkills: Concentration|Craft|Diplomacy|Heal|Knowledge (arcana)|Knowledge (history)|Knowledge (religion)|Knowledge (the planes)|Profession -
+		|Spellcraft
+	Fort: FromTable
+	Ref: FromTable
+	Will: FromTable
 	BABonus: Average
+	WeaponProficiency: Simple
+	ArmourProficiency: All
+	ShieldProficiency: Not Tower
+	Features:
+		0: Aura|Divine Spells|Aligned Spells|Deity|Domains|Domain Spells|Spontaneous Casting
+	BonusLanguages: Celestial|Abyssal|Infernal|Race
+	ClassLoss:
+		Atone: Atone Spell
+		Keep: WeaponProficiency|ArmourProficiency|ShieldProficiency
+	SpellList: Cleric
+	SpellAttribute: Wisdom
+	LevelType: MagicUser
+	LevelInformation:
+		1: 	"+0			+2 	+0 	+2 		3 	1+1 	0		0		0		0		0		0		0		0	Turn or Rebuke Undead 	"
+		2: 	"+1 		+3 	+0 	+3 		4 	2+1 	"
+		3: 	"+2 		+3 	+1 	+3 		4 	2+1 	1+1 	"
+		4: 	"+3 		+4 	+1 	+4 		5 	3+1 	2+1 	"
+		5: 	"+3 		+4 	+1 	+4 		5 	3+1 	2+1 	1+1 	"
+		6: 	"+4 		+5 	+2 	+5 		5 	3+1 	3+1 	2+1 	"
+		7: 	"+5 		+5 	+2 	+5 		6 	4+1 	3+1 	2+1 	1+1 	"
+		8: 	"+6/+1 		+6 	+2 	+6 		6 	4+1 	3+1 	3+1 	2+1 	"
+		9: 	"+6/+1 		+6 	+3 	+6 		6 	4+1 	4+1 	3+1 	2+1 	1+1 	"
+		10:	"+7/+2 		+7 	+3 	+7 		6 	4+1 	4+1 	3+1 	3+1 	2+1 	"
+		11:	"+8/+3 		+7 	+3 	+7 		6 	5+1 	4+1 	4+1 	3+1 	2+1 	1+1 	"
+		12:	"+9/+4 		+8 	+4 	+8 		6 	5+1 	4+1 	4+1 	3+1 	3+1 	2+1 	"
+		13:	"+9/+4 		+8 	+4 	+8 		6 	5+1 	5+1 	4+1 	4+1 	3+1 	2+1 	1+1 	"
+		14:	"+10/+5 	+9 	+4 	+9 		6 	5+1 	5+1 	4+1 	4+1 	3+1 	3+1 	2+1 	"
+		15:	"+11/+6/+1 	+9 	+5 	+9 		6 	5+1 	5+1 	5+1 	4+1 	4+1 	3+1 	2+1 	1+1 	"
+		16:	"+12/+7/+2 	+10 +5 	+10 	6 	5+1 	5+1 	5+1 	4+1 	4+1 	3+1 	3+1 	2+1 	"
+		17:	"+12/+7/+2 	+10 +5 	+10 	6 	5+1 	5+1 	5+1 	5+1 	4+1 	4+1 	3+1 	2+1 	1+1"
+		18:	"+13/+8/+3 	+11 +6 	+11 	6 	5+1 	5+1 	5+1 	5+1 	4+1 	4+1 	3+1 	3+1 	2+1"
+		19:	"+14/+9/+4 	+11 +6 	+11 	6 	5+1 	5+1 	5+1 	5+1 	5+1 	4+1 	4+1 	3+1 	3+1"
+		20:	"+15/+10/+5 +12 +6 	+12 	6 	5+1 	5+1 	5+1 	5+1 	5+1 	4+1 	4+1 	4+1 	4+1 "
+
 Fighter:
 	ClassSkills: Climb|Craft|Handle Animal|Intimidate|Jump|Ride|Swim
 	Fort: Good
@@ -10,8 +46,9 @@ Fighter:
 	Will: Poor
 	BABonus: Good
 Rogue:
-	ClassSkills: Appraise|Balance|Bluff|Climb|Craft|Decipher Script|Diplomacy|Disable Device|Disguise|Escape Artist|Forgery|Gather Information|Hide|Intimidate|Jump|Knowledge (local)|Listen -
-		|Move Silently|Open Lock|Perform|Profession|Search|Sense Motive|Sleight of Hand|Spot|Swim|Tumble|Use Magic Device|Use Rope
+	ClassSkills: Appraise|Balance|Bluff|Climb|Craft|Decipher Script|Diplomacy|Disable Device|Disguise|Escape Artist|Forgery|Gather Information|Hide -
+		|Intimidate|Jump|Knowledge (local)|Listen|Move Silently|Open Lock|Perform|Profession|Search|Sense Motive|Sleight of Hand|Spot|Swim|Tumble -
+		|Use Magic Device|Use Rope
 	SkillPoints: 8
 	Fort: Poor
 	Ref: Good

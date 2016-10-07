@@ -6,7 +6,7 @@ using Helpers;
 
 namespace FormGenerator
 {
-    public class MainViewModel : ViewModel
+    public class MainViewModel : ViewModel, ILogging
     {
         private readonly DataViewModel _dataViewModel = new DataViewModel();
         private readonly EditorsViewModel _editorsViewModel = new EditorsViewModel();
@@ -19,6 +19,27 @@ namespace FormGenerator
         private ICommand _saveAllFilesCommand;
         private ICommand _saveFileCommand;
         private ICommand _saveXamlCommand;
+
+        private readonly NotifyingProperty<string> _logData = new NotifyingProperty<string>();
+
+        private readonly NotifyingProperty<bool> _doLogging = new NotifyingProperty<bool>();
+
+        public bool DoLogging
+        {
+            get { return _doLogging.GetValue(); }
+            set { _doLogging.SetValue(value, this); }
+        }
+
+        public MainViewModel()
+        {
+            IOCContainer.Instance.Register<ILogging>(this);
+        }
+
+        public string LogData
+        {
+            get { return _logData.GetValue(); }
+            set { _logData.SetValue(value, this); }
+        }
 
         public ICommand CloseFileCommand
         {
@@ -66,6 +87,36 @@ namespace FormGenerator
         private static void Reload()
         {
             DataViewModel.Instance.Displayer.DisplayData(DataViewModel.Instance.Xaml);
+        }
+
+        /// <summary>
+        /// Log an error.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
+        /// <param name="overview">Shortened version of the message.</param>
+        public void LogError(string message, string overview)
+        {
+            if (DoLogging)
+                LogData += $"{overview}[E]: {message}\n";
+        }
+
+        /// <summary>
+        /// Log an informational message.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
+        /// <param name="overview">Shortened version of the message.</param>
+        public void LogMessage(string message, string overview)
+        {
+            if (DoLogging)
+                LogData += $"{overview}[I]: {message}\n";
+        }
+
+        /// <summary>
+        /// Reset the logger if relevant.
+        /// </summary>
+        public void Reset()
+        {
+            LogData = "";
         }
     }
 }

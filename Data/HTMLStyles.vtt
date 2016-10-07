@@ -16,7 +16,7 @@ Style: Select
 Style: table
 	width: 100%
 Style: tr
-	'vertical-align': top
+	VerticalAlign: top
 Style:
 	Name: 'text-box'
 	Height: 25px
@@ -31,6 +31,11 @@ Style:
 	Name: LabelUnder
 	FontSize: 8px
 	Height: 10px
+	MarginTop: 0
+	MarginBottom: 0
+	PaddingTop: 0
+	PaddingBottom: 0
+	BorderWidth: 0
 Style: 
 	Name: LabelUnderLeft
 	BasedOn: LabelUnder

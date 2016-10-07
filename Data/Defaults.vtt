@@ -25,12 +25,13 @@ Character:
 	Eyes:
 	Hair:
 	Skin:
-	DexModifier: ($Dexterity - 10) / 2
-	StrModifier: ($Strength - 10) / 2
-	ConModifier: ($Constitution - 10) / 2
-	WisModifier: ($Wisdom - 10) / 2
-	IntModifier: ($Intelligence - 10) / 2
-	ChaModifier: ($Charisma - 10) / 2
+	AttributeModifier: ($$1 - 10) / 2
+	DexModifier: AttributeModifier: Dexterity
+	StrModifier: AttributeModifier: Strength
+	ConModifier: AttributeModifier: Constitution
+	WisModifier: AttributeModifier: Wisdom
+	IntModifier: AttributeModifier: Intelligence
+	ChaModifier: AttributeModifier: Charisma
 	ClassList: AGG:{Level.Class}
 	HP: SUM:$Level.HP
 	ArmourBonus: {Armour.{Armour}.ACBonus}
@@ -46,11 +47,11 @@ Character:
 	MiscACModifier: 0
 	CalculateBAB: INT:CASE:($1|Poor|$2 / 2|Average|$2 * 3 / 4|Good|$2)
 	BABThrow: SUM:OVER:({Classes.ALL.NAME}|cl|CalculateBAB:({Classes.{cl}.{1}}|COUNT:{Level.Class={cl}}))
-	CalculateSave: INT:COMP:($1|Poor|$2/3|2 + $2/2)
-	SavingThrow: SUM:OVER:({Classes.ALL.NAME}|cl|CalculateSave:({Classes.{cl}.{1}}|COUNT:{Level.Class={cl}}))
-	FortitudeBase: SavingThrow: Fort
-	ReflexBase: SavingThrow: Ref
-	WillBase: SavingThrow: Will
+	CalculateSave: INT:CASE:($1|Poor|$2/3|Good|(2 + $2/2)|FromTable|(SPLIT:{Classes.{4}.LevelInformation.{2}})#{3})
+	SavingThrow: SUM:OVER:({Classes.ALL.NAME}|cl|CalculateSave:({Classes.{cl}.{1}}|COUNT:{Level.Class={cl}}|{2}|{cl}))
+	FortitudeBase: SavingThrow: (Fort|1)
+	ReflexBase: SavingThrow: (Ref|2)
+	WillBase: SavingThrow: (Will|3)
 	FortitudeModifier: $ConModifier
 	ReflexModifier: $DexModifier
 	WillModifier: $WisModifier
@@ -93,5 +94,9 @@ Skills:
 
 Classes:
 	SkillPoints: 2
-	Fort: Poor
+//	Fort: FromTable
+	CasterLevel: Level
+	MaxSpellLevel: $$SpellAttribute - 10
+	SpellDifficulty: 10 + $SpellLevel + AttributeModifer: $SpellAttribute
+
 

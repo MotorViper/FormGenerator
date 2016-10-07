@@ -32,7 +32,11 @@ namespace TextParser.Operators
 
             IntToken intToken = evaluated as IntToken;
             if (intToken == null)
-                throw new Exception($"Operation {Text} must have integer second element.");
+            {
+                if (isFinal)
+                    throw new Exception($"Operation {Text} must have integer second element.");
+                return new ExpressionToken(first, new IndexOperator(), last);
+            }
 
             IToken tokenList = first.Evaluate(parameters, isFinal);
             ListToken listToken = tokenList as ListToken;

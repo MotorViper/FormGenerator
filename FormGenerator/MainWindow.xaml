@@ -24,14 +24,17 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="_File">
+                <MenuItem Header="_Save Xaml" Command="{Binding SaveXamlCommand}" />
+                <MenuItem Header="_Reload" Command="{Binding ReloadCommand}" />
+                <MenuItem Header="_Toggle Logging" IsCheckable="True" IsChecked="{Binding DoLogging}"/>
+                <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
+            </MenuItem>
+            <MenuItem Header="_Editors">
                 <MenuItem Header="_New" Command="{Binding NewFileCommand}" />
                 <MenuItem Header="_Open" Command="{Binding OpenFileCommand}" />
                 <MenuItem Header="_Save" Command="{Binding SaveFileCommand}" />
-                <MenuItem Header="Save Xa_ml" Command="{Binding SaveXamlCommand}" />
                 <MenuItem Header="Save _All" Command="{Binding SaveAllFilesCommand}" />
                 <MenuItem Header="_Close" Command="{Binding CloseFileCommand}" />
-                <MenuItem Header="_Reload" Command="{Binding ReloadCommand}" />
-                <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
             </MenuItem>
         </Menu>
         <TabControl Grid.Row="1">
@@ -40,6 +43,9 @@
             </TabItem>
             <TabItem Header="Editor">
                 <views:EditorsView />
+            </TabItem>
+            <TabItem Header="Logging">
+                <TextBox Text="{Binding LogData}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
             </TabItem>
         </TabControl>
     </Grid>

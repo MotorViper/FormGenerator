@@ -18,5 +18,10 @@
         /// <param name="message">The message to log.</param>
         /// <param name="overview">Shortened version of the message.</param>
         void LogMessage(string message, string overview);
+
+        /// <summary>
+        /// Reset the logger if relevant.
+        /// </summary>
+        void Reset();
     }
 }

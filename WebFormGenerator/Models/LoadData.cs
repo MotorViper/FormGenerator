@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Helpers;
 
@@ -35,22 +36,26 @@ namespace WebFormGenerator.Models
         /// The main data item name.
         /// </summary>
         [Display(Name = "Data Name")]
+        [DefaultValue("Character")]
         public string DataName { get; set; }
 
         /// <summary>
         /// The default directory for files.
         /// </summary>
+        [DefaultValue(@"C:\Development\Projects\FormGenerator\Data\")]
         public string Directory { get; set; }
 
         /// <summary>
         /// The main data file name.
         /// </summary>
+        [DefaultValue("Characters.vtt")]
         public string File { get; set; }
 
         /// <summary>
         /// The static data file name.
         /// </summary>
         [Display(Name = "Static Data File")]
+        [DefaultValue("Data.vtt")]
         public string StaticDataFile { get; set; }
     }
 }

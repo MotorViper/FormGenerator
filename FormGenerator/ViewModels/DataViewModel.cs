@@ -18,6 +18,9 @@ namespace FormGenerator.ViewModels
         private readonly IXamlTokenData _data = IOCContainer.Instance.Resolve<IXamlTokenData>();
         private readonly string _dataName;
         private readonly NotifyingProperty<string> _selected = new NotifyingProperty<string>();
+        private readonly Lazy<ILogging> _logger = IOCContainer.Instance.LazyResolve<ILogging>();
+
+        private ILogging Logger => _logger.Value;
 
         /// <summary>
         /// Constructor.
@@ -74,6 +77,7 @@ namespace FormGenerator.ViewModels
             {
                 if (_data.HasStaticData)
                 {
+                    Logger?.Reset();
                     if (Values != null)
                         Values.Children.PropertyChanged -= OnChildrenChanged;
                     _selected.SetValue(value, this);
