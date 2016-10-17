@@ -5,12 +5,14 @@ Padded:
 	MaxDexBonus: 8
 	SpellFailureChance: 5
 	Weight: 10
+	Type: Light
 Leather:
 	Cost: 10
 	ACBonus: 2
 	MaxDexBonus: 6
 	SpellFailureChance: 10
 	Weight: 15
+	Type: Light
 studded Leather:
 	Cost: 25
 	ACBonus: 3
@@ -18,6 +20,7 @@ studded Leather:
 	CheckPenalty: -1
 	SpellFailureChance: 15
 	Weight: 20
+	Type: Light
 Chain Shirt:
 	Cost: 100
 	ACBonus: 4
@@ -25,6 +28,7 @@ Chain Shirt:
 	CheckPenalty: -2
 	SpellFailureChance: 20
 	Weight: 25
+	Type: Light
 Hide:
 	Cost: 15
 	ACBonus: 3
@@ -33,6 +37,7 @@ Hide:
 	SpellFailureChance: 20
 	Slows: true
 	Weight: 25
+	Type: Medium
 Scale Mail:
 	Cost: 50
 	ACBonus: 4
@@ -41,6 +46,7 @@ Scale Mail:
 	SpellFailureChance: 25
 	Slows: true
 	Weight: 30
+	Type: Medium
 Chainmail:
 	Cost: 150
 	ACBonus: 5
@@ -49,6 +55,7 @@ Chainmail:
 	SpellFailureChance: 30
 	Slows: true
 	Weight: 40
+	Type: Medium
 Breastplate:
 	Cost: 200
 	ACBonus: 5
@@ -57,6 +64,7 @@ Breastplate:
 	SpellFailureChance: 25
 	Slows: true
 	Weight: 30
+	Type: Medium
 Splint Mail:
 	Cost: 200
 	ACBonus: 6
@@ -65,6 +73,7 @@ Splint Mail:
 	SpellFailureChance: 40
 	Slows: true
 	Weight: 45
+	Type: Heavy
 Banded Mail:
 	Cost: 250
 	ACBonus: 6
@@ -73,6 +82,7 @@ Banded Mail:
 	SpellFailureChance: 35
 	Slows: true
 	Weight: 35
+	Type: Heavy
 Half-Plate:
 	Cost: 600
 	ACBonus: 7
@@ -81,6 +91,7 @@ Half-Plate:
 	SpellFailureChance: 40
 	Slows: true
 	Weight: 50
+	Type: Heavy
 Full Plate:
 	Cost: 1500
 	ACBonus: 8
@@ -89,3 +100,4 @@ Full Plate:
 	SpellFailureChance: 35
 	Slows: true
 	Weight: 50
+	Type: Heavy

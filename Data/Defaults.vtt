@@ -45,13 +45,12 @@ Character:
 	NaturalArmour: {Races.{Race}.ACBonus}
 	DeflectionModifier: 0
 	MiscACModifier: 0
-	CalculateBAB: INT:CASE:($1|Poor|$2 / 2|Average|$2 * 3 / 4|Good|$2)
-	BABThrow: SUM:OVER:({Classes.ALL.NAME}|cl|CalculateBAB:({Classes.{cl}.{1}}|COUNT:{Level.Class={cl}}))
-	CalculateSave: INT:CASE:($1|Poor|$2/3|Good|(2 + $2/2)|FromTable|(SPLIT:{Classes.{4}.LevelInformation.{2}})#{3})
-	SavingThrow: SUM:OVER:({Classes.ALL.NAME}|cl|CalculateSave:({Classes.{cl}.{1}}|COUNT:{Level.Class={cl}}|{2}|{cl}))
-	FortitudeBase: SavingThrow: (Fort|1)
-	ReflexBase: SavingThrow: (Ref|2)
-	WillBase: SavingThrow: (Will|3)
+	GetLevelField: INT:SPLIT:{Classes.{3}.LevelInformation.{1}}#{2}
+	BABThrow: SUM:OVER:({Classes.ALL.NAME}|cl|GetLevelField:(COUNT:{Level.Class={cl}}|0|{cl}))
+	SavingThrow: SUM:OVER:({Classes.ALL.NAME}|cl|GetLevelField:(COUNT:{Level.Class={cl}}|{1}|{cl}))
+	FortitudeBase: SavingThrow: 1
+	ReflexBase: SavingThrow: 2
+	WillBase: SavingThrow: 3
 	FortitudeModifier: $ConModifier
 	ReflexModifier: $DexModifier
 	WillModifier: $WisModifier
@@ -94,9 +93,11 @@ Skills:
 
 Classes:
 	SkillPoints: 2
-//	Fort: FromTable
 	CasterLevel: Level
 	MaxSpellLevel: $$SpellAttribute - 10
 	SpellDifficulty: 10 + $SpellLevel + AttributeModifer: $SpellAttribute
+	WeaponProficiency: Simple
+	ArmourProficiency: None
+	ShieldProficiency: None
 
 

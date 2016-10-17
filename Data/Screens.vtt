@@ -1,4 +1,7 @@
 Field: Tab
 	Field: TabItem
-		Header: First Page
+		Header: Basic Information
 		#include Fields.vtt 
+	Field: TabItem
+		Header: Additional Information
+		#include Second.vtt 

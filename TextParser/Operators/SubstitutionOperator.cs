@@ -38,9 +38,14 @@ namespace TextParser.Operators
             ListToken result = new ListToken();
             foreach (TokenTree tokenTree in found)
             {
+                bool debug = bool.Parse(tokenTree["Debug"] ?? "False");
+                if (debug)
+                    LogControl?.SetLogging(true);
                 IToken token = tokenTree.Value.Evaluate(parameters, isFinal);
                 if (!(token is NullToken))
                     result.Add(token);
+                if (debug)
+                    LogControl?.ResetLoggingToDefault();
             }
 
             if (result.Tokens.Count == 0)

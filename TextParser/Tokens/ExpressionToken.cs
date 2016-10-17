@@ -15,9 +15,9 @@ namespace TextParser.Tokens
             Second = second;
         }
 
-        private ILogging Logger => _logger.Value;
-
         public IToken First { get; }
+
+        private ILogging Logger => _logger.Value;
 
         public bool NeedsSecond
         {
@@ -72,7 +72,15 @@ namespace TextParser.Tokens
 
         public override IToken SubstituteParameters(TokenTree parameters)
         {
-            return Operator.SubstituteParameters(First, Second, parameters);
+            IToken result = Operator.SubstituteParameters(First, Second, parameters);
+            if (Logger != null)
+            {
+                string initial = ToString();
+                string final = result.ToString();
+                if (initial != final)
+                    Logger.LogMessage($"{initial} -> {final}", "Substitute");
+            }
+            return result;
         }
     }
 }

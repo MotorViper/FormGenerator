@@ -6,10 +6,12 @@ using Helpers;
 
 namespace FormGenerator
 {
-    public class MainViewModel : ViewModel, ILogging
+    public class MainViewModel : ViewModel, ILogging, ILogControl
     {
         private readonly DataViewModel _dataViewModel = new DataViewModel();
+        private readonly NotifyingProperty<bool> _doLogging = new NotifyingProperty<bool>();
         private readonly EditorsViewModel _editorsViewModel = new EditorsViewModel();
+        private readonly NotifyingProperty<string> _logData = new NotifyingProperty<string>();
 
         private ICommand _closeFileCommand;
         private ICommand _exitCommand;
@@ -20,25 +22,12 @@ namespace FormGenerator
         private ICommand _saveFileCommand;
         private ICommand _saveXamlCommand;
 
-        private readonly NotifyingProperty<string> _logData = new NotifyingProperty<string>();
-
-        private readonly NotifyingProperty<bool> _doLogging = new NotifyingProperty<bool>();
-
-        public bool DoLogging
-        {
-            get { return _doLogging.GetValue(); }
-            set { _doLogging.SetValue(value, this); }
-        }
+        private bool _wasLogging;
 
         public MainViewModel()
         {
             IOCContainer.Instance.Register<ILogging>(this);
-        }
-
-        public string LogData
-        {
-            get { return _logData.GetValue(); }
-            set { _logData.SetValue(value, this); }
+            IOCContainer.Instance.Register<ILogControl>(this);
         }
 
         public ICommand CloseFileCommand
@@ -46,9 +35,21 @@ namespace FormGenerator
             get { return _closeFileCommand ?? (_closeFileCommand = new RelayCommand(x => _editorsViewModel.CloseFile())); }
         }
 
+        public bool DoLogging
+        {
+            get { return _doLogging.GetValue(); }
+            set { _doLogging.SetValue(value, this); }
+        }
+
         public ICommand ExitCommand
         {
             get { return _exitCommand ?? (_exitCommand = new RelayCommand(x => Exit(x as CancelEventArgs))); }
+        }
+
+        public string LogData
+        {
+            get { return _logData.GetValue(); }
+            set { _logData.SetValue(value, this); }
         }
 
         public ICommand NewFileCommand => _newFileCommand ?? (_newFileCommand = new RelayCommand(x => _editorsViewModel.NewFile()));
@@ -67,26 +68,15 @@ namespace FormGenerator
             _saveXamlCommand ??
             (_saveXamlCommand = new RelayCommand(x => _dataViewModel.SaveXaml()));
 
-        private void Exit(CancelEventArgs args)
+        public void SetLogging(bool loggingOn)
         {
-            if (_editorsViewModel.Editors.AnyUnSaved())
-            {
-                MessageBoxResult res = MessageBox.Show("There are unsaved changes, do you still want to exit?", "Unsaved content", MessageBoxButton.YesNo,
-                    MessageBoxImage.Exclamation);
-                if (res == MessageBoxResult.Yes && args == null)
-                    Application.Current.Shutdown();
-                else if (res == MessageBoxResult.No && args != null)
-                    args.Cancel = true;
-            }
-            else if (args == null)
-            {
-                Application.Current.Shutdown();
-            }
+            _wasLogging = DoLogging;
+            DoLogging = loggingOn;
         }
 
-        private static void Reload()
+        public void ResetLoggingToDefault()
         {
-            DataViewModel.Instance.Displayer.DisplayData(DataViewModel.Instance.Xaml);
+            DoLogging = _wasLogging;
         }
 
         /// <summary>
@@ -117,6 +107,28 @@ namespace FormGenerator
         public void Reset()
         {
             LogData = "";
+        }
+
+        private void Exit(CancelEventArgs args)
+        {
+            if (_editorsViewModel.Editors.AnyUnSaved())
+            {
+                MessageBoxResult res = MessageBox.Show("There are unsaved changes, do you still want to exit?", "Unsaved content", MessageBoxButton.YesNo,
+                    MessageBoxImage.Exclamation);
+                if (res == MessageBoxResult.Yes && args == null)
+                    Application.Current.Shutdown();
+                else if (res == MessageBoxResult.No && args != null)
+                    args.Cancel = true;
+            }
+            else if (args == null)
+            {
+                Application.Current.Shutdown();
+            }
+        }
+
+        private static void Reload()
+        {
+            DataViewModel.Instance.Displayer.DisplayData(DataViewModel.Instance.Xaml);
         }
     }
 }

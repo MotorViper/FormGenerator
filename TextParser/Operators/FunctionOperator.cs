@@ -106,7 +106,13 @@ namespace TextParser.Operators
                 IToken method = toParse;
                 foreach (TokenTree parameter in parameters)
                 {
-                    method = toParse.SubstituteParameters(parameter);
+                    TokenTree onlyGlobal = parameter.Clone();
+
+                    // Make sure that parameters relevant only to higher levels do not get passed through.
+                    int i = 1;
+                    while (onlyGlobal.Children.Remove(i.ToString())) ++i;
+
+                    method = toParse.SubstituteParameters(onlyGlobal);
                     if (method.Text != toParse.Text)
                         break;
                 }

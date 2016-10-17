@@ -3,3 +3,16 @@
 		ACModifier: 0
 	Small:
 		ACModifier: 2
+
+WeaponProficiency:
+	Simple: Club|Dagger|Dart|Gauntlet|Heavy Crossbow|Heavy Mace|Javelin|Light Crossbow|Light Mace|Longspear|Morningstar|Punching Dagger|Quarterstaff| -
+		Shortspear|Sickle|Sling|Spear|Spiked Gauntlet|Unarmed Strike
+
+ArmourProficiency:
+	None:
+	All: Light|Medium|Heavy
+
+ShieldProficiency:
+	None:
+	All: Buckler|Light|Heavy|Tower
+	Not Tower: Buckler|Light|Heavy

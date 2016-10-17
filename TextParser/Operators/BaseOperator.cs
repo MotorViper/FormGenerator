@@ -1,10 +1,13 @@
 ﻿using System;
+using Helpers;
 using TextParser.Tokens;
 
 namespace TextParser.Operators
 {
     public abstract class BaseOperator : IOperator
     {
+        private static readonly Lazy<ILogControl> s_control = IOCContainer.Instance.LazyResolve<ILogControl>();
+
         protected BaseOperator(string text)
         {
             Text = text;
@@ -12,6 +15,8 @@ namespace TextParser.Operators
 
         public virtual bool CanBeBinary => true;
         public virtual bool CanBeUnary => false;
+
+        protected ILogControl LogControl => s_control.Value;
 
         public virtual string Text { get; }
 

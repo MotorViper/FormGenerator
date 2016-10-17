@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using TextParser.Annotations;
 using TextParser.Tokens;
 
@@ -20,9 +21,12 @@ namespace TextParser
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public TokenTree FindValue(string value)
+        public bool Remove(string value)
         {
-            return this.FirstOrDefault(child => child.Value.Text == value);
+            TokenTree found = this.FirstOrDefault(child => child.Key.Text == value);
+            if (found != null)
+                Remove(found);
+            return found != null;
         }
 
         public TokenTreeList FindMatches(string key, bool all = false)
@@ -128,6 +132,20 @@ namespace TextParser
             TokenTreeList list = new TokenTreeList();
             list.AddRange(this.Select(tokenTree => tokenTree.SubstituteParameters(tree)));
             return list;
+        }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (TokenTree tokenTree in this)
+                sb.Append(tokenTree).Append(" ");
+            return sb.ToString();
         }
     }
 }
