@@ -8,6 +8,9 @@ using TextParser.Tokens;
 
 namespace TextParser
 {
+    /// <summary>
+    /// A list of TokenTree objects.
+    /// </summary>
     public class TokenTreeList : List<TokenTree>, INotifyPropertyChanged
     {
         public TokenTreeList()
@@ -58,7 +61,7 @@ namespace TextParser
                 }
                 else
                 {
-                    tokens = this.Where(child => child.Name == first).ToList();
+                    tokens = this.Where(child => child.Key.Contains(first)).ToList();
                     if (tokens.Count == 0)
                         tokens = this.Where(child => child.Name == "ALL").ToList();
                 }

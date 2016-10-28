@@ -5,27 +5,39 @@ using Helpers;
 
 namespace FormGenerator.ViewModels
 {
-    public class EditorsViewModel : ViewModel
+    /// <summary>
+    /// Interface for interaction with IOC.
+    /// </summary>
+    public interface IEditorsView
     {
-        private static readonly NotifyingProperty<Editor> s_selectedEditor = new NotifyingProperty<Editor>();
-        private static EditorList s_editors;
+        EditorList Editors { get; set; }
+        Editor SelectedEditor { get; set; }
+        void CloseFile();
+        void NewFile();
+        void OpenFile();
+        void SaveAllFiles();
+        void SaveFile();
+    }
+
+    public class EditorsViewModel : ViewModel, IEditorsView
+    {
+        private readonly NotifyingProperty<Editor> _selectedEditor = new NotifyingProperty<Editor>();
 
         public EditorsViewModel()
         {
-            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()) && s_editors == null)
-                s_editors = new EditorList();
+            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()) && Editors == null)
+            {
+                IOCContainer.Instance.Register<IEditorsView>(this);
+                Editors = new EditorList();
+            }
         }
 
-        public EditorList Editors
-        {
-            get { return s_editors; }
-            set { s_editors = value; }
-        }
+        public EditorList Editors { get; set; }
 
         public Editor SelectedEditor
         {
-            get { return s_selectedEditor.GetValue(); }
-            set { s_selectedEditor.SetValue(value, this); }
+            get { return _selectedEditor.GetValue(); }
+            set { _selectedEditor.SetValue(value, this); }
         }
 
         public void CloseFile()

@@ -9,6 +9,9 @@ using TextParser.Tokens;
 
 namespace VTTConsole
 {
+    /// <summary>
+    /// ViewModel for the console.
+    /// </summary>
     public class ConsoleViewModel : ViewModel
     {
         private readonly NotifyingProperty<bool> _commandEntered = new NotifyingProperty<bool>();
@@ -174,7 +177,7 @@ namespace VTTConsole
                 else
                 {
                     TokenTree tree = _parser.AddLine(new Line(input));
-                    UpdateOutput($"{tree.Key.Text}: {tree.Value.Evaluate(new TokenTreeList(Tree), false)}");
+                    UpdateOutput($"{tree.Key}: {tree.Value.Evaluate(new TokenTreeList(Tree), false)}");
                 }
                 Input = "";
                 UpdateHistory(input);
@@ -189,7 +192,7 @@ namespace VTTConsole
         private void InsertItem(string input)
         {
             TokenTree tree = Parser.ParseString(input);
-            UpdateOutput($"{tree.Key.Text}: {tree.Value.Evaluate(new TokenTreeList(Tree), false)}");
+            UpdateOutput($"{tree.Key}: {tree.Value.Evaluate(new TokenTreeList(Tree), false)}");
             Tree.Children.Add(tree);
         }
 

@@ -9,6 +9,9 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="MainWindow" Height="31cm" Width="22cm" Name="mc_mainWindow">
+    <Window.Resources>
+        <helpers:VisibilityConverter x:Key="VisibilityConverter" />
+    </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <helpers:EventToCommand Command="{Binding ExitCommand}" />
@@ -23,21 +26,26 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Save Xaml" Command="{Binding SaveXamlCommand}" />
-                <MenuItem Header="_Reload" Command="{Binding ReloadCommand}" />
-                <MenuItem Header="_Toggle Logging" IsCheckable="True" IsChecked="{Binding DoLogging}"/>
+            <MenuItem Header="_File"
+                      Visibility="{Binding SelectedIndex, ConverterParameter=0|2, Converter={StaticResource VisibilityConverter}, ElementName=mc_tabControl}">
+                <MenuItem Header="_Save Xaml" Command="{Binding SaveXamlCommand}"
+                          Visibility="{Binding SelectedIndex, ConverterParameter=0, Converter={StaticResource VisibilityConverter}, ElementName=mc_tabControl}" />
+                <MenuItem Header="_Reload" Command="{Binding ReloadCommand}"
+                          Visibility="{Binding SelectedIndex, ConverterParameter=0, Converter={StaticResource VisibilityConverter}, ElementName=mc_tabControl}" />
+                <MenuItem Header="_Toggle Logging" IsCheckable="True" IsChecked="{Binding DoLogging}" />
                 <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
             </MenuItem>
-            <MenuItem Header="_Editors">
+            <MenuItem Header="_File"
+                      Visibility="{Binding SelectedIndex, ConverterParameter=1, Converter={StaticResource VisibilityConverter}, ElementName=mc_tabControl}">
                 <MenuItem Header="_New" Command="{Binding NewFileCommand}" />
                 <MenuItem Header="_Open" Command="{Binding OpenFileCommand}" />
                 <MenuItem Header="_Save" Command="{Binding SaveFileCommand}" />
                 <MenuItem Header="Save _All" Command="{Binding SaveAllFilesCommand}" />
                 <MenuItem Header="_Close" Command="{Binding CloseFileCommand}" />
+                <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
             </MenuItem>
         </Menu>
-        <TabControl Grid.Row="1">
+        <TabControl x:Name="mc_tabControl" Grid.Row="1">
             <TabItem Header="Output">
                 <views:GeneratedView />
             </TabItem>
@@ -45,7 +53,7 @@
                 <views:EditorsView />
             </TabItem>
             <TabItem Header="Logging">
-                <TextBox Text="{Binding LogData}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
+                <TextBox Text="{Binding LogData}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
             </TabItem>
         </TabControl>
     </Grid>

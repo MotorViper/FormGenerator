@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Windows;
 using Helpers;
@@ -10,6 +9,9 @@ using TextParser.Tokens;
 
 namespace FormGenerator.Tools
 {
+    /// <summary>
+    /// Specifies the highlighting for VTT files.
+    /// </summary>
     public class VttHighlighter : IHighlighter
     {
         private static Dictionary<VttSection, VttTextOptions> s_options;
@@ -39,12 +41,8 @@ namespace FormGenerator.Tools
         {
             if (s_options == null)
             {
-                string optionsFile = ConfigurationManager.AppSettings.Get("OptionsFile");
-                if (optionsFile != null && !optionsFile.Contains(":"))
-                {
-                    string dataDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
-                    optionsFile = FileUtils.GetFullFileName(optionsFile, dataDirectory);
-                }
+                IInputData inputData = IOCContainer.Instance.Resolve<IInputData>();
+                string optionsFile = FileUtils.GetFullFileName(inputData.OptionsFile, inputData.DefaultDirectory);
 
                 if (File.Exists(optionsFile))
                 {

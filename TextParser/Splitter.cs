@@ -3,11 +3,14 @@ using Helpers;
 
 namespace TextParser
 {
+    /// <summary>
+    /// Splits the input line into a key and a value token.
+    /// </summary>
     public static class Splitter
     {
         public static TokenTree Split(string text, bool ignoreErrors = false)
         {
-            int pos = text.FirstNotInBlock(':');
+            int pos = text.FirstNotInBlock(':', new[] {'\'', '"', '^'});
             if (pos < 0)
             {
                 if (ignoreErrors)

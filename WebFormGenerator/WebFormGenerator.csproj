@@ -126,7 +126,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\GenericField.cs" />
-    <Compile Include="Models\IXamlTokenData.cs" />
+    <Compile Include="Models\IHtmlTokenData.cs" />
+    <Compile Include="Models\InputData.cs" />
     <Compile Include="Models\PregeneratedHtmlTokenData.cs" />
     <Compile Include="Models\Select.cs" />
     <Compile Include="Models\Field.cs" />

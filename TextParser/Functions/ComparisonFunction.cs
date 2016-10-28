@@ -4,6 +4,12 @@ using TextParser.Tokens;
 
 namespace TextParser.Functions
 {
+    /// <summary>
+    /// Function to do a comparison. Action depends on number of parameters:
+    /// 3: If first matches second then third is returned.
+    /// 4: If first matches second then third is returned otherwise null.
+    /// 5: If first less than second third is returned, if equal fourth is returned otherwise fifth is returned.
+    /// </summary>
     public class ComparisonFunction : BaseFunction
     {
         public const string ID = "COMP";
@@ -29,9 +35,19 @@ namespace TextParser.Functions
             if (first is ExpressionToken || second is ExpressionToken)
                 return UnParsed(listToken);
 
-            int comparison = (first is IntToken || first is DoubleToken) && (second is IntToken || second is DoubleToken)
-                ? first.Convert<double>().CompareTo(second.Convert<double>())
-                : first.Text.CompareTo(second.Text);
+            int comparison;
+            if (first is RegExToken)
+            {
+                if (count > 4)
+                    throw new Exception($"Must have 3 or 4 values for '{ID}': {listToken}");
+                comparison = first.Contains(second.Text) ? 0 : 1;
+            }
+            else
+            {
+                comparison = (first is IntToken || first is DoubleToken) && (second is IntToken || second is DoubleToken)
+                    ? first.Convert<double>().CompareTo(second.Convert<double>())
+                    : first.Text.CompareTo(second.Text);
+            }
 
             switch (count)
             {

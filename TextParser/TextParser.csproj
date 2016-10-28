@@ -50,6 +50,7 @@
     <Compile Include="Functions\DoubleFunction.cs" />
     <Compile Include="Functions\IntFunction.cs" />
     <Compile Include="Functions\OrFunction.cs" />
+    <Compile Include="Functions\RegexFunction.cs" />
     <Compile Include="Functions\ReverseFunction.cs" />
     <Compile Include="Functions\RangeFunction.cs" />
     <Compile Include="Functions\IfFunction.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Functions\IFunction.cs" />
     <Compile Include="Functions\OverFunction.cs" />
     <Compile Include="Functions\SumFunction.cs" />
+    <Compile Include="IInputData.cs" />
     <Compile Include="ReaderOptions.cs" />
     <Compile Include="Operators\IOperator.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Tokens\ListToken.cs" />
     <Compile Include="Tokens\NewLineToken.cs" />
     <Compile Include="Tokens\NullToken.cs" />
+    <Compile Include="Tokens\RegExToken.cs" />
     <Compile Include="Tokens\TokenType.cs" />
     <Compile Include="TokenTree.cs" />
     <Compile Include="Operators\DivideOperator.cs" />

@@ -4,6 +4,9 @@ using TextParser.Tokens;
 
 namespace TextParser.Functions
 {
+    /// <summary>
+    /// Converts a number of tokens into a single list that can be iterated over.
+    /// </summary>
     public class OverFunction : BaseFunction
     {
         public const string ID = "OVER";
@@ -38,7 +41,7 @@ namespace TextParser.Functions
                 foreach (IToken item in list.Tokens)
                 {
                     TokenTree tree = new TokenTree();
-                    tree.Children.Add(new TokenTree(iterand, item));
+                    tree.Children.Add(new TokenTree(iterand.Text, item));
                     IToken toCall = method.SubstituteParameters(tree);
 
                     IToken parsed = toCall.Evaluate(parameters, isFinal);

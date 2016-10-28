@@ -3,6 +3,7 @@ using FormGenerator.Models;
 using FormGenerator.Tools;
 using Generator;
 using Helpers;
+using TextParser;
 
 namespace FormGenerator
 {
@@ -35,6 +36,8 @@ namespace FormGenerator
             //ioc.Register<IXamlTokenData, PregeneratedXamlTokenData>();
 
             ioc.Register<IFieldWriter, StringFieldWriter<GenericField>>().AsSingleton();
+
+            ioc.Register<IInputData, InputData>().AsSingleton();
 
             InitializeComponent();
         }

@@ -1,13 +1,5 @@
 Replacements:
-	HorizontalContentAlignment:
-		Centre: Center
-	VerticalContentAlignment:
-		Centre: Center
-	HorizontalAlignment:
-		Centre: Center
-	VerticalAlignment:
-		Centre: Center
-	TextAlign:
+	^R:'*Alignment'^|TextAlign:
 		Centre: Center
 
 Highlighting:

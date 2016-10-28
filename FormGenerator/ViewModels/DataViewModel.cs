@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -17,10 +16,9 @@ namespace FormGenerator.ViewModels
     {
         private readonly IXamlTokenData _data = IOCContainer.Instance.Resolve<IXamlTokenData>();
         private readonly string _dataName;
-        private readonly NotifyingProperty<string> _selected = new NotifyingProperty<string>();
+        private readonly IInputData _inputData = IOCContainer.Instance.Resolve<IInputData>();
         private readonly Lazy<ILogging> _logger = IOCContainer.Instance.LazyResolve<ILogging>();
-
-        private ILogging Logger => _logger.Value;
+        private readonly NotifyingProperty<string> _selected = new NotifyingProperty<string>();
 
         /// <summary>
         /// Constructor.
@@ -31,11 +29,11 @@ namespace FormGenerator.ViewModels
             {
                 try
                 {
-                    _dataName = ConfigurationManager.AppSettings.Get("DataName");
+                    _dataName = _inputData.DataName;
                     if (!_data.HasMainData)
                     {
-                        _data.DefaultDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
-                        _data.MainDataFile = ConfigurationManager.AppSettings.Get("DataFile");
+                        _data.DefaultDirectory = _inputData.DefaultDirectory;
+                        _data.MainDataFile = _inputData.MainDataFile;
                     }
                     Keys = new List<string>();
                     foreach (TokenTree child in _data.MainData.Children)
@@ -65,6 +63,8 @@ namespace FormGenerator.ViewModels
         /// The names of the items that can be selected to display.
         /// </summary>
         public List<string> Keys { get; }
+
+        private ILogging Logger => _logger.Value;
 
         // ReSharper disable once UnusedMember.Global - used in View.
         /// <summary>
@@ -105,10 +105,18 @@ namespace FormGenerator.ViewModels
         {
             get
             {
-                _data.DefaultDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
-                _data.StaticDataFile = ConfigurationManager.AppSettings.Get("StaticData");
+                _data.DefaultDirectory = _inputData.DefaultDirectory;
+                _data.StaticDataFile = _inputData.StaticDataFile;
                 return _data.Xaml;
             }
+        }
+
+        /// <summary>
+        /// Causes the displayed data to be invalidated which will cause a refresh.
+        /// </summary>
+        public void InvalidateData()
+        {
+            _data.Invalidate();
         }
 
         /// <summary>

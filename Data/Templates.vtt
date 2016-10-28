@@ -45,10 +45,8 @@ LabelWithLabelUnder: Grid
 	Style: ShiftRight
 	Rows: 3
 	Field: Label
-		Style: Left
+		Style: LabelAbove
 		Content: $$1
-		Height: 25
-		Margin: '0,-3,0,0'
 	Field: UnderLine
 	Field: Label
 		Style: LabelUnderLeft

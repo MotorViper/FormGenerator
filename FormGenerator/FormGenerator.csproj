@@ -61,6 +61,7 @@
     </ApplicationDefinition>
     <Compile Include="Fields\GenericField.cs" />
     <Compile Include="Fields\TabItem.cs" />
+    <Compile Include="Models\InputData.cs" />
     <Compile Include="Models\IXamlTokenData.cs" />
     <Compile Include="Models\PregeneratedXamlTokenData.cs" />
     <Compile Include="Models\TokenData.cs" />

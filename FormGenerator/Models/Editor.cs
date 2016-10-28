@@ -4,11 +4,13 @@ using Microsoft.Win32;
 
 namespace FormGenerator.Models
 {
+    /// <summary>
+    /// ViewModel representing an editor.
+    /// </summary>
     public class Editor : ViewModel
     {
         private readonly NotifyingProperty<string> _fileName = new NotifyingProperty<string>();
         private readonly NotifyingProperty<string> _fileText = new NotifyingProperty<string>();
-        private readonly NotifyingProperty<bool> _isCurrent = new NotifyingProperty<bool>();
 
         private string _path;
 
@@ -18,7 +20,6 @@ namespace FormGenerator.Models
             _path = null;
             FileText = "";
             IsSaved = true;
-            IsCurrent = true;
         }
 
         public Editor(string path)
@@ -27,7 +28,6 @@ namespace FormGenerator.Models
             _path = path;
             FileText = File.ReadAllText(path);
             IsSaved = true;
-            IsCurrent = true;
         }
 
         public string FileName
@@ -44,12 +44,6 @@ namespace FormGenerator.Models
                 IsSaved = false;
                 _fileText.SetValue(value, this);
             }
-        }
-
-        public bool IsCurrent
-        {
-            get { return _isCurrent.GetValue(); }
-            set { _isCurrent.SetValue(value, this); }
         }
 
         public bool IsSaved { get; private set; }

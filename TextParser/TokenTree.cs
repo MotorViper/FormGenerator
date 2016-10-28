@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using Helpers;
@@ -7,6 +6,9 @@ using TextParser.Tokens;
 
 namespace TextParser
 {
+    /// <summary>
+    /// Tree representing an expression.
+    /// </summary>
     public class TokenTree
     {
         private static bool s_initialising;
@@ -69,21 +71,19 @@ namespace TextParser
         public string Name => Key.Text;
         public IToken Value { get; set; }
 
-        private void Initialise()
+        private static void Initialise()
         {
             if (s_replacements == null)
             {
                 s_initialising = true;
                 s_replacements = new TokenTree();
-                string optionsFile = ConfigurationManager.AppSettings.Get("OptionsFile");
-                if (optionsFile != null && !optionsFile.Contains(":"))
+                IInputData inputData = IOCContainer.Instance.Resolve<IInputData>();
+                if (inputData != null)
                 {
-                    string dataDirectory = ConfigurationManager.AppSettings.Get("DataDirectory");
-                    optionsFile = FileUtils.GetFullFileName(optionsFile, dataDirectory);
+                    string optionsFile = FileUtils.GetFullFileName(inputData.OptionsFile, inputData.DefaultDirectory);
+                    if (File.Exists(optionsFile))
+                        s_replacements = Parser.Parse(new StreamReader(optionsFile)).FindFirst("Replacements") ?? new TokenTree();
                 }
-
-                if (File.Exists(optionsFile))
-                    s_replacements = Parser.Parse(new StreamReader(optionsFile)).FindFirst("Replacements") ?? new TokenTree();
                 s_initialising = false;
             }
         }
@@ -93,9 +93,12 @@ namespace TextParser
             if (!s_initialising)
             {
                 Initialise();
-                string replacement = string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(value) ? null : s_replacements[$"{key}.{value}"];
-                if (!string.IsNullOrWhiteSpace(replacement))
-                    return replacement;
+                if (s_replacements.Children.Count > 0)
+                {
+                    string replacement = string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(value) ? null : s_replacements[$"{key}.{value}"];
+                    if (!string.IsNullOrWhiteSpace(replacement))
+                        return replacement;
+                }
             }
             return value;
         }

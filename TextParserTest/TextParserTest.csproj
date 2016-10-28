@@ -61,6 +61,7 @@
     <Compile Include="SplitterTests.cs" />
     <Compile Include="TokenGeneratorTests.cs" />
     <Compile Include="ParserTests.cs" />
+    <Compile Include="TokenTreeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FormGenerator\FormGenerator.csproj">

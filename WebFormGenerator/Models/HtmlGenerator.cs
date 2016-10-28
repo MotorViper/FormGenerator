@@ -38,7 +38,7 @@ namespace WebFormGenerator.Models
             values.SetParameters(parameters);
 
             TokenTreeList fields = data.GetAll("Fields");
-            TokenTreeList styles = fields.FindMatches("Style", true);
+            TokenTreeList styles = data.GetAll("Styles").FindMatches("Style", true);
             AddStyles(styles, parameters);
             foreach (TokenTree field in fields.SelectMany(child => child.Children).Where(x => x.Name == "Field"))
                 _sb.AddElement(field, 0, parameters, values, keys);

@@ -40,6 +40,10 @@ BorderedLabel: Label
 LabelUnder: Label
 	Margin: '0,-6,0,0'
 	FontSize: 8
+LabelAbove: Label
+	BasedOn: Left
+	Height: 25
+	Margin: '0,-3,0,0'
 LabelUnderLeft: Label
 	BasedOn: LabelUnder
 	HorizontalAlignment: Left
@@ -56,3 +60,5 @@ SkillEntry: Label
 	FontSize: 9
 	Padding: 3,0
 	HorizontalAlignment: Centre
+Select: ComboBox
+	VerticalAlignment: Top

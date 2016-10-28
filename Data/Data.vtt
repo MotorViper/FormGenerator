@@ -1,11 +1,11 @@
-﻿#include Parameters.vtt Parameters
+﻿#include Templates.vtt Parameters
 #IF XML
 #include Screens.vtt Fields
 #include Styles.vtt Styles
 #FI
 #IF HTML
 #include Fields.vtt Fields
-#include HTMLStyles.vtt Fields
+#include HTMLStyles.vtt Styles
 #FI
 #include Defaults.vtt Parameters Defaults
 #include Weapons.vtt Parameters Weapons

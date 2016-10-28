@@ -23,8 +23,7 @@
             <TabControl.ContentTemplate>
                 <DataTemplate>
                     <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                    <helpers:HighlightingTextBox Text="{Binding Path=FileText, Mode=TwoWay, Delay=500, UpdateSourceTrigger=PropertyChanged}"
-                             helpers:FocusExtension.IsFocused="{Binding IsCurrent}" />
+                    <helpers:HighlightingTextBox Text="{Binding Path=FileText, Mode=TwoWay, Delay=500, UpdateSourceTrigger=PropertyChanged}" />
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>

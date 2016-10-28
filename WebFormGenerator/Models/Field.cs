@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using Generator;
 
 namespace WebFormGenerator.Models
@@ -61,6 +62,9 @@ namespace WebFormGenerator.Models
         /// <param name="properties">The properties to loop over.</param>
         protected override void OutputProperties(Dictionary<string, string> properties)
         {
+            // Html6 uses style attributes rather than direct attributes.
+            StringBuilder sb = new StringBuilder("style=\"");
+            bool outputStyle = false;
             foreach (var property in properties)
             {
                 switch (property.Key)
@@ -73,10 +77,13 @@ namespace WebFormGenerator.Models
                         OutputProperty("class", property.Value);
                         break;
                     default:
-                        OutputProperty(property.Key, property.Value);
+                        sb.Append(property.Key.ToLower()).Append(":").Append(property.Value).Append("; ");
+                        outputStyle = true;
                         break;
                 }
             }
+            if (outputStyle)
+                Builder.Append(sb).Append("\"");
         }
 
         /// <summary>

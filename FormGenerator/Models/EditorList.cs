@@ -5,6 +5,9 @@ using Microsoft.Win32;
 
 namespace FormGenerator.Models
 {
+    /// <summary>
+    /// List of editors currently open.
+    /// </summary>
     public class EditorList : ObservableCollection<Editor>
     {
         public bool AnyUnSaved()
@@ -51,7 +54,22 @@ namespace FormGenerator.Models
             if (o.ShowDialog() == true)
             {
                 Editor editor = new Editor(o.FileName);
-                Add(editor);
+                string fileName = editor.FileName;
+                Editor found = Items.FirstOrDefault(item => item.FileName == fileName);
+                if (found == null)
+                {
+                    Add(editor);
+                }
+                else if (MessageBox.Show("Do you wish to reload the data?", "File Open", MessageBoxButton.YesNo, MessageBoxImage.Question) ==
+                         MessageBoxResult.Yes)
+                {
+                    Remove(found);
+                    Add(editor);
+                }
+                else
+                {
+                    editor = found;
+                }
                 return editor;
             }
             return null;

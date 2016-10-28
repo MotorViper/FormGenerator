@@ -4,6 +4,9 @@ using TextParser.Tokens;
 
 namespace TextParser.Operators
 {
+    /// <summary>
+    /// Runs a function on its parameters.
+    /// </summary>
     public class FunctionOperator : BaseOperator
     {
         private IFunction _function;
@@ -73,6 +76,9 @@ namespace TextParser.Operators
                     case RangeFunction.ID:
                         _function = new RangeFunction();
                         break;
+                    case RegexFunction.ID:
+                        _function = new RegexFunction();
+                        break;
                     case ReverseFunction.ID:
                         _function = new ReverseFunction();
                         break;
@@ -80,8 +86,10 @@ namespace TextParser.Operators
                         _function = new UserFunction();
                         break;
                     default:
-                        ListToken newList = new ListToken();
-                        newList.Add(new ExpressionToken(null, new SubstitutionOperator(), new StringToken(function)));
+                        ListToken newList = new ListToken
+                        {
+                            new ExpressionToken(null, new SubstitutionOperator(), new StringToken(function))
+                        };
                         ListToken oldList = last.Evaluate(parameters, isFinal) as ListToken;
                         if (oldList != null)
                         {

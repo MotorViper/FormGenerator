@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Helpers;
+using TextParser;
 
 namespace WebFormGenerator.Models
 {
@@ -15,12 +16,17 @@ namespace WebFormGenerator.Models
         /// <param name="directory">The default directory for files.</param>
         /// <param name="file">The main data file name.</param>
         /// <param name="staticDataFile">The static data file name.</param>
-        public LoadData(string dataName, string directory, string file, string staticDataFile)
+        /// <param name="optionsFile">File containing parser and other options.</param>
+        public LoadData(string dataName, string directory, string file, string staticDataFile, string optionsFile)
         {
+            InputData data = new InputData(dataName, directory, file, staticDataFile, optionsFile);
+            IOCContainer.Instance.Register<IInputData>(data);
+
             DataName = dataName;
             Directory = directory;
             File = file;
             StaticDataFile = staticDataFile;
+            OptionsFile = optionsFile;
             _data.DefaultDirectory = directory;
             _data.MainDataFile = file;
             _data.StaticDataFile = staticDataFile;
@@ -50,6 +56,13 @@ namespace WebFormGenerator.Models
         /// </summary>
         [DefaultValue("Characters.vtt")]
         public string File { get; set; }
+
+        /// <summary>
+        /// The options data file name.
+        /// </summary>
+        [Display(Name = "Options File")]
+        [DefaultValue("Options.vtt")]
+        public string OptionsFile { get; set; }
 
         /// <summary>
         /// The static data file name.

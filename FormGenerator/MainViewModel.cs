@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using FormGenerator.ViewModels;
@@ -10,7 +11,7 @@ namespace FormGenerator
     {
         private readonly DataViewModel _dataViewModel = new DataViewModel();
         private readonly NotifyingProperty<bool> _doLogging = new NotifyingProperty<bool>();
-        private readonly EditorsViewModel _editorsViewModel = new EditorsViewModel();
+        private readonly Lazy<IEditorsView> _editorsViewModel = IOCContainer.Instance.LazyResolve<IEditorsView>();
         private readonly NotifyingProperty<string> _logData = new NotifyingProperty<string>();
 
         private ICommand _closeFileCommand;
@@ -32,7 +33,7 @@ namespace FormGenerator
 
         public ICommand CloseFileCommand
         {
-            get { return _closeFileCommand ?? (_closeFileCommand = new RelayCommand(x => _editorsViewModel.CloseFile())); }
+            get { return _closeFileCommand ?? (_closeFileCommand = new RelayCommand(x => EditorsView.CloseFile())); }
         }
 
         public bool DoLogging
@@ -40,6 +41,11 @@ namespace FormGenerator
             get { return _doLogging.GetValue(); }
             set { _doLogging.SetValue(value, this); }
         }
+
+        /// <summary>
+        /// Interface to editors view.
+        /// </summary>
+        private IEditorsView EditorsView => _editorsViewModel.Value;
 
         public ICommand ExitCommand
         {
@@ -52,17 +58,17 @@ namespace FormGenerator
             set { _logData.SetValue(value, this); }
         }
 
-        public ICommand NewFileCommand => _newFileCommand ?? (_newFileCommand = new RelayCommand(x => _editorsViewModel.NewFile()));
-        public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new RelayCommand(x => _editorsViewModel.OpenFile()));
+        public ICommand NewFileCommand => _newFileCommand ?? (_newFileCommand = new RelayCommand(x => EditorsView.NewFile()));
+        public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new RelayCommand(x => EditorsView.OpenFile()));
         public ICommand ReloadCommand => _reloadCommand ?? (_reloadCommand = new RelayCommand(x => Reload()));
 
         public ICommand SaveAllFilesCommand =>
             _saveAllFilesCommand ??
-            (_saveAllFilesCommand = new RelayCommand(x => _editorsViewModel.SaveAllFiles(), x => _editorsViewModel.Editors.AnyUnSaved()));
+            (_saveAllFilesCommand = new RelayCommand(x => EditorsView.SaveAllFiles(), x => EditorsView.Editors.AnyUnSaved()));
 
         public ICommand SaveFileCommand =>
             _saveFileCommand ??
-            (_saveFileCommand = new RelayCommand(x => _editorsViewModel.SaveFile(), x => !(_editorsViewModel.SelectedEditor?.IsSaved ?? true)));
+            (_saveFileCommand = new RelayCommand(x => EditorsView.SaveFile(), x => !(EditorsView.SelectedEditor?.IsSaved ?? true)));
 
         public ICommand SaveXamlCommand =>
             _saveXamlCommand ??
@@ -111,7 +117,7 @@ namespace FormGenerator
 
         private void Exit(CancelEventArgs args)
         {
-            if (_editorsViewModel.Editors.AnyUnSaved())
+            if (EditorsView.Editors.AnyUnSaved())
             {
                 MessageBoxResult res = MessageBox.Show("There are unsaved changes, do you still want to exit?", "Unsaved content", MessageBoxButton.YesNo,
                     MessageBoxImage.Exclamation);
@@ -128,7 +134,10 @@ namespace FormGenerator
 
         private static void Reload()
         {
+            string current = DataViewModel.Instance.Selected;
+            DataViewModel.Instance.InvalidateData();
             DataViewModel.Instance.Displayer.DisplayData(DataViewModel.Instance.Xaml);
+            DataViewModel.Instance.Selected = current;
         }
     }
 }

@@ -21,6 +21,16 @@
         }
 
         /// <summary>
+        /// Whether the token contains the input text.
+        /// </summary>
+        /// <param name="text">The input text.</param>
+        /// <returns>True if the current token contains the input text.</returns>
+        public virtual bool Contains(string text)
+        {
+            return Text == text;
+        }
+
+        /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
         /// <returns>

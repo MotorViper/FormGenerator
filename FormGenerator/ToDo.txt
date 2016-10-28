@@ -3,14 +3,11 @@
 	Provide code to convert token data to classes?
 
 Gui:
-	Check if data needs saving on exit.
 	Improve syntax colouring.
 	Add more configuration - tab stops etc.
-	Add ability to include resources from a file.
 	Allow multiple base level fields.
-	Replace Parameters.vtt with macros (TokenTreeElement).
-	Go to editor when file loaded.
-	Add ability to reload screen.
+	Add ability to save GUI updates.
+	Replace Templates.vtt with macros (TokenTreeElement), may not be possible with WPF ControlTemplates.
 
 Generator:
 
@@ -18,4 +15,8 @@ Console:
 	Make work more like reading a file.
 
 WebForm:
+	Add ability to include resources from a file.
+	Move properties into style.
+	alignment, border conversions.
+	* width.
 	Loads to do.

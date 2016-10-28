@@ -7,6 +7,9 @@ using TextParser.Tokens;
 
 namespace TextParser
 {
+    /// <summary>
+    /// Parses a string and converts it into tokens.
+    /// </summary>
     public static class TokenGenerator
     {
         private static readonly Dictionary<string, Func<string[], int, Action<IToken, int, string>, IToken>> s_tokens =
@@ -102,7 +105,11 @@ namespace TextParser
             if (string.IsNullOrWhiteSpace(text))
                 return new NullToken();
 
-            List<string> blocks = text.SplitIntoBlocks(new[] {'\'', '\'', '"', '"', '{', '}', '(', ')'}, true, StringUtils.DelimiterInclude.IncludeSeparately);
+            if (text.StartsWith("'") && text.IndexOf('\'', 1) <= 0)
+                return new StringToken(text.Substring(1));
+
+            List<string> blocks = text.SplitIntoBlocks(new[] {'\'', '\'', '"', '"', '^', '^', '{', '}', '(', ')'}, true,
+                StringUtils.DelimiterInclude.IncludeSeparately);
 
             string simplifed = "";
             List<IToken> subResults = new List<IToken>();
@@ -112,30 +119,33 @@ namespace TextParser
             {
                 string start = blocks[i];
                 string entry = blocks[i + 1];
-                IToken subResult;
+                IToken subResult = null;
                 switch (start)
                 {
                     case "\"":
                     case "'":
                         subResult = new StringToken(entry);
                         callback?.Invoke(subResult, currentPosition, "'" + entry + "'");
-                        simplifed += $"█{subResults.Count}█";
-                        subResults.Add(subResult);
+                        break;
+                    case "^":
+                        subResult = Parse(entry);
+                        callback?.Invoke(subResult, currentPosition, "'" + entry + "'");
                         break;
                     case "{":
                         subResult = new ExpressionToken(null, new SubstitutionOperator(), Parse(entry));
                         callback?.Invoke(subResult, currentPosition, "{" + entry + "}");
-                        simplifed += $"█{subResults.Count}█";
-                        subResults.Add(subResult);
                         break;
                     case "(":
                         subResult = Parse(entry, currentPosition + 1, callback);
-                        simplifed += $"█{subResults.Count}█";
-                        subResults.Add(subResult);
                         break;
                     default:
                         simplifed += entry;
                         break;
+                }
+                if (subResult != null)
+                {
+                    simplifed += $"█{subResults.Count}█";
+                    subResults.Add(subResult);
                 }
                 if (callback != null)
                     currentPosition += start.Length + entry.Length + blocks[i + 2].Length;

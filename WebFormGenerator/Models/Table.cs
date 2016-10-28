@@ -27,11 +27,19 @@ namespace WebFormGenerator.Models
         /// </summary>
         protected override void AddChildren()
         {
+            GridData positions = new GridData(Element.Properties, "10");
+            List<string> columns = positions.Columns;
             List<IElement> fields = Element.Children.ToList();
             Builder.Append("<tr>").AppendLine();
+            int i = 0;
             foreach (IElement child in fields)
             {
+                string columnData = columns[i];
                 IElement header = child.Properties.FindChild("Header");
+                if (columnData != "Auto")
+                    Builder.Append("<th style=\"width: ").Append(columnData).Append("px\">").AppendLine();
+                else
+                    Builder.Append("<th>").AppendLine();
                 if (header != null)
                 {
                     if (header.Properties.Count == 0)
@@ -42,26 +50,27 @@ namespace WebFormGenerator.Models
                     }
                     if (string.IsNullOrWhiteSpace(header.ElementType))
                         header.ElementType = "Label";
-                    Builder.Append("<th>").AppendLine();
                     AddElement(header, Level + 1, this);
-                    Builder.Append("</th>").AppendLine();
                 }
+                Builder.Append("</th>").AppendLine();
+                ++i;
             }
             Builder.Append("</tr>").AppendLine();
             IList<IProperty> over = Element.Properties.Find("Content");
             if (over == null || over.Count == 0)
                 throw new Exception("Tried to create table with no Content.");
-            if (over.Count == 1)
-            {
-                IPropertyList items = Element.Parameters.GetList(over[0].StringValue);
-                foreach (IProperty item in items)
-                    AddRow(fields, item.StringValue);
-            }
-            else
-            {
-                foreach (IProperty item in over)
-                    AddRow(fields, item.StringValue);
-            }
+            AddRows(fields, over.Count == 1 ? Element.Parameters.GetList(over[0].StringValue) : (IEnumerable<IProperty>)over);
+        }
+
+        /// <summary>
+        /// Adds the rows of the table.
+        /// </summary>
+        /// <param name="fields">The fields that will be displayed.</param>
+        /// <param name="rows">The rows to output.</param>
+        private void AddRows(IReadOnlyCollection<IElement> fields, IEnumerable<IProperty> rows)
+        {
+            foreach (IProperty item in rows)
+                AddRow(fields, item.StringValue);
         }
 
         /// <summary>
@@ -69,7 +78,7 @@ namespace WebFormGenerator.Models
         /// </summary>
         /// <param name="fields">The fields that will be displayed.</param>
         /// <param name="item">The selected item.</param>
-        private void AddRow(List<IElement> fields, string item)
+        private void AddRow(IEnumerable<IElement> fields, string item)
         {
             IParameters parameters = Element.Parameters.Add(new SimpleProperty("1", item));
             Builder.Append("<tr>").AppendLine();

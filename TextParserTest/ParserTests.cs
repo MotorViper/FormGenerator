@@ -7,6 +7,9 @@ using TextParser.Tokens;
 
 namespace TextParserTest
 {
+    /// <summary>
+    /// Tests for the Parser class.
+    /// </summary>
     [TestClass]
     public class ParserTests
     {
@@ -31,7 +34,7 @@ Field: Grid
             string text = @"a: b --
   c";
             TokenTree tokenTree = Parser.ParseString(text);
-            Assert.AreEqual("a", tokenTree.Key.Text);
+            Assert.AreEqual("a", tokenTree.Key);
             Assert.AreEqual(@"b
   c", tokenTree.Value.Text);
         }

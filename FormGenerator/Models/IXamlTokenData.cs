@@ -11,5 +11,10 @@ namespace FormGenerator.Models
         /// The xaml string that will be displayed.
         /// </summary>
         string Xaml { get; }
+
+        /// <summary>
+        /// Invalidate the data so that it will be reloaded.
+        /// </summary>
+        void Invalidate();
     }
 }
