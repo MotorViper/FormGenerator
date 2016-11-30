@@ -11,6 +11,10 @@ namespace TextParser.Operators
     {
         private IFunction _function;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="function">The function object if known.</param>
         public FunctionOperator(IFunction function = null) : base(":")
         {
             _function = function;
@@ -61,11 +65,8 @@ namespace TextParser.Operators
                     case IntFunction.ID:
                         _function = new IntFunction();
                         break;
-                    case SplitFunction.ID:
-                        _function = new SplitFunction();
-                        break;
-                    case SumFunction.ID:
-                        _function = new SumFunction();
+                    case JoinFunction.ID:
+                        _function = new JoinFunction();
                         break;
                     case OrFunction.ID:
                         _function = new OrFunction();
@@ -81,6 +82,12 @@ namespace TextParser.Operators
                         break;
                     case ReverseFunction.ID:
                         _function = new ReverseFunction();
+                        break;
+                    case SplitFunction.ID:
+                        _function = new SplitFunction();
+                        break;
+                    case SumFunction.ID:
+                        _function = new SumFunction();
                         break;
                     case UserFunction.ID:
                         _function = new UserFunction();
@@ -108,35 +115,57 @@ namespace TextParser.Operators
             IToken parameterList;
             if (isFinal && _function is UserFunction)
             {
-                ListToken list = new ListToken();
-                ListToken toAdd = (ListToken)last;
-                IToken toParse = toAdd.Tokens[0];
-                IToken method = toParse;
-                foreach (TokenTree parameter in parameters)
-                {
-                    TokenTree onlyGlobal = parameter.Clone();
-
-                    // Make sure that parameters relevant only to higher levels do not get passed through.
-                    int i = 1;
-                    while (onlyGlobal.Children.Remove(i.ToString())) ++i;
-
-                    method = toParse.SubstituteParameters(onlyGlobal);
-                    if (method.Text != toParse.Text)
-                        break;
-                }
-                list.Tokens.Add(method);
-                for (int i = 1; i < toAdd.Tokens.Count; ++i)
-                    list.Tokens.Add(toAdd.Tokens[i].Evaluate(parameters, !_function.FinalCanBeExpression));
-                parameterList = list;
+                parameterList = PrepareUserFunction(last, parameters);
+            }
+            else if (_function.IsComparisonFunction)
+            {
+                parameterList = last.EvaluateList();
             }
             else
             {
                 parameterList = last.Evaluate(parameters, !_function.FinalCanBeExpression && isFinal);
-                if (parameterList is ExpressionToken)
-                    return new ExpressionToken(null, new FunctionOperator(_function), parameterList);
+                ExpressionToken expression = parameterList as ExpressionToken;
+                if (expression != null)
+                {
+                    if (isFinal)
+                    {
+                        IToken substitute = _function.ValueIfFinalValueIsExpression(expression);
+                        if (substitute is NullToken)
+                            return new ExpressionToken(null, new FunctionOperator(_function), parameterList);
+                        parameterList = substitute;
+                    }
+                    else
+                    {
+                        return new ExpressionToken(null, new FunctionOperator(_function), parameterList);
+                    }
+                }
             }
 
             return _function.Perform(parameterList, parameters, isFinal);
+        }
+
+        private IToken PrepareUserFunction(IToken last, TokenTreeList parameters)
+        {
+            ListToken list = new ListToken();
+            ListToken toAdd = (ListToken)last;
+            IToken toParse = toAdd.Tokens[0];
+            IToken method = toParse;
+            foreach (TokenTree parameter in parameters)
+            {
+                TokenTree onlyGlobal = parameter.Clone();
+
+                // Make sure that parameters relevant only to higher levels do not get passed through.
+                int i = 1;
+                while (onlyGlobal.Children.Remove(i.ToString())) ++i;
+
+                method = toParse.SubstituteParameters(onlyGlobal);
+                if (method.Text != toParse.Text)
+                    break;
+            }
+            list.Tokens.Add(method);
+            for (int i = 1; i < toAdd.Tokens.Count; ++i)
+                list.Tokens.Add(toAdd.Tokens[i].Evaluate(parameters, !_function.FinalCanBeExpression));
+            return list;
         }
     }
 }

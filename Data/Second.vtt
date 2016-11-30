@@ -2,3 +2,12 @@ Field: Grid
 	Style: Fill
 	Height: 29.7cm
 	Width: 21cm
+	Rows: 2
+	Field: TextBox
+		Height: 300
+		Width: 600
+		Content: $Features
+	Field: TextBox
+		Height: 300
+		Width: 600
+		Content: $Feats

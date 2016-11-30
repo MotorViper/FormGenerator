@@ -4,10 +4,19 @@ using TextParser.Operators;
 
 namespace TextParser.Tokens
 {
+    /// <summary>
+    /// Token representing an expression.
+    /// </summary>
     public class ExpressionToken : BaseToken
     {
         private readonly Lazy<ILogging> _logger = IOCContainer.Instance.LazyResolve<ILogging>();
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="first">First element of expression.</param>
+        /// <param name="op">Expression operator.</param>
+        /// <param name="second">Second element of expression.</param>
         public ExpressionToken(IToken first, IOperator op, IToken second = null)
         {
             First = first;
@@ -68,6 +77,15 @@ namespace TextParser.Tokens
             IToken result = Operator.Evaluate(First, Second, parameters, isFinal);
             Logger?.LogMessage($"{this} -> {result}", "Evaluate");
             return result;
+        }
+
+        /// <summary>
+        /// Converts the token to a list of tokens if possible and required.
+        /// </summary>
+        /// <returns>The list of tokens or the original token.</returns>
+        public override IToken EvaluateList()
+        {
+            return Operator.EvaluateList(this);
         }
 
         public override IToken SubstituteParameters(TokenTree parameters)

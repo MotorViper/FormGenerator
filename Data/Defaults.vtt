@@ -32,7 +32,7 @@ Character:
 	WisModifier: AttributeModifier: Wisdom
 	IntModifier: AttributeModifier: Intelligence
 	ChaModifier: AttributeModifier: Charisma
-	ClassList: AGG:{Level.Class}
+	ClassList: JOIN:(OVER:(AGG:{Level.Class}|cl|{cl}#0 + "(" + {cl}#1 + ")")|'/')
 	HP: SUM:$Level.HP
 	ArmourBonus: {Armour.{Armour}.ACBonus}
 	ShieldBonus: 0
@@ -45,7 +45,8 @@ Character:
 	NaturalArmour: {Races.{Race}.ACBonus}
 	DeflectionModifier: 0
 	MiscACModifier: 0
-	GetLevelField: INT:SPLIT:{Classes.{3}.LevelInformation.{1}}#{2}
+	InfoAtLevel: SPLIT:({Classes.{1}.LevelInformation.{2}}|' '|(COMP:({Classes.{1}.LevelType}|MagicUser|15|5)))
+	GetLevelField: INT:InfoAtLevel:({3}|{1})#{2}
 	BABThrow: SUM:OVER:({Classes.ALL.NAME}|cl|GetLevelField:(COUNT:{Level.Class={cl}}|0|{cl}))
 	SavingThrow: SUM:OVER:({Classes.ALL.NAME}|cl|GetLevelField:(COUNT:{Level.Class={cl}}|{1}|{cl}))
 	FortitudeBase: SavingThrow: 1
@@ -68,6 +69,18 @@ Character:
 	SkillPoints: SUM:{Level.Skills.{1}}
 	SkillModifier: {{Skills.{1}.Key}Modifier}
 	CanUseSkill : OR:(IF:({Skills.{1}.TrainedOnly}|False|True)|COMP:(0|$SkillPoints|False|False|True))
+	ClassesContain: CONTAINS:({Level.Class}|$1)
+	ClassFeatures: IF:((ClassesContain:$1)|{Classes.{1}.Features})
+	Features: JOIN:(OVER:({Classes.ALL.NAME}|cl|ClassFeatures:$cl)|", ")
+	PositionOfFeats:COMP:({Classes.{1}.LevelType}|MagicUser|14|4)
+	FeatsAtLevel:SPLIT:(InfoAtLevel:($1|$2)#(PositionOfFeats:$1)|',')
+	NumInstances:COUNT:{Level.Class={1}}
+	LevelsForClass:OVER:(RANGE:(1|$2)|n|FeatsAtLevel:({1}|{n}))
+	Fibonnacii:COMP:($1|1|$1*Fibonnacii:($1-1)|1|0)
+	TestFib:Fibonnacii:5
+		Test: True
+		Debug: True
+	Feats: AGG:OVER:({Classes.ALL.NAME}|cl|LevelsForClass:({cl}|NumInstances:({cl})))
 
 Weapons:
 	Damage: ''
@@ -99,5 +112,4 @@ Classes:
 	WeaponProficiency: Simple
 	ArmourProficiency: None
 	ShieldProficiency: None
-
-
+	LevelType: Basic

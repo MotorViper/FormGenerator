@@ -4,6 +4,9 @@ using TextParser.Tokens;
 
 namespace TextParser.Operators
 {
+    /// <summary>
+    /// Base class for all operators.
+    /// </summary>
     public abstract class BaseOperator : IOperator
     {
         private static readonly Lazy<ILogControl> s_control = IOCContainer.Instance.LazyResolve<ILogControl>();
@@ -49,6 +52,16 @@ namespace TextParser.Operators
             IToken first = firstToken?.SubstituteParameters(parameters);
             IToken last = lastToken?.SubstituteParameters(parameters);
             return new ExpressionToken(first, this, last);
+        }
+
+        /// <summary>
+        /// Converts an expression token to a list of tokens if possible and required.
+        /// </summary>
+        /// <param name="expression">The expression to convert.</param>
+        /// <returns>The original token by default.</returns>
+        public virtual IToken EvaluateList(ExpressionToken expression)
+        {
+            return expression;
         }
 
         /// <summary>

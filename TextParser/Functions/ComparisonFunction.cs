@@ -6,21 +6,36 @@ namespace TextParser.Functions
 {
     /// <summary>
     /// Function to do a comparison. Action depends on number of parameters:
-    /// 3: If first matches second then third is returned.
-    /// 4: If first matches second then third is returned otherwise null.
-    /// 5: If first less than second third is returned, if equal fourth is returned otherwise fifth is returned.
+    /// 3: If first matches second then third is returned otherwise null.
+    /// 4: If first matches second then third is returned otherwise fourth.
+    /// 5: If first greater than second third is returned, if equal fourth is returned otherwise fifth is returned.
     /// </summary>
     public class ComparisonFunction : BaseFunction
     {
         public const string ID = "COMP";
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public ComparisonFunction() : base(ID)
         {
         }
 
-        public override IToken Perform(IToken token, TokenTreeList parameters, bool isFinal)
+        /// <summary>
+        /// Returns true if the function does comparisons, if so no pre-evaluation is done.
+        /// </summary>
+        public override bool IsComparisonFunction => true;
+
+        /// <summary>
+        /// Evaluate the function.
+        /// </summary>
+        /// <param name="parameters">The tokens that make up the function parameter list.</param>
+        /// <param name="substitutions">The tokens that can be used for substitutions.</param>
+        /// <param name="isFinal">Whether a result needs to be returned.</param>
+        /// <returns></returns>
+        public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = token as ListToken;
+            ListToken listToken = parameters as ListToken;
             if (listToken == null)
                 throw new Exception($"Last token must be list for '{ID}'");
 
@@ -30,8 +45,8 @@ namespace TextParser.Functions
             if (count < 3 || count > 5)
                 throw new Exception($"Must have between 3 and 5 values for '{ID}': {listToken}");
 
-            IToken first = lastList[0];
-            IToken second = lastList[1];
+            IToken first = lastList[0].Evaluate(substitutions, isFinal);
+            IToken second = lastList[1].Evaluate(substitutions, isFinal);
             if (first is ExpressionToken || second is ExpressionToken)
                 return UnParsed(listToken);
 
@@ -49,15 +64,20 @@ namespace TextParser.Functions
                     : first.Text.CompareTo(second.Text);
             }
 
+            IToken result;
             switch (count)
             {
                 case 3:
-                    return comparison == 0 ? lastList[2] : new NullToken();
+                    result = comparison == 0 ? lastList[2] : new NullToken();
+                    break;
                 case 4:
-                    return comparison == 0 ? lastList[2] : lastList[3];
+                    result = comparison == 0 ? lastList[2] : lastList[3];
+                    break;
                 default:
-                    return comparison == 1 ? lastList[2] : comparison == 0 ? lastList[3] : lastList[4];
+                    result = comparison == 1 ? lastList[2] : comparison == 0 ? lastList[3] : lastList[4];
+                    break;
             }
+            return result.Evaluate(substitutions, isFinal);
         }
     }
 }

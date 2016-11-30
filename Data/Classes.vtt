@@ -5,8 +5,7 @@
 	WeaponProficiency: Simple
 	ArmourProficiency: All
 	ShieldProficiency: Not Tower
-	Features:
-		0: Aura|Divine Spells|Aligned Spells|Deity|Domains|Domain Spells|Spontaneous Casting
+	Features: Aura|Divine Spells|Aligned Spells|Deity|Domains|Domain Spells|Spontaneous Casting
 	BonusLanguages: Celestial|Abyssal|Infernal|Race
 	ClassLoss:
 		Atone: Atone Spell
@@ -39,7 +38,6 @@
 Fighter:
 	ClassSkills: Climb|Craft|Handle Animal|Intimidate|Jump|Ride|Swim
 	BABonus: Good
-	LevelType: Basic
 	LevelInformation:
 		1:	'+1 				+2 	+0 	+0 	Bonus Feat
 		2:	'+2 				+3 	+0 	+0 	Bonus Feat
@@ -68,7 +66,6 @@ Rogue:
 		|Use Magic Device|Use Rope
 	SkillPoints: 8
 	BABonus: Average
-	LevelType: Basic
 	LevelInformation:
 		1:	'+0 		+0 	+2 	+0 	Sneak Attack +1d6, Trapfinding
 		2:	'+1 		+0 	+3 	+0 	Evasion

@@ -4,24 +4,37 @@ using TextParser.Tokens;
 
 namespace TextParser.Functions
 {
+    /// <summary>
+    /// Checks if a list contains an instance of a token.
+    /// </summary>
     public class ContainsFunction : BaseFunction
     {
         public const string ID = "CONTAINS";
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public ContainsFunction() : base(ID)
         {
         }
 
-        public override IToken Perform(IToken parameterList, TokenTreeList parameters, bool isFinal)
+        /// <summary>
+        /// Evaluate the function.
+        /// </summary>
+        /// <param name="parameters">The tokens that make up the function parameter list.</param>
+        /// <param name="substitutions">The tokens that can be used for substitutions.</param>
+        /// <param name="isFinal">Whether a result needs to be returned.</param>
+        /// <returns></returns>
+        public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = parameterList as ListToken;
+            ListToken listToken = parameters as ListToken;
 
             if (listToken == null)
-                throw new Exception($"Last token must be list for '{ID}'");
+                throw new Exception($"Token must be list for '{ID}'");
 
             List<IToken> lastList = listToken.Tokens;
             int count = lastList.Count;
-            IToken toFind = lastList[count - 1].Evaluate(parameters, isFinal);
+            IToken toFind = lastList[count - 1];
             if (toFind is ExpressionToken)
             {
                 if (isFinal)

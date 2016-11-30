@@ -3,8 +3,14 @@ using TextParser.Tokens;
 
 namespace TextParser.Operators
 {
+    /// <summary>
+    /// Index operator - List#n to get n-1th element of list (0 based).
+    /// </summary>
     public class IndexOperator : BaseOperator
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public IndexOperator() : base("#")
         {
         }
@@ -43,7 +49,7 @@ namespace TextParser.Operators
             int index = intToken.Value;
             return listToken == null
                 ? (index == 0 && tokenList is ITypeToken ? tokenList : new ExpressionToken(first, new IndexOperator(), intToken))
-                : listToken.Tokens[index];
+                : (listToken.Tokens.Count > index ? listToken.Tokens[index] : new NullToken());
         }
     }
 }

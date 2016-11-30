@@ -1,5 +1,8 @@
 ﻿namespace TextParser.Tokens
 {
+    /// <summary>
+    /// Base class for tokens.
+    /// </summary>
     public abstract class BaseToken : IToken
     {
         public abstract string Text { get; }
@@ -10,6 +13,21 @@
             return Evaluate(null, false);
         }
 
+        /// <summary>
+        /// Converts the token to a list of tokens if possible and required.
+        /// </summary>
+        /// <returns>The list of tokens or the original token.</returns>
+        public virtual IToken EvaluateList()
+        {
+            return this;
+        }
+
+        /// <summary>
+        /// Evaluates the token.
+        /// </summary>
+        /// <param name="parameters">The parameters to use for substitutions.</param>
+        /// <param name="isFinal">Whether this is a final parse.</param>
+        /// <returns></returns>
         public virtual IToken Evaluate(TokenTreeList parameters, bool isFinal)
         {
             return this;

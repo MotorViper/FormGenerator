@@ -2,10 +2,12 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
-using FormGenerator.ViewModels;
+using FormGenerator.Tools;
 using Helpers;
+using TextParser;
+using TextParser.Tokens;
 
-namespace FormGenerator
+namespace FormGenerator.ViewModels
 {
     public class MainViewModel : ViewModel, ILogging, ILogControl
     {
@@ -22,6 +24,7 @@ namespace FormGenerator
         private ICommand _saveAllFilesCommand;
         private ICommand _saveFileCommand;
         private ICommand _saveXamlCommand;
+        private ICommand _testExpressionsCommand;
 
         private bool _wasLogging;
 
@@ -74,6 +77,11 @@ namespace FormGenerator
             _saveXamlCommand ??
             (_saveXamlCommand = new RelayCommand(x => _dataViewModel.SaveXaml()));
 
+        public ICommand TestExpressionsCommand
+        {
+            get { return _testExpressionsCommand ?? (_testExpressionsCommand = new RelayCommand(x => TestExpressions())); }
+        }
+
         public void SetLogging(bool loggingOn)
         {
             _wasLogging = DoLogging;
@@ -93,7 +101,7 @@ namespace FormGenerator
         public void LogError(string message, string overview)
         {
             if (DoLogging)
-                LogData += $"{overview}[E]: {message}\n";
+                LogData += $"{DateTime.Now.TimeOfDay}: {overview}[E]: {message}\n";
         }
 
         /// <summary>
@@ -104,7 +112,7 @@ namespace FormGenerator
         public void LogMessage(string message, string overview)
         {
             if (DoLogging)
-                LogData += $"{overview}[I]: {message}\n";
+                LogData += $"{DateTime.Now.TimeOfDay}: {overview}[I]: {message}\n";
         }
 
         /// <summary>
@@ -113,6 +121,26 @@ namespace FormGenerator
         public void Reset()
         {
             LogData = "";
+        }
+
+        private void TestExpressions()
+        {
+            Reload();
+            TokenTree data = DataViewModel.Instance.Values;
+            foreach (TokenTree tokenTree in data.Children)
+            {
+                string doTest = tokenTree["Test"] ?? "false";
+                if (bool.Parse(doTest))
+                {
+                    bool logIt = bool.Parse(tokenTree["Debug"] ?? "true");
+                    SetLogging(logIt);
+                    IToken result = tokenTree.Value.Evaluate(new TokenTreeList { DataViewModel.Instance.Values, DataConverter.Parameters }, true);
+                    ResetLoggingToDefault();
+                    SetLogging(true);
+                    LogMessage($"{tokenTree.Key} = {result}", "Test Result");
+                    ResetLoggingToDefault();
+                }
+            }
         }
 
         private void Exit(CancelEventArgs args)

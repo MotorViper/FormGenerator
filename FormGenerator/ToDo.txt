@@ -8,6 +8,7 @@ Gui:
 	Allow multiple base level fields.
 	Add ability to save GUI updates.
 	Replace Templates.vtt with macros (TokenTreeElement), may not be possible with WPF ControlTemplates.
+	Need to stop using reload when doing a test.
 
 Generator:
 

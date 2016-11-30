@@ -7,6 +7,7 @@
         xmlns:helpers="clr-namespace:Helpers;assembly=Helpers"
         xmlns:views="clr-namespace:FormGenerator.Views"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:viewModels="clr-namespace:FormGenerator.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="31cm" Width="22cm" Name="mc_mainWindow">
     <Window.Resources>
@@ -18,7 +19,7 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Window.DataContext>
-        <local:MainViewModel />
+        <viewModels:MainViewModel />
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
@@ -43,6 +44,10 @@
                 <MenuItem Header="Save _All" Command="{Binding SaveAllFilesCommand}" />
                 <MenuItem Header="_Close" Command="{Binding CloseFileCommand}" />
                 <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
+            </MenuItem>
+            <MenuItem Header="_Tools"
+                      Visibility="{Binding SelectedIndex, ConverterParameter=1|2, Converter={StaticResource VisibilityConverter}, ElementName=mc_tabControl}">
+                <MenuItem Header="_Test Expressions" Command="{Binding TestExpressionsCommand}" />
             </MenuItem>
         </Menu>
         <TabControl x:Name="mc_tabControl" Grid.Row="1">
