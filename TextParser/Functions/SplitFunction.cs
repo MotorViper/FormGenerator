@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TextParser.Tokens;
 
 namespace TextParser.Functions
@@ -11,12 +10,10 @@ namespace TextParser.Functions
     /// </summary>
     public class SplitFunction : BaseFunction
     {
-        public const string ID = "SPLIT";
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SplitFunction() : base(ID)
+        public SplitFunction() : base("SP(LIT)")
         {
         }
 
@@ -39,22 +36,21 @@ namespace TextParser.Functions
             {
                 if (parameters is ExpressionToken)
                     return UnParsed(parameters);
-                toSplit = parameters.Text;
+                toSplit = parameters.ToString();
             }
             else
             {
-                List<IToken> lastList = listToken.Tokens;
-                int count = lastList.Count;
+                int count = listToken.Count;
                 if (count != 2 && count != 3)
-                    throw new Exception($"Must have 1, 2 or 3 values for '{ID}': {listToken}");
+                    throw new Exception($"Must have 1, 2 or 3 values for '{Name}': {listToken}");
 
-                if (lastList[0] is ExpressionToken)
+                if (listToken[0] is ExpressionToken)
                     return UnParsed(listToken);
 
-                toSplit = lastList[0].Text;
+                toSplit = listToken[0].ToString();
                 if (count > 1)
                 {
-                    string text = lastList[1].Text;
+                    string text = listToken[1].ToString();
                     if (text != " ")
                     {
                         splitOn = new[] {text};
@@ -62,7 +58,7 @@ namespace TextParser.Functions
                     }
                 }
                 if (count > 2)
-                    maxCount = lastList[2].Convert<int>();
+                    maxCount = listToken[2].ToInt();
             }
 
             ListToken result = new ListToken();

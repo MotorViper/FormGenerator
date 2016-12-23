@@ -70,7 +70,10 @@ namespace Generator
                 case "Debug":
                     break;
                 default:
-                    _properties[name] = value.ToString();
+                    if (_properties.ContainsKey(name))
+                        _properties[name] += "," + value;
+                    else
+                        _properties[name] = value.ToString();
                     break;
             }
         }

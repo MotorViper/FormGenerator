@@ -8,6 +8,7 @@
 	Player: Bert
 	Level : 1
 		Class: Fighter
+		Feats: Power Attack, Improved Initiative
 		HP: 8
 		Skills:
 			Balance: 4

@@ -1,0 +1,18 @@
+Armour Skin:
+	NaturalACBonus: 1
+	MaxCount: No
+	Stacks: true
+	FighterBonusFeat: true
+	Type: Epic
+	Description: Toughens skin.
+
+Improved Initiative:
+	InitiativeBonus: 4
+	FighterBonusFeat: true
+	Description: Initiative is improved.
+
+Power Attack:
+	Prerequisites:
+		Strength: 13
+	FighterBonusFeat: true
+	Description: 'May subtract from hit roll to add to damage. Max equal to Base Attack Bonus. Double for 2 handed, inapplicable to light weapon.

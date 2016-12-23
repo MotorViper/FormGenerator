@@ -39,7 +39,7 @@ Character:
 	FlatFooted: 10 + $ArmourBonus + $SizeACModifier
 	AC: $FlatFooted + $DexModifier
 	Touch: 10 + $DexModifier + $SizeACModifier
-	MiscInitiative: 0
+	MiscInitiative: SUM:OVER:({Level.Feats}|f|{Feats.{f}.InitiativeBonus})
 	Initiative: $DexModifier + $MiscInitiative
 	SizeACModifier: {Size.{Races.{Race}.Size}.ACModifier}
 	NaturalArmour: {Races.{Race}.ACBonus}
@@ -47,18 +47,17 @@ Character:
 	MiscACModifier: 0
 	InfoAtLevel: SPLIT:({Classes.{1}.LevelInformation.{2}}|' '|(COMP:({Classes.{1}.LevelType}|MagicUser|15|5)))
 	GetLevelField: INT:InfoAtLevel:({3}|{1})#{2}
-	BABThrow: SUM:OVER:({Classes.ALL.NAME}|cl|GetLevelField:(COUNT:{Level.Class={cl}}|0|{cl}))
-	SavingThrow: SUM:OVER:({Classes.ALL.NAME}|cl|GetLevelField:(COUNT:{Level.Class={cl}}|{1}|{cl}))
-	FortitudeBase: SavingThrow: 1
-	ReflexBase: SavingThrow: 2
-	WillBase: SavingThrow: 3
+	BaseValue: SUM:OVER:({Classes.ALL.NAME}|cl|GetLevelField:(COUNT:{Level.Class=$cl}|$1|$cl))
+	FortitudeBase: BaseValue: 1
+	ReflexBase: BaseValue: 2
+	WillBase: BaseValue: 3
 	FortitudeModifier: $ConModifier
 	ReflexModifier: $DexModifier
 	WillModifier: $WisModifier
 	FortitudeThrow: $FortitudeModifier + $FortitudeBase
 	ReflexThrow: $ReflexModifier + $ReflexBase
 	WillThrow: $WillModifier + $WillBase
-	BAB: BABThrow: BABonus
+	BAB: BaseValue: 0
 	SpellResistance: 0
 	SizeBABModifier: 0
 	MiscBABModifier: 0
@@ -72,15 +71,14 @@ Character:
 	ClassesContain: CONTAINS:({Level.Class}|$1)
 	ClassFeatures: IF:((ClassesContain:$1)|{Classes.{1}.Features})
 	Features: JOIN:(OVER:({Classes.ALL.NAME}|cl|ClassFeatures:$cl)|", ")
-	PositionOfFeats:COMP:({Classes.{1}.LevelType}|MagicUser|14|4)
-	FeatsAtLevel:SPLIT:(InfoAtLevel:($1|$2)#(PositionOfFeats:$1)|',')
-	NumInstances:COUNT:{Level.Class={1}}
-	LevelsForClass:OVER:(RANGE:(1|$2)|n|FeatsAtLevel:({1}|{n}))
-	Fibonnacii:COMP:($1|1|$1*Fibonnacii:($1-1)|1|0)
-	TestFib:Fibonnacii:5
-		Test: True
-		Debug: True
-	Feats: AGG:OVER:({Classes.ALL.NAME}|cl|LevelsForClass:({cl}|NumInstances:({cl})))
+	PositionOfFeats: COMP:({Classes.{1}.LevelType}|MagicUser|14|4)
+	FeatsAtLevel: SPLIT:(InfoAtLevel:($1|$2)#(PositionOfFeats:$1)|',')
+	NumInstances: COUNT:{Level.Class=$1}
+	LevelsForClass: OVER:(RANGE:(1|$2)|n|FeatsAtLevel:($1|$n))
+	ClassFeats: OVER:({Classes.ALL.NAME}|cl|LevelsForClass:($cl|NumInstances:($cl)))
+	LevelFeats: {Level.Feats}
+	Feats: JOIN:((F:($LevelFeats|$ClassFeats) - ("Bonus Feat"|""))| ', ')
+		Test: true
 
 Weapons:
 	Damage: ''
@@ -113,3 +111,14 @@ Classes:
 	ArmourProficiency: None
 	ShieldProficiency: None
 	LevelType: Basic
+
+Feats:
+	NaturalACBonus: 0
+	MaxCount: 1
+	Stacks: false
+	FighterBonusFeat: false
+	Type: General
+	Description: 
+	InitiativeBonus: 0
+	Prerequisites:
+	

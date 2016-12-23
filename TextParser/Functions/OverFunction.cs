@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TextParser.Tokens;
 
 namespace TextParser.Functions
@@ -9,12 +8,10 @@ namespace TextParser.Functions
     /// </summary>
     public class OverFunction : BaseFunction
     {
-        public const string ID = "OVER";
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        public OverFunction() : base(ID)
+        public OverFunction() : base("OVER")
         {
         }
 
@@ -35,38 +32,32 @@ namespace TextParser.Functions
             ListToken listToken = parameters as ListToken;
 
             if (listToken == null)
-                throw new Exception($"Next token must be list for '{ID}'");
+                throw new Exception($"Next token must be list for '{Name}'");
 
-            List<IToken> lastList = listToken.Tokens;
-            int count = lastList.Count;
-            IToken iterandKey = lastList[count - 2];
+            int count = listToken.Count;
+            IToken iterandKey = listToken[count - 2];
             IToken iterandIndex = null;
             ListToken iterandList = iterandKey as ListToken;
             if (iterandList != null)
             {
-                if (iterandList.Tokens.Count != 2)
-                    throw new Exception($"Can only have 1 or 2 iterators for '{ID}'");
-                iterandIndex = iterandList.Tokens[1];
-                iterandKey = iterandList.Tokens[0];
+                if (iterandList.Count != 2)
+                    throw new Exception($"Can only have 1 or 2 iterators for '{Name}'");
+                iterandIndex = iterandList[1];
+                iterandKey = iterandList[0];
             }
-            IToken method = lastList[count - 1];
+            IToken method = listToken[count - 1];
             ListToken tokens = new ListToken();
             for (int i = 0; i < count - 2; i++)
             {
-                IToken token = lastList[i];
-                ListToken list = token as ListToken;
-                if (list == null)
-                {
-                    list = new ListToken();
-                    list.Tokens.Add(token);
-                }
+                IToken token = listToken[i];
+                ListToken list = token as ListToken ?? new ListToken(token);
                 int index = 0;
-                foreach (IToken item in list.Tokens)
+                foreach (IToken item in list)
                 {
                     TokenTree tree = new TokenTree();
-                    tree.Children.Add(new TokenTree(iterandKey.Text, item));
+                    tree.Children.Add(new TokenTree(iterandKey.ToString(), item));
                     if (iterandIndex != null)
-                        tree.Children.Add(new TokenTree(iterandIndex.Text, new IntToken(index)));
+                        tree.Children.Add(new TokenTree(iterandIndex.ToString(), new IntToken(index)));
                     IToken toCall = method.SubstituteParameters(tree);
                     IToken parsed = toCall.Evaluate(substitutions, isFinal);
                     if (parsed is ExpressionToken)

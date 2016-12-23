@@ -18,8 +18,8 @@ namespace TextParserTest
         {
             IToken token = TokenGenerator.Parse("word");
             Assert.IsTrue(token is StringToken);
-            Assert.AreEqual("word", token.Text);
-            Assert.AreEqual(int.MinValue, token.Convert<int>());
+            Assert.AreEqual("word", token.ToString());
+            Assert.AreEqual(int.MinValue, token.ToInt());
         }
 
         [TestMethod]
@@ -27,13 +27,13 @@ namespace TextParserTest
         {
             IToken token = TokenGenerator.Parse("4");
             Assert.IsTrue(token is TypeToken<int>);
-            Assert.AreEqual("4", token.Text);
-            Assert.AreEqual(4, token.Convert<int>());
+            Assert.AreEqual("4", token.ToString());
+            Assert.AreEqual(4, token.ToInt());
 
             token = TokenGenerator.Parse("4.5");
             Assert.IsTrue(token is TypeToken<double>);
-            Assert.AreEqual("4.5", token.Text);
-            Assert.AreEqual(4.5, token.Convert<double>());
+            Assert.AreEqual("4.5", token.ToString());
+            Assert.AreEqual(4.5, token.ToDouble());
         }
 
         [TestMethod]
@@ -41,16 +41,16 @@ namespace TextParserTest
         {
             IToken token = TokenGenerator.Parse("2 + 2");
             Assert.IsTrue(token is ExpressionToken, token.GetType().Name);
-            Assert.AreEqual("(2+2)", token.Text);
+            Assert.AreEqual("(2+2)", token.ToString());
 
             token = token.Simplify();
             Assert.IsTrue(token is TypeToken<int>, token.GetType().Name);
-            Assert.AreEqual("4", token.Text);
-            Assert.AreEqual(4, token.Convert<int>());
+            Assert.AreEqual("4", token.ToString());
+            Assert.AreEqual(4, token.ToInt());
 
             token = TokenGenerator.Parse("\"2+2\"");
             Assert.IsTrue(token is StringToken);
-            Assert.AreEqual("2+2", token.Text);
+            Assert.AreEqual("2+2", token.ToString());
         }
 
         [TestMethod]
@@ -85,8 +85,8 @@ namespace TextParserTest
             {
                 IToken token = TokenGenerator.Parse(test.Key);
                 token = token.Simplify();
-                Assert.IsTrue(token is TypeToken<int>, test.Key + ": " + token.Text);
-                Assert.AreEqual(test.Value, token.Convert<int>(), test.Key);
+                Assert.IsTrue(token is TypeToken<int>, test.Key + ": " + token.ToString());
+                Assert.AreEqual(test.Value, token.ToInt(), test.Key);
             }
         }
 
@@ -106,8 +106,8 @@ namespace TextParserTest
             foreach (var test in tests)
             {
                 IToken token = TokenGenerator.Parse(test.Key).Simplify();
-                Assert.IsTrue(token is TypeToken<double>, test.Key + ": " + token.Text);
-                Assert.AreEqual(test.Value, token.Convert<double>(), 0.001, test.Key);
+                Assert.IsTrue(token is TypeToken<double>, test.Key + ": " + token.ToString());
+                Assert.AreEqual(test.Value, token.ToDouble(), 0.001, test.Key);
             }
         }
 
@@ -124,7 +124,7 @@ namespace TextParserTest
             foreach (var test in tests)
             {
                 IToken token = TokenGenerator.Parse(test.Key).Simplify();
-                Assert.AreEqual(test.Value, token.Text, test.Key);
+                Assert.AreEqual(test.Value, token.ToString(), test.Key);
             }
         }
 
@@ -147,8 +147,8 @@ namespace TextParserTest
             foreach (var test in tests)
             {
                 IToken token = TokenGenerator.Parse(test.Key).Simplify();
-                Assert.IsTrue(token is TypeToken<string>, test.Key + ": " + token.Text);
-                Assert.AreEqual(test.Value, token.Text, test.Key);
+                Assert.IsTrue(token is TypeToken<string>, test.Key + ": " + token.ToString());
+                Assert.AreEqual(test.Value, token.ToString(), test.Key);
             }
         }
 
@@ -165,7 +165,7 @@ namespace TextParserTest
             string output = row[1].ToString().Trim();
             IToken parsed = TokenGenerator.Parse(input);
             IToken simplified = parsed.Simplify();
-            Assert.AreEqual(output, simplified.Text);
+            Assert.AreEqual(output, simplified.ToString());
         }
 
         [TestMethod]
@@ -210,7 +210,7 @@ namespace TextParserTest
             {
                 IToken token = TokenGenerator.Parse(test.Key);
                 token = token.Evaluate(new TokenTreeList(parameters), true);
-                bool passed = test.Value == token.Text;
+                bool passed = test.Value == token.ToString();
                 string result = passed ? "passed" : "failed";
                 if (passed)
                     ++passedCount;

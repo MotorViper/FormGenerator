@@ -9,6 +9,12 @@ namespace TextParser.Operators
         {
         }
 
+        /// <summary>
+        /// Evaluates a binary operator expression.
+        /// </summary>
+        /// <param name="first">The first value.</param>
+        /// <param name="last">The second value.</param>
+        /// <returns>The evaluated value.</returns>
         protected override IToken Evaluate(ITypeToken first, ITypeToken last)
         {
             switch (first.Type)
@@ -35,11 +41,8 @@ namespace TextParser.Operators
                     break;
                 case TokenType.StringToken:
                     TypeToken<string> sFirst = (TypeToken<string>)first;
-                    switch (last.Type)
-                    {
-                        case TokenType.StringToken:
-                            return new StringToken(sFirst.Value.CountInstances(((TypeToken<string>)last).Value).ToString());
-                    }
+                    if (last.Type != TokenType.ListToken)
+                        return new IntToken(sFirst.Value.CountInstances(last.ToString()));
                     break;
             }
             return base.Evaluate(first, last);

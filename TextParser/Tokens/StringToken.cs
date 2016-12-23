@@ -6,21 +6,43 @@
         {
         }
 
-        public override TTo Convert<TTo>()
+        /// <summary>
+        /// Converts the token to a boolean.
+        /// </summary>
+        public override bool ToBool()
         {
-            if (typeof(TTo) == typeof(double))
+            if (!string.IsNullOrEmpty(ToString()))
             {
-                double value;
-                return (TTo)(object)(double.TryParse(Text, out value) ? value : double.NaN);
+                bool value;
+                if (bool.TryParse(ToString(), out value))
+                    return value;
+                double doubleValue;
+                if (double.TryParse(ToString(), out doubleValue))
+                    return new DoubleToken(doubleValue).ToBool();
             }
+            return false;
+        }
 
-            if (typeof(TTo) == typeof(int))
-            {
-                int value;
-                return (TTo)(object)(int.TryParse(Text, out value) ? value : int.MinValue);
-            }
+        /// <summary>
+        /// Converts the token to an integer.
+        /// </summary>
+        public override int ToInt()
+        {
+            int value = 0;
+            if (!string.IsNullOrEmpty(ToString()))
+                value = int.TryParse(ToString(), out value) ? value : 0;
+            return value;
+        }
 
-            return base.Convert<TTo>();
+        /// <summary>
+        /// Converts the token to a double.
+        /// </summary>
+        public override double ToDouble()
+        {
+            double value = 0;
+            if (!string.IsNullOrEmpty(ToString()))
+                value = double.TryParse(ToString(), out value) ? value : 0;
+            return value;
         }
     }
 }

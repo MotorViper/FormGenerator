@@ -9,12 +9,10 @@ namespace TextParser.Functions
     /// </summary>
     public class JoinFunction : BaseFunction
     {
-        public const string ID = "JOIN";
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        public JoinFunction() : base(ID)
+        public JoinFunction() : base("J(OIN)")
         {
         }
 
@@ -28,19 +26,19 @@ namespace TextParser.Functions
         public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
             ListToken listToken = parameters as ListToken;
-            int count = listToken?.Tokens.Count ?? 0;
-            if (count > 0)
+            if (listToken != null)
             {
+                int count = listToken.Count;
                 IToken separator = new StringToken(" ");
                 if (count > 1)
                 {
-                    separator = listToken.Tokens[count - 1];
+                    separator = listToken[count - 1];
                     --count;
                 }
                 IToken current = null;
                 for (int i = 0; i < count; ++i)
                 {
-                    IToken token = listToken.Tokens[i];
+                    IToken token = listToken[i];
                     if (token is ExpressionToken)
                         return UnParsed(parameters);
                     current = AddToken(current, separator, token, substitutions, isFinal);
@@ -55,7 +53,7 @@ namespace TextParser.Functions
             ListToken currentList = toAdd as ListToken;
             if (currentList != null)
             {
-                foreach (IToken tokenToAdd in currentList.Tokens)
+                foreach (IToken tokenToAdd in currentList)
                     current = AddToken(current, separator, tokenToAdd, parameters, isFinal);
             }
             else if (current == null)

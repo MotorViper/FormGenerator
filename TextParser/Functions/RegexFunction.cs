@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TextParser.Tokens;
 
 namespace TextParser.Functions
@@ -9,26 +8,30 @@ namespace TextParser.Functions
     /// </summary>
     public class RegexFunction : BaseFunction
     {
-        public const string ID = "R";
-
-        public RegexFunction() : base(ID)
+        public RegexFunction() : base("R(EGEX)")
         {
         }
 
-        public override IToken Perform(IToken dataToken, TokenTreeList parameters, bool isFinal)
+        /// <summary>
+        /// Evaluate the function.
+        /// </summary>
+        /// <param name="parameters">The tokens that make up the function parameter list.</param>
+        /// <param name="substitutions">The tokens that can be used for substitutions.</param>
+        /// <param name="isFinal">Whether a result needs to be returned.</param>
+        /// <returns></returns>
+        public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            string text = null;
+            string text;
             RegExToken.RegexType regexType = RegExToken.RegexType.Wildcard;
-            ListToken listToken = dataToken as ListToken;
+            ListToken listToken = parameters as ListToken;
             if (listToken != null)
             {
-                List<IToken> list = listToken.Tokens;
-                if (list.Count < 1 || list.Count > 2)
-                    throw new Exception($"Must have 1 or 2 values for '{ID}': {listToken}");
+                if (listToken.Count < 1 || listToken.Count > 2)
+                    throw new Exception($"Must have 1 or 2 values for '{Name}': {listToken}");
 
-                text = list[0].Text;
-                if (list.Count == 2)
-                    switch (list[1].Text)
+                text = listToken[0].ToString();
+                if (listToken.Count == 2)
+                    switch (listToken[1].ToString())
                     {
                         case "R":
                             regexType = RegExToken.RegexType.Regex;
@@ -43,7 +46,7 @@ namespace TextParser.Functions
             }
             else
             {
-                text = dataToken.Text;
+                text = parameters.ToString();
             }
 
             return new RegExToken(text, regexType);

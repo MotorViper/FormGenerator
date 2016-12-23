@@ -199,13 +199,13 @@ namespace VTTConsole
         private void DeleteItem(string input)
         {
             IToken token = TokenGenerator.Parse(input);
-            Tree.Remove(token.Text);
+            Tree.Remove(token.ToString());
         }
 
         private void DeleteItems(string input)
         {
             IToken token = TokenGenerator.Parse(input);
-            Tree.RemoveAll(token.Text);
+            Tree.RemoveAll(token.ToString());
         }
 
         private void ClearHistory()

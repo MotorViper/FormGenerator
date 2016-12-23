@@ -75,7 +75,7 @@ namespace Generator
         /// <summary>
         /// String value of property.
         /// </summary>
-        public string StringValue => Token.Text;
+        public string StringValue => Token.ToString();
 
         /// <summary>
         /// Creates a property from the value.
@@ -101,6 +101,6 @@ namespace Generator
         /// <summary>
         /// The variable name if IsVariableExpression is true.
         /// </summary>
-        public string VariableName => ((StringToken)((ExpressionToken)Token).Second).Text;
+        public string VariableName => ((StringToken)((ExpressionToken)Token).Second).ToString();
     }
 }

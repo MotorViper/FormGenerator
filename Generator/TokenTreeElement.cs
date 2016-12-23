@@ -36,26 +36,29 @@ namespace Generator
             {
                 if (_type == null)
                 {
-                    _type = _data.Value.Text;
+                    // Create the type from the token data.
+                    _type = _data.Value.ToString();
                     TokenTree replacement = null;
                     ExpressionToken expression = _data.Value as ExpressionToken;
                     if (expression != null)
                     {
+                        // The data is an expression so evaluate it.
                         FunctionOperator function = expression.Operator as FunctionOperator;
                         if (function != null)
                         {
+                            // It's a function expression which in this case is treated like a template.
                             ListToken list = (ListToken)expression.Second;
-                            List<IToken> tokens = list.Tokens;
-                            _type = ((ExpressionToken)tokens[0]).Second.Text;
+                            _type = ((ExpressionToken)list[0]).Second.ToString();
                             TokenTree tree = new TokenTree();
-                            for (int i = 1; i < tokens.Count; ++i)
-                                tree.Children.Add(new TokenTree(i.ToString(), tokens[i]));
+                            for (int i = 1; i < list.Count; ++i)
+                                tree.Children.Add(new TokenTree(i.ToString(), list[i]));
                             replacement = _parameters[0]?.FindFirst(_type);
                             replacement = replacement?.SubstituteParameters(tree);
                         }
                         else
                         {
-                            _type = expression.Evaluate(_parameters, false).Text;
+                            // It's an ordinary expression so evaluate it in the standard manner.
+                            _type = expression.Evaluate(_parameters, false).ToString();
                         }
                     }
 
@@ -64,7 +67,7 @@ namespace Generator
 
                     if (replacement != null)
                     {
-                        _type = replacement.Value.Text;
+                        _type = replacement.Value.ToString();
                         foreach (TokenTree child in replacement.Children)
                         {
                             if (child.Name == "Field")
@@ -94,7 +97,7 @@ namespace Generator
         /// <summary>
         /// The elements name.
         /// </summary>
-        public string ElementName => _data.Value.Text;
+        public string ElementName => _data.Value.ToString();
 
         /// <summary>
         /// Parameters used for any calculations.

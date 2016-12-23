@@ -56,7 +56,7 @@ namespace TextParser
                 if (list.Count > 0)
                 {
                     IToken tokens = list[0].Value.Evaluate(_parameters, true);
-                    return tokens.Text;
+                    return tokens.ToString();
                 }
                 return null;
             }
@@ -68,7 +68,7 @@ namespace TextParser
         }
 
         public IToken Key { get; set; }
-        public string Name => Key.Text;
+        public string Name => Key.ToString();
         public IToken Value { get; set; }
 
         private static void Initialise()
@@ -116,7 +116,7 @@ namespace TextParser
 
         public TokenTree FindFirst(string name)
         {
-            if (!string.IsNullOrWhiteSpace(name) && Key.Text == name)
+            if (!string.IsNullOrWhiteSpace(name) && Key.ToString() == name)
                 return this;
             TokenTreeList tokenTreeList = GetAll(name);
             return tokenTreeList.Count > 0 ? tokenTreeList[0] : null;
@@ -164,7 +164,7 @@ namespace TextParser
         {
             foreach (TokenTree child in defaults.Children)
             {
-                if (child.Value.Text == "ALL")
+                if (child.Value.ToString() == "ALL")
                 {
                     Children.Add(child.Clone());
                 }
@@ -180,7 +180,7 @@ namespace TextParser
         public void WalkTree(Action<string, string> walker, string prefix = null)
         {
             string key = prefix == null ? Name : prefix + Name;
-            walker(key, Value.Text);
+            walker(key, Value.ToString());
             foreach (TokenTree item in Children)
             {
                 item.WalkTree(walker, "\t" + prefix);

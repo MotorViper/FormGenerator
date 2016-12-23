@@ -11,6 +11,9 @@ Gui:
 	Need to stop using reload when doing a test.
 
 Generator:
+	Make JOIN work correctly, i.e. not flatten the list unless the F modifier is added.
+	Make REVERSE reverse a string if that is the parameter.
+	Can I remove the null token?
 
 Console:
 	Make work more like reading a file.

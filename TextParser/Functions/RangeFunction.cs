@@ -12,12 +12,10 @@ namespace TextParser.Functions
     /// </summary>
     public class RangeFunction : BaseFunction
     {
-        public const string ID = "RANGE";
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RangeFunction() : base(ID)
+        public RangeFunction() : base("RANGE")
         {
         }
 
@@ -30,12 +28,7 @@ namespace TextParser.Functions
         /// <returns></returns>
         public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken list = parameters as ListToken;
-            if (list == null)
-            {
-                list = new ListToken();
-                list.Tokens.Add(parameters);
-            }
+            ListToken list = parameters as ListToken ?? new ListToken(parameters);
 
             List<IToken> parameterList = new List<IToken>();
             foreach (IToken item in list)
@@ -50,19 +43,19 @@ namespace TextParser.Functions
             switch (parameterList.Count)
             {
                 case 1:
-                    for (int i = 1; i <= parameterList[0].Convert<int>(); ++i)
-                        result.Tokens.Add(new IntToken(i));
+                    for (int i = 1; i <= parameterList[0].ToInt(); ++i)
+                        result.Value.Add(new IntToken(i));
                     break;
                 case 2:
-                    for (int i = parameterList[0].Convert<int>(); i <= parameterList[1].Convert<int>(); ++i)
-                        result.Tokens.Add(new IntToken(i));
+                    for (int i = parameterList[0].ToInt(); i <= parameterList[1].ToInt(); ++i)
+                        result.Value.Add(new IntToken(i));
                     break;
                 case 3:
-                    for (int i = parameterList[0].Convert<int>(); i <= parameterList[1].Convert<int>(); i += parameterList[2].Convert<int>())
-                        result.Tokens.Add(new IntToken(i));
+                    for (int i = parameterList[0].ToInt(); i <= parameterList[1].ToInt(); i += parameterList[2].ToInt())
+                        result.Value.Add(new IntToken(i));
                     break;
                 default:
-                    throw new Exception($"Must have between 1 and 3 values for '{ID}': {parameters}");
+                    throw new Exception($"Must have between 1 and 3 values for '{Name}': {parameters}");
             }
             return result;
         }

@@ -1,4 +1,5 @@
-﻿using TextParser.Tokens;
+﻿using System.Collections.Generic;
+using TextParser.Tokens;
 
 namespace TextParser.Functions
 {
@@ -13,9 +14,9 @@ namespace TextParser.Functions
         bool FinalCanBeExpression { get; }
 
         /// <summary>
-        /// Returns true if the function does comparisons, if so no pre-evaluation is done.
+        /// Returns true if the function allows short circuit evaluation, if so no pre-evaluation is done.
         /// </summary>
-        bool IsComparisonFunction { get; }
+        bool AllowsShortCircuit { get; }
 
         /// <summary>
         /// The function name.
@@ -37,5 +38,10 @@ namespace TextParser.Functions
         /// <param name="finalValue">The evaluated parameter.</param>
         /// <returns>The token to use.</returns>
         IToken ValueIfFinalValueIsExpression(ExpressionToken finalValue);
+
+        /// <summary>
+        /// The ids that can be used to reference the function.
+        /// </summary>
+        IEnumerable<string> Ids { get; }
     }
 }

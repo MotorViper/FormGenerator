@@ -15,9 +15,14 @@ namespace TextParser.Operators
         {
         }
 
-        public override bool CanBeBinary => true;
-        public override bool CanBeUnary => false;
-
+        /// <summary>
+        /// Evaluates an operator expression.
+        /// </summary>
+        /// <param name="first">The first value.</param>
+        /// <param name="last">The second value.</param>
+        /// <param name="parameters">Any substitution parameters.</param>
+        /// <param name="isFinal">Whether this is the final (output) call.</param>
+        /// <returns>The evaluated value.</returns>
         public override IToken Evaluate(IToken first, IToken last, TokenTreeList parameters, bool isFinal)
         {
             if (first == null)
@@ -31,8 +36,8 @@ namespace TextParser.Operators
             if (evaluatedList != null)
             {
                 ListToken list = new ListToken();
-                foreach (IToken item in evaluatedList.Tokens)
-                    list.Tokens.Add(Evaluate(first, item, parameters, isFinal));
+                foreach (IToken item in evaluatedList)
+                    list.Value.Add(Evaluate(first, item, parameters, isFinal));
                 return list;
             }
 
@@ -49,7 +54,7 @@ namespace TextParser.Operators
             int index = intToken.Value;
             return listToken == null
                 ? (index == 0 && tokenList is ITypeToken ? tokenList : new ExpressionToken(first, new IndexOperator(), intToken))
-                : (listToken.Tokens.Count > index ? listToken.Tokens[index] : new NullToken());
+                : (listToken.Value.Count > index ? listToken.Value[index] : new NullToken());
         }
     }
 }

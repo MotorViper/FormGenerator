@@ -23,9 +23,9 @@ Field: Grid
 
             IOCContainer.Instance.Register<IField, Field>();
             TokenTree tokenTree = Parser.ParseString(VTL);
-            Assert.AreEqual("Grid", tokenTree.Value.Text);
-            Assert.AreEqual("Label", tokenTree.Children[0].Value.Text);
-            Assert.AreEqual("Hi", tokenTree.Children[0].Children[0].Value.Text);
+            Assert.AreEqual("Grid", tokenTree.Value.ToString());
+            Assert.AreEqual("Label", tokenTree.Children[0].Value.ToString());
+            Assert.AreEqual("Hi", tokenTree.Children[0].Children[0].Value.ToString());
         }
 
         [TestMethod]
@@ -36,7 +36,7 @@ Field: Grid
             TokenTree tokenTree = Parser.ParseString(text);
             Assert.AreEqual("a", tokenTree.Key);
             Assert.AreEqual(@"b
-  c", tokenTree.Value.Text);
+  c", tokenTree.Value.ToString());
         }
 
         [TestMethod]
@@ -46,9 +46,9 @@ Field: Grid
 A: 1
 B: 2
 A.B: 3");
-            Assert.AreEqual("1", tokenTree.FindFirst("A").Value.Text);
-            Assert.AreEqual("2", tokenTree.FindFirst("B").Value.Text);
-            Assert.AreEqual("3", tokenTree.FindFirst("A.B").Value.Text);
+            Assert.AreEqual("1", tokenTree.FindFirst("A").Value.ToString());
+            Assert.AreEqual("2", tokenTree.FindFirst("B").Value.ToString());
+            Assert.AreEqual("3", tokenTree.FindFirst("A.B").Value.ToString());
         }
 
 
@@ -79,11 +79,11 @@ Level : 2
 ";
             TokenTree parsed = Parser.ParseString(text);
             IToken value = parsed.FindFirst("F3").Value.Simplify();
-            Assert.AreEqual("5", value.Evaluate(new TokenTreeList(parsed), true).Text);
+            Assert.AreEqual("5", value.Evaluate(new TokenTreeList(parsed), true).ToString());
             value = parsed.FindFirst("Sum").Value.Simplify();
-            Assert.AreEqual("4", value.Evaluate(new TokenTreeList(parsed), true).Text);
+            Assert.AreEqual("4", value.Evaluate(new TokenTreeList(parsed), true).ToString());
             value = parsed.FindFirst("Sum1").Value.Simplify();
-            Assert.AreEqual("4", value.Evaluate(new TokenTreeList(parsed), true).Text);
+            Assert.AreEqual("4", value.Evaluate(new TokenTreeList(parsed), true).ToString());
         }
     }
 }

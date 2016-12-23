@@ -45,10 +45,8 @@ namespace Generator
                     ListToken list = evaluated as ListToken;
                     if (list != null)
                     {
-                        foreach (IToken token in list.Tokens)
-                        {
+                        foreach (IToken token in list)
                             values.Add(new TokenTreeProperty(new TokenTree(name, token)));
-                        }
                     }
                     else
                     {

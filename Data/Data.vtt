@@ -13,4 +13,5 @@
 #include Races.vtt Parameters Races
 #include Classes.vtt Parameters Classes
 #include Skills.vtt Parameters Skills
+#include Feats.vtt Parameters Feats
 #include Misc.vtt Parameters

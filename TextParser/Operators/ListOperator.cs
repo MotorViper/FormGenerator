@@ -15,9 +15,14 @@ namespace TextParser.Operators
         {
         }
 
-        public override bool CanBeBinary => true;
-        public override bool CanBeUnary => false;
-
+        /// <summary>
+        /// Evaluates an operator expression.
+        /// </summary>
+        /// <param name="first">The first value.</param>
+        /// <param name="last">The second value.</param>
+        /// <param name="parameters">Any substitution parameters.</param>
+        /// <param name="isFinal">Whether this is the final (output) call.</param>
+        /// <returns>The evaluated value.</returns>
         public override IToken Evaluate(IToken first, IToken last, TokenTreeList parameters, bool isFinal)
         {
             IToken firstList = first.Evaluate(parameters, isFinal);
@@ -34,9 +39,9 @@ namespace TextParser.Operators
             ListToken result = new ListToken();
             ListToken tokens = firstList as ListToken;
             if (tokens != null)
-                result.Tokens.AddRange(tokens.Tokens);
+                result.Value.AddRange(tokens.Value);
             else
-                result.Tokens.Add(firstList);
+                result.Value.Add(firstList);
             result.Add(lastList);
             return result;
         }
@@ -48,8 +53,8 @@ namespace TextParser.Operators
         /// <returns>The original token by default.</returns>
         public override IToken EvaluateList(ExpressionToken expression)
         {
-            IToken firstList = expression.First.EvaluateList();
-            IToken lastList = expression.Second.EvaluateList();
+            IToken firstList = expression.First.Flatten();
+            IToken lastList = expression.Second.Flatten();
 
             if (firstList == null || lastList == null)
                 return expression;

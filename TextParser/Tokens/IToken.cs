@@ -5,8 +5,30 @@ namespace TextParser.Tokens
     /// </summary>
     public interface IToken
     {
-        string Text { get; }
-        TTo Convert<TTo>();
+        /// <summary>
+        /// Whether this is token contains an expression.
+        /// </summary>
+        bool IsExpression { get; }
+
+        /// <summary>
+        /// Converts the token to a double.
+        /// </summary>
+        double ToDouble();
+
+        /// <summary>
+        /// Converts the token to an integer.
+        /// </summary>
+        int ToInt();
+
+        /// <summary>
+        /// Converts the token to a boolean.
+        /// </summary>
+        bool ToBool();
+
+        /// <summary>
+        /// Converts the token to a string.
+        /// </summary>
+        string ToString();
 
         /// <summary>
         /// Simplifies the expression as much as possible.
@@ -26,7 +48,7 @@ namespace TextParser.Tokens
         /// Converts the token to a list of tokens if possible and required.
         /// </summary>
         /// <returns>The list of tokens or the original token.</returns>
-        IToken EvaluateList();
+        IToken Flatten();
 
         IToken SubstituteParameters(TokenTree parameters);
 

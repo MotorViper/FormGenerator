@@ -11,21 +11,37 @@ namespace TextParser.Tokens
         }
 
         public T Value { get; }
-        public override string Text => Value.ToString();
+
         public TokenType Type { get; }
         public object Data => Value;
 
-        public override TTo Convert<TTo>()
+        /// <summary>
+        /// Converts the token to a boolean.
+        /// </summary>
+        public override bool ToBool()
         {
-            TypeToken<TTo> converted = this as TypeToken<TTo>;
-            if (converted != null)
-                return converted.Value;
-            throw new Exception($"Could not convert {typeof(T).Name} to {typeof(TTo).Name}");
+            throw new Exception($"Could not convert {typeof(T).Name} to Boolean");
         }
 
-        public override string ToString()
+        /// <summary>
+        /// Converts the token to an integer.
+        /// </summary>
+        public override int ToInt()
         {
-            return Text;
+            throw new Exception($"Could not convert {typeof(T).Name} to Integer");
         }
+
+        /// <summary>
+        /// Converts the token to a double.
+        /// </summary>
+        public override double ToDouble()
+        {
+            throw new Exception($"Could not convert {typeof(T).Name} to Double");
+        }
+
+        /// <summary>
+        /// Converts the token to a string.
+        /// </summary>
+        public override string ToString() => Value.ToString();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TextParser.Tokens;
 
 namespace TextParser.Functions
@@ -9,12 +8,10 @@ namespace TextParser.Functions
     /// </summary>
     public class ContainsFunction : BaseFunction
     {
-        public const string ID = "CONTAINS";
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ContainsFunction() : base(ID)
+        public ContainsFunction() : base("CONT(AINS)")
         {
         }
 
@@ -30,11 +27,10 @@ namespace TextParser.Functions
             ListToken listToken = parameters as ListToken;
 
             if (listToken == null)
-                throw new Exception($"Token must be list for '{ID}'");
+                throw new Exception($"Token must be list for '{Name}'");
 
-            List<IToken> lastList = listToken.Tokens;
-            int count = lastList.Count;
-            IToken toFind = lastList[count - 1];
+            int count = listToken.Count;
+            IToken toFind = listToken[count - 1];
             if (toFind is ExpressionToken)
             {
                 if (isFinal)
@@ -44,13 +40,13 @@ namespace TextParser.Functions
 
             for (int i = 0; i < count - 1; i++)
             {
-                IToken token = lastList[i];
+                IToken token = listToken[i];
                 if (token is ExpressionToken)
                     return UnParsed(listToken);
                 ListToken list = token as ListToken;
-                if (list != null && list.Tokens.Contains(toFind))
+                if (list != null && list.Contains(toFind))
                     return new BoolTooken(true);
-                if (token.Text == toFind.Text)
+                if (token.ToString() == toFind.ToString())
                     return new BoolTooken(true);
             }
             return new BoolTooken(false);

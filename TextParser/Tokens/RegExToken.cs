@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace TextParser.Tokens
 {
@@ -16,18 +15,21 @@ namespace TextParser.Tokens
         }
 
         private readonly Regex _regex;
+        private readonly string _text;
 
         public RegExToken(string text, RegexType regexType)
         {
-            Text = text;
+            _text = text;
             _regex = new Regex(ConvertRegex(text, regexType));
         }
 
-        public override string Text { get; }
-
-        public override TTo Convert<TTo>()
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
+        public override string ToString()
         {
-            throw new Exception("Can not convert RegExToken");
+            return _text;
         }
 
         public override bool Contains(string text)

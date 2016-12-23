@@ -1,41 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
 using TextParser.Tokens;
 
 namespace TextParser.Functions
 {
     public class CaseFunction : BaseFunction
     {
-        public const string ID = "CASE";
-
-        public CaseFunction() : base(ID)
+        public CaseFunction() : base("CASE")
         {
         }
 
-        public override IToken Perform(IToken token, TokenTreeList parameters, bool isFinal)
+        /// <summary>
+        /// Evaluate the function.
+        /// </summary>
+        /// <param name="parameters">The tokens that make up the function parameter list.</param>
+        /// <param name="substitutions">The tokens that can be used for substitutions.</param>
+        /// <param name="isFinal">Whether a result needs to be returned.</param>
+        /// <returns></returns>
+        public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = token as ListToken;
+            ListToken listToken = parameters as ListToken;
             if (listToken == null)
-                throw new Exception($"Last token must be list for '{ID}'");
+                throw new Exception($"Last token must be list for '{Name}'");
 
-            List<IToken> lastList = listToken.Tokens;
-            int count = lastList.Count;
+            int count = listToken.Count;
 
-            IToken first = lastList[0];
+            IToken first = listToken[0];
             if (first is ExpressionToken)
                 return UnParsed(listToken);
 
             for (int i = 1; i < count - 1; i += 2)
             {
-                IToken second = lastList[i];
+                IToken second = listToken[i];
                 if (second is ExpressionToken)
                     return UnParsed(listToken);
 
-                if (first.Text == second.Text)
-                    return lastList[i + 1];
+                if (first.ToString() == second.ToString())
+                    return listToken[i + 1];
             }
 
-            return count % 2 == 0 ? lastList[count - 1] : new NullToken();
+            return count % 2 == 0 ? listToken[count - 1] : new NullToken();
         }
     }
 }

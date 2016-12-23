@@ -2,12 +2,9 @@
 
 namespace TextParser.Functions
 {
-    /// <summary>
-    /// Reverses the items in a list.
-    /// </summary>
-    public class ReverseFunction : BaseFunction
+    public class FlattenFunction : BaseFunction
     {
-        public ReverseFunction() : base("REV(ERSE)")
+        public FlattenFunction() : base("F(LATTEN)")
         {
         }
 
@@ -20,11 +17,7 @@ namespace TextParser.Functions
         /// <returns></returns>
         public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken list = parameters as ListToken ?? new ListToken(parameters);
-            ListToken result = new ListToken();
-            result.Value.AddRange(list.Value);
-            result.Value.Reverse();
-            return result;
+            return parameters.IsExpression ? UnParsed(parameters) : parameters.Flatten();
         }
     }
 }

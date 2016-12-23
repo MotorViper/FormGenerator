@@ -1,15 +1,15 @@
 ﻿Cleric:
-	ClassSkills: Concentration|Craft|Diplomacy|Heal|Knowledge (arcana)|Knowledge (history)|Knowledge (religion)|Knowledge (the planes)|Profession -
-		|Spellcraft
+	ClassSkills: Concentration, Craft, Diplomacy, Heal, Knowledge (arcana), Knowledge (history), Knowledge (religion), Knowledge (the planes), Profession, -
+		Spellcraft
 	BABonus: Average
 	WeaponProficiency: Simple
 	ArmourProficiency: All
 	ShieldProficiency: Not Tower
-	Features: Aura|Divine Spells|Aligned Spells|Deity|Domains|Domain Spells|Spontaneous Casting
-	BonusLanguages: Celestial|Abyssal|Infernal|Race
+	Features: Aura, Divine Spells, Aligned Spells, Deity, Domains, Domain Spells, Spontaneous Casting
+	BonusLanguages: Celestial, Abyssal, Infernal, Race
 	ClassLoss:
 		Atone: Atone Spell
-		Keep: WeaponProficiency|ArmourProficiency|ShieldProficiency
+		Keep: WeaponProficiency, ArmourProficiency, ShieldProficiency
 	SpellList: Cleric
 	SpellAttribute: Wisdom
 	LevelType: MagicUser
@@ -36,7 +36,7 @@
 		20:	'+15/+10/+5 +12 +6 	+12 	6 	5+1 	5+1 	5+1 	5+1 	5+1 	4+1 	4+1 	4+1 	4+1 
 
 Fighter:
-	ClassSkills: Climb|Craft|Handle Animal|Intimidate|Jump|Ride|Swim
+	ClassSkills: Climb, Craft, Handle Animal, Intimidate, Jump, Ride, Swim
 	BABonus: Good
 	LevelInformation:
 		1:	'+1 				+2 	+0 	+0 	Bonus Feat
@@ -61,9 +61,9 @@ Fighter:
 		20:	'+20/+15/+10/+5 	+12 +6 	+6 	Bonus Feat
 
 Rogue:
-	ClassSkills: Appraise|Balance|Bluff|Climb|Craft|Decipher Script|Diplomacy|Disable Device|Disguise|Escape Artist|Forgery|Gather Information|Hide -
-		|Intimidate|Jump|Knowledge (local)|Listen|Move Silently|Open Lock|Perform|Profession|Search|Sense Motive|Sleight of Hand|Spot|Swim|Tumble -
-		|Use Magic Device|Use Rope
+	ClassSkills: Appraise, Balance, Bluff, Climb, Craft, Decipher Script, Diplomacy, Disable Device, Disguise, Escape Artist, Forgery, Gather Information, -
+		Hide, Intimidate, Jump, Knowledge (local), Listen, Move Silently, Open Lock, Perform, Profession, Search, Sense Motive, Sleight of Hand, Spot, -
+		Swim, Tumble, Use Magic Device, Use Rope
 	SkillPoints: 8
 	BABonus: Average
 	LevelInformation:

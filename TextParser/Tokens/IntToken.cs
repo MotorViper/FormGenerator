@@ -6,9 +6,19 @@ namespace TextParser.Tokens
         {
         }
 
-        public override TTo Convert<TTo>()
-        {
-            return typeof(TTo) == typeof(double) ? (TTo)(object)(double)(Value) : base.Convert<TTo>();
-        }
+        /// <summary>
+        /// Converts the token to a boolean.
+        /// </summary>
+        public override bool ToBool() => Value != 0;
+
+        /// <summary>
+        /// Converts the token to an integer.
+        /// </summary>
+        public override int ToInt() => Value;
+
+        /// <summary>
+        /// Converts the token to a double.
+        /// </summary>
+        public override double ToDouble() => Value;
     }
 }

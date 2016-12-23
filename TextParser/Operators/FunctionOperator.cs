@@ -1,4 +1,5 @@
 ﻿using System;
+using Helpers;
 using TextParser.Functions;
 using TextParser.Tokens;
 
@@ -9,7 +10,31 @@ namespace TextParser.Operators
     /// </summary>
     public class FunctionOperator : BaseOperator
     {
+        private bool _flatten;
         private IFunction _function;
+
+        static FunctionOperator()
+        {
+            RegisterFunction<AggregateFunction>();
+            RegisterFunction<AndFunction>();
+            RegisterFunction<CaseFunction>();
+            RegisterFunction<ComparisonFunction>();
+            RegisterFunction<ContainsFunction>();
+            RegisterFunction<CountFunction>();
+            RegisterFunction<DoubleFunction>();
+            RegisterFunction<FlattenFunction>();
+            RegisterFunction<IfFunction>();
+            RegisterFunction<IntFunction>();
+            RegisterFunction<JoinFunction>();
+            RegisterFunction<NotFunction>();
+            RegisterFunction<OrFunction>();
+            RegisterFunction<OverFunction>();
+            RegisterFunction<RangeFunction>();
+            RegisterFunction<RegexFunction>();
+            RegisterFunction<ReverseFunction>();
+            RegisterFunction<SplitFunction>();
+            RegisterFunction<SumFunction>();
+        }
 
         /// <summary>
         /// Constructor.
@@ -20,10 +45,23 @@ namespace TextParser.Operators
             _function = function;
         }
 
-        public override bool CanBeBinary => true;
-        public override bool CanBeUnary => false;
         public override string Text => _function == null ? base.Text : _function.Name + base.Text;
 
+        public static void RegisterFunction<T>() where T : IFunction, new()
+        {
+            T func = new T();
+            foreach (string id in func.Ids)
+                IOCContainer.Instance.Register<IFunction, T>(id);
+        }
+
+        /// <summary>
+        /// Evaluates an operator expression.
+        /// </summary>
+        /// <param name="first">The first value.</param>
+        /// <param name="last">The second value.</param>
+        /// <param name="parameters">Any substitution parameters.</param>
+        /// <param name="isFinal">Whether this is the final (output) call.</param>
+        /// <returns>The evaluated value.</returns>
         public override IToken Evaluate(IToken first, IToken last, TokenTreeList parameters, bool isFinal)
         {
             if (_function == null)
@@ -35,81 +73,15 @@ namespace TextParser.Operators
                 if (functionToken == null || functionToken is ListToken)
                     throw new Exception($"First element of Operation {Text} is not unique.");
 
-                string function = functionToken.Text;
-                switch (function)
+                string function = functionToken.ToString();
+                _function = IOCContainer.Instance.Resolve<IFunction>(function);
+                if (_function == null && function.EndsWith("F"))
                 {
-                    case AndFunction.ID:
-                        _function = new AndFunction();
-                        break;
-                    case AggregateFunction.ID:
-                        _function = new AggregateFunction();
-                        break;
-                    case CaseFunction.ID:
-                        _function = new CaseFunction();
-                        break;
-                    case ComparisonFunction.ID:
-                        _function = new ComparisonFunction();
-                        break;
-                    case ContainsFunction.ID:
-                        _function = new ContainsFunction();
-                        break;
-                    case CountFunction.ID:
-                        _function = new CountFunction();
-                        break;
-                    case DoubleFunction.ID:
-                        _function = new DoubleFunction();
-                        break;
-                    case IfFunction.ID:
-                        _function = new IfFunction();
-                        break;
-                    case IntFunction.ID:
-                        _function = new IntFunction();
-                        break;
-                    case JoinFunction.ID:
-                        _function = new JoinFunction();
-                        break;
-                    case OrFunction.ID:
-                        _function = new OrFunction();
-                        break;
-                    case OverFunction.ID:
-                        _function = new OverFunction();
-                        break;
-                    case RangeFunction.ID:
-                        _function = new RangeFunction();
-                        break;
-                    case RegexFunction.ID:
-                        _function = new RegexFunction();
-                        break;
-                    case ReverseFunction.ID:
-                        _function = new ReverseFunction();
-                        break;
-                    case SplitFunction.ID:
-                        _function = new SplitFunction();
-                        break;
-                    case SumFunction.ID:
-                        _function = new SumFunction();
-                        break;
-                    case UserFunction.ID:
-                        _function = new UserFunction();
-                        break;
-                    default:
-                        ListToken newList = new ListToken
-                        {
-                            new ExpressionToken(null, new SubstitutionOperator(), new StringToken(function))
-                        };
-                        ListToken oldList = last.Evaluate(parameters, isFinal) as ListToken;
-                        if (oldList != null)
-                        {
-                            foreach (IToken token in oldList.Tokens)
-                                newList.Add(token);
-                        }
-                        else
-                        {
-                            newList.Add(last);
-                        }
-                        ExpressionToken expression = new ExpressionToken(null, new FunctionOperator(new UserFunction()), newList);
-                        return expression.Evaluate(parameters, isFinal);
+                    _function = IOCContainer.Instance.Resolve<IFunction>(function.Substring(0, function.Length - 1));
+                    _flatten = _function != null;
                 }
+                if (_function == null)
+                    return EvaluateUserFunction(last, parameters, isFinal, function);
             }
 
             IToken parameterList;
@@ -117,9 +89,10 @@ namespace TextParser.Operators
             {
                 parameterList = PrepareUserFunction(last, parameters);
             }
-            else if (_function.IsComparisonFunction)
+            else if (_function.AllowsShortCircuit)
             {
-                parameterList = last.EvaluateList();
+                parameterList = last;
+                _flatten = true;
             }
             else
             {
@@ -141,14 +114,31 @@ namespace TextParser.Operators
                 }
             }
 
-            return _function.Perform(parameterList, parameters, isFinal);
+            return _function.Perform(_flatten ? parameterList.Flatten() : parameterList, parameters, isFinal);
+        }
+
+        private static IToken EvaluateUserFunction(IToken last, TokenTreeList parameters, bool isFinal, string function)
+        {
+            ListToken newList = new ListToken(new ExpressionToken(null, new SubstitutionOperator(), new StringToken(function)));
+            ListToken oldList = last.Evaluate(parameters, isFinal) as ListToken;
+            if (oldList != null)
+            {
+                foreach (IToken token in oldList)
+                    newList.Add(token);
+            }
+            else
+            {
+                newList.Add(last);
+            }
+            ExpressionToken expression = new ExpressionToken(null, new FunctionOperator(new UserFunction()), newList);
+            return expression.Evaluate(parameters, isFinal);
         }
 
         private IToken PrepareUserFunction(IToken last, TokenTreeList parameters)
         {
             ListToken list = new ListToken();
             ListToken toAdd = (ListToken)last;
-            IToken toParse = toAdd.Tokens[0];
+            IToken toParse = toAdd.Value[0];
             IToken method = toParse;
             foreach (TokenTree parameter in parameters)
             {
@@ -159,12 +149,12 @@ namespace TextParser.Operators
                 while (onlyGlobal.Children.Remove(i.ToString())) ++i;
 
                 method = toParse.SubstituteParameters(onlyGlobal);
-                if (method.Text != toParse.Text)
+                if (method.ToString() != toParse.ToString())
                     break;
             }
-            list.Tokens.Add(method);
-            for (int i = 1; i < toAdd.Tokens.Count; ++i)
-                list.Tokens.Add(toAdd.Tokens[i].Evaluate(parameters, !_function.FinalCanBeExpression));
+            list.Value.Add(method);
+            for (int i = 1; i < toAdd.Value.Count; ++i)
+                list.Value.Add(toAdd.Value[i].Evaluate(parameters, !_function.FinalCanBeExpression));
             return list;
         }
     }

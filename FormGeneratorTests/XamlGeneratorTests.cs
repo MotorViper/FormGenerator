@@ -20,12 +20,13 @@ Fields:
     Field: Grid
         Field: Label
             Content: Hi
-            Width: $FieldWidth";
+            Width: $FieldWidth
+            Padding: 3,0";
 
         private const string XAML =
             "<Border HorizontalAlignment=\"Stretch\" VerticalAlignment=\"Stretch\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">" +
             "  <Grid>" +
-            "    <Label Content=\"Hi\" Width=\"200\" ></Label>" +
+            "    <Label Content=\"Hi\" Width=\"200\" Padding=\"3,0\"></Label>" +
             "  </Grid>" +
             "</Border>";
 

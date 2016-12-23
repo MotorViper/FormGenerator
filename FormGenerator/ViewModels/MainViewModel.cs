@@ -112,7 +112,7 @@ namespace FormGenerator.ViewModels
         public void LogMessage(string message, string overview)
         {
             if (DoLogging)
-                LogData += $"{DateTime.Now.TimeOfDay}: {overview}[I]: {message}\n";
+                OutputLogMessage(message, overview);
         }
 
         /// <summary>
@@ -123,23 +123,44 @@ namespace FormGenerator.ViewModels
             LogData = "";
         }
 
+        /// <summary>
+        /// Outputs the log message.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
+        /// <param name="overview">Shortened version of the message.</param>
+        private void OutputLogMessage(string message, string overview)
+        {
+            LogData += $"{DateTime.Now.TimeOfDay}: {overview}[I]: {message}\n";
+        }
+
+        /// <summary>
+        /// Test any expressions marked with a Test flag.
+        /// </summary>
         private void TestExpressions()
         {
-            Reload();
-            TokenTree data = DataViewModel.Instance.Values;
-            foreach (TokenTree tokenTree in data.Children)
+            try
             {
-                string doTest = tokenTree["Test"] ?? "false";
-                if (bool.Parse(doTest))
+                TokenTree data = DataViewModel.Instance.TestValues;
+                foreach (TokenTree tokenTree in data.Children)
                 {
-                    bool logIt = bool.Parse(tokenTree["Debug"] ?? "true");
-                    SetLogging(logIt);
-                    IToken result = tokenTree.Value.Evaluate(new TokenTreeList { DataViewModel.Instance.Values, DataConverter.Parameters }, true);
-                    ResetLoggingToDefault();
-                    SetLogging(true);
-                    LogMessage($"{tokenTree.Key} = {result}", "Test Result");
-                    ResetLoggingToDefault();
+                    string doTest = tokenTree["Test"] ?? "false";
+                    if (bool.Parse(doTest))
+                    {
+                        bool logIt = bool.Parse(tokenTree["Debug"] ?? "true");
+                        SetLogging(logIt);
+                        IToken simplified = tokenTree.Value.Simplify();
+                        OutputLogMessage($"{tokenTree.Key} = {simplified}", "Simplify Result");
+                        IToken result = simplified.Evaluate(new TokenTreeList {data, DataConverter.Parameters}, true);
+                        OutputLogMessage($"{tokenTree.Key} = {result}", "Test Result");
+                        ResetLoggingToDefault();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                SetLogging(true);
+                LogError(ex.Message, "Exception Thrown");
+                ResetLoggingToDefault();
             }
         }
 

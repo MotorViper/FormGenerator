@@ -8,12 +8,10 @@ namespace TextParser.Functions
     /// </summary>
     public class AggregateFunction : BaseFunction
     {
-        public const string ID = "AGG";
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        public AggregateFunction() : base(ID)
+        public AggregateFunction() : base("AGG(REGATE)")
         {
         }
 
@@ -29,16 +27,16 @@ namespace TextParser.Functions
             ListToken listToken = parameters as ListToken;
 
             if (listToken == null)
-                return new ListToken {new ListToken {parameters, new IntToken(1)}};
+                return new ListToken(new ListToken(parameters, new IntToken(1)));
 
             Dictionary<string, int> found = new Dictionary<string, int>();
-            foreach (IToken child in listToken.Tokens)
+            foreach (IToken child in listToken)
                 if (!AddToken(found, child))
                     return UnParsed(listToken);
 
             ListToken list = new ListToken();
             foreach (var item in found)
-                list.Add(new ListToken {new StringToken(item.Key), new IntToken(item.Value)});
+                list.Add(new ListToken(new StringToken(item.Key), new IntToken(item.Value)));
             return list;
         }
 
@@ -50,21 +48,11 @@ namespace TextParser.Functions
         /// <returns></returns>
         private static bool AddToken(IDictionary<string, int> found, IToken child)
         {
-            ListToken list = child as ListToken;
-            if (list != null)
-            {
-                foreach (IToken token in list)
-                    if (!AddToken(found, token))
-                        return false;
-            }
-            else
-            {
-                if (child is ExpressionToken)
-                    return false;
-                int count;
-                string value = child.Text;
-                found[value] = found.TryGetValue(value, out count) ? ++count : 1;
-            }
+            if (child is ExpressionToken)
+                return false;
+            int count;
+            string value = child.ToString();
+            found[value] = found.TryGetValue(value, out count) ? ++count : 1;
             return true;
         }
     }

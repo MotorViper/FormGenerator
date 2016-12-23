@@ -3,28 +3,40 @@ using TextParser.Tokens;
 
 namespace TextParser.Functions
 {
+    /// <summary>
+    /// Sums all the values in a list.
+    /// </summary>
     public class SumFunction : BaseFunction
     {
-        public const string ID = "SUM";
-
-        public SumFunction() : base(ID)
+        public SumFunction() : base("S(UM)")
         {
         }
 
-        public override IToken Perform(IToken dataToken, TokenTreeList parameters, bool isFinal)
+        /// <summary>
+        /// Evaluate the function.
+        /// </summary>
+        /// <param name="parameters">The tokens that make up the function parameter list.</param>
+        /// <param name="substitutions">The tokens that can be used for substitutions.</param>
+        /// <param name="isFinal">Whether a result needs to be returned.</param>
+        /// <returns></returns>
+        public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = dataToken as ListToken;
-            if (listToken != null && listToken.Tokens.Count > 0)
+            ListToken listToken = parameters as ListToken;
+            if (listToken != null)
             {
-                IToken current = listToken.Tokens[0];
-                for (int i = 1; i < listToken.Tokens.Count; ++i)
+                if (listToken.Count > 0)
                 {
-                    IToken token = listToken.Tokens[i];
-                    current = new ExpressionToken(current, new PlusOperator(), token).Evaluate(parameters, isFinal);
+                    IToken current = listToken[0];
+                    for (int i = 1; i < listToken.Count; ++i)
+                    {
+                        IToken token = listToken[i];
+                        current = new ExpressionToken(current, new PlusOperator(), token).Evaluate(substitutions, isFinal);
+                    }
+                    return current;
                 }
-                return current;
+                return new NullToken();
             }
-            return dataToken;
+            return parameters;
         }
     }
 }

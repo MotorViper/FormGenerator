@@ -15,7 +15,6 @@ namespace FormGenerator.ViewModels
     public class DataViewModel : ViewModel
     {
         private readonly IXamlTokenData _data = IOCContainer.Instance.Resolve<IXamlTokenData>();
-        private readonly string _dataName;
         private readonly IInputData _inputData = IOCContainer.Instance.Resolve<IInputData>();
         private readonly Lazy<ILogging> _logger = IOCContainer.Instance.LazyResolve<ILogging>();
         private readonly NotifyingProperty<string> _selected = new NotifyingProperty<string>();
@@ -29,7 +28,6 @@ namespace FormGenerator.ViewModels
             {
                 try
                 {
-                    _dataName = _inputData.DataName;
                     if (!_data.HasMainData)
                     {
                         _data.DefaultDirectory = _inputData.DefaultDirectory;
@@ -83,12 +81,29 @@ namespace FormGenerator.ViewModels
                     _selected.SetValue(value, this);
                     Values = _data.MainData.FindFirst(Selected);
                     TokenTree parameters = new TokenTree(_data.StaticData.GetChildren("Parameters"));
-                    TokenTree defaults = parameters.FindFirst("Defaults." + _dataName);
+                    TokenTree defaults = parameters.FindFirst("Defaults." + _inputData.DataName);
                     Values.AddMissing(defaults);
                     Values.SetParameters(parameters);
                     Values.Children.PropertyChanged += OnChildrenChanged;
                     OnPropertyChanged("Values");
                 }
+            }
+        }
+
+        /// <summary>
+        /// Reads the token data from the data files for testing.
+        /// </summary>
+        public TokenTree TestValues
+        {
+            get
+            {
+                TokenTree values = Parser.ParseFile(_inputData.MainDataFile, _inputData.DefaultDirectory, "XML").FindFirst(Selected);
+                TokenTree parameters =
+                    new TokenTree(Parser.ParseFile(_inputData.StaticDataFile, _inputData.DefaultDirectory, "XML").GetChildren("Parameters"));
+                TokenTree defaults = parameters.FindFirst("Defaults." + _inputData.DataName);
+                values.AddMissing(defaults);
+                values.SetParameters(parameters);
+                return values;
             }
         }
 

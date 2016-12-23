@@ -1,12 +1,40 @@
-﻿namespace TextParser.Tokens
+﻿using System;
+
+namespace TextParser.Tokens
 {
     /// <summary>
     /// Base class for tokens.
     /// </summary>
     public abstract class BaseToken : IToken
     {
-        public abstract string Text { get; }
-        public abstract TTo Convert<TTo>();
+        /// <summary>
+        /// Converts the token to a boolean.
+        /// </summary>
+        public virtual bool ToBool()
+        {
+            throw new Exception($"Cannot convert {GetType().Name} token");
+        }
+
+        /// <summary>
+        /// Converts the token to an integer.
+        /// </summary>
+        public virtual int ToInt()
+        {
+            throw new Exception($"Cannot convert {GetType().Name} token");
+        }
+
+        /// <summary>
+        /// Converts the token to a double.
+        /// </summary>
+        public virtual double ToDouble()
+        {
+            throw new Exception($"Cannot convert {GetType().Name} token");
+        }
+
+        /// <summary>
+        /// Checks if the token is an expression.
+        /// </summary>
+        public virtual bool IsExpression => false;
 
         public IToken Simplify()
         {
@@ -17,7 +45,7 @@
         /// Converts the token to a list of tokens if possible and required.
         /// </summary>
         /// <returns>The list of tokens or the original token.</returns>
-        public virtual IToken EvaluateList()
+        public virtual IToken Flatten()
         {
             return this;
         }
@@ -45,18 +73,7 @@
         /// <returns>True if the current token contains the input text.</returns>
         public virtual bool Contains(string text)
         {
-            return Text == text;
-        }
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        /// <returns>
-        /// A string that represents the current object.
-        /// </returns>
-        public override string ToString()
-        {
-            return Text;
+            return ToString() == text;
         }
 
         /// <summary>
@@ -73,7 +90,7 @@
             if (obj.GetType() != GetType())
                 return false;
             IToken token = (IToken)obj;
-            return token.Text == Text;
+            return token.ToString() == ToString();
         }
 
         /// <summary>
@@ -84,7 +101,7 @@
         /// </returns>
         public override int GetHashCode()
         {
-            return (Text + GetType().Name).GetHashCode();
+            return (ToString() + GetType().Name).GetHashCode();
         }
     }
 }

@@ -37,6 +37,9 @@ namespace FormGenerator.Tools
             formattedText.State = inComment ? BlockState.InComment : BlockState.Normal;
         }
 
+        /// <summary>
+        /// Initialises the highlighter with data from the options file (if it exists) or with default values.
+        /// </summary>
         private static void Initialise()
         {
             if (s_options == null)
@@ -51,19 +54,19 @@ namespace FormGenerator.Tools
                     TokenTree options = Parser.Parse(new StreamReader(optionsFile)).FindFirst("Highlighting");
                     foreach (TokenTree child in options.Children)
                     {
-                        VttSection section = child.Key.Text.ParseEnum<VttSection>();
+                        VttSection section = child.Key.ToString().ParseEnum<VttSection>();
                         IToken value = child.Value;
                         ListToken list = value as ListToken;
                         if (list != null)
                         {
                             VttTextOptions values = new VttTextOptions();
-                            foreach (IToken token in list.Tokens)
-                                values.Add(token.Text);
+                            foreach (IToken token in list)
+                                values.Add(token.ToString());
                             s_options.Add(section, values);
                         }
                         else
                         {
-                            string values = child.Value.Text;
+                            string values = child.Value.ToString();
                             s_options.Add(section, new VttTextOptions(values));
                         }
                     }
@@ -173,11 +176,18 @@ namespace FormGenerator.Tools
                 FormatItem(VttSection.Expression, formattedText, blockOffset, block);
         }
 
+        /// <summary>
+        /// Formats a vtt function.
+        /// </summary>
+        /// <param name="formattedText">The text of the function.</param>
+        /// <param name="token">The token representing the function.</param>
+        /// <param name="blockOffset">The offset from the start of the format block.</param>
+        /// <param name="block">The format block containing the function text.</param>
         private static void FormatFunction(IFormattedTextBlock formattedText, ExpressionToken token, int blockOffset, string block)
         {
             if (token.First is StringToken)
             {
-                string name = token.First.Text;
+                string name = token.First.ToString();
                 int index = block.IndexOf(name);
                 index = block.IndexOf(':', index + name.Length);
                 FormatItem(VttSection.Function, formattedText, blockOffset, block.Substring(0, index + 1));

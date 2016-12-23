@@ -1,45 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
 using TextParser.Tokens;
 
 namespace TextParser.Functions
 {
+    /// <summary>
+    /// Process a user defined function.
+    /// </summary>
     public class UserFunction : BaseFunction
     {
-        public const string ID = "FUNC";
-
-        public UserFunction() : base(ID)
+        public UserFunction() : base("FUNC")
         {
         }
 
+        /// <summary>
+        /// Returns true if the function can work with expression tokens.
+        /// </summary>
         public override bool FinalCanBeExpression => true;
 
-        public override IToken Perform(IToken parameterList, TokenTreeList parameters, bool isFinal)
+        /// <summary>
+        /// Evaluate the function.
+        /// </summary>
+        /// <param name="parameters">The tokens that make up the function parameter list.</param>
+        /// <param name="substitutions">The tokens that can be used for substitutions.</param>
+        /// <param name="isFinal">Whether a result needs to be returned.</param>
+        /// <returns></returns>
+        public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = parameterList as ListToken;
+            ListToken listToken = parameters as ListToken;
 
             if (listToken == null)
-                throw new Exception($"Last token must be list for '{ID}'");
+                throw new Exception($"Last token must be list for '{Name}'");
 
-            List<IToken> lastList = listToken.Tokens;
-            int count = lastList.Count;
+            int count = listToken.Count;
             if (count < 2)
-                throw new Exception($"Must have at least 2 values for '{ID}': {listToken}");
+                throw new Exception($"Must have at least 2 values for '{Name}': {listToken}");
 
-            IToken method = lastList[0];
+            IToken method = listToken[0];
 
             if (isFinal)
             {
                 TokenTree tree = new TokenTree();
-                for (int i = 1; i < lastList.Count; ++i)
+                for (int i = 1; i < listToken.Count; ++i)
                 {
-                    IToken parameter = lastList[i];
+                    IToken parameter = listToken[i];
                     tree.Children.Add(new TokenTree(i.ToString(), parameter));
                 }
                 method = method.SubstituteParameters(tree);
             }
 
-            IToken parsed = method.Evaluate(parameters, isFinal);
+            IToken parsed = method.Evaluate(substitutions, isFinal);
             if (parsed is ExpressionToken)
             {
                 if (!isFinal)

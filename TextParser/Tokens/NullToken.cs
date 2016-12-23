@@ -1,11 +1,10 @@
-﻿using System;
-
-namespace TextParser.Tokens
+﻿namespace TextParser.Tokens
 {
+    /// <summary>
+    /// Represents a null value.
+    /// </summary>
     public class NullToken : BaseToken
     {
-        public override string Text => "";
-
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
@@ -15,11 +14,6 @@ namespace TextParser.Tokens
         public override string ToString()
         {
             return "";
-        }
-
-        public override TTo Convert<TTo>()
-        {
-            throw new Exception("Cannot convert null token");
         }
     }
 }

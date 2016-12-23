@@ -1,4 +1,5 @@
-﻿using TextParser.Operators;
+﻿using System.Collections.Generic;
+using TextParser.Operators;
 using TextParser.Tokens;
 
 namespace TextParser.Functions
@@ -8,13 +9,16 @@ namespace TextParser.Functions
     /// </summary>
     public abstract class BaseFunction : IFunction
     {
+        private readonly string _idBase;
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="name">The function name.</param>
-        protected BaseFunction(string name)
+        /// <param name="idBase">The base string for creating the name and ids from. X(Y) -> X and XY, X -> X.</param>
+        protected BaseFunction(string idBase)
         {
-            Name = name;
+            _idBase = idBase;
+            Name = idBase.Replace("(", "").Replace(")", "");
         }
 
         /// <summary>
@@ -28,9 +32,9 @@ namespace TextParser.Functions
         public virtual bool FinalCanBeExpression => false;
 
         /// <summary>
-        /// Returns true if the function does comparisons, if so no pre-evaluation is done.
+        /// Returns true if the function allows short circuit evaluation, if so no pre-evaluation is done.
         /// </summary>
-        public virtual bool IsComparisonFunction => false;
+        public virtual bool AllowsShortCircuit => false;
 
         /// <summary>
         /// Evaluate the function.
@@ -49,6 +53,20 @@ namespace TextParser.Functions
         public virtual IToken ValueIfFinalValueIsExpression(ExpressionToken finalValue)
         {
             return new NullToken();
+        }
+
+        /// <summary>
+        /// The ids that can be used to reference the function.
+        /// </summary>
+        public virtual IEnumerable<string> Ids
+        {
+            get
+            {
+                int bracketPosition = _idBase.IndexOf('(');
+                return bracketPosition > 0
+                    ? new List<string> {_idBase.Substring(0, bracketPosition), Name}
+                    : new List<string> {Name};
+            }
         }
 
         /// <summary>

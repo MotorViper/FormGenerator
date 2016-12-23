@@ -23,28 +23,44 @@ namespace TextParser.Operators
 
         public virtual string Text { get; }
 
+        /// <summary>
+        /// Evaluates an operator expression.
+        /// </summary>
+        /// <param name="firstToken">The first value.</param>
+        /// <param name="lastToken">The second value.</param>
+        /// <param name="parameters">Any substitution parameters.</param>
+        /// <param name="isFinal">Whether this is the final (output) call.</param>
+        /// <returns>The evaluated value.</returns>
         public virtual IToken Evaluate(IToken firstToken, IToken lastToken, TokenTreeList parameters, bool isFinal)
         {
-            IToken first = firstToken?.Evaluate(parameters, isFinal);
             IToken last = lastToken?.Evaluate(parameters, isFinal);
+            if (last == null)
+                throw new Exception($"Operation {Text} must have parameters.");
+            ITypeToken lastTypeToken = last as ITypeToken;
+
+            IToken first = firstToken?.Evaluate(parameters, isFinal);
             if (first == null)
             {
-                if (CanBeUnary)
-                {
-                    ITypeToken secondType = last?.Simplify() as ITypeToken;
-                    return secondType != null ? Evaluate(secondType) : new ExpressionToken(null, this, last);
-                }
-                throw new Exception($"Operation {Text} can not be unary.");
+                if (!CanBeUnary)
+                    throw new Exception($"Operation {Text} can not be unary.");
+                if ((last as NullToken) != null)
+                    return last;
+                return lastTypeToken == null || last.IsExpression ? new ExpressionToken(null, this, last) : Evaluate(lastTypeToken);
             }
 
-            if (CanBeBinary)
-            {
-                ITypeToken firstType = first.Simplify() as ITypeToken;
-                ITypeToken secondType = last?.Simplify() as ITypeToken;
-                return firstType != null && secondType != null ? Evaluate(firstType, secondType) : new ExpressionToken(first, this, last);
-            }
+            if (!CanBeBinary)
+                throw new Exception($"Operation {Text} can not be binary.");
 
-            throw new Exception($"Operation {Text} can not be binary.");
+            if ((first as NullToken) != null)
+                return last;
+
+            if ((last as NullToken) != null)
+                return first;
+
+            ITypeToken firstTypeToken = first as ITypeToken;
+            return firstTypeToken == null || lastTypeToken == null || first.IsExpression || last.IsExpression
+                ? new ExpressionToken(first, this, last)
+                : Evaluate(firstTypeToken, lastTypeToken);
         }
 
         public virtual IToken SubstituteParameters(IToken firstToken, IToken lastToken, TokenTree parameters)
@@ -75,11 +91,22 @@ namespace TextParser.Operators
             return Text;
         }
 
+        /// <summary>
+        /// Evaluates a unary operator expression.
+        /// </summary>
+        /// <param name="token">The value to apply the operator to.</param>
+        /// <returns>The evaluated value.</returns>
         protected virtual IToken Evaluate(ITypeToken token)
         {
             throw new Exception($"Operation unary {Text} not supported for {token.Type}.");
         }
 
+        /// <summary>
+        /// Evaluates a binary operator expression.
+        /// </summary>
+        /// <param name="first">The first value.</param>
+        /// <param name="last">The second value.</param>
+        /// <returns>The evaluated value.</returns>
         protected virtual IToken Evaluate(ITypeToken first, ITypeToken last)
         {
             throw new Exception($"Operation binary {Text} not supported for ({first.Type}, {last.Type}).");
@@ -94,6 +121,7 @@ namespace TextParser.Operators
                 case ":":
                     return new FunctionOperator();
                 case "|":
+                case ",":
                     return new ListOperator();
                 case "+":
                     return new PlusOperator();

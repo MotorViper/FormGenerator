@@ -5,28 +5,33 @@ namespace TextParser.Functions
 {
     public class DoubleFunction : BaseFunction
     {
-        public const string ID = "DBL";
-
-        public DoubleFunction() : base(ID)
+        public DoubleFunction() : base("D(OUBLE)")
         {
         }
 
-        public override IToken Perform(IToken dataToken, TokenTreeList parameters, bool isFinal)
+        /// <summary>
+        /// Evaluate the function.
+        /// </summary>
+        /// <param name="parameters">The tokens that make up the function parameter list.</param>
+        /// <param name="substitutions">The tokens that can be used for substitutions.</param>
+        /// <param name="isFinal">Whether a result needs to be returned.</param>
+        /// <returns></returns>
+        public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = dataToken as ListToken;
+            ListToken listToken = parameters as ListToken;
             if (listToken != null)
             {
                 ListToken returnList = new ListToken();
-                foreach (IToken token in listToken.Tokens)
-                    returnList.Add(Perform(token, parameters, isFinal));
+                foreach (IToken token in listToken)
+                    returnList.Add(Perform(token, substitutions, isFinal));
                 return returnList;
             }
 
-            ITypeToken typeToken = dataToken as ITypeToken;
+            ITypeToken typeToken = parameters as ITypeToken;
             if (typeToken != null)
-                return new DoubleToken(typeToken.Convert<double>());
+                return new DoubleToken(typeToken.ToDouble());
 
-            throw new Exception($"Token must be list or convertible to double for {ID}");
+            throw new Exception($"Token must be list/item of token(s) convertible to double for {Name}");
         }
     }
 }

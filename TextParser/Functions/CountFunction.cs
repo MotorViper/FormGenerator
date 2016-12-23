@@ -8,12 +8,10 @@ namespace TextParser.Functions
     /// </summary>
     public class CountFunction : BaseFunction
     {
-        public const string ID = "COUNT";
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        public CountFunction() : base(ID)
+        public CountFunction() : base("C(OUNT)")
         {
         }
 
@@ -32,7 +30,7 @@ namespace TextParser.Functions
         public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
             ListToken listToken = parameters as ListToken;
-            return new IntToken(listToken?.Tokens.Count ?? (parameters == null ? 0 : 1));
+            return new IntToken(listToken?.Count ?? (parameters == null ? 0 : 1));
         }
 
         /// <summary>

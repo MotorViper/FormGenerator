@@ -16,7 +16,7 @@ namespace TextParser
             new Dictionary<string, Func<string[], int, Action<IToken, int, string>, IToken>>
             {
                 ["([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])"] = (tokens, x, y) => new BoolTooken(bool.Parse(tokens[0])),
-                ["(.*)(\\|)([^\\|]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
+                ["(.*)([\\|,])([^\\|,]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
                 ["(.*)([\\+-])([^\\+-]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
                 ["(.*)([\\*/×÷])([^\\*/×÷]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
                 ["(.*)(#)([^#]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
@@ -31,7 +31,7 @@ namespace TextParser
 
         public static string Evaluate(this string input)
         {
-            return Parse(input).Simplify().Text;
+            return Parse(input).Simplify().ToString();
         }
 
         private static IToken CreateStringToken(IReadOnlyList<string> tokens, int startPosition, Action<IToken, int, string> callback)

@@ -41,13 +41,19 @@ namespace TextParser
             return parser.ParsedTree;
         }
 
+        /// <summary>
+        /// Adds, and parses, a new line to the current token tree.
+        /// </summary>
+        /// <param name="line">The line to add.</param>
+        /// <param name="ignoreErrors">Whether to ignore any errors.</param>
+        /// <returns>The token tree that was created from the line.</returns>
         public TokenTree AddLine(Line line, bool ignoreErrors = false)
         {
             TokenTree tokenTree = Splitter.Split(line.Content, ignoreErrors);
             StringToken key = tokenTree.Key as StringToken;
-            if (key != null && key.Text.Contains("."))
+            if (key != null && key.ToString().Contains("."))
             {
-                string[] parts = key.Text.Split('.');
+                string[] parts = key.ToString().Split('.');
                 TokenTree tree = new TokenTree(parts[0]);
                 TokenTree top = tree;
                 for (int i = 1; i < parts.Length - 1; ++i)

@@ -15,7 +15,7 @@ namespace TextParserTest
         {
             TokenTreeList children = new TokenTreeList
             {
-                new TokenTree(new ListToken {new StringToken("C"), new StringToken("D")}, new StringToken("E")),
+                new TokenTree(new ListToken(new StringToken("C"), new StringToken("D")), new StringToken("E")),
                 new TokenTree(new StringToken("A"), new StringToken("B")),
                 new TokenTree(new RegExToken(".*F", RegExToken.RegexType.Regex), new StringToken("G")),
                 new TokenTree(new RegExToken("*H", RegExToken.RegexType.Wildcard), new StringToken("I")),

@@ -56,7 +56,7 @@ namespace WebFormGenerator.Models
             foreach (TokenTree tokenTree in styles)
             {
                 IToken targetType = tokenTree.Value;
-                if (!string.IsNullOrWhiteSpace(targetType.Text))
+                if (!string.IsNullOrWhiteSpace(targetType.ToString()))
                 {
                     _sb.Append(tokenTree.Value);
                 }
@@ -100,7 +100,7 @@ namespace WebFormGenerator.Models
         {
             if (property.Name == "BasedOn")
             {
-                property = styles.FirstOrDefault(x => x["Name"] == property.Value.Text);
+                property = styles.FirstOrDefault(x => x["Name"] == property.Value.ToString());
                 AddProperties(styles, parameters, property);
             }
             else
@@ -122,7 +122,7 @@ namespace WebFormGenerator.Models
         /// <returns>The processed token.</returns>
         private static string ProcessTokens(IToken value, TokenTreeList parameters)
         {
-            return value.Evaluate(parameters, false).Text;
+            return value.Evaluate(parameters, false).ToString();
         }
     }
 }

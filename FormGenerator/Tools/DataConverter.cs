@@ -15,6 +15,10 @@ namespace FormGenerator.Tools
     public class DataConverter : IValueConverter
     {
         private static readonly List<ItemData> s_fieldData = new List<ItemData>();
+
+        /// <summary>
+        /// The data to be used for substitutions.
+        /// </summary>
         public static TokenTree Parameters { get; set; }
 
         /// <summary>
@@ -95,7 +99,7 @@ namespace FormGenerator.Tools
             /// </returns>
             public override string ToString()
             {
-                return ((TokenTreeProperty)Value).Token.Text;
+                return ((TokenTreeProperty)Value).Token.ToString();
             }
         }
     }

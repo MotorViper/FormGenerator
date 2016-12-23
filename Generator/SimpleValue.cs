@@ -1,31 +1,28 @@
 ﻿namespace Generator
 {
+    /// <summary>
+    /// Simple implementation of the IValue interface holding a string.
+    /// </summary>
     public class SimpleValue : IValue
     {
-        public SimpleValue(int value) : this(value.ToString(), value, true)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="value">String holding the value.</param>
+        public SimpleValue(string value)
         {
-        }
-
-        public SimpleValue(string value) : this(value, 0, false)
-        {
-        }
-
-        private SimpleValue(string s, int i, bool b)
-        {
-            StringValue = s;
-            IsInt = b;
-            IntValue = i;
+            StringValue = value;
         }
 
         /// <summary>
         /// Integer value of property.
         /// </summary>
-        public int IntValue { get; }
+        public int IntValue => 0;
 
         /// <summary>
         /// Whether the property is an integer.
         /// </summary>
-        public bool IsInt { get; }
+        public bool IsInt => false;
 
         /// <summary>
         /// String value of property.
@@ -73,7 +70,7 @@
         /// <param name="element">The element that owns the parameter.</param>
         /// <param name="isFinal">Is this the final time the value will be evaluated.</param>
         /// <returns>The evaluated value.</returns>
-        public IValue Evaluate(IElement parameters, bool isFinal)
+        public IValue Evaluate(IElement element, bool isFinal)
         {
             return null;
         }

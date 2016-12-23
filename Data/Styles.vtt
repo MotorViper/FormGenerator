@@ -11,7 +11,7 @@ Left:
 Right: 
 	HorizontalAlignment: Right
 ShiftRight: 
-	Margin: '2,0,0,0'
+	Margin: 2,0,0,0
 SideHeading: Label
 	FontWeight: Bold
 	FontSize: 22
@@ -30,7 +30,7 @@ PlusLabel: Label
 	BasedOn: CentreLabel
 	Content: '+'
 	Width: 16
-	Margin: '-3,0,0,0'
+	Margin: -3,0,0,0
 BorderedLabel: Label
 	BasedOn: CentreLabel
 	BorderThickness: 1
@@ -38,12 +38,12 @@ BorderedLabel: Label
 	Margin: 1
 	Height: 26
 LabelUnder: Label
-	Margin: '0,-6,0,0'
+	Margin: 0,-6,0,0
 	FontSize: 8
 LabelAbove: Label
 	BasedOn: Left
 	Height: 25
-	Margin: '0,-3,0,0'
+	Margin: 0,-3,0,0
 LabelUnderLeft: Label
 	BasedOn: LabelUnder
 	HorizontalAlignment: Left

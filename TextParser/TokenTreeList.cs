@@ -26,7 +26,7 @@ namespace TextParser
 
         public bool Remove(string value)
         {
-            TokenTree found = this.FirstOrDefault(child => child.Key.Text == value);
+            TokenTree found = this.FirstOrDefault(child => child.Key.ToString() == value);
             if (found != null)
                 Remove(found);
             return found != null;
@@ -49,7 +49,7 @@ namespace TextParser
                 string[] searchCriteria = first.Split('=');
                 foreach (TokenTree item in this)
                 {
-                    if (item.Key.Text == searchCriteria[0] && item.Value.Text == searchCriteria[1])
+                    if (item.Key.ToString() == searchCriteria[0] && item.Value.ToString() == searchCriteria[1])
                         tokens.Add(item);
                 }
             }

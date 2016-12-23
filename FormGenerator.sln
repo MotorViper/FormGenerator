@@ -38,6 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{D94D049F-6
 		Data\Classes.vtt = Data\Classes.vtt
 		Data\Data.vtt = Data\Data.vtt
 		Data\Defaults.vtt = Data\Defaults.vtt
+		Data\Feats.vtt = Data\Feats.vtt
 		Data\Fields.vtt = Data\Fields.vtt
 		Data\HTMLStyles.vtt = Data\HTMLStyles.vtt
 		Data\Misc.vtt = Data\Misc.vtt

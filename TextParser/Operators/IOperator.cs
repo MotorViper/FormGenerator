@@ -9,7 +9,16 @@ namespace TextParser.Operators
         /// </summary>
         string Text { get; }
 
-        IToken Evaluate(IToken first, IToken last, TokenTreeList parameters, bool isFinal);
+        /// <summary>
+        /// Evaluates an operator expression.
+        /// </summary>
+        /// <param name="firstToken">The first value.</param>
+        /// <param name="lastToken">The second value.</param>
+        /// <param name="parameters">Any substitution parameters.</param>
+        /// <param name="isFinal">Whether this is the final (output) call.</param>
+        /// <returns>The evaluated value.</returns>
+        IToken Evaluate(IToken firstToken, IToken lastToken, TokenTreeList parameters, bool isFinal);
+
         IToken SubstituteParameters(IToken first, IToken second, TokenTree parameters);
 
         /// <summary>

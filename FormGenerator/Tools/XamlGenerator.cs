@@ -32,8 +32,10 @@ namespace FormGenerator.Tools
                 }
                 TokenTreeList fields = data.GetAll("Fields");
                 TokenTreeList styles = data.GetAll("Styles");
-                _sb.Append(
-                    "<Border HorizontalAlignment=\"Stretch\" VerticalAlignment=\"Stretch\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">")
+                _sb.Append("<Border HorizontalAlignment=\"Stretch\" ")
+                    .Append("VerticalAlignment=\"Stretch\" ")
+                    .Append("xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" ")
+                    .Append("xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">")
                     .AppendLine();
                 if (styles != null && styles.Count > 0)
                     AddStyles(styles, parameters);
@@ -58,15 +60,15 @@ namespace FormGenerator.Tools
 
                 IToken targetType = tokenTree.Value;
                 bool hasType = false;
-                if (!string.IsNullOrWhiteSpace(targetType.Text))
+                if (!string.IsNullOrWhiteSpace(targetType.ToString()))
                 {
-                    _sb.Append("TargetType=\"{x:Type ").Append(targetType.Text).Append("}\" ");
+                    _sb.Append("TargetType=\"{x:Type ").Append(targetType.ToString()).Append("}\" ");
                     hasType = true;
                 }
 
                 IToken key = tokenTree.Key;
-                if (!string.IsNullOrWhiteSpace(key.Text))
-                    _sb.Append("x:Key=\"").Append(key.Text).Append("\" ");
+                if (!string.IsNullOrWhiteSpace(key.ToString()))
+                    _sb.Append("x:Key=\"").Append(key.ToString()).Append("\" ");
 
                 string basedOn = tokenTree["BasedOn"];
                 if (!string.IsNullOrWhiteSpace(basedOn))
@@ -95,7 +97,16 @@ namespace FormGenerator.Tools
         /// <returns>The processed token.</returns>
         private static string ProcessTokens(IToken value, TokenTreeList parameters)
         {
-            return value.Evaluate(parameters, false).Text;
+            IToken evaluated = value.Evaluate(parameters, false);
+            ListToken list = evaluated as ListToken;
+            if (list != null)
+            {
+                string output = "";
+                foreach (IToken token in list)
+                    output += token.ToString() + ",";
+                return output.TrimEnd(',');
+            }
+            return evaluated.ToString();
         }
     }
 }

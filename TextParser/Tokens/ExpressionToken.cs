@@ -26,6 +26,11 @@ namespace TextParser.Tokens
 
         public IToken First { get; }
 
+        /// <summary>
+        /// Whether this is token contains an expression.
+        /// </summary>
+        public override bool IsExpression => true;
+
         private ILogging Logger => _logger.Value;
 
         public bool NeedsSecond
@@ -39,7 +44,6 @@ namespace TextParser.Tokens
 
         public IOperator Operator { get; }
         public IToken Second { get; private set; }
-        public override string Text => First == null ? $"({Operator.Text}{Second.Text})" : $"({First.Text}{Operator.Text}{Second.Text})";
 
         /// <summary>
         /// Returns a string that represents the current object.
@@ -49,7 +53,7 @@ namespace TextParser.Tokens
         /// </returns>
         public override string ToString()
         {
-            return "ExpressionToken: " + Text;
+            return First == null ? $"({Operator.Text}{Second.ToString()})" : $"({First.ToString()}{Operator.Text}{Second.ToString()})";
         }
 
         public ExpressionToken SetSecond(IToken token)
@@ -64,18 +68,50 @@ namespace TextParser.Tokens
             return this;
         }
 
-        public override TTo Convert<TTo>()
+        /// <summary>
+        /// Converts the token to a boolean.
+        /// </summary>
+        public override bool ToBool()
         {
             IToken simple = Simplify();
             if (!(simple is ExpressionToken))
-                return simple.Convert<TTo>();
+                return simple.ToBool();
             throw new Exception("Could not convert ExpressionToken");
         }
 
+        /// <summary>
+        /// Converts the token to an integer.
+        /// </summary>
+        public override int ToInt()
+        {
+            IToken simple = Simplify();
+            if (!(simple is ExpressionToken))
+                return simple.ToInt();
+            throw new Exception("Could not convert ExpressionToken");
+        }
+
+        /// <summary>
+        /// Converts the token to a double.
+        /// </summary>
+        public override double ToDouble()
+        {
+            IToken simple = Simplify();
+            if (!(simple is ExpressionToken))
+                return simple.ToDouble();
+            throw new Exception("Could not convert ExpressionToken");
+        }
+
+        /// <summary>
+        /// Evaluates the token.
+        /// </summary>
+        /// <param name="parameters">The parameters to use for substitutions.</param>
+        /// <param name="isFinal">Whether this is a final parse.</param>
+        /// <returns></returns>
         public override IToken Evaluate(TokenTreeList parameters, bool isFinal)
         {
             IToken result = Operator.Evaluate(First, Second, parameters, isFinal);
-            Logger?.LogMessage($"{this} -> {result}", "Evaluate");
+            if (ToString() != result.ToString())
+                Logger?.LogMessage($"{this} -> {result}", "Evaluate");
             return result;
         }
 
@@ -83,7 +119,7 @@ namespace TextParser.Tokens
         /// Converts the token to a list of tokens if possible and required.
         /// </summary>
         /// <returns>The list of tokens or the original token.</returns>
-        public override IToken EvaluateList()
+        public override IToken Flatten()
         {
             return Operator.EvaluateList(this);
         }

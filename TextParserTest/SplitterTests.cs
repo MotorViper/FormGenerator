@@ -21,7 +21,7 @@ namespace TextParserTest
         {
             TokenTree tokenTree = Splitter.Split(toSplit);
             Assert.AreEqual(key, tokenTree.Name, toSplit);
-            Assert.AreEqual(value, tokenTree.Value.Text, toSplit);
+            Assert.AreEqual(value, tokenTree.Value.ToString(), toSplit);
         }
     }
 }

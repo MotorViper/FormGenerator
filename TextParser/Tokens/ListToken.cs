@@ -1,34 +1,59 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace TextParser.Tokens
 {
-    public class ListToken : BaseToken, IEnumerable<IToken>
+    public class ListToken : TypeToken<List<IToken>>
     {
-        public ListToken()
+        public ListToken() : base(new List<IToken>(), TokenType.ListToken)
         {
-            Tokens = new List<IToken>();
         }
 
-        public override string Text
+        public ListToken(IToken value) : this()
         {
-            get
-            {
-                if (Tokens.Count == 0)
-                    return "";
-
-                StringBuilder sb = new StringBuilder();
-                foreach (IToken token in Tokens)
-                    sb.Append(token.Text).Append("|");
-                string text = sb.ToString();
-                return "(" + text.Substring(0, text.Length - 1) + ")";
-            }
+            Value.Add(value);
         }
 
-        public List<IToken> Tokens { get; }
+        public ListToken(IToken value, IToken value2) : this(value)
+        {
+            Value.Add(value2);
+        }
+
+        /// <summary>
+        /// Gets the number of elements contained in the collection.
+        /// </summary>
+        /// <returns>The number of elements contained in the collection</returns>
+        public int Count => Value.Count;
+
+        /// <summary>
+        /// Whether this is token contains an expression.
+        /// </summary>
+        public override bool IsExpression => Value.Any(token => token.IsExpression);
+
+        /// <summary>
+        /// Gets or sets the element at the specified index.
+        /// </summary>
+        /// <returns>The element at the specified index.</returns>
+        /// <param name="index">The zero-based index of the element to get or set.</param>
+        public IToken this[int index]
+        {
+            get { return Value[index]; }
+            set { Value[index] = value; }
+        }
+
+        public override string ToString()
+        {
+            if (Value.Count == 0)
+                return "";
+
+            StringBuilder sb = new StringBuilder();
+            foreach (IToken token in Value)
+                sb.Append(token.ToString()).Append("|");
+            string text = sb.ToString();
+            return "(" + text.Substring(0, text.Length - 1) + ")";
+        }
 
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
@@ -36,43 +61,97 @@ namespace TextParser.Tokens
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<IToken> GetEnumerator()
         {
-            return Tokens.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            return Value.GetEnumerator();
         }
 
         public void Add(IToken token)
         {
-            Tokens.Add(token);
+            Value.Add(token);
         }
 
-        public override TTo Convert<TTo>()
+        /// <summary>
+        /// Determines whether the <see cref="T:System.Collections.Generic.ICollection`1"/> contains a specific value.
+        /// </summary>
+        /// <returns>true if item is found in the collection, otherwise, false.
+        /// </returns>
+        /// <param name="item">The object to locate in the collection.</param>
+        public bool Contains(IToken item)
         {
-            if (Tokens.Count == 1)
-                return Tokens[0].Convert<TTo>();
+            return Value.Contains(item);
+        }
+
+        /// <summary>
+        /// Converts the token to a boolean.
+        /// </summary>
+        public override bool ToBool()
+        {
+            if (Value.Count == 1)
+                return Value[0].ToBool();
             throw new Exception("Could not convert ListToken");
         }
 
+        /// <summary>
+        /// Converts the token to an integer.
+        /// </summary>
+        public override int ToInt()
+        {
+            if (Value.Count == 1)
+                return Value[0].ToInt();
+            throw new Exception("Could not convert ListToken");
+        }
+
+        /// <summary>
+        /// Converts the token to a double.
+        /// </summary>
+        public override double ToDouble()
+        {
+            if (Value.Count == 1)
+                return Value[0].ToDouble();
+            throw new Exception("Could not convert ListToken");
+        }
+
+        /// <summary>
+        /// Evaluates the token.
+        /// </summary>
+        /// <param name="parameters">The parameters to use for substitutions.</param>
+        /// <param name="isFinal">Whether this is a final parse.</param>
+        /// <returns></returns>
         public override IToken Evaluate(TokenTreeList parameters, bool isFinal)
         {
             ListToken list = new ListToken();
-            foreach (IToken token in Tokens)
-                list.Tokens.Add(token.Evaluate(parameters, isFinal));
+            foreach (IToken token in Value)
+            {
+                IToken item = token.Evaluate(parameters, isFinal);
+                if (!item.IsExpression || !isFinal)
+                    list.Value.Add(item);
+            }
             return list;
+        }
+
+        /// <summary>
+        /// Converts the token to a list of tokens if possible and required.
+        /// </summary>
+        /// <returns>The list of tokens or the original token.</returns>
+        public override IToken Flatten()
+        {
+            ListToken newList = new ListToken();
+            foreach (IToken item in Value)
+            {
+                IToken flattened = item.Flatten();
+                ListToken list = flattened as ListToken;
+                if (list != null)
+                    newList.Value.AddRange(list.Value);
+                else if (!(flattened is NullToken))
+                    newList.Value.Add(flattened);
+            }
+            return newList;
         }
 
         public override IToken SubstituteParameters(TokenTree parameters)
         {
             ListToken list = new ListToken();
-            foreach (IToken token in Tokens)
-                list.Tokens.Add(token.SubstituteParameters(parameters));
+            foreach (IToken token in Value)
+                list.Value.Add(token.SubstituteParameters(parameters));
             return list;
         }
 
@@ -83,7 +162,7 @@ namespace TextParser.Tokens
         /// <returns>True if the current token contains the input text.</returns>
         public override bool Contains(string text)
         {
-            return Tokens.Any(token => token.Contains(text));
+            return Value.Any(token => token.Contains(text));
         }
     }
 }
