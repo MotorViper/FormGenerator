@@ -110,6 +110,10 @@
       <Project>{5a07fb68-cc8b-4f91-8e06-a7810628409f}</Project>
       <Name>FormGenerator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VTTUtilities\VTTUtilities.csproj">
+      <Project>{C7AA54C2-C36C-4F5A-89B1-FD4F9A9E0FC1}</Project>
+      <Name>VTTUtilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

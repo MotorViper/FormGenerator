@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
-using FormGenerator.Tools;
 using Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TextParser;
+using VTTUtilities;
 
 namespace FormGeneratorTests
 {
@@ -15,6 +16,7 @@ namespace FormGeneratorTests
         [TestInitialize]
         public void InitialiseTests()
         {
+            IOCContainer.Instance.Register<IInputData, TestInputData>();
             _highlighter = new VttHighlighter();
         }
 
@@ -22,81 +24,83 @@ namespace FormGeneratorTests
         public void TestSimpleLine()
         {
             TestFormattedTextBlock block = new TestFormattedTextBlock("Field: Grid");
-            _highlighter.Highlight(block, BlockState.Normal);
-            CheckBlock(block.Items[0], 0, 5, VttSection.Key);
-            CheckBlock(block.Items[1], 5, 1, VttSection.Separator);
-            CheckBlock(block.Items[2], 6, 5, VttSection.String);
+            _highlighter.Format(block, BlockState.Normal);
+            CheckBlock(block.Items, 0, 5, VttSection.Key);
+            CheckBlock(block.Items, 5, 1, VttSection.Separator);
+            CheckBlock(block.Items, 6, 5, VttSection.String);
 
             block = new TestFormattedTextBlock(" Columns : Auto|Auto|Auto");
-            _highlighter.Highlight(block, BlockState.Normal);
-            CheckBlock(block.Items[0], 1, 8, VttSection.Key);
-            CheckBlock(block.Items[1], 9, 1, VttSection.Separator);
-            CheckBlock(block.Items[2], 10, 15, VttSection.Expression);
+            _highlighter.Format(block, BlockState.Normal);
+            CheckBlock(block.Items, 1, 8, VttSection.Key);
+            CheckBlock(block.Items, 9, 1, VttSection.Separator);
+            CheckBlock(block.Items, 10, 15, VttSection.Expression);
 
             block = new TestFormattedTextBlock(" Columns : 23");
-            _highlighter.Highlight(block, BlockState.Normal);
-            CheckBlock(block.Items[0], 1, 8, VttSection.Key);
-            CheckBlock(block.Items[1], 9, 1, VttSection.Separator);
-            CheckBlock(block.Items[2], 10, 3, VttSection.Integer);
+            _highlighter.Format(block, BlockState.Normal);
+            CheckBlock(block.Items, 1, 8, VttSection.Key);
+            CheckBlock(block.Items, 9, 1, VttSection.Separator);
+            CheckBlock(block.Items, 10, 3, VttSection.Integer);
 
             block = new TestFormattedTextBlock(" Columns : 23.5");
-            _highlighter.Highlight(block, BlockState.Normal);
-            CheckBlock(block.Items[0], 1, 8, VttSection.Key);
-            CheckBlock(block.Items[1], 9, 1, VttSection.Separator);
-            CheckBlock(block.Items[2], 10, 5, VttSection.Double);
+            _highlighter.Format(block, BlockState.Normal);
+            CheckBlock(block.Items, 1, 8, VttSection.Key);
+            CheckBlock(block.Items, 9, 1, VttSection.Separator);
+            CheckBlock(block.Items, 10, 5, VttSection.Double);
 
             block = new TestFormattedTextBlock(" Columns : True");
-            _highlighter.Highlight(block, BlockState.Normal);
-            CheckBlock(block.Items[0], 1, 8, VttSection.Key);
-            CheckBlock(block.Items[1], 9, 1, VttSection.Separator);
-            CheckBlock(block.Items[2], 10, 5, VttSection.Boolean);
+            _highlighter.Format(block, BlockState.Normal);
+            CheckBlock(block.Items, 1, 8, VttSection.Key);
+            CheckBlock(block.Items, 9, 1, VttSection.Separator);
+            CheckBlock(block.Items, 10, 5, VttSection.Boolean);
 
             block = new TestFormattedTextBlock("// Columns : 23.5");
-            _highlighter.Highlight(block, BlockState.Normal);
-            CheckBlock(block.Items[0], 0, 17, VttSection.Comment);
+            _highlighter.Format(block, BlockState.Normal);
+            CheckBlock(block.Items, 0, 17, VttSection.Comment);
 
             block = new TestFormattedTextBlock(" Columns : 23.5(");
-            _highlighter.Highlight(block, BlockState.Normal);
-            CheckBlock(block.Items[0], 1, 8, VttSection.Key);
-            CheckBlock(block.Items[1], 9, 1, VttSection.Separator);
-            CheckBlock(block.Items[2], 10, 6, VttSection.Error);
+            _highlighter.Format(block, BlockState.Normal);
+            CheckBlock(block.Items, 1, 8, VttSection.Key);
+            CheckBlock(block.Items, 9, 1, VttSection.Separator);
+            CheckBlock(block.Items, 10, 6, VttSection.Error);
 
             block = new TestFormattedTextBlock(" Columns : A: 1");
-            _highlighter.Highlight(block, BlockState.Normal);
-            CheckBlock(block.Items[0], 1, 8, VttSection.Key);
-            CheckBlock(block.Items[1], 9, 1, VttSection.Separator);
-            CheckBlock(block.Items[2], 10, 3, VttSection.Function);
-            CheckBlock(block.Items[3], 13, 2, VttSection.Integer);
+            _highlighter.Format(block, BlockState.Normal);
+            CheckBlock(block.Items, 1, 8, VttSection.Key);
+            CheckBlock(block.Items, 9, 1, VttSection.Separator);
+            CheckBlock(block.Items, 10, 3, VttSection.Function);
+            CheckBlock(block.Items, 13, 2, VttSection.Integer);
 
-            block = new TestFormattedTextBlock(" Columns : {A}");
-            _highlighter.Highlight(block, BlockState.Normal);
-            CheckBlock(block.Items[0], 1, 8, VttSection.Key);
-            CheckBlock(block.Items[1], 9, 1, VttSection.Separator);
-            CheckBlock(block.Items[2], 10, 4, VttSection.Substitution);
+            block = new TestFormattedTextBlock(" Columns : {AB}");
+            _highlighter.Format(block, BlockState.Normal);
+            CheckBlock(block.Items, 1, 8, VttSection.Key);
+            CheckBlock(block.Items, 9, 1, VttSection.Separator);
+            CheckBlock(block.Items, 10, 5, VttSection.Substitution);
+
+            block = new TestFormattedTextBlock(" Columns : {AB}");
+            _highlighter.Format(block, BlockState.Normal, new[] {11, 14});
+            CheckBlock(block.Items, 1, 8, VttSection.Key);
+            CheckBlock(block.Items, 9, 1, VttSection.Separator);
+            CheckBlock(block.Items, 10, 1, VttSection.Substitution);
+            CheckBlock(block.Items, 11, 1, VttSection.Highlight);
+            CheckBlock(block.Items, 12, 2, VttSection.Substitution);
+            CheckBlock(block.Items, 14, 1, VttSection.Highlight);
 
             block = new TestFormattedTextBlock(" Columns : $A");
-            _highlighter.Highlight(block, BlockState.Normal);
-            CheckBlock(block.Items[0], 1, 8, VttSection.Key);
-            CheckBlock(block.Items[1], 9, 1, VttSection.Separator);
-            CheckBlock(block.Items[2], 10, 3, VttSection.Substitution);
+            _highlighter.Format(block, BlockState.Normal);
+            CheckBlock(block.Items, 1, 8, VttSection.Key);
+            CheckBlock(block.Items, 9, 1, VttSection.Separator);
+            CheckBlock(block.Items, 10, 3, VttSection.Substitution);
 
             block = new TestFormattedTextBlock(" Columns : $A");
-            _highlighter.Highlight(block, BlockState.InComment);
-            CheckBlock(block.Items[0], 0, 13, VttSection.Comment);
+            _highlighter.Format(block, BlockState.InComment);
+            CheckBlock(block.Items, 0, 13, VttSection.Comment);
         }
 
-        private void CheckBlock(TextBlockItem item, int position, int length, VttSection section)
+        private void CheckBlock(IReadOnlyDictionary<int, Brush> item, int position, int length, VttSection section)
         {
-            Assert.AreEqual(position, item.Position);
-            Assert.AreEqual(length, item.Length);
-            Assert.AreEqual(_highlighter.Options(section).Colour, item.Brush);
-        }
-
-        private class TextBlockItem
-        {
-            public Brush Brush { get; set; }
-            public int Length { get; set; }
-            public int Position { get; set; }
+            Brush colour = _highlighter.Options(section).Colour;
+            for (int i = 0; i < length; ++i)
+                Assert.AreEqual(colour, item[i + position]);
         }
 
         private class TestFormattedTextBlock : IFormattedTextBlock
@@ -104,10 +108,10 @@ namespace FormGeneratorTests
             public TestFormattedTextBlock(string text)
             {
                 Text = text;
-                Items = new List<TextBlockItem>();
+                Items = new Dictionary<int, Brush>();
             }
 
-            public List<TextBlockItem> Items { get; }
+            public Dictionary<int, Brush> Items { get; }
 
             public string Text { get; }
 
@@ -140,7 +144,8 @@ namespace FormGeneratorTests
 
             public void SetForegroundBrush(Brush colour, int blockOffset, int length)
             {
-                Items.Add(new TextBlockItem {Brush = colour, Length = length, Position = blockOffset});
+                for (int i = 0; i < length; ++i)
+                    Items[i + blockOffset] = colour;
             }
         }
     }

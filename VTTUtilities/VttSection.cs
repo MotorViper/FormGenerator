@@ -1,5 +1,8 @@
-﻿namespace FormGenerator.Tools
+﻿namespace VTTUtilities
 {
+    /// <summary>
+    /// List of the various different types of data that can be differentiated.
+    /// </summary>
     public enum VttSection
     {
         Boolean,
@@ -9,6 +12,7 @@
         Error,
         Expression,
         Function,
+        Highlight,
         Integer,
         Key,
         Separator,

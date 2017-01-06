@@ -159,6 +159,18 @@ namespace Helpers
                 }
             }
         }
+        
+        /// <summary>
+        /// Reverses a string.
+        /// </summary>
+        /// <param name="toReverse">The string to reverse.</param>
+        /// <returns>The reversed string.</returns>
+        public static string Reverse(this string toReverse)
+        {
+            char[] array = toReverse.ToCharArray();
+            Array.Reverse(array);
+            return new string(array);
+        }
 
         /// <summary>
         /// Finds the first instance of a character that is not included within delimited blocks.

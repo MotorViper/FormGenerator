@@ -76,6 +76,10 @@
       <Project>{A13B8ADA-6474-4E2A-B6B1-E150F5D7398B}</Project>
       <Name>TextParser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VTTUtilities\VTTUtilities.csproj">
+      <Project>{C7AA54C2-C36C-4F5A-89B1-FD4F9A9E0FC1}</Project>
+      <Name>VTTUtilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

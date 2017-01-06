@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace FormGenerator.Tools
+namespace VTTUtilities
 {
     public class VttTextOptions
     {
@@ -47,10 +47,15 @@ namespace FormGenerator.Tools
                 throw new Exception($"Could not convert formatting option {part}");
         }
 
+        /// <summary>
+        /// Converts a string into a font size.
+        /// </summary>
+        /// <param name="part">The string to convert.</param>
+        /// <returns>Whether the string could be converted to a font size.</returns>
         private bool ConvertSize(string part)
         {
             double value;
-            if (Double.TryParse(part, out value))
+            if (double.TryParse(part, out value))
             {
                 Size = value;
                 return true;

@@ -26,6 +26,11 @@ namespace Helpers
 
         public int FirstLineNumber { get; }
 
+        /// <summary>
+        /// Whether any of the text in the block has been highlighted.
+        /// </summary>
+        public bool HasHighlight { get; set; }
+
         public bool IsLast { get; set; }
 
         public int LastCharPosition { get; }

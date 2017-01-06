@@ -1,33 +1,32 @@
-﻿namespace TextParser
+﻿using TextParser;
+
+namespace VTTUtilities
 {
-    /// <summary>
-    /// Interface used to specify the input files.
-    /// </summary>
-    public interface IInputData
+    public class TestInputData : IInputData
     {
         /// <summary>
         /// The key into the main token tree of the data that is being displayed.
         /// </summary>
-        string DataName { get; }
+        public string DataName => "Not Used";
 
         /// <summary>
         /// The default directory any files will be found in.
         /// </summary>
-        string DefaultDirectory { get; }
+        public string DefaultDirectory => @"C:\Development\Projects\FormGenerator\Data\";
 
         /// <summary>
         /// The name of the file containing the unprocessed data to be displayed.
         /// </summary>
-        string MainDataFile { get; }
+        public string MainDataFile => "Fields.vtt";
 
         /// <summary>
         /// The name of the file containing the processing options.
         /// </summary>
-        string OptionsFile { get; }
+        public string OptionsFile => "Options.vtt";
 
         /// <summary>
         /// The name of the file containing any static data that will be used to generate the display data.
         /// </summary>
-        string StaticDataFile { get; }
+        public string StaticDataFile => "Not Used";
     }
 }

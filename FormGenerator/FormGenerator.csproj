@@ -69,9 +69,6 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Models\Editor.cs" />
     <Compile Include="Models\EditorList.cs" />
-    <Compile Include="Tools\VttHighlighter.cs" />
-    <Compile Include="Tools\VttSection.cs" />
-    <Compile Include="Tools\VttTextOptions.cs" />
     <Compile Include="Views\EditorsView.xaml.cs">
       <DependentUpon>EditorsView.xaml</DependentUpon>
     </Compile>
@@ -152,6 +149,10 @@
     <ProjectReference Include="..\TextParser\TextParser.csproj">
       <Project>{A13B8ADA-6474-4E2A-B6B1-E150F5D7398B}</Project>
       <Name>TextParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VTTUtilities\VTTUtilities.csproj">
+      <Project>{C7AA54C2-C36C-4F5A-89B1-FD4F9A9E0FC1}</Project>
+      <Name>VTTUtilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
