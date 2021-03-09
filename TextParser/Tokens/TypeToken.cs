@@ -1,8 +1,9 @@
 using System;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Tokens
 {
-    public abstract class TypeToken<T> : BaseToken, ITypeToken
+    public abstract class TypeToken<T> : BaseToken, ITypeToken, IConvertibleToken
     {
         protected TypeToken(T value, TokenType type)
         {
@@ -43,5 +44,15 @@ namespace TextParser.Tokens
         /// Converts the token to a string.
         /// </summary>
         public override string ToString() => Value.ToString();
+
+        public virtual IToken ConvertToInt(TokenTreeList substitutions, bool isFinal)
+        {
+            return new IntToken(ToInt());
+        }
+
+        public virtual IToken ConvertToDouble(TokenTreeList substitutions, bool isFinal)
+        {
+            return new DoubleToken(ToDouble());
+        }
     }
 }

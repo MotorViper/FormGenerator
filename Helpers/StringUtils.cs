@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Helpers
 {
@@ -36,7 +37,7 @@ namespace Helpers
             bool escape = false;
             List<char> ends;
             List<char> starts;
-            CreateDelimiterArrays('1', delimiters, paired, out starts, out ends);
+            CreateDelimiterArrays((char)0, delimiters, paired, out starts, out ends);
             List<string> blocks = new List<string>();
             string current = "";
 
@@ -64,7 +65,7 @@ namespace Helpers
                                 current += c;
                             blocks.Add(current);
                             if (includeDelimiters == DelimiterInclude.IncludeSeparately)
-                                blocks.Add("" + c);
+                                blocks.Add(c.ToString());
                             current = "";
                         }
                         else if (paired)
@@ -100,7 +101,7 @@ namespace Helpers
                         if (includeDelimiters == DelimiterInclude.IncludeInline)
                             current += c;
                         else if (includeDelimiters == DelimiterInclude.IncludeSeparately)
-                            blocks.Add("" + c);
+                            blocks.Add(c.ToString());
                     }
                     else
                     {
@@ -401,6 +402,104 @@ namespace Helpers
                 default:
                     return index;
             }
+        }
+
+        public static IndexOfResult IndexOfItem(this string text, string toFind)
+        {
+            int index = text.IndexOf(toFind);
+            return new IndexOfResult(index >= 0, index, toFind.Length);
+        }
+
+        public static IndexOfResult IndexOfPattern(this string parent, string pattern)
+        {
+            Match match = new Regex(pattern).Match(parent);
+            return new IndexOfResult(match.Success, match.Index, match.Length);
+        }
+
+        public static string RemoveFirst(this string text, string toRemove)
+        {
+            int index = text.IndexOf(toRemove);
+            return text.Substring(index + toRemove.Length);
+        }
+
+        public static List<string> Split(this string parent, char[] characters, DelimiterInclude includeDelimiters)
+        {
+            List<string> blocks = new List<string>();
+            string current = "";
+
+            foreach (char c in parent)
+            {
+                if (characters.Contains(c))
+                {
+                    if (includeDelimiters == DelimiterInclude.IncludeInline)
+                        current += c;
+                    blocks.Add(current);
+                    if (includeDelimiters == DelimiterInclude.IncludeSeparately)
+                        blocks.Add(c.ToString());
+                    current = "";
+                }
+                else
+                {
+                    current += c;
+                }
+            }
+            if (!string.IsNullOrEmpty(current))
+                blocks.Add(current);
+            return blocks;
+        }
+
+        public static Tuple<string, string> SplitAt(this string data, string split)
+        {
+            int index = data.IndexOf(split);
+            return index >= 0
+                ? Tuple.Create(data.Substring(0, index), data.Substring(index + split.Length))
+                : Tuple.Create((string)null, data);
+        }
+
+
+        public static string Start(this string text, uint end)
+        {
+            return text.Substring((int)end);
+        }
+
+        public static string StartAfter(this string text, uint end, string ignore)
+        {
+            return text.Substring((int)end + ignore.Length);
+        }
+
+        public static string StartAfter(this string text, IndexOfResult index)
+        {
+            return text.Substring((int)index.Index, index.Length);
+        }
+
+        public static string Substring(this string text, uint start, uint end)
+        {
+            return text.Substring((int)start, (int)end);
+        }
+
+        public static string AtMost(this string text, int length)
+        {
+            return text.Substring(0, Math.Min(length, text.Length));
+        }
+
+        public class IndexOfResult
+        {
+            public IndexOfResult(bool success, int position, int length)
+            {
+                if (success)
+                {
+                    Index = (uint)position;
+                    Length = length;
+                }
+                else
+                {
+                    Index = uint.MaxValue;
+                    Length = 0;
+                }
+            }
+
+            public uint Index { get; private set; }
+            public int Length { get; private set; }
         }
     }
 }

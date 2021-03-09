@@ -1,4 +1,170 @@
-﻿Mr Hero: 
+Jim Oakenbough:
+	Strength: 16 /* +1 At 4th level */
+	Dexterity: 12
+	Constitution: 13
+	Wisdom: 8
+	Charisma: 14
+	Player: GM
+	Armour: 'Studded Leather'
+	Weapon1: Mwk Longsword
+	Weapon1MiscAttackBonus: 1 /* From Weapon Focus */
+	Weapon2: Shortbow
+	Level: 1
+		Class: Warrior
+		Feats: Power Attack, 'Weapon Focus (longsword)'
+		HP: 8
+		Skills:
+			Climb: 2
+			Handle Animal: 1
+			Intimidate: 2
+			Jump: 1
+			Ride: 1
+			Swim: 1
+	Level: 2
+		Class: Warrior
+		HP: 4
+		Skills:
+			Handle Animal: 1
+			Intimidate: 1
+			Jump: 1
+			Swim: 1
+	Level: 3
+		Class: Warrior
+		HP: 5
+		Feats: 'Blind-Fight'
+		Skills:
+			Handle Animal: 1
+			Intimidate: 1
+			Ride: 1
+			Swim: 1
+	Level: 4
+		Class: Warrior
+		HP: 4
+		Skills:
+			Handle Animal: 1
+			Intimidate: 1
+			Jump: 1
+			Ride: 1
+
+Tom Cucksmere:
+	Strength: 13
+	Dexterity: 12
+	Constitution: 15
+	Wisdom: 14
+	Charisma: 8
+	Player: GM
+	Armour: 'Studded Leather'
+	Weapon1: Mwk Longsword
+	Weapon1MiscAttackBonus: 1 /* From Weapon Focus */
+	Level: 1
+		Class: Warrior
+		Feats: Power Attack, 'Weapon Focus (longsword)'
+		HP: 8
+		Skills:
+			Climb: 2
+			Handle Animal: 1
+			Intimidate: 2
+			Jump: 1
+			Ride: 1
+			Swim: 1
+	Level: 2
+		Class: Warrior
+		HP: 4
+		Skills:
+			Handle Animal: 1
+			Intimidate: 1
+			Jump: 1
+			Swim: 1
+	Level: 3
+		Class: Warrior
+		HP: 5
+		Feats: 'Blind-Fight'
+		Skills:
+			Handle Animal: 1
+			Intimidate: 1
+			Ride: 1
+			Swim: 1
+
+Jacko Fenn:
+	Strength: 12
+	Dexterity: 15
+	Constitution: 14
+	Wisdom: 8
+	Charisma: 13
+	Player: GM
+	Armour: 'Studded Leather'
+	Weapon1: Shortsword
+	Weapon2: Mwk Heavy Crossbow
+	Level: 1
+		Class: Warrior
+		Feats: Point Blank Shot, Rapid Reload
+		HP: 8
+		Skills:
+			Climb: 2
+			Handle Animal: 1
+			Intimidate: 2
+			Jump: 1
+			Ride: 1
+			Swim: 1
+	Level: 2
+		Class: Warrior
+		HP: 4
+		Skills:
+			Handle Animal: 1
+			Intimidate: 1
+			Jump: 1
+			Swim: 1
+	Level: 3
+		Class: Warrior
+		HP: 5
+		Feats: 'Blind-Fight'
+		Skills:
+			Handle Animal: 1
+			Intimidate: 1
+			Ride: 1
+			Swim: 1
+			
+Hal Bertram:
+	Strength: 12
+	Dexterity: 15
+	Constitution: 13
+	Wisdom: 8
+	Charisma: 14
+	Player: GM
+	Armour: Leather
+	Weapon1: Rapier
+	Weapon1MiscAttackBonus: 1 /* From Weapon Finesse */
+	Weapon2: Shortbow
+	Level: 1
+		Class: Rogue
+		Feats: Improved Initiative, Weapon Finesse
+		HP: 6
+		Skills:
+			Climb: 2
+			Handle Animal: 1
+			Intimidate: 2
+			Jump: 1
+			Ride: 1
+			Swim: 1
+	Level: 2
+		Class: Rogue
+		HP: 3
+		Skills:
+			Handle Animal: 1
+			Intimidate: 1
+			Jump: 1
+			Swim: 1
+	Level: 3
+		Class: Rogue
+		HP: 4
+		Feats: 'Blind-Fight'
+		Skills:
+			Handle Animal: 1
+			Intimidate: 1
+			Ride: 1
+			Swim: 1
+
+Mr Hero: 
     Strength: 14
     Dexterity: 12
     Constitution: 12
@@ -32,7 +198,7 @@ The Heroine:
 		HP: 7
 	Race: Dwarf
 
-Not a Hero: 
+Not a Hero:
     Strength: 17
     Dexterity: 5
     Constitution: 8

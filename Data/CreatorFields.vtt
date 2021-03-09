@@ -1,0 +1,10 @@
+Field: Grid
+	Columns:Auto|200
+	Field: Label
+		Content: Character Name
+	Field: TextBox
+//		SaveTo: Character.NAME
+	Field: Label
+		Content: Player
+	Field: TextBox
+//		SaveTo: Character.Player

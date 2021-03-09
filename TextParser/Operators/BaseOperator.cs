@@ -1,6 +1,7 @@
 ﻿using System;
 using Helpers;
 using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Operators
 {

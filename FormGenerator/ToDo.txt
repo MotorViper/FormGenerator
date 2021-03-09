@@ -1,22 +1,25 @@
 ﻿Language:
 	Simplify output to remove redundant brackets and use {} instead of $ where clearer.
 	Provide code to convert token data to classes?
+	Work out how to use templates for things like masterwork
+	Add in weapon focus and weapon finesse modifiers automatically (see MiscInitiative).
 
 Gui:
 	Improve syntax colouring.
 	Add more configuration - tab stops etc.
 	Allow multiple base level fields.
 	Add ability to save GUI updates.
-	Replace Templates.vtt with macros (TokenTreeElement), may not be possible with WPF ControlTemplates.
+	Replace Templates.vtt with macros (TokenTreeElement), may not be possible with WPF ControlTemplates, would need designing.
 	Need to stop using reload when doing a test.
 
 Generator:
 	Make JOIN work correctly, i.e. not flatten the list unless the F modifier is added.
-	Make REVERSE reverse a string if that is the parameter.
 	Can I remove the null token?
+	Possibly change return types of IConvertibleToken.
 
 Console:
 	Make work more like reading a file.
+	Mke print work if only one item in token tree.
 
 WebForm:
 	Add ability to include resources from a file.

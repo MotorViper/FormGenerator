@@ -7,7 +7,9 @@ Character:
     Charisma: 10
 	Experience: 0
 	Weapon1: None
+	Weapon1MiscAttackBonus: 0
 	Weapon2: None
+	Weapon2MiscAttackBonus: 0
 	Armour: None
 	Player: ?
 	Level: ALL
@@ -18,6 +20,7 @@ Character:
 	Alignment: N
 	Deity:
 	Size: {Races.{Race}.Size}
+	Speed: {Races.{Race}.Speed}
 	Age:
 	Gender:
 	Height:
@@ -33,7 +36,7 @@ Character:
 	IntModifier: AttributeModifier: Intelligence
 	ChaModifier: AttributeModifier: Charisma
 	ClassList: JOIN:(OVER:(AGG:{Level.Class}|cl|{cl}#0 + "(" + {cl}#1 + ")")|'/')
-	HP: SUM:$Level.HP
+	HP: (SUM:$Level.HP) + (COUNT:{Level} * $ConModifier)
 	ArmourBonus: {Armour.{Armour}.ACBonus}
 	ShieldBonus: 0
 	FlatFooted: 10 + $ArmourBonus + $SizeACModifier
@@ -76,17 +79,19 @@ Character:
 	NumInstances: COUNT:{Level.Class=$1}
 	LevelsForClass: OVER:(RANGE:(1|$2)|n|FeatsAtLevel:($1|$n))
 	ClassFeats: OVER:({Classes.ALL.NAME}|cl|LevelsForClass:($cl|NumInstances:($cl)))
-	LevelFeats: {Level.Feats}
-	Feats: JOIN:((F:($LevelFeats|$ClassFeats) - ("Bonus Feat"|""))| ', ')
+	LevelFeats: OVER:({Level.Feats}|cl|$cl ' (' {Feats.{cl}.Description} ')')
+	Feats: JOIN:((F:($LevelFeats|$ClassFeats) - ("Bonus Feat"|""))|NL)
 		Test: true
 
 Weapons:
 	Damage: ''
 	Range: ''
+	AttackBonus: 0
 
 Races:
 	Size: Medium
 	ACBonus: 0
+	Speed: 30
 
 Armour:
 	Cost: 0

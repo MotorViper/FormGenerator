@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TextParser;
 using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace Generator
 {

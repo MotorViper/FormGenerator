@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using TextParser.Annotations;
-using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser
 {

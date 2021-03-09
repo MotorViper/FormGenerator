@@ -11,3 +11,5 @@ Field: Grid
 		Height: 300
 		Width: 600
 		Content: $Feats
+		TextWrapping: Wrap
+

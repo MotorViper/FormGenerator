@@ -1,8 +1,8 @@
 ﻿namespace TextParser.Tokens
 {
-    public class BoolTooken : TypeToken<bool>
+    public class BoolToken : TypeToken<bool>
     {
-        public BoolTooken(bool value) : base(value, TokenType.BoolToken)
+        public BoolToken(bool value) : base(value, TokenType.BoolToken)
         {
         }
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormGenerator", "FormGenerator\FormGenerator.csproj", "{5A07FB68-CC8B-4F91-8E06-A7810628409F}"
 EndProject
@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{D94D049F-6
 		Data\Armour.vtt = Data\Armour.vtt
 		Data\Characters.vtt = Data\Characters.vtt
 		Data\Classes.vtt = Data\Classes.vtt
+		Data\CreatorData.vtt = Data\CreatorData.vtt
+		Data\CreatorFields.vtt = Data\CreatorFields.vtt
 		Data\Data.vtt = Data\Data.vtt
 		Data\Defaults.vtt = Data\Defaults.vtt
 		Data\Feats.vtt = Data\Feats.vtt
@@ -161,5 +163,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15DE1CE7-91DA-43CD-B052-C006393A554D}
 	EndGlobalSection
 EndGlobal

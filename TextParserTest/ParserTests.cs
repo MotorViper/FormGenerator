@@ -3,7 +3,7 @@ using Generator;
 using Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextParser;
-using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParserTest
 {

@@ -6,6 +6,7 @@ using Helpers;
 using TextParser;
 using TextParser.Operators;
 using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace VTTUtilities
 {
@@ -240,7 +241,7 @@ namespace VTTUtilities
                 FormatItem(VttSection.String, formattedText, tokenOffset, tokenText, highlights);
             else if (token is IntToken)
                 FormatItem(VttSection.Integer, formattedText, tokenOffset, tokenText, highlights);
-            else if (token is BoolTooken)
+            else if (token is BoolToken)
                 FormatItem(VttSection.Boolean, formattedText, tokenOffset, tokenText, highlights);
             else if (token is DoubleToken)
                 FormatItem(VttSection.Double, formattedText, tokenOffset, tokenText, highlights);

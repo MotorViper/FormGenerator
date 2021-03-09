@@ -24,7 +24,7 @@
             <Label Content="{Binding History}" />
         </ScrollViewer>
         <GridSplitter Grid.Row="0" Grid.ColumnSpan="2" Height="1" Background="Blue" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />
-        <Label Grid.Row="1" Content=">" FontSize="16" Margin="-5" />
+        <Label Grid.Row="1" Content="{Binding Cursor}" FontSize="16" Margin="-5" />
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Input}" AcceptsReturn="False" BorderBrush="{x:Null}">
             <TextBox.InputBindings>
                 <KeyBinding Key="Enter" Command="{Binding InputCommand}"

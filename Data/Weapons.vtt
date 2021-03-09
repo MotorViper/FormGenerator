@@ -1,9 +1,45 @@
-﻿Sword:
+﻿Shortsword:
 	Group: Martial
 	Damage: 1D6
 	Range: S
+	Critical: '19-20/x2'
+	IsMelee: True
+Longsword:
+	Group: Martial
+	Damage: 1D8
+	Range: S
+	Critical: '19-20/x2'
+	IsMelee: True
+Shortbow:
+	Group: Martial
+	Damage: 1D6
+	Range: R
+	Increment: 60
+	Critical: x3
+	IsMelee: False
 Dagger:
 	Group: Simple
 	Damage: 1D4
 	Range: C
-None:
+	Critical: '19-20/x2'
+	IsMelee: True
+Rapier:
+	Group: Martial
+	Damage: 1D6
+	Range: C
+	Critical: '18-20/x2'
+	IsMelee: True
+Unarmed:
+	Group: Simple
+	Damage: 1D3
+	Range: C
+	Critical: x2
+	IsMelee: True
+Mwk Longsword: {Longsword}
+	AttackBonus: 1
+Mwk Heavy Crossbow: 
+	Group: Simple
+	Damage: 1D10
+	Range: R
+	Critical: '19-20/x2'
+	AttackBonus: 1

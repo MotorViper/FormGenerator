@@ -1,4 +1,5 @@
 ﻿using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Functions
 {
@@ -43,7 +44,7 @@ namespace TextParser.Functions
             if (parameters is ExpressionToken)
                 return UnParsed(parameters);
 
-            return new BoolTooken(!parameters.ToBool());
+            return new BoolToken(!parameters.ToBool());
         }
     }
 }

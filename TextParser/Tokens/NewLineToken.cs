@@ -7,5 +7,10 @@ namespace TextParser.Tokens
         public NewLineToken() : base(Environment.NewLine, TokenType.StringToken)
         {
         }
+
+        public override string ToString()
+        {
+            return Environment.NewLine;
+        }
     }
 }

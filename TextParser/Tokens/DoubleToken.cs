@@ -1,3 +1,5 @@
+using TextParser.Tokens.Interfaces;
+
 namespace TextParser.Tokens
 {
     public class DoubleToken : TypeToken<double>
@@ -20,5 +22,10 @@ namespace TextParser.Tokens
         /// Converts the token to a double.
         /// </summary>
         public override double ToDouble() => Value;
+
+        public override IToken ConvertToDouble(TokenTreeList substitutions, bool isFinal)
+        {
+            return this;
+        }
     }
 }

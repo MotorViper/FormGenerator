@@ -86,6 +86,13 @@ namespace TextParser
                         line = inIf || bits[1] != Options.Selector ? null : bits[2];
                         expected = bits.Length == 1 || (bits.Length == 2 && bits[1] != Options.Selector) ? "#fi" : null;
                     }
+                    else if (lowerStart.Contains(Options.StartComment))
+                    {
+                        if (!line.TrimEnd().EndsWith(Options.EndComment))
+                            expected = Options.EndComment;
+                        int index = lowerStart.IndexOf(Options.StartComment);
+                        line = line.Substring(0, index);
+                    }
                     if (line != null)
                     {
                         if (lowerStart.StartsWith("#include "))

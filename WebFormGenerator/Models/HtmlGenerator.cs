@@ -3,7 +3,7 @@ using System.Linq;
 using Generator;
 using Helpers;
 using TextParser;
-using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace WebFormGenerator.Models
 {

@@ -5,7 +5,7 @@ using System.Windows.Input;
 using FormGenerator.Tools;
 using Helpers;
 using TextParser;
-using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace FormGenerator.ViewModels
 {

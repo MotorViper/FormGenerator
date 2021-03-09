@@ -6,6 +6,7 @@ using Generator;
 using TextParser;
 using TextParser.Operators;
 using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace FormGenerator.Tools
 {

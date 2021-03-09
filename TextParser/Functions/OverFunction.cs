@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Functions
 {
@@ -52,7 +54,16 @@ namespace TextParser.Functions
                 IToken token = listToken[i];
                 ListToken list = token as ListToken ?? new ListToken(token);
                 int index = 0;
+                List<IToken> tokenList = new List<IToken>();
                 foreach (IToken item in list)
+                {
+                    ListToken current = item.Flatten() as ListToken;
+                    if (current == null)
+                        tokenList.Add(item);
+                    else
+                        tokenList.AddRange(current.Value);
+                }
+                foreach (IToken item in tokenList)
                 {
                     TokenTree tree = new TokenTree();
                     tree.Children.Add(new TokenTree(iterandKey.ToString(), item));

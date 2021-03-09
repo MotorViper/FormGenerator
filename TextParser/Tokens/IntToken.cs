@@ -1,3 +1,5 @@
+using TextParser.Tokens.Interfaces;
+
 namespace TextParser.Tokens
 {
     public class IntToken : TypeToken<int>
@@ -20,5 +22,10 @@ namespace TextParser.Tokens
         /// Converts the token to a double.
         /// </summary>
         public override double ToDouble() => Value;
+
+        public override IToken ConvertToInt(TokenTreeList substitutions, bool isFinal)
+        {
+            return this;
+        }
     }
 }

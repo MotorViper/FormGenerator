@@ -1,6 +1,9 @@
-﻿namespace TextParser.Tokens
+﻿using Helpers;
+using TextParser.Tokens.Interfaces;
+
+namespace TextParser.Tokens
 {
-    public class StringToken : TypeToken<string>
+    public class StringToken : TypeToken<string>, IReversibleToken, ITokenWithLength
     {
         public StringToken(string text) : base(text, TokenType.StringToken)
         {
@@ -43,6 +46,16 @@
             if (!string.IsNullOrEmpty(ToString()))
                 value = double.TryParse(ToString(), out value) ? value : 0;
             return value;
+        }
+
+        public IntToken Count()
+        {
+            return new IntToken(Value.Length);
+        }
+
+        public IToken Reverse()
+        {
+            return new StringToken(Value.Reverse());
         }
     }
 }

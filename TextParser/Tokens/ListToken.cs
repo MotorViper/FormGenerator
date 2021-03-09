@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TextParser.Functions;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Tokens
 {
-    public class ListToken : TypeToken<List<IToken>>
+    public class ListToken : TypeToken<List<IToken>>, IReversibleToken, ITokenWithLength
     {
         public ListToken() : base(new List<IToken>(), TokenType.ListToken)
         {
@@ -55,6 +57,19 @@ namespace TextParser.Tokens
             return "(" + text.Substring(0, text.Length - 1) + ")";
         }
 
+        IntToken ITokenWithLength.Count()
+        {
+            return new IntToken(Value.Count());
+        }
+
+        public IToken Reverse()
+        {
+            ListToken reverse = new ListToken();
+            reverse.Value.AddRange(Value);
+            reverse.Value.Reverse();
+            return reverse;
+        }
+
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
@@ -78,6 +93,22 @@ namespace TextParser.Tokens
         public bool Contains(IToken item)
         {
             return Value.Contains(item);
+        }
+
+        public override IToken ConvertToDouble(TokenTreeList substitutions, bool isFinal)
+        {
+            ListToken result = new ListToken();
+            foreach (IToken token in Value)
+                result.Add(new DoubleFunction().Perform(token, substitutions, isFinal));
+            return result;
+        }
+
+        public override IToken ConvertToInt(TokenTreeList substitutions, bool isFinal)
+        {
+            ListToken result = new ListToken();
+            foreach (IToken token in Value)
+                result.Add(new IntFunction().Perform(token, substitutions, isFinal));
+            return result;
         }
 
         /// <summary>

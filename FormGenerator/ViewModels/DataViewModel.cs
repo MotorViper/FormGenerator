@@ -18,6 +18,13 @@ namespace FormGenerator.ViewModels
         private readonly IInputData _inputData = IOCContainer.Instance.Resolve<IInputData>();
         private readonly Lazy<ILogging> _logger = IOCContainer.Instance.LazyResolve<ILogging>();
         private readonly NotifyingProperty<string> _selected = new NotifyingProperty<string>();
+        private readonly NotifyingProperty<string> _rawXml = new NotifyingProperty<string>();
+
+        public string RawXml
+        {
+            get { return _rawXml.GetValue(); }
+            set { _rawXml.SetValue(value, this); }
+        }
 
         /// <summary>
         /// Constructor.
@@ -122,6 +129,7 @@ namespace FormGenerator.ViewModels
             {
                 _data.DefaultDirectory = _inputData.DefaultDirectory;
                 _data.StaticDataFile = _inputData.StaticDataFile;
+                RawXml = _data.Xaml;
                 return _data.Xaml;
             }
         }

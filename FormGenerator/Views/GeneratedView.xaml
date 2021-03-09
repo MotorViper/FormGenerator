@@ -6,8 +6,32 @@
              xmlns:viewModels="clr-namespace:FormGenerator.ViewModels"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <UserControl.DataContext>
         <viewModels:DataViewModel />
     </UserControl.DataContext>
-    <ScrollViewer x:Name="mc_window" />
+    <Grid>
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem x:Name="mc_showXaml" Header="Show Xaml" IsCheckable="True" IsChecked="False"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="50"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer x:Name="mc_window" />
+        <Grid Grid.Row="1" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=mc_showXaml, Mode=OneWay}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="150"/>
+            </Grid.RowDefinitions>
+            <GridSplitter HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="5" Grid.Row="0"/>
+            <ScrollViewer Grid.Row="1">
+                <Label Content="{Binding RawXml}"/>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
 </UserControl>

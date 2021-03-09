@@ -15,7 +15,7 @@ namespace TextParser
             {
                 if (ignoreErrors)
                     return new TokenTree(text.Trim(), "");
-                throw new Exception("Invalid format: Missing ':'");
+                throw new Exception($"Invalid format: Missing ':' on line: {text}");
             }
             return new TokenTree(text.Substring(0, pos).Trim(), text.Substring(pos + 1).Trim());
         }

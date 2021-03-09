@@ -1,5 +1,6 @@
 ﻿using System;
 using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Functions
 {
@@ -42,7 +43,7 @@ namespace TextParser.Functions
             if (toCheck is ExpressionToken)
                 return UnParsed(listToken);
 
-            BoolTooken query = toCheck as BoolTooken;
+            BoolToken query = toCheck as BoolToken;
             if (query == null)
                 throw new Exception($"First item must be boolean for '{Name}': {listToken}");
 

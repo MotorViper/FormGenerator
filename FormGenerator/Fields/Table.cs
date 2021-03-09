@@ -7,7 +7,7 @@ namespace FormGenerator.Fields
 {
     // ReSharper disable once ClassNeverInstantiated.Global - used by IOC.
     /// <summary>
-    /// Class representing a grid.
+    /// Class representing a table.
     /// </summary>
     public class Table : Grid
     {

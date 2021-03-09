@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using Helpers;
 using TextParser.Operators;
 using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser
 {
@@ -15,7 +16,8 @@ namespace TextParser
         private static readonly Dictionary<string, Func<string[], int, Action<IToken, int, string>, IToken>> s_tokens =
             new Dictionary<string, Func<string[], int, Action<IToken, int, string>, IToken>>
             {
-                ["([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])"] = (tokens, x, y) => new BoolTooken(bool.Parse(tokens[0])),
+                ["([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])"] = (tokens, x, y) => new BoolToken(bool.Parse(tokens[0])),
+                ["(NEWLINE|NL)"] = (tokens, x, y) => new NewLineToken(),
                 ["(.*)([\\|,])([^\\|,]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
                 ["(.*)([\\+-])([^\\+-]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
                 ["(.*)([\\*/×÷])([^\\*/×÷]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),

@@ -124,6 +124,7 @@ Field: Grid
 		Field: Label
 			Style: BorderedLabel
 			Across: 3
+			Content: $Speed "'"
 	        
 		Field: Label
 			Style: Inverted
@@ -395,14 +396,14 @@ Field: Grid
 				Content: $MiscBABModifier
 
 		Field: Table
-			Content: ($Weapon1|$Weapon2)
-			Columns: '100|60|60|60|'
+			Content: (Weapon1|Weapon2)
+			Columns: '100|60|60|60|60|80'
 			Field: ComboBox
 				Style: Stretch
 				Header: 
 					Content: Weapon
 					Style: WeaponHeader
-				Content: $1
+				Content: $$1
 				SelectionOptions: Weapons
 				Height: 25
 			Field: Label
@@ -410,18 +411,28 @@ Field: Grid
 				Header: 
 					Content: BAB
 					Style: WeaponHeader
-				Content: $Melee
+				Content: IF:({Weapons.{$1}.IsMelee}|$Melee|$Missile) + {Weapons.{$1}.AttackBonus} + {{1}MiscAttackBonus}
 			Field: Label
 				Style: BorderedLabel
 				Header: 
 					Content: Damage
 					Style: WeaponHeader
-				Content: {Weapons.{1}.Damage}
+				Content: IF:({Weapons.{$1}.IsMelee}|{Weapons.{$1}.Damage} '+' $StrModifier|{Weapons.{$1}.Damage})
+			Field: Label
+				Style: BorderedLabel
+				Header: 
+					Content: Critical
+					Style: WeaponHeader
+				Content: {Weapons.{$1}.Critical}
 			Field: Label
 				Style: BorderedLabel
 				Header: 
 					Content: Range
 					Style: WeaponHeader
-				Content: {Weapons.{1}.Range}
+				Content: {Weapons.{$1}.Range}
 			Field: Label
-				Header:
+				Style: BorderedLabel
+				Header: 
+					Content: Increment
+					Style: WeaponHeader
+				Content: {Weapons.{$1}.Increment}

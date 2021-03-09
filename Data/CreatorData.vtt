@@ -1,0 +1,17 @@
+#include Templates.vtt Parameters
+#IF XML
+#include CreatorFields.vtt Fields
+#include Styles.vtt Styles
+#FI
+#IF HTML
+#include Fields.vtt Fields
+#include HTMLStyles.vtt Styles
+#FI
+#include Defaults.vtt Parameters Defaults
+#include Weapons.vtt Parameters Weapons
+#include Armour.vtt Parameters Armour
+#include Races.vtt Parameters Races
+#include Classes.vtt Parameters Classes
+#include Skills.vtt Parameters Skills
+#include Feats.vtt Parameters Feats
+#include Misc.vtt Parameters

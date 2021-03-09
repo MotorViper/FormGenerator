@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Helpers;
 using TextParser;
-using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace VTTConsole
 {
@@ -15,21 +16,50 @@ namespace VTTConsole
     public class ConsoleViewModel : ViewModel
     {
         private readonly NotifyingProperty<bool> _commandEntered = new NotifyingProperty<bool>();
+        private readonly NotifyingProperty<string> _cursor = new NotifyingProperty<string>(">");
         private readonly NotifyingProperty<string> _history = new NotifyingProperty<string>();
         private readonly NotifyingProperty<string> _input = new NotifyingProperty<string>();
+        private readonly Dictionary<string, Action> _noParameterActions = new Dictionary<string, Action>();
         private readonly NotifyingProperty<string> _output = new NotifyingProperty<string>();
+        private readonly Dictionary<string, Action<string>> _parameteredActions = new Dictionary<string, Action<string>>();
 
         private ICommand _downCommand;
+        private string _helpCommand;
         private List<string> _historyList = new List<string>();
         private ICommand _inputCommand;
         private Parser _parser = new Parser();
         private int _position;
+        private string _text = "";
         private ICommand _upCommand;
+
+        public ConsoleViewModel()
+        {
+            _helpCommand = "token: definition - add / replace token definition (- as last character for continuation)";
+            _helpCommand += Environment.NewLine + "n - repeat nth command";
+            RegisterCommand("[c]lear - clear the structure", () => _parser = new Parser());
+            RegisterCommand("[ch] clearhistory - clear the history", ClearHistory);
+            RegisterCommand("[cs] clearscreen - clear the history", ClearScreen);
+            RegisterCommand("[d]elete <token> - remove item from structure", DeleteItem);
+            RegisterCommand("[da] deleteall <token> - remove all items matching token", DeleteItems);
+            RegisterCommand("[h]elp - this message", ShowHelp);
+            RegisterCommand("[i]nsert <expression> - insert item into structure", InsertItem);
+            RegisterCommand("[p]rint - print structure", PrintStructure);
+            RegisterCommand("[p]rint <expression> - evaluate and print expression", PrintExpression);
+            RegisterCommand("[r]ead <file> - read structure from a file", ReadStructure);
+            RegisterCommand("[s]ave <file> - save structure to file", SaveStructure);
+            RegisterCommand("e[x]it - exit", Application.Current.Shutdown);
+        }
 
         public bool CommandEntered
         {
             get { return _commandEntered.GetValue(); }
             set { _commandEntered.SetValue(value, this); }
+        }
+
+        public string Cursor
+        {
+            get { return _cursor.GetValue(); }
+            set { _cursor.SetValue(value, this); }
         }
 
         public ICommand DownCommand
@@ -49,7 +79,7 @@ namespace VTTConsole
             set { _input.SetValue(value, this); }
         }
 
-        public ICommand InputCommand => _inputCommand ?? (_inputCommand = new RelayCommand(Execute));
+        public ICommand InputCommand => _inputCommand ?? (_inputCommand = new RelayCommand(x => Execute(x.ToString())));
 
         public string Output
         {
@@ -62,6 +92,44 @@ namespace VTTConsole
         public ICommand UpCommand
         {
             get { return _upCommand ?? (_upCommand = new RelayCommand(x => UpEntered())); }
+        }
+
+        private void RegisterCommand(string helpString, Action action)
+        {
+            _helpCommand += Environment.NewLine + helpString;
+            string[] bits = helpString.Split(new[] { '-' }, 2);
+            string command = bits[0];
+            bits = command.Split(new[] { ' ' }, 2);
+            if (!string.IsNullOrEmpty(bits[1]))
+            {
+                _noParameterActions[bits[0].Trim('[', ']', ' ')] = action;
+                _noParameterActions[bits[1].Trim()] = action;
+            }
+            else
+            {
+                bits = command.Split(new[] { ']', '[' }, 3);
+                _noParameterActions[bits[bits.Length - 2].Trim('[', ']')] = action;
+                _noParameterActions[command.Replace("[", "").Replace("]", "".Trim())] = action;
+            }
+        }
+
+        private void RegisterCommand(string helpString, Action<string> action)
+        {
+            _helpCommand += Environment.NewLine + helpString;
+            string[] bits = helpString.Split(new[] { '<' }, 2);
+            string command = bits[0];
+            bits = command.Split(new[] { ' ' }, 2);
+            if (!string.IsNullOrEmpty(bits[1]))
+            {
+                _parameteredActions[bits[0].Trim('[', ']', ' ')] = action;
+                _parameteredActions[bits[1].Trim()] = action;
+            }
+            else
+            {
+                bits = command.Split(new[] { ']' }, 2);
+                _parameteredActions[bits[0].Trim('[', ']')] = action;
+                _parameteredActions[command.Replace("[", "").Replace("]", "".Trim())] = action;
+            }
         }
 
         private void DownEntered()
@@ -86,84 +154,56 @@ namespace VTTConsole
                 Input = _historyList[_position];
         }
 
-        private void Execute(object command)
+        private void EvaluateLine()
         {
-            string input = command.ToString();
+            TokenTree tree = _parser.AddLine(new Line(_text));
+            UpdateOutput($"{tree.Key}: {tree.Value.Evaluate(new TokenTreeList(Tree), false)}");
+            _text = "";
+            Cursor = ">";
+        }
+
+        private void Execute(string command)
+        {
+            string input = command.Trim();
 
             try
             {
-                if (input.StartsWith("#"))
+                if (_text != "" || input.Contains(":"))
                 {
-                    string text = input.Substring(1).Trim();
-                    if (text == "print" || text == "p")
+                    bool hasContinuation = false;
+                    if (input.EndsWith("-"))
                     {
-                        PrintStructure();
-                    }
-                    else if (text.StartsWith("print "))
-                    {
-                        PrintExpression(text.Substring(5).Trim());
-                    }
-                    else if (text.StartsWith("p "))
-                    {
-                        PrintExpression(text.Substring(1).Trim());
-                    }
-                    else if (text.StartsWith("delete "))
-                    {
-                        DeleteItem(text.Substring(6).Trim());
-                    }
-                    else if (text.StartsWith("d "))
-                    {
-                        DeleteItem(text.Substring(1).Trim());
-                    }
-                    else if (text.StartsWith("deleteall "))
-                    {
-                        DeleteItems(text.Substring(9).Trim());
-                    }
-                    else if (text.StartsWith("da "))
-                    {
-                        DeleteItems(text.Substring(2).Trim());
-                    }
-                    else if (text.StartsWith("insert "))
-                    {
-                        InsertItem(text.Substring(6).Trim());
-                    }
-                    else if (text.StartsWith("i "))
-                    {
-                        InsertItem(text.Substring(1).Trim());
-                    }
-                    else if (text.StartsWith("save "))
-                    {
-                        SaveStructure(text.Substring(4).Trim());
-                    }
-                    else if (text.StartsWith("s "))
-                    {
-                        SaveStructure(text.Substring(1).Trim());
-                    }
-                    else if (text.StartsWith("read "))
-                    {
-                        ReadStructure(text.Substring(4).Trim());
-                    }
-                    else if (text.StartsWith("r "))
-                    {
-                        ReadStructure(text.Substring(1).Trim());
-                    }
-                    else if (text == "exit" || text == "x")
-                    {
-                        Application.Current.Shutdown();
-                    }
-                    else if (text == "clear" || text == "c")
-                    {
-                        _parser = new Parser();
-                    }
-                    else if (text == "clearhistory" || text == "ch")
-                    {
-                        ClearHistory();
-                    }
-                    else if (text == "help" || text == "h")
-                    {
-                        ShowHelp();
+                        Cursor = "->";
+                        _text += input.Substring(0, input.Length - 1);
+                        hasContinuation = true;
                     }
                     else
+                    {
+                        _text += input;
+                    }
+                    if (!hasContinuation)
+                        EvaluateLine();
+                }
+                else
+                {
+                    string text = input.Trim();
+                    bool done = false;
+                    foreach (var action in _noParameterActions.Where(action => text == action.Key))
+                    {
+                        action.Value();
+                        done = true;
+                        break;
+                    }
+                    if (!done)
+                    {
+                        foreach (var action in _parameteredActions.Where(action => text.StartsWith(action.Key + " ")))
+                        {
+                            action.Value(text.Substring(action.Key.Length + 1));
+                            done = true;
+                            break;
+                        }
+                    }
+                    if (!done)
                     {
                         int count;
                         if (int.TryParse(text, out count) && count <= _historyList.Count && count > 0)
@@ -173,11 +213,6 @@ namespace VTTConsole
                         }
                         UpdateOutput($"Invalid command: {text}");
                     }
-                }
-                else
-                {
-                    TokenTree tree = _parser.AddLine(new Line(input));
-                    UpdateOutput($"{tree.Key}: {tree.Value.Evaluate(new TokenTreeList(Tree), false)}");
                 }
                 Input = "";
                 UpdateHistory(input);
@@ -215,26 +250,21 @@ namespace VTTConsole
             _position = 0;
         }
 
+        private void ClearScreen()
+        {
+            Output = "";
+        }
+
         private void ShowHelp()
         {
-            UpdateOutput(@"expression - add/replace token definition
-#n - repeat nth command
-#[c]lear - clear the structure
-#[ch] clearhistory - clear the history
-#[d]elete <token> - remove item from structure
-#[da] deleteall <token> - remove all items matching token
-#[h]elp - this message
-#[i]nsert <expression> - insert item into structure
-#[p]rint - print structure
-#[p]rint <token> - evaluate and print token
-#[r]ead <file> - read structure from a file
-#[s]ave <file> - save structure to file
-#e[x]it - exit");
+            UpdateOutput(_helpCommand);
         }
 
         private void ReadStructure(string file)
         {
-            TokenTree tree = Parser.ParseFile(file, "C:\\");
+            string fileName = Path.GetFileName(file);
+            string directory = Path.GetDirectoryName(file);
+            TokenTree tree = Parser.ParseFile(fileName, directory);
             Tree.Children.AddRange(tree.Children);
         }
 

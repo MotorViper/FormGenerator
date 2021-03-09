@@ -74,8 +74,11 @@
     <Compile Include="Operators\StringPlusOperator.cs" />
     <Compile Include="Operators\IndexOperator.cs" />
     <Compile Include="Operators\SubstitutionOperator.cs" />
-    <Compile Include="Tokens\BoolTooken.cs" />
-    <Compile Include="Tokens\ITypeToken.cs" />
+    <Compile Include="Tokens\BoolToken.cs" />
+    <Compile Include="Tokens\Interfaces\IConvertibleToken.cs" />
+    <Compile Include="Tokens\Interfaces\ITokenWithLength.cs" />
+    <Compile Include="Tokens\Interfaces\IReversibleToken.cs" />
+    <Compile Include="Tokens\Interfaces\ITypeToken.cs" />
     <Compile Include="Tokens\ListToken.cs" />
     <Compile Include="Tokens\NewLineToken.cs" />
     <Compile Include="Tokens\NullToken.cs" />
@@ -86,7 +89,7 @@
     <Compile Include="Tokens\DoubleToken.cs" />
     <Compile Include="Tokens\ExpressionToken.cs" />
     <Compile Include="Tokens\IntToken.cs" />
-    <Compile Include="Tokens\IToken.cs" />
+    <Compile Include="Tokens\Interfaces\IToken.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Operators\MinusOperator.cs" />

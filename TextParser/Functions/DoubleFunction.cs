@@ -1,5 +1,6 @@
 ﻿using System;
 using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Functions
 {
@@ -18,18 +19,9 @@ namespace TextParser.Functions
         /// <returns></returns>
         public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = parameters as ListToken;
-            if (listToken != null)
-            {
-                ListToken returnList = new ListToken();
-                foreach (IToken token in listToken)
-                    returnList.Add(Perform(token, substitutions, isFinal));
-                return returnList;
-            }
-
-            ITypeToken typeToken = parameters as ITypeToken;
+            IConvertibleToken typeToken = parameters as IConvertibleToken;
             if (typeToken != null)
-                return new DoubleToken(typeToken.ToDouble());
+                return typeToken.ConvertToDouble(substitutions, isFinal);
 
             throw new Exception($"Token must be list/item of token(s) convertible to double for {Name}");
         }

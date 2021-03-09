@@ -1,5 +1,6 @@
 ﻿using System;
 using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Functions
 {
@@ -41,9 +42,9 @@ namespace TextParser.Functions
                 if (token is ExpressionToken)
                     return UnParsed(listToken);
                 if (!token.ToBool())
-                    return new BoolTooken(false);
+                    return new BoolToken(false);
             }
-            return new BoolTooken(true);
+            return new BoolToken(true);
         }
     }
 }

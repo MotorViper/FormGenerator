@@ -1,4 +1,5 @@
 ﻿using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Functions
 {
@@ -20,11 +21,8 @@ namespace TextParser.Functions
         /// <returns></returns>
         public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken list = parameters as ListToken ?? new ListToken(parameters);
-            ListToken result = new ListToken();
-            result.Value.AddRange(list.Value);
-            result.Value.Reverse();
-            return result;
+            IReversibleToken reversible = parameters as IReversibleToken;
+            return reversible?.Reverse() ?? parameters;
         }
     }
 }

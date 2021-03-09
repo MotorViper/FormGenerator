@@ -1,4 +1,5 @@
 ﻿using System;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Tokens
 {

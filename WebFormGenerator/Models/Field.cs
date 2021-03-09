@@ -27,14 +27,6 @@ namespace WebFormGenerator.Models
         protected List<string> Keys { get; private set; }
 
         /// <summary>
-        /// Adds any child properties that are linked to the field.
-        /// </summary>
-        /// <param name="child">The child whose properties are being added.</param>
-        public override void AddChildProperties(IField child)
-        {
-        }
-
-        /// <summary>
         /// Process each token that is to be used.
         /// </summary>
         /// <param name="value"></param>

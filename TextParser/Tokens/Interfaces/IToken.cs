@@ -1,4 +1,4 @@
-namespace TextParser.Tokens
+namespace TextParser.Tokens.Interfaces
 {
     /// <summary>
     /// Interface for all tokens to implement.

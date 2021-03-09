@@ -13,7 +13,7 @@ Leather:
 	SpellFailureChance: 10
 	Weight: 15
 	Type: Light
-studded Leather:
+Studded Leather:
 	Cost: 25
 	ACBonus: 3
 	MaxDexBonus: 5

@@ -2,6 +2,7 @@
 using Helpers;
 using TextParser.Functions;
 using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Operators
 {

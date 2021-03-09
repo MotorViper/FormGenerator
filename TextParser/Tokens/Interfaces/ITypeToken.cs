@@ -1,4 +1,4 @@
-namespace TextParser.Tokens
+namespace TextParser.Tokens.Interfaces
 {
     public interface ITypeToken : IToken
     {
