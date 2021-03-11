@@ -6,7 +6,7 @@ namespace TextParser.Tokens.Interfaces
     public interface IToken
     {
         /// <summary>
-        /// Whether this is token contains an expression.
+        /// Whether this token contains an expression.
         /// </summary>
         bool IsExpression { get; }
 

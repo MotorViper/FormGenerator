@@ -17,6 +17,8 @@ namespace TextParser
 
         private Dictionary<int, TokenTree> LastAtLevel { get; }
 
+        public TokenTree Root => LastAtLevel[-1];
+
         public TokenTree ParsedTree => LastAtLevel[LastAtLevel[-1].Children.Count == 1 ? 0 : -1];
 
         public static TokenTree ParseString(string text, bool ignoreErrors = false)

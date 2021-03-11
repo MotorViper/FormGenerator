@@ -19,6 +19,7 @@ namespace VTTConsole
         private readonly NotifyingProperty<string> _cursor = new NotifyingProperty<string>(">");
         private readonly NotifyingProperty<string> _history = new NotifyingProperty<string>();
         private readonly NotifyingProperty<string> _input = new NotifyingProperty<string>();
+        private readonly List<string> _mayContainColons = new List<string>();
         private readonly Dictionary<string, Action> _noParameterActions = new Dictionary<string, Action>();
         private readonly NotifyingProperty<string> _output = new NotifyingProperty<string>();
         private readonly Dictionary<string, Action<string>> _parameteredActions = new Dictionary<string, Action<string>>();
@@ -38,15 +39,15 @@ namespace VTTConsole
             _helpCommand += Environment.NewLine + "n - repeat nth command";
             RegisterCommand("[c]lear - clear the structure", () => _parser = new Parser());
             RegisterCommand("[ch] clearhistory - clear the history", ClearHistory);
-            RegisterCommand("[cs] clearscreen - clear the history", ClearScreen);
+            RegisterCommand("[cs] clearscreen - clear the screen", ClearScreen);
             RegisterCommand("[d]elete <token> - remove item from structure", DeleteItem);
             RegisterCommand("[da] deleteall <token> - remove all items matching token", DeleteItems);
             RegisterCommand("[h]elp - this message", ShowHelp);
             RegisterCommand("[i]nsert <expression> - insert item into structure", InsertItem);
             RegisterCommand("[p]rint - print structure", PrintStructure);
             RegisterCommand("[p]rint <expression> - evaluate and print expression", PrintExpression);
-            RegisterCommand("[r]ead <file> - read structure from a file", ReadStructure);
-            RegisterCommand("[s]ave <file> - save structure to file", SaveStructure);
+            RegisterCommand("[r]ead <file> - read commands from a file", ReadCommands, true);
+            RegisterCommand("[s]ave <file> - save structure to file", SaveStructure, true);
             RegisterCommand("e[x]it - exit", Application.Current.Shutdown);
         }
 
@@ -87,7 +88,7 @@ namespace VTTConsole
             set { _output.SetValue(value, this); }
         }
 
-        private TokenTree Tree => _parser.ParsedTree;
+        private TokenTree Tree => _parser.Root;
 
         public ICommand UpCommand
         {
@@ -113,23 +114,31 @@ namespace VTTConsole
             }
         }
 
-        private void RegisterCommand(string helpString, Action<string> action)
+        private void RegisterCommand(string helpString, Action<string> action, bool mayContainColon = false)
         {
             _helpCommand += Environment.NewLine + helpString;
             string[] bits = helpString.Split(new[] { '<' }, 2);
             string command = bits[0];
             bits = command.Split(new[] { ' ' }, 2);
+            string key1;
+            string key2;
             if (!string.IsNullOrEmpty(bits[1]))
             {
-                _parameteredActions[bits[0].Trim('[', ']', ' ')] = action;
-                _parameteredActions[bits[1].Trim()] = action;
+                key1 = bits[0].Trim('[', ']', ' ');
+                key2 = bits[1].Trim();
             }
             else
             {
                 bits = command.Split(new[] { ']' }, 2);
-                _parameteredActions[bits[0].Trim('[', ']')] = action;
-                _parameteredActions[command.Replace("[", "").Replace("]", "".Trim())] = action;
+                key1 = bits[0].Trim('[', ']');
+                key2 = command.Replace("[", "").Replace("]", "".Trim());
             }
+            _parameteredActions[key1] = action;
+            if (mayContainColon)
+                _mayContainColons.Add(key1);
+            _parameteredActions[key2] = action;
+            if (mayContainColon)
+                _mayContainColons.Add(key2);
         }
 
         private void DownEntered()
@@ -162,13 +171,17 @@ namespace VTTConsole
             Cursor = ">";
         }
 
-        private void Execute(string command)
+        private bool IgnoreColon(string input)
         {
-            string input = command.Trim();
+            string start = input.Split(' ')[0];
+            return _mayContainColons.Contains(start);
+        }
 
+        private void Execute(string input)
+        {
             try
             {
-                if (_text != "" || input.Contains(":"))
+                if (_text != "" || (input.Contains(":") && !IgnoreColon(input)))
                 {
                     bool hasContinuation = false;
                     if (input.EndsWith("-"))
@@ -260,12 +273,15 @@ namespace VTTConsole
             UpdateOutput(_helpCommand);
         }
 
-        private void ReadStructure(string file)
+        private void ReadCommands(string file)
         {
             string fileName = Path.GetFileName(file);
             string directory = Path.GetDirectoryName(file);
-            TokenTree tree = Parser.ParseFile(fileName, directory);
-            Tree.Children.AddRange(tree.Children);
+            fileName = FileUtils.GetFullFileName(fileName, directory);
+            StreamReader reader = new StreamReader(fileName);
+            string line;
+            while ((line = reader.ReadLine()) != null)
+                Execute(line);
         }
 
         private void SaveStructure(string file)

@@ -183,9 +183,7 @@ namespace TextParser
             string key = prefix == null ? Name : prefix + Name;
             walker(key, Value.ToString());
             foreach (TokenTree item in Children)
-            {
                 item.WalkTree(walker, "\t" + prefix);
-            }
         }
 
         public void UpdateFirstLeaf(TokenTree tree)

@@ -1,0 +1,40 @@
+﻿Anatomy of a token
+
+Name: Value
+	Attribute: Value
+	Value:
+
+So the child of a token can have a value of it's own. If it does it's an attribute. If not it's a value, the Value may be a list of items.
+Attributes and Values can be tokens. In fact they are stored as tokens so they can be parsed at run time.
+
+Each token also contains its parent.
+
+When parsing a token the Attributes are checked first, then the attributes of the Value. If no value is found the parent is checked.
+If the Value is a list then a list is returned.
+
+Example:
+
+Weapon:
+	Damage: D6
+	Range: S
+	Masterwork: false
+
+Sword: Weapon
+	Damage: D8
+
+Dagger:
+	Damage: D4
+
+Bow:
+	Range: L
+
+Character:
+	Race: Human
+
+Bert: Character
+	Weapons: Sword, Bow
+		Dagger:
+			Masterwork: true
+	Class: Fighter
+		
+		
