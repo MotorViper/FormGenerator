@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using TextParser.Annotations;
+using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
 namespace TextParser
@@ -35,13 +36,19 @@ namespace TextParser
         public TokenTreeList FindMatches(string key, bool all = false)
         {
             TokenTreeList matches = new TokenTreeList();
-            string[] parts = key.Split(new[] {'.'}, 2);
+            string first;
+            string last;
             if (all)
             {
-                key = "ALL." + key;
-                parts = key.Split(new[] {'.'}, 2);
+                first = "ALL";
+                last = key;
             }
-            string first = parts[0];
+            else
+            {
+                string[] parts = key.Split(new[] { '.' }, 2);
+                first = parts[0];
+                last = parts.Length == 2 ? parts[1] : null;
+            }
             List<TokenTree> tokens;
             if (first.Contains('='))
             {
@@ -67,13 +74,15 @@ namespace TextParser
                 }
             }
 
-            if (parts.Length == 2)
+            if (last != null)
             {
-                string last = parts[1];
                 foreach (TokenTree tree in tokens)
                     matches.AddRange(tree.GetAll(last));
                 if (matches.Count == 0 && last == "NAME")
                     matches.AddRange(tokens.Select(tree => new TokenTree("NAME", tree.Name)));
+                if (matches.Count == 0 && tokens.Count == 1 && tokens[0].Value != null &&
+                    tokens[0].Value is ExpressionToken value && value.Second is StringToken token)
+                    matches = FindMatches(token.Value + "." + last);
             }
             else
             {

@@ -83,30 +83,6 @@ Character:
 	Feats: JOIN:((F:($LevelFeats|$ClassFeats) - ("Bonus Feat"|""))|NL)
 		Test: true
 
-Weapons:
-	Damage: ''
-	Range: ''
-	AttackBonus: 0
-
-Races:
-	Size: Medium
-	ACBonus: 0
-	Speed: 30
-
-Armour:
-	Cost: 0
-	ACBonus: 0
-	MaxDexBonus: 50
-	CheckPenalty: 0
-	SpellFailureChance: 0
-	Slows: false
-	Weight: 0
-
-Skills:
-	Key: ''
-	TrainedOnly: False
-	ArmourCheckPenaltyMultiplier: 0
-
 Classes:
 	SkillPoints: 2
 	CasterLevel: Level

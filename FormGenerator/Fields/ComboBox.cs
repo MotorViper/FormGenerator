@@ -1,4 +1,5 @@
-﻿using Generator;
+﻿using System.Linq;
+using Generator;
 using TextParser.Tokens;
 
 namespace FormGenerator.Fields
@@ -14,6 +15,28 @@ namespace FormGenerator.Fields
         /// </summary>
         public ComboBox() : base("ComboBox")
         {
+        }
+
+        protected override void AddProperties()
+        {
+            int selectionOptionCount = 0;
+            IValue selectionOption = null;
+            foreach (IProperty child in Element.Properties.Where(child => !IgnoredProperties().Contains(child.Name)))
+            {
+                string name = child.Name;
+                if (name == "SelectionOptions")
+                {
+                    ++selectionOptionCount;
+                    selectionOption = child;
+                }
+                else
+                AddProperty(child.Name, child);
+            }
+            if (selectionOptionCount == 1)
+                AddProperty("SelectionOptions", selectionOption);
+            else if (selectionOption != null)
+                AddProperty("SelectionOptions", new SimpleValue(Element.Properties.FindChild("SelectionOptions").ElementName));
+            Parent?.AddChildProperties(this);
         }
 
         /// <summary>

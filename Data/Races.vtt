@@ -1,5 +1,10 @@
-﻿Human:
-Dwarf:
-Hobbit:
+﻿Race:
+	Size: Medium
+	ACBonus: 0
+	Speed: 30
+
+Human: $Race
+Dwarf: $Race
+Hobbit: $Race
 	Size: Small
 	Speed: 20

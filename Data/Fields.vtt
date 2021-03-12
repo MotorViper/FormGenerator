@@ -242,7 +242,7 @@ Field: Grid
 		Width: 230
 		Across: 1|2
 		Field: Table
-			Content: Skills
+			Content: {Skills.ALL.NAME} - ('Skill', 'IntSkill', 'DexSkill', 'ChaSkill', 'WisSkill', 'StrSkill', 'ConSkill')
 			Columns: '|Auto|Auto|Auto|Auto'
 			Background: PaleGreen
 			Field: Label
@@ -397,14 +397,14 @@ Field: Grid
 
 		Field: Table
 			Content: (Weapon1|Weapon2)
-			Columns: '100|60|60|60|60|80'
+			Columns: '120|60|60|60|60|80'
 			Field: ComboBox
 				Style: Stretch
 				Header: 
 					Content: Weapon
 					Style: WeaponHeader
 				Content: $$1
-				SelectionOptions: Weapons
+				SelectionOptions: {Weapons.ALL.NAME} - ('Weapon', 'MartialWeapon')
 				Height: 25
 			Field: Label
 				Style: BorderedLabel

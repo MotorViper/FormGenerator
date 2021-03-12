@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
 using TextParser;
+using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace FormGenerator.Tools
 {
@@ -18,11 +20,25 @@ namespace FormGenerator.Tools
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string dataType = parameter.ToString();
-            TokenTree items = new TokenTree(DataConverter.Parameters?.GetChildren(dataType));
-            List<string> result = new List<string>();
-            foreach (TokenTree item in items.Children)
-                result.Add(item.Name);
-            return result;
+            if (dataType.Contains("$") || dataType.Contains("{"))
+            {
+                TokenTree tree = new Parser().AddLine(new Line("Content: " + dataType));
+                IToken converted = tree.Value.Evaluate(new TokenTreeList { (TokenTree)value, DataConverter.Parameters }, true);
+                ListToken list = converted as ListToken;
+                List<string> result = new List<string>();
+                if (list != null)
+                    foreach (IToken token in list.Value)
+                        result.Add(token.ToString());
+                return result;
+            }
+            else
+            {
+                TokenTree items = new TokenTree(DataConverter.Parameters?.GetChildren(dataType));
+                List<string> result = new List<string>();
+                foreach (TokenTree item in items.Children)
+                    result.Add(item.Name);
+                return result;
+            }
         }
 
         /// <summary>

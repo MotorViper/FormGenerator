@@ -1,84 +1,62 @@
-﻿Appraise:
-	Key: Int
-Autohypnosis:
-	Key: Wis
-	TrainedOnly: True
-Balance:
-	Key: Dex
-	ArmourCheckPenaltyMultiplier: 1
-Bluff:
+﻿Skill:
+	Key: ''
+	TrainedOnly: False
+	ArmourCheckPenaltyMultiplier: 0
+
+ChaSkill: $Skill
 	Key: Cha
-Climb:
-	Key: Str
-	ArmourCheckPenaltyMultiplier: 1
-Concentration:
+ConSkill: $Skill
 	Key: Con
-Control Shape:
-	Key: Wis
-Craft:
-	Key: Int
-Decipher Script:
-	Key: Int
-Diplomacy:
-	Key: Cha
-Disable Device:
-	Key: Int
-Disguise:
-	Key: Cha
-Escape Artist:
+DexSkill: $Skill
 	Key: Dex
-Forgery:
+IntSkill: $Skill
 	Key: Int
-Gather Information:
-	Key: Cha
-Handle Animal:
-	Key: Cha
-Heal:
-	Key: Wis
-Hide:
-	Key: Dex
-Intimidate:
-	Key: Cha
-Jump:
+StrSkill: $Skill
 	Key: Str
-Knowledge:
-	Key: Int
-Listen:
+WisSkill: $Skill
 	Key: Wis
-Move Silently:
-	Key: Dex
-Open Lock:
-	Key: Dex
-Perform:
-	Key: Cha
-Psicraft:
-	Key: Int
-Profession:
-	Key: Wis
-Ride:
-	Key: Dex
-Search:
-	Key: Int
-Sense Motive:
-	Key: Wis
-Sleight of Hand:
-	Key: Dex
-Speak Language:
-	Key: Int
-Spellcraft:
-	Key: Int
-Spot:
-	Key: Wis
-Survival:
-	Key: Wis
-Swim:
-	Key: Str
+
+Appraise: $IntSkill
+Autohypnosis: $WisSkill
+	TrainedOnly: True
+Balance: $DexSkill
+	ArmourCheckPenaltyMultiplier: 1
+Bluff: $ChaSkill
+Climb: $StrSkill
+	ArmourCheckPenaltyMultiplier: 1
+Concentration: $ConSkill
+Control Shape: $WisSkill
+Craft: $IntSkill
+Decipher Script: $IntSkill
+Diplomacy: $ChaSkill
+Disable Device: $IntSkill
+Disguise: $ChaSkill
+Escape Artist: $DexSkill
+Forgery: $IntSkill
+Gather Information: $ChaSkill
+Handle Animal: $ChaSkill
+Heal: $WisSkill
+Hide: $DexSkill
+Intimidate: $ChaSkill
+Jump: $StrSkill
+Knowledge: $IntSkill
+Listen: $WisSkill
+Move Silently: $DexSkill
+Open Lock: $DexSkill
+Perform: $ChaSkill
+Psicraft: $IntSkill
+Profession: $WisSkill
+Ride: $DexSkill
+Search: $IntSkill
+Sense Motive: $WisSkill
+Sleight of Hand: $DexSkill
+Speak Language: $IntSkill
+Spellcraft: $IntSkill
+Spot: $WisSkill
+Survival: $WisSkill
+Swim: $StrSkill
 	ArmourCheckPenaltyMultiplier: 2
-Tumble:
-	Key: Dex
-Use Magic Device:
-	Key: Cha
-Use Psionic Device:
-	Key: Cha
-Use Rope:
-	Key: Dex
+Tumble: $DexSkill
+Use Magic Device: $ChaSkill
+Use Psionic Device: $ChaSkill
+Use Rope: $DexSkill

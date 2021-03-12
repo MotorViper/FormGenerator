@@ -88,6 +88,9 @@
     <Compile Include="Views\GeneratedView.xaml.cs">
       <DependentUpon>GeneratedView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Test.xaml.cs">
+      <DependentUpon>Test.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\EditorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -106,6 +109,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\GeneratedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Test.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

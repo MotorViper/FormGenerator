@@ -3,6 +3,7 @@
 	Provide code to convert token data to classes?
 	Work out how to use templates for things like masterwork
 	Add in weapon focus and weapon finesse modifiers automatically (see MiscInitiative).
+	Need to have far fewer special cases.
 
 Gui:
 	Improve syntax colouring.
@@ -19,7 +20,8 @@ Generator:
 
 Console:
 	Make work more like reading a file.
-	Mke print work if only one item in token tree.
+	Make print work if only one item in token tree.
+	All use of tab for indentation.
 
 WebForm:
 	Add ability to include resources from a file.

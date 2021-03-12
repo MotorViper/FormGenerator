@@ -1,19 +1,27 @@
-None:
-Padded:
+Armour:
+	Cost: 0
+	ACBonus: 0
+	MaxDexBonus: 50
+	CheckPenalty: 0
+	SpellFailureChance: 0
+	Slows: false
+	Weight: 0
+None: $Armour
+Padded: $Armour
 	Cost: 5
 	ACBonus: 1
 	MaxDexBonus: 8
 	SpellFailureChance: 5
 	Weight: 10
 	Type: Light
-Leather:
+Leather: $Armour
 	Cost: 10
 	ACBonus: 2
 	MaxDexBonus: 6
 	SpellFailureChance: 10
 	Weight: 15
 	Type: Light
-Studded Leather:
+Studded Leather: $Armour
 	Cost: 25
 	ACBonus: 3
 	MaxDexBonus: 5
@@ -21,7 +29,7 @@ Studded Leather:
 	SpellFailureChance: 15
 	Weight: 20
 	Type: Light
-Chain Shirt:
+Chain Shirt: $Armour
 	Cost: 100
 	ACBonus: 4
 	MaxDexBonus: 4
@@ -29,7 +37,7 @@ Chain Shirt:
 	SpellFailureChance: 20
 	Weight: 25
 	Type: Light
-Hide:
+Hide: $Armour
 	Cost: 15
 	ACBonus: 3
 	MaxDexBonus: 4
@@ -38,7 +46,7 @@ Hide:
 	Slows: true
 	Weight: 25
 	Type: Medium
-Scale Mail:
+Scale Mail: $Armour
 	Cost: 50
 	ACBonus: 4
 	MaxDexBonus: 3
@@ -47,7 +55,7 @@ Scale Mail:
 	Slows: true
 	Weight: 30
 	Type: Medium
-Chainmail:
+Chainmail: $Armour
 	Cost: 150
 	ACBonus: 5
 	MaxDexBonus: 2
@@ -56,7 +64,7 @@ Chainmail:
 	Slows: true
 	Weight: 40
 	Type: Medium
-Breastplate:
+Breastplate: $Armour
 	Cost: 200
 	ACBonus: 5
 	MaxDexBonus: 3
@@ -65,7 +73,7 @@ Breastplate:
 	Slows: true
 	Weight: 30
 	Type: Medium
-Splint Mail:
+Splint Mail: $Armour
 	Cost: 200
 	ACBonus: 6
 	MaxDexBonus: 0
@@ -74,7 +82,7 @@ Splint Mail:
 	Slows: true
 	Weight: 45
 	Type: Heavy
-Banded Mail:
+Banded Mail: $Armour
 	Cost: 250
 	ACBonus: 6
 	MaxDexBonus: 1
@@ -83,7 +91,7 @@ Banded Mail:
 	Slows: true
 	Weight: 35
 	Type: Heavy
-Half-Plate:
+Half-Plate: $Armour
 	Cost: 600
 	ACBonus: 7
 	MaxDexBonus: 0
@@ -92,7 +100,7 @@ Half-Plate:
 	Slows: true
 	Weight: 50
 	Type: Heavy
-Full Plate:
+Full Plate: $Armour
 	Cost: 1500
 	ACBonus: 8
 	MaxDexBonus: 1

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -49,6 +50,10 @@ namespace VTTConsole
             RegisterCommand("[r]ead <file> - read commands from a file", ReadCommands, true);
             RegisterCommand("[s]ave <file> - save structure to file", SaveStructure, true);
             RegisterCommand("e[x]it - exit", Application.Current.Shutdown);
+
+            string readFile = ConfigurationManager.AppSettings.Get("ReadAtStart");
+            if (!string.IsNullOrWhiteSpace(readFile))
+                ReadCommands(readFile);
         }
 
         public bool CommandEntered
@@ -179,6 +184,8 @@ namespace VTTConsole
 
         private void Execute(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                return;
             try
             {
                 if (_text != "" || (input.Contains(":") && !IgnoreColon(input)))

@@ -1,45 +1,47 @@
-﻿Shortsword:
+﻿Weapon:
+	Damage: ''
+	Range: ''
+	AttackBonus: 0
+MartialWeapon: $Weapon
 	Group: Martial
+	Range: S
+	Critical: '19-20/x2'
+Shortsword: $MartialWeapon
 	Damage: 1D6
-	Range: S
-	Critical: '19-20/x2'
 	IsMelee: True
-Longsword:
-	Group: Martial
+Longsword: $MartialWeapon
 	Damage: 1D8
-	Range: S
-	Critical: '19-20/x2'
 	IsMelee: True
-Shortbow:
-	Group: Martial
+Shortbow: $MartialWeapon
 	Damage: 1D6
 	Range: R
 	Increment: 60
 	Critical: x3
 	IsMelee: False
-Dagger:
+Dagger: $Weapon
 	Group: Simple
 	Damage: 1D4
 	Range: C
 	Critical: '19-20/x2'
 	IsMelee: True
-Rapier:
-	Group: Martial
+Rapier: $MartialWeapon
 	Damage: 1D6
 	Range: C
 	Critical: '18-20/x2'
 	IsMelee: True
-Unarmed:
+Unarmed: $Weapon
 	Group: Simple
 	Damage: 1D3
 	Range: C
 	Critical: x2
 	IsMelee: True
-Mwk Longsword: {Longsword}
-	AttackBonus: 1
-Mwk Heavy Crossbow: 
+Heavy Crossbow: $Weapon
 	Group: Simple
 	Damage: 1D10
 	Range: R
 	Critical: '19-20/x2'
+	AttackBonus: 1
+Mwk Longsword: {Longsword}
+	AttackBonus: 1
+Mwk Heavy Crossbow: {Heavy Crossbow}
 	AttackBonus: 1
