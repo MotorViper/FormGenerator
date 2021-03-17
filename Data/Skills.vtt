@@ -22,24 +22,31 @@ Autohypnosis: $WisSkill
 Balance: $DexSkill
 	ArmourCheckPenaltyMultiplier: 1
 Bluff: $ChaSkill
+	Synergy: Diplomacy, Intimidate, and Sleight of Hand checks, as well as on Disguise checks made when you know you’re being observed and you try to act in character. 
 Climb: $StrSkill
 	ArmourCheckPenaltyMultiplier: 1
 Concentration: $ConSkill
 Control Shape: $WisSkill
 Craft: $IntSkill
+	Synergy: Appraise checks related to items made with appropriate Craft skill. 
 Decipher Script: $IntSkill
+	Synergy: Use Magic Device checks involving scrolls.
 Diplomacy: $ChaSkill
 Disable Device: $IntSkill
 Disguise: $ChaSkill
 Escape Artist: $DexSkill
+	Synergy:  Use Rope checks to bind someone.
 Forgery: $IntSkill
 Gather Information: $ChaSkill
 Handle Animal: $ChaSkill
+	Synergy: Ride checks and wild empathy checks.
 Heal: $WisSkill
 Hide: $DexSkill
 Intimidate: $ChaSkill
 Jump: $StrSkill
+	Synergy: Tumble checks.
 Knowledge: $IntSkill
+	Synergy: By skill.
 Listen: $WisSkill
 Move Silently: $DexSkill
 Open Lock: $DexSkill
@@ -48,15 +55,22 @@ Psicraft: $IntSkill
 Profession: $WisSkill
 Ride: $DexSkill
 Search: $IntSkill
+	Synergy: Survival checks to find or follow tracks.
 Sense Motive: $WisSkill
+	Synergy:  Diplomacy checks.
 Sleight of Hand: $DexSkill
 Speak Language: $IntSkill
 Spellcraft: $IntSkill
+	Synergy: Use Magic Device checks related to scrolls.
 Spot: $WisSkill
 Survival: $WisSkill
+	Synergy:  Knowledge (nature) checks.
 Swim: $StrSkill
 	ArmourCheckPenaltyMultiplier: 2
 Tumble: $DexSkill
+	Synergy: Balance and Jump checks.
 Use Magic Device: $ChaSkill
+	Synergy: Spellcraft checks made to decipher spells on scrolls.
 Use Psionic Device: $ChaSkill
 Use Rope: $DexSkill
+	Synergy: Climb checks made to climb a rope, a knotted rope, or a rope-and-wall combination. Escape Artist checks when escaping from rope bonds.

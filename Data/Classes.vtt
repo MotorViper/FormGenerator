@@ -1,4 +1,14 @@
-﻿Cleric:
+﻿Class:
+	SkillPoints: 2
+	CasterLevel: Level
+	MaxSpellLevel: $$SpellAttribute - 10
+	SpellDifficulty: 10 + $SpellLevel + AttributeModifer: $SpellAttribute
+	WeaponProficiency: Simple
+	ArmourProficiency: None
+	ShieldProficiency: None
+	LevelType: Basic
+
+Cleric: $Class
 	ClassSkills: Concentration, Craft, Diplomacy, Heal, Knowledge (arcana), Knowledge (history), Knowledge (religion), Knowledge (the planes), Profession, -
 		Spellcraft
 	BABonus: Average
@@ -35,7 +45,7 @@
 		19:	'+14/+9/+4 	+11 +6 	+11 	6 	5+1 	5+1 	5+1 	5+1 	5+1 	4+1 	4+1 	3+1 	3+1
 		20:	'+15/+10/+5 +12 +6 	+12 	6 	5+1 	5+1 	5+1 	5+1 	5+1 	4+1 	4+1 	4+1 	4+1 
 
-Fighter:
+Fighter: $Class
 	ClassSkills: Climb, Craft, Handle Animal, Intimidate, Jump, Ride, Swim
 	BABonus: Good
 	LevelInformation:
@@ -60,7 +70,7 @@ Fighter:
 		19:	'+19/+14/+9/+4 		+11 +6 	+6 	
 		20:	'+20/+15/+10/+5 	+12 +6 	+6 	Bonus Feat
 
-Rogue:
+Rogue: $Class
 	ClassSkills: Appraise, Balance, Bluff, Climb, Craft, Decipher Script, Diplomacy, Disable Device, Disguise, Escape Artist, Forgery, Gather Information, -
 		Hide, Intimidate, Jump, Knowledge (local), Listen, Move Silently, Open Lock, Perform, Profession, Search, Sense Motive, Sleight of Hand, Spot, -
 		Swim, Tumble, Use Magic Device, Use Rope
@@ -88,7 +98,7 @@ Rogue:
 		19:	'+14/+9/+4 	+6 	+11 +6 	Sneak Attack +10d6, Special Ability
 		20:	'+15/+10/+5 +6 	+12 +6 	
 
-Warrior:
+Warrior: $Class
 	ClassSkills: Climb, Handle Animal, Intimidate, Jump, Ride, Swim
 	BABonus: Good
 	LevelInformation:

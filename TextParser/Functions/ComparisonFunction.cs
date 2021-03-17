@@ -10,12 +10,12 @@ namespace TextParser.Functions
     /// 4: If first matches second then third is returned otherwise fourth.
     /// 5: If first greater than second third is returned, if equal fourth is returned otherwise fifth is returned.
     /// </summary>
-    public class ComparisonFunction : BaseFunction
+    public class ComparisonFunction : CheckedCountFunction
     {
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ComparisonFunction() : base("COMP(ARE)")
+        public ComparisonFunction() : base("COMP(ARE)", 3, 5)
         {
         }
 
@@ -31,17 +31,8 @@ namespace TextParser.Functions
         /// <param name="substitutions">The tokens that can be used for substitutions.</param>
         /// <param name="isFinal">Whether a result needs to be returned.</param>
         /// <returns></returns>
-        public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
+        protected override IToken PerformOnList(int count, ListToken listToken, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = parameters as ListToken;
-            if (listToken == null)
-                throw new Exception($"Last token must be list for '{Name}'");
-
-            int count = listToken.Count;
-
-            if (count < 3 || count > 5)
-                throw new Exception($"Must have between 3 and 5 values for '{Name}': {listToken}");
-
             IToken first = listToken[0].Evaluate(substitutions, isFinal);
             IToken second = listToken[1].Evaluate(substitutions, isFinal);
             if (first is ExpressionToken || second is ExpressionToken)

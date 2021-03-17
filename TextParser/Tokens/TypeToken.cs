@@ -5,15 +5,13 @@ namespace TextParser.Tokens
 {
     public abstract class TypeToken<T> : BaseToken, ITypeToken, IConvertibleToken
     {
-        protected TypeToken(T value, TokenType type)
+        protected TypeToken(T value)
         {
             Value = value;
-            Type = type;
         }
 
         public T Value { get; }
 
-        public TokenType Type { get; }
         public object Data => Value;
 
         /// <summary>

@@ -45,6 +45,9 @@ namespace TextParser
         }
 
         public TokenTreeList Children { get; private set; }
+        public IToken Key { get; set; }
+        public string Name => Key.ToString();
+        public IToken Value { get; set; }
 
         public string this[string name]
         {
@@ -67,10 +70,6 @@ namespace TextParser
                     Children.SetValue(name, value);
             }
         }
-
-        public IToken Key { get; set; }
-        public string Name => Key.ToString();
-        public IToken Value { get; set; }
 
         private static void Initialise()
         {

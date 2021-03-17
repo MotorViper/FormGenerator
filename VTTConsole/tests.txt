@@ -12,6 +12,12 @@ Dagger:
 Bow:
 	Range: L
 
+Heavy Crossbow:
+	Damage: 2D4
+
+Mwk Heavy Crossbow: $(Heavy Crossbow)
+	AttackBonus: 1
+
 Character:
 	Race: Human
 

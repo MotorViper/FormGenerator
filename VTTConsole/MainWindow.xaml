@@ -25,14 +25,16 @@
         </ScrollViewer>
         <GridSplitter Grid.Row="0" Grid.ColumnSpan="2" Height="1" Background="Blue" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />
         <Label Grid.Row="1" Content="{Binding Cursor}" FontSize="16" Margin="-5" />
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Input}" AcceptsReturn="False" BorderBrush="{x:Null}">
+        <helpers:ExtendedTextBox Grid.Row="1" Grid.Column="1" Text="{Binding Input}" AcceptsReturn="False" BorderBrush="{x:Null}"
+                                 CaretPosition="{Binding CaretPosition}">
             <TextBox.InputBindings>
                 <KeyBinding Key="Enter" Command="{Binding InputCommand}"
                             CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
                 <KeyBinding Key="Up" Command="{Binding UpCommand}" />
                 <KeyBinding Key="Down" Command="{Binding DownCommand}" />
+                <KeyBinding Key="Tab" Command="{Binding TabCommand}" />
             </TextBox.InputBindings>
-        </TextBox>
+        </helpers:ExtendedTextBox>
         <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2" helpers:ScrollViewerHelper.AutoScroll="{Binding CommandEntered}">
             <Label Content="{Binding Output}" />
         </ScrollViewer>

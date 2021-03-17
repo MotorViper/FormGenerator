@@ -18,33 +18,24 @@ namespace TextParser.Operators
         /// <returns>The evaluated value.</returns>
         protected override IToken Evaluate(ITypeToken first, ITypeToken last)
         {
-            switch (first.Type)
+            if (first is IntToken iFirst)
             {
-                case TokenType.IntToken:
-                    TypeToken<int> iFirst = (TypeToken<int>)first;
-                    switch (last.Type)
-                    {
-                        case TokenType.IntToken:
-                            return new IntToken(iFirst.Value / ((TypeToken<int>)last).Value);
-                        case TokenType.DoubleToken:
-                            return new DoubleToken(iFirst.Value / ((TypeToken<double>)last).Value);
-                    }
-                    break;
-                case TokenType.DoubleToken:
-                    TypeToken<double> dFirst = (TypeToken<double>)first;
-                    switch (last.Type)
-                    {
-                        case TokenType.IntToken:
-                            return new DoubleToken(dFirst.Value / ((TypeToken<int>)last).Value);
-                        case TokenType.DoubleToken:
-                            return new DoubleToken(dFirst.Value / ((TypeToken<double>)last).Value);
-                    }
-                    break;
-                case TokenType.StringToken:
-                    TypeToken<string> sFirst = (TypeToken<string>)first;
-                    if (last.Type != TokenType.ListToken)
-                        return new IntToken(sFirst.Value.CountInstances(last.ToString()));
-                    break;
+                if (last is IntToken iLast)
+                    return new IntToken(iFirst.Value / iLast.Value);
+                if (last is DoubleToken dLast)
+                    return new DoubleToken(iFirst.Value / dLast.Value);
+            }
+            else if (first is DoubleToken dFirst)
+            {
+                if (last is IntToken iLast)
+                    return new DoubleToken(dFirst.Value / iLast.Value);
+                if (last is DoubleToken dLast)
+                    return new DoubleToken(dFirst.Value / dLast.Value);
+            }
+            else if (first is StringToken sFirst)
+            {
+                if (!(last is ListToken))
+                    return new IntToken(sFirst.Value.CountInstances(last.ToString()));
             }
             return base.Evaluate(first, last);
         }

@@ -22,6 +22,7 @@ namespace TextParser.Operators
             RegisterFunction<ComparisonFunction>();
             RegisterFunction<ContainsFunction>();
             RegisterFunction<CountFunction>();
+            RegisterFunction<DefaultFunction>();
             RegisterFunction<DoubleFunction>();
             RegisterFunction<FlattenFunction>();
             RegisterFunction<IfFunction>();

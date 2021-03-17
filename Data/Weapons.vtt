@@ -1,47 +1,161 @@
 ﻿Weapon:
-	Damage: ''
 	Range: ''
 	AttackBonus: 0
-MartialWeapon: $Weapon
-	Group: Martial
-	Range: S
-	Critical: '19-20/x2'
-Shortsword: $MartialWeapon
-	Damage: 1D6
-	IsMelee: True
-Longsword: $MartialWeapon
-	Damage: 1D8
-	IsMelee: True
-Shortbow: $MartialWeapon
-	Damage: 1D6
-	Range: R
-	Increment: 60
-	Critical: x3
-	IsMelee: False
-Dagger: $Weapon
-	Group: Simple
-	Damage: 1D4
-	Range: C
-	Critical: '19-20/x2'
-	IsMelee: True
-Rapier: $MartialWeapon
-	Damage: 1D6
-	Range: C
-	Critical: '18-20/x2'
-	IsMelee: True
+	IsMelee: false
+
+/*
+Simple Weapons
+Unarmed Attacks: $(Simple Weapons)
+Gauntlet: $(Unarmed Attacks)
+	Attributes: '2 gp' 	1d2 	1d3 	'×2' 	'—' 	'1 lb.' 	Bludgeoning
+*/
 Unarmed: $Weapon
 	Group: Simple
-	Damage: 1D3
 	Range: C
-	Critical: x2
 	IsMelee: True
+	Attributes: '— 	1d2 	1d3 	×2 	— 	— 	Bludgeoning
+
+/*
+Light Melee Weapons
+*/
+Dagger: $Weapon
+	Group: Simple
+	Range: C
+	IsMelee: True
+	Attributes: '2gp 	1d3 	1d4 	19-20/×2 	10ft. 	1lb. 	Piercing or slashing
+/*
+Dagger, punching: $(Light Melee Weapons)
+	Attributes: 2 gp 	1d3 	1d4 	×3 	— 	1 lb. 	Piercing
+Gauntlet, spiked: $(Light Melee Weapons)
+	Attributes: 5 gp 	1d3 	1d4 	×2 	— 	1 lb. 	Piercing
+Mace, light: $(Light Melee Weapons)
+	Attributes: 5 gp 	1d4 	1d6 	×2 	— 	4 lb. 	Bludgeoning
+Sickle: $(Light Melee Weapons)
+	Attributes: 6 gp 	1d4 	1d6 	×2 	— 	2 lb. 	Slashing
+One-Handed Melee Weapons: $Weapon
+Club: $(One-Handed Melee Weapons)
+	Attributes: — 	1d4 	1d6 	×2 	10 ft. 	3 lb. 	Bludgeoning
+Mace, heavy: $(One-Handed Melee Weapons)
+	Attributes: 12 gp 	1d6 	1d8 	×2 	— 	8 lb. 	Bludgeoning
+Morningstar : $(One-Handed Melee Weapons)
+	Attributes: 8 gp 	1d6 	1d8 	×2 	— 	6 lb. 	Bludgeoning and piercing
+Shortspear: $(One-Handed Melee Weapons)
+	Attributes: 1 gp 	1d4 	1d6 	×2 	20 ft. 	3 lb. 	Piercing
+Two-Handed Melee Weapons
+Longspear4 	5 gp 	1d6 	1d8 	×3 	— 	9 lb. 	Piercing
+Quarterstaff5 	— 	1d4/1d4 	1d6/1d6 	×2 	— 	4 lb. 	Bludgeoning
+Spear 	2 gp 	1d6 	1d8 	×3 	20 ft. 	6 lb. 	Piercing
+Ranged Weapons
+*/
 Heavy Crossbow: $Weapon
 	Group: Simple
-	Damage: 1D10
 	Range: R
-	Critical: '19-20/x2'
-	AttackBonus: 1
+	Attributes: '50gp 	1d8 	1d10 	19-20/×2 	120ft. 	8lb. 	Piercing
+	Ammunition: Bolts 10 	1 gp 	1 lb. 	
+/*
+Crossbow, light 	35 gp 	1d6 	1d8 	19-20/×2 	80 ft. 	4 lb. 	Piercing
+Bolts, crossbow (10) 	1 gp 	— 	— 	— 	— 	1 lb. 	—
+Dart 	5 sp 	1d3 	1d4 	×2 	20 ft. 	½ lb. 	Piercing
+Javelin 	1 gp 	1d4 	1d6 	×2 	30 ft. 	2 lb. 	Piercing
+Sling 	— 	1d3 	1d4 	×2 	50 ft. 	0 lb. 	Bludgeoning
+Bullets, sling (10) 	1 sp 	— 	— 	— 	— 	5 lb. 	—
+Martial Weapons 	Cost 	Dmg (S) 	Dmg (M) 	Critical 	Range Increment 	Weight1 	Type2
+Light Melee Weapons
+Axe, throwing 	8 gp 	1d4 	1d6 	×2 	10 ft. 	2 lb. 	Slashing
+Hammer, light 	1 gp 	1d3 	1d4 	×2 	20 ft. 	2 lb. 	Bludgeoning
+Handaxe 	6 gp 	1d4 	1d6 	×3 	— 	3 lb. 	Slashing
+Kukri 	8 gp 	1d3 	1d4 	18-20/×2 	— 	2 lb. 	Slashing
+Pick, light 	4 gp 	1d3 	1d4 	×4 	— 	3 lb. 	Piercing
+Sap 	1 gp 	1d43 	1d63 	×2 	— 	2 lb. 	Bludgeoning
+Shield, light 	special 	1d2 	1d3 	×2 	— 	special 	Bludgeoning
+Spiked armor 	special 	1d4 	1d6 	×2 	— 	special 	Piercing
+Spiked shield, light 	special 	1d3 	1d4 	×2 	— 	special 	Piercing
+*/
+Shortsword: $Weapon
+	Group: Martial
+	Range: S
+	IsMelee: True
+	Attributes: '10gp 	1d4 	1d6 	19-20/×2 	— 	2lb. 	Piercing
+/*
+One-Handed Melee Weapons
+Battleaxe 	10 gp 	1d6 	1d8 	×3 	— 	6 lb. 	Slashing
+Flail 	8 gp 	1d6 	1d8 	×2 	— 	5 lb. 	Bludgeoning
+*/
+Longsword: $Weapon
+	Group: Martial
+	Range: S
+	IsMelee: True
+	Attributes: '15gp 	1d6 	1d8 	19-20/×2 	— 	4lb. 	Slashing
+/*
+Pick, heavy 	8 gp 	1d4 	1d6 	×4 	— 	6 lb. 	Piercing
+*/
+Rapier: $Weapon
+	Group: Martial
+	Range: C
+	IsMelee: True
+	Attributes: '20gp 	1d4 	1d6 	18-20/×2 	— 	2lb. 	Piercing
+/*
+Scimitar 	15 gp 	1d4 	1d6 	18-20/×2 	— 	4 lb. 	Slashing
+Shield, heavy 	special 	1d3 	1d4 	×2 	— 	special 	Bludgeoning
+Spiked shield, heavy 	special 	1d4 	1d6 	×2 	— 	special 	Piercing
+Trident 	15 gp 	1d6 	1d8 	×2 	10 ft. 	4 lb. 	Piercing
+Warhammer 	12 gp 	1d6 	1d8 	×3 	— 	5 lb. 	Bludgeoning
+Two-Handed Melee Weapons
+Falchion 	75 gp 	1d6 	2d4 	18-20/×2 	— 	8 lb. 	Slashing
+Glaive4 	8 gp 	1d8 	1d10 	×3 	— 	10 lb. 	Slashing
+Greataxe 	20 gp 	1d10 	1d12 	×3 	— 	12 lb. 	Slashing
+Greatclub 	5 gp 	1d8 	1d10 	×2 	— 	8 lb. 	Bludgeoning
+Flail, heavy 	15 gp 	1d8 	1d10 	19-20/×2 	— 	10 lb. 	Bludgeoning
+Greatsword 	50 gp 	1d10 	2d6 	19-20/×2 	— 	8 lb. 	Slashing
+Guisarme4 	9 gp 	1d6 	2d4 	×3 	— 	12 lb. 	Slashing
+Halberd 	10 gp 	1d8 	1d10 	×3 	— 	12 lb. 	Piercing or slashing
+Lance4 	10 gp 	1d6 	1d8 	×3 	— 	10 lb. 	Piercing
+Ranseur4 	10 gp 	1d6 	2d4 	×3 	— 	12 lb. 	Piercing
+Scythe 	18 gp 	1d6 	2d4 	×4 	— 	10 lb. 	Piercing or slashing
+Ranged Weapons
+Longbow 	75 gp 	1d6 	1d8 	×3 	100 ft. 	3 lb. 	Piercing
+Arrows (20) 	1 gp 	— 	— 	— 	— 	3 lb. 	—
+Longbow, composite 	100 gp 	1d6 	1d8 	×3 	110 ft. 	3 lb. 	Piercing
+Arrows (20) 	1 gp 	— 	— 	— 	— 	3 lb. 	—
+*/
+Shortbow: $Weapon
+	Group: Martial
+	Range: R
+	IsMelee: False
+	Attributes: '30gp 	1d4 	1d6 	×3 	60ft. 	2lb. 	Piercing
+	Ammunition: Arrows 20 1 gp 	3 lb. 	
+/*
+Shortbow, composite 	75 gp 	1d4 	1d6 	×3 	70 ft. 	2 lb. 	Piercing
+Arrows (20) 	1 gp 	— 	— 	— 	— 	3 lb. 	—
+Exotic Weapons 	Cost 	Dmg (S) 	Dmg (M) 	Critical 	Range Increment 	Weight1 	Type2
+Light Melee Weapons
+Kama 	2 gp 	1d4 	1d6 	×2 	— 	2 lb. 	Slashing
+Nunchaku 	2 gp 	1d4 	1d6 	×2 	— 	2 lb. 	Bludgeoning
+Sai 	1 gp 	1d3 	1d4 	×2 	10 ft. 	1 lb. 	Bludgeoning
+Siangham 	3 gp 	1d4 	1d6 	×2 	— 	1 lb. 	Piercing
+One-Handed Melee Weapons
+Sword, bastard 	35 gp 	1d8 	1d10 	19-20/×2 	— 	6 lb. 	Slashing
+Waraxe, dwarven 	30 gp 	1d8 	1d10 	×3 	— 	8 lb. 	Slashing
+Whip4 	1 gp 	1d23 	1d33 	×2 	— 	2 lb. 	Slashing
+Two-Handed Melee Weapons
+Axe, orc double5 	60 gp 	1d6/1d6 	1d8/1d8 	×3 	— 	15 lb. 	Slashing
+Chain, spiked4 	25 gp 	1d6 	2d4 	×2 	— 	10 lb. 	Piercing
+Flail, dire5 	90 gp 	1d6/1d6 	1d8/1d8 	×2 	— 	10 lb. 	Bludgeoning
+Hammer, gnome hooked5 	20 gp 	1d6/1d4 	1d8/1d6 	×3/×4 	— 	6 lb. 	Bludgeoning/Piercing
+Sword, two-bladed5 	100 gp 	1d6/1d6 	1d8/1d8 	19-20/×2 	— 	10 lb. 	Slashing
+Urgrosh, dwarven5 	50 gp 	1d6/1d4 	1d8/1d6 	×3 	— 	12 lb. 	Slashing or piercing
+Ranged Weapons
+Bolas 	5 gp 	1d33 	1d43 	×2 	10 ft. 	2 lb. 	Bludgeoning
+Crossbow, hand 	100 gp 	1d3 	1d4 	19-20/×2 	30 ft. 	2 lb. 	Piercing
+Bolts (10) 	1 gp 	— 	— 	— 	— 	1 lb. 	—
+Crossbow, repeating heavy 	400 gp 	1d8 	1d10 	19-20/×2 	120 ft. 	12 lb. 	Piercing
+Bolts (5) 	1 gp 	— 	— 	— 	— 	1 lb. 	—
+Crossbow, repeating light 	250 gp 	1d6 	1d8 	19-20/×2 	80 ft. 	6 lb. 	Piercing
+Bolts (5) 	1 gp 	— 	— 	— 	— 	1 lb. 	—
+Net 	20 gp 	— 	— 	— 	10 ft. 	6 lb. 	—
+Shuriken (5) 	1 gp 	1 	1d2 	×2 	10 ft. 	½ lb. 	Piercing
+*/
 Mwk Longsword: {Longsword}
 	AttackBonus: 1
-Mwk Heavy Crossbow: {Heavy Crossbow}
+Mwk Heavy Crossbow: $(Heavy Crossbow)
 	AttackBonus: 1

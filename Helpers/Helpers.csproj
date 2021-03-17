@@ -54,6 +54,7 @@
     <Compile Include="DrawingControl.cs" />
     <Compile Include="EnumDescriptionTypeConverter.cs" />
     <Compile Include="EnumDescriptionConverter.cs" />
+    <Compile Include="ExtendedTextBox.cs" />
     <Compile Include="FileSystemEnumerator.cs" />
     <Compile Include="FormattedTextBlock.cs" />
     <Compile Include="IFormattedTextBlock.cs" />

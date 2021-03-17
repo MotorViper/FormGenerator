@@ -99,7 +99,7 @@ namespace TextParser.Operators
         /// <returns>The evaluated value.</returns>
         protected virtual IToken Evaluate(ITypeToken token)
         {
-            throw new Exception($"Operation unary {Text} not supported for {token.Type}.");
+            throw new Exception($"Operation unary {Text} not supported for {token.GetType().Name}.");
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace TextParser.Operators
         /// <returns>The evaluated value.</returns>
         protected virtual IToken Evaluate(ITypeToken first, ITypeToken last)
         {
-            throw new Exception($"Operation binary {Text} not supported for ({first.Type}, {last.Type}).");
+            throw new Exception($"Operation binary {Text} not supported for ({first.GetType().Name}, {last.GetType().Name}).");
         }
 
         public static BaseOperator CreateOperatorToken(string op)

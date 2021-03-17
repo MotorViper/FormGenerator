@@ -7,7 +7,7 @@ namespace TextParser.Functions
     /// <summary>
     /// Process a user defined function.
     /// </summary>
-    public class UserFunction : BaseFunction
+    public class UserFunction : ListFunction
     {
         public UserFunction() : base("FUNC")
         {
@@ -25,13 +25,8 @@ namespace TextParser.Functions
         /// <param name="substitutions">The tokens that can be used for substitutions.</param>
         /// <param name="isFinal">Whether a result needs to be returned.</param>
         /// <returns></returns>
-        public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
+        protected override IToken PerformOnList(ListToken listToken, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = parameters as ListToken;
-
-            if (listToken == null)
-                throw new Exception($"Last token must be list for '{Name}'");
-
             int count = listToken.Count;
             if (count < 2)
                 throw new Exception($"Must have at least 2 values for '{Name}': {listToken}");

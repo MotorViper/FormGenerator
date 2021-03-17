@@ -9,7 +9,7 @@ namespace TextParser.Functions
     /// If there are two items in the parameter list then either a string contains or a list contains is done dependant on the type of the first item.
     /// If there are more than two items then the initial list is checked to see if it contains the last item.
     /// </summary>
-    public class ContainsFunction : BaseFunction
+    public class ContainsFunction : ListFunction
     {
         /// <summary>
         /// Constructor.
@@ -25,13 +25,8 @@ namespace TextParser.Functions
         /// <param name="substitutions">The tokens that can be used for substitutions.</param>
         /// <param name="isFinal">Whether a result needs to be returned.</param>
         /// <returns></returns>
-        public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
+        protected override IToken PerformOnList(ListToken listToken, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = parameters as ListToken;
-
-            if (listToken == null)
-                throw new Exception($"Token must be list for '{Name}'");
-
             int count = listToken.Count;
             IToken toFind = listToken[count - 1];
             if (toFind is ExpressionToken)

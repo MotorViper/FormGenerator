@@ -38,6 +38,11 @@ Rapid Reload:
 		Feat: Martial Weapon Proficiency
 		BAB: 1
 		Weapon: Longsword
-		AttackBonus: 1
 		FighterBonusFeat: true
 	Description: '+1 Bonus on attack roles with selected weapon'
+
+Weapon Finesse:
+	Prerequisites:
+		Feat: Martial Weapon Proficiency
+		FighterBonusFeat: true
+	Description: 'You may use your Dexterity modifier instead of your Strength modifier on attack rolls for suitable weapons.

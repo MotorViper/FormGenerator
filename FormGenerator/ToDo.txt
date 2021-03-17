@@ -1,9 +1,13 @@
 ﻿Language:
 	Simplify output to remove redundant brackets and use {} instead of $ where clearer.
 	Provide code to convert token data to classes?
-	Work out how to use templates for things like masterwork
-	Add in weapon focus and weapon finesse modifiers automatically (see MiscInitiative).
+	Work out how to use templates for things like masterwork.
 	Need to have far fewer special cases.
+
+Characters:
+	Add in weapon focus and weapon finesse modifiers automatically (see MiscInitiative).
+	Add ability modifiers, e.g. at every 4th level.
+	Skill synergy.
 
 Gui:
 	Improve syntax colouring.
@@ -17,11 +21,11 @@ Generator:
 	Make JOIN work correctly, i.e. not flatten the list unless the F modifier is added.
 	Can I remove the null token?
 	Possibly change return types of IConvertibleToken.
+	Add visual editor for fields.
 
 Console:
 	Make work more like reading a file.
 	Make print work if only one item in token tree.
-	All use of tab for indentation.
 
 WebForm:
 	Add ability to include resources from a file.

@@ -4,7 +4,7 @@ using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Functions
 {
-    public class OrFunction : BaseFunction
+    public class OrFunction : ListFunction
     {
         /// <summary>
         /// Checks if at least one element in a list is true.
@@ -25,12 +25,8 @@ namespace TextParser.Functions
         /// <param name="substitutions">The tokens that can be used for substitutions.</param>
         /// <param name="isFinal">Whether a result needs to be returned.</param>
         /// <returns></returns>
-        public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
+        protected override IToken PerformOnList(ListToken listToken, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = parameters as ListToken;
-            if (listToken == null)
-                throw new Exception($"Parameters must be list for '{Name}'");
-
             foreach (IToken t in listToken)
             {
                 IToken token = t.Evaluate(substitutions, isFinal);

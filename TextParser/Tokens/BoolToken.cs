@@ -2,7 +2,7 @@
 {
     public class BoolToken : TypeToken<bool>
     {
-        public BoolToken(bool value) : base(value, TokenType.BoolToken)
+        public BoolToken(bool value) : base(value)
         {
         }
 

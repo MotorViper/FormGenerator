@@ -13,14 +13,11 @@ namespace TextParser.Operators
 
         protected override IToken Evaluate(ITypeToken operand)
         {
-            switch (operand.Type)
-            {
-                case TokenType.IntToken:
-                case TokenType.DoubleToken:
-                    return operand;
-                default:
-                    return base.Evaluate(operand);
-            }
+            if (operand is IntToken iOperand)
+                return iOperand;
+            if (operand is DoubleToken dOperand)
+                return dOperand;
+            return base.Evaluate(operand);
         }
 
         /// <summary>
@@ -31,10 +28,10 @@ namespace TextParser.Operators
         /// <returns>The evaluated value.</returns>
         protected override IToken Evaluate(ITypeToken first, ITypeToken last)
         {
-            if (first.Type == TokenType.ListToken || last.Type == TokenType.ListToken)
+            ListToken firstList = first as ListToken;
+            ListToken lastList = last as ListToken;
+            if (firstList != null || lastList != null)
             {
-                ListToken firstList = first as ListToken;
-                ListToken lastList = last as ListToken;
                 if (firstList != null)
                 {
                     if (lastList != null)
@@ -51,35 +48,27 @@ namespace TextParser.Operators
                 }
             }
 
-            switch (first.Type)
+            if (first is IntToken iFirst)
             {
-                case TokenType.IntToken:
-                    IntToken iFirst = (IntToken)first;
-                    switch (last.Type)
-                    {
-                        case TokenType.IntToken:
-                            return new IntToken(iFirst.Value + ((IntToken)last).Value);
-                        case TokenType.DoubleToken:
-                            return new DoubleToken(iFirst.Value + ((DoubleToken)last).Value);
-                        case TokenType.StringToken:
-                            return new StringToken(iFirst.Value + last.ToString());
-                    }
-                    break;
-                case TokenType.DoubleToken:
-                    DoubleToken dFirst = (DoubleToken)first;
-                    switch (last.Type)
-                    {
-                        case TokenType.IntToken:
-                            return new DoubleToken(dFirst.Value + ((IntToken)last).Value);
-                        case TokenType.DoubleToken:
-                            return new DoubleToken(dFirst.Value + ((DoubleToken)last).Value);
-                        case TokenType.StringToken:
-                            return new StringToken(dFirst.Value + last.ToString());
-                    }
-                    break;
-                case TokenType.StringToken:
-                    StringToken sFirst = (StringToken)first;
-                    return new StringToken(sFirst.Value + last);
+                if (last is IntToken iLast)
+                    return new IntToken(iFirst.Value + iLast.Value);
+                if (last is IntToken dLast)
+                    return new DoubleToken(iFirst.Value + dLast.Value);
+                if (last is StringToken sLast)
+                    return new StringToken(iFirst.Value + sLast.ToString());
+            }
+            else if (first is DoubleToken dFirst)
+            {
+                if (last is IntToken iLast)
+                    return new DoubleToken(dFirst.Value + iLast.Value);
+                if (last is IntToken dLast)
+                    return new DoubleToken(dFirst.Value + dLast.Value);
+                if (last is StringToken sLast)
+                    return new StringToken(dFirst.Value + sLast.ToString());
+            }
+            else if (first is StringToken sFirst)
+            {
+                return new StringToken(sFirst.Value + last);
             }
             return base.Evaluate(first, last);
         }

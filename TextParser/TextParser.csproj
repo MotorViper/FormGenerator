@@ -45,12 +45,14 @@
     <Compile Include="Functions\BaseFunction.cs" />
     <Compile Include="Functions\AggregateFunction.cs" />
     <Compile Include="Functions\CaseFunction.cs" />
+    <Compile Include="Functions\CheckedCountFunction.cs" />
     <Compile Include="Functions\ComparisonFunction.cs" />
     <Compile Include="Functions\AndFunction.cs" />
     <Compile Include="Functions\DoubleFunction.cs" />
     <Compile Include="Functions\FlattenFunction.cs" />
     <Compile Include="Functions\IntFunction.cs" />
     <Compile Include="Functions\JoinFunction.cs" />
+    <Compile Include="Functions\ListFunction.cs" />
     <Compile Include="Functions\NotFunction.cs" />
     <Compile Include="Functions\OrFunction.cs" />
     <Compile Include="Functions\RegexFunction.cs" />
@@ -60,6 +62,7 @@
     <Compile Include="Functions\CountFunction.cs" />
     <Compile Include="Functions\ContainsFunction.cs" />
     <Compile Include="Functions\SplitFunction.cs" />
+    <Compile Include="Functions\DefaultFunction.cs" />
     <Compile Include="Functions\UserFunction.cs" />
     <Compile Include="Functions\IFunction.cs" />
     <Compile Include="Functions\OverFunction.cs" />
@@ -83,7 +86,6 @@
     <Compile Include="Tokens\NewLineToken.cs" />
     <Compile Include="Tokens\NullToken.cs" />
     <Compile Include="Tokens\RegExToken.cs" />
-    <Compile Include="Tokens\TokenType.cs" />
     <Compile Include="TokenTree.cs" />
     <Compile Include="Operators\DivideOperator.cs" />
     <Compile Include="Tokens\DoubleToken.cs" />

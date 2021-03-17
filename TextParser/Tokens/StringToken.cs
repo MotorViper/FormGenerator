@@ -5,7 +5,7 @@ namespace TextParser.Tokens
 {
     public class StringToken : TypeToken<string>, IReversibleToken, ITokenWithLength
     {
-        public StringToken(string text) : base(text, TokenType.StringToken)
+        public StringToken(string text) : base(text)
         {
         }
 
@@ -16,11 +16,9 @@ namespace TextParser.Tokens
         {
             if (!string.IsNullOrEmpty(ToString()))
             {
-                bool value;
-                if (bool.TryParse(ToString(), out value))
+                if (bool.TryParse(ToString(), out bool value))
                     return value;
-                double doubleValue;
-                if (double.TryParse(ToString(), out doubleValue))
+                if (double.TryParse(ToString(), out double doubleValue))
                     return new DoubleToken(doubleValue).ToBool();
             }
             return false;
@@ -53,7 +51,7 @@ namespace TextParser.Tokens
             return new IntToken(Value.Length);
         }
 
-        public IToken Reverse()
+        public virtual IToken Reverse()
         {
             return new StringToken(Value.Reverse());
         }

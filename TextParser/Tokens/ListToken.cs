@@ -9,7 +9,7 @@ namespace TextParser.Tokens
 {
     public class ListToken : TypeToken<List<IToken>>, IReversibleToken, ITokenWithLength
     {
-        public ListToken() : base(new List<IToken>(), TokenType.ListToken)
+        public ListToken() : base(new List<IToken>())
         {
         }
 

@@ -4,7 +4,7 @@ using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Functions
 {
-    public class CaseFunction : BaseFunction
+    public class CaseFunction : ListFunction
     {
         public CaseFunction() : base("CASE")
         {
@@ -17,12 +17,8 @@ namespace TextParser.Functions
         /// <param name="substitutions">The tokens that can be used for substitutions.</param>
         /// <param name="isFinal">Whether a result needs to be returned.</param>
         /// <returns></returns>
-        public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
+        protected override IToken PerformOnList(ListToken listToken, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = parameters as ListToken;
-            if (listToken == null)
-                throw new Exception($"Last token must be list for '{Name}'");
-
             int count = listToken.Count;
 
             IToken first = listToken[0];

@@ -16,6 +16,7 @@ namespace VTTConsole
     /// </summary>
     public class ConsoleViewModel : ViewModel
     {
+        private readonly NotifyingProperty<int> _caretPosition = new NotifyingProperty<int>();
         private readonly NotifyingProperty<bool> _commandEntered = new NotifyingProperty<bool>();
         private readonly NotifyingProperty<string> _cursor = new NotifyingProperty<string>(">");
         private readonly NotifyingProperty<string> _history = new NotifyingProperty<string>();
@@ -31,6 +32,7 @@ namespace VTTConsole
         private ICommand _inputCommand;
         private Parser _parser = new Parser();
         private int _position;
+        private ICommand _tabCommand;
         private string _text = "";
         private ICommand _upCommand;
 
@@ -56,6 +58,12 @@ namespace VTTConsole
                 ReadCommands(readFile);
         }
 
+        public int CaretPosition
+        {
+            get { return _caretPosition.GetValue(); }
+            set { _caretPosition.SetValue(value, this); }
+        }
+
         public bool CommandEntered
         {
             get { return _commandEntered.GetValue(); }
@@ -71,6 +79,14 @@ namespace VTTConsole
         public ICommand DownCommand
         {
             get { return _downCommand ?? (_downCommand = new RelayCommand(x => DownEntered())); }
+        }
+
+        public ICommand TabCommand
+        {
+            get { return _tabCommand ?? (_tabCommand = new RelayCommand(x => {
+                Input += "    ";
+                CaretPosition += 4;
+            })); }
         }
 
         public string History

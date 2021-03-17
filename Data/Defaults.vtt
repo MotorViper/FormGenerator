@@ -7,9 +7,9 @@ Character:
     Charisma: 10
 	Experience: 0
 	Weapon1: None
-	Weapon1MiscAttackBonus: 0
+		MiscAttackBonus: 0
 	Weapon2: None
-	Weapon2MiscAttackBonus: 0
+		MiscAttackBonus: 0
 	Armour: None
 	Player: ?
 	Level: ALL
@@ -82,16 +82,11 @@ Character:
 	LevelFeats: OVER:({Level.Feats}|cl|$cl ' (' {Feats.{cl}.Description} ')')
 	Feats: JOIN:((F:($LevelFeats|$ClassFeats) - ("Bonus Feat"|""))|NL)
 		Test: true
-
-Classes:
-	SkillPoints: 2
-	CasterLevel: Level
-	MaxSpellLevel: $$SpellAttribute - 10
-	SpellDifficulty: 10 + $SpellLevel + AttributeModifer: $SpellAttribute
-	WeaponProficiency: Simple
-	ArmourProficiency: None
-	ShieldProficiency: None
-	LevelType: Basic
+	WeaponInfo: SPLIT:({Weapons.{1}.Attributes}|' '|7)
+	DamageType: WeaponInfo:($1)#6
+	Critical: WeaponInfo:($1)#3
+	Increment: WeaponInfo:($1)#4
+	WeaponDamage: WeaponInfo:($1)#2
 
 Feats:
 	NaturalACBonus: 0

@@ -2,7 +2,7 @@ Field: Grid
 	Style: Fill
 	Height: 29.7cm
 	Width: 21cm
-	Columns: Auto|Auto|Auto
+	Columns: 7.6cm|7cm|6.4cm
 	Rows: 'Auto|Auto||'
 	Field: Grid
 		Style: Stretch
@@ -397,7 +397,7 @@ Field: Grid
 
 		Field: Table
 			Content: (Weapon1|Weapon2)
-			Columns: '120|60|60|60|60|80'
+			Columns: '150|45|60|70|55|80|*'
 			Field: ComboBox
 				Style: Stretch
 				Header: 
@@ -411,19 +411,20 @@ Field: Grid
 				Header: 
 					Content: BAB
 					Style: WeaponHeader
-				Content: IF:({Weapons.{$1}.IsMelee}|$Melee|$Missile) + {Weapons.{$1}.AttackBonus} + {{1}MiscAttackBonus}
+				Content: IF:({Weapons.{$1}.IsMelee}|$Melee|$Missile) + {Weapons.{$1}.AttackBonus} + DEF:({{1}.MiscAttackBonus}, 0)
+//+ IF:({{1}.Masterwork}|1|0)
 			Field: Label
 				Style: BorderedLabel
 				Header: 
 					Content: Damage
 					Style: WeaponHeader
-				Content: IF:({Weapons.{$1}.IsMelee}|{Weapons.{$1}.Damage} '+' $StrModifier|{Weapons.{$1}.Damage})
+				Content: IF:({Weapons.{$1}.IsMelee}|(WeaponDamage:$$1) '+' $StrModifier|WeaponDamage:$$1)
 			Field: Label
 				Style: BorderedLabel
 				Header: 
 					Content: Critical
 					Style: WeaponHeader
-				Content: {Weapons.{$1}.Critical}
+				Content: Critical: $$1
 			Field: Label
 				Style: BorderedLabel
 				Header: 
@@ -435,4 +436,10 @@ Field: Grid
 				Header: 
 					Content: Increment
 					Style: WeaponHeader
-				Content: {Weapons.{$1}.Increment}
+				Content: Increment: $$1
+			Field: Label
+				Style: BorderedLabel
+				Header: 
+					Content: Type
+					Style: WeaponHeader
+				Content: DamageType:$$1

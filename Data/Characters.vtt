@@ -7,7 +7,8 @@ Jim Oakenbough:
 	Player: GM
 	Armour: 'Studded Leather'
 	Weapon1: Mwk Longsword
-	Weapon1MiscAttackBonus: 1 /* From Weapon Focus */
+		MiscAttackBonus: 1 /* From Weapon Focus */
+		Masterwork: true
 	Weapon2: Shortbow
 	Level: 1
 		Class: Warrior
@@ -45,6 +46,7 @@ Jim Oakenbough:
 			Intimidate: 1
 			Jump: 1
 			Ride: 1
+		AbilityIncrease: Strength
 
 Tom Cucksmere:
 	Strength: 13
@@ -133,7 +135,7 @@ Hal Bertram:
 	Player: GM
 	Armour: Leather
 	Weapon1: Rapier
-	Weapon1MiscAttackBonus: 1 /* From Weapon Finesse */
+	Weapon1MiscAttackBonus: 2 /* From Weapon Finesse */
 	Weapon2: Shortbow
 	Level: 1
 		Class: Rogue
