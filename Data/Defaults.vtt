@@ -79,9 +79,8 @@ Character:
 	NumInstances: COUNT:{Level.Class=$1}
 	LevelsForClass: OVER:(RANGE:(1|$2)|n|FeatsAtLevel:($1|$n))
 	ClassFeats: OVER:({Classes.ALL.NAME}|cl|LevelsForClass:($cl|NumInstances:($cl)))
-	LevelFeats: OVER:({Level.Feats}|cl|$cl ' (' {Feats.{cl}.Description} ')')
+	LevelFeats: OVER:(F:({Level.Feats})|cl|$cl ' (' {Feats.{cl}.Description} ')')
 	Feats: JOIN:((F:($LevelFeats|$ClassFeats) - ("Bonus Feat"|""))|NL)
-		Test: true
 	WeaponInfo: SPLIT:({Weapons.{1}.Attributes}|' '|7)
 	DamageType: WeaponInfo:($1)#6
 	Critical: WeaponInfo:($1)#3

@@ -54,14 +54,24 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Functions\CountTests.cs" />
+    <Compile Include="Functions\ContainsFunctionTests.cs" />
+    <Compile Include="Functions\ComparisonFunctionTests.cs" />
+    <Compile Include="Functions\DoubleFunctionTests.cs" />
+    <Compile Include="Functions\CountFunctionTests.cs" />
+    <Compile Include="Functions\AggregateFunctionTests.cs" />
+    <Compile Include="Functions\AndFunctionTests.cs" />
+    <Compile Include="Functions\CaseFunctionTests.cs" />
+    <Compile Include="Operators\SubstitutionOperatorTests.cs" />
     <Compile Include="ReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LineTests.cs" />
-    <Compile Include="SplitterTests.cs" />
     <Compile Include="TokenGeneratorTests.cs" />
     <Compile Include="ParserTests.cs" />
-    <Compile Include="TokenTreeTests.cs" />
+    <Compile Include="Tokens\BoolTokenTests.cs" />
+    <Compile Include="Tokens\PairTokenTests.cs" />
+    <Compile Include="Tokens\TreeTokenTests.cs" />
+    <Compile Include="Tokens\RootTokenTests.cs" />
+    <Compile Include="Tokens\RegExTokenTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FormGenerator\FormGenerator.csproj">

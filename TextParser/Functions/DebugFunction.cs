@@ -1,11 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Functions
 {
-    public class DoubleFunction : BaseFunction
+    class DebugFunction : BaseFunction
     {
-        public DoubleFunction() : base("D(OUBLE)")
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public DebugFunction() : base("DEB(UG)")
         {
         }
 
@@ -18,10 +25,7 @@ namespace TextParser.Functions
         /// <returns></returns>
         public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            if (parameters is IConvertibleToken typeToken)
-                return typeToken.ConvertToDouble(substitutions, isFinal);
-
-            throw new Exception($"Token must be list/item of token(s) convertible to double for {Name}");
+            return parameters.Evaluate(substitutions, isFinal);
         }
     }
 }

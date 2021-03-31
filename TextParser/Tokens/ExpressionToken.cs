@@ -8,7 +8,7 @@ namespace TextParser.Tokens
     /// <summary>
     /// Token representing an expression.
     /// </summary>
-    public class ExpressionToken : BaseToken
+    public class ExpressionToken : BaseToken//, IValueToken, IKeyToken
     {
         private readonly Lazy<ILogging> _logger = IOCContainer.Instance.LazyResolve<ILogging>();
 
@@ -116,6 +116,11 @@ namespace TextParser.Tokens
             return result;
         }
 
+        //public bool Matches(string text)
+        //{
+        //    return ToString() == text;
+        //}
+
         /// <summary>
         /// Converts the token to a list of tokens if possible and required.
         /// </summary>
@@ -137,5 +142,7 @@ namespace TextParser.Tokens
             }
             return result;
         }
+
+        //public override IToken ValueToken => this;
     }
 }

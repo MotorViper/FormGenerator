@@ -1,40 +1,58 @@
 ﻿Anatomy of a token
 
-Name: Value
-	Attribute: Value
-	Value:
+IToken: IToken - key and value of the token
+	IToken: IToken - attributes of the token
+	:IToken: IToken - extra values for the token
 
-So the child of a token can have a value of it's own. If it does it's an attribute. If not it's a value, the Value may be a list of items.
-Attributes and Values can be tokens. In fact they are stored as tokens so they can be parsed at run time.
+So the child of a token can have a value of it's own. If it starts with : it's a Value. If not it's an Attribute, the Value may be a list of items. Attributes and Values can be tokens. In fact they are stored as tokens so they can be parsed at run time.
 
 Each token also contains its parent.
 
 When parsing a token the Attributes are checked first, then the attributes of the Value. If no value is found the parent is checked.
-If the Value is a list then a list is returned.
+If the Value is a list then a list is returned. If a token starts with ' then it's considered to be a string, the end ' is not required for values. If a token starts with a $ it's considered to be a reference to another token. If the token starts with a number it is considered to be a number, integer if no decimal place, real if there is one. The values true and false in tokens are treated as boolean values. Tokens which only contain alphabetic characters are treated as strings. All other tokens are considered to be expressions.
 
-Example:
+Examples:
 
 Weapon:
 	Damage: D6
 	Range: S
 	Masterwork: false
 
-Sword: Weapon
+Sword: $Weapon
 	Damage: D8
 
-Dagger:
+Dagger: $Weapon
 	Damage: D4
 
-Bow:
+Bow: $Weapon
 	Range: L
 
-Character:
-	Race: Human
+Heavy Crossbow:
+	Damage: 2D4
 
-Bert: Character
+Mwk Heavy Crossbow: $(Heavy Crossbow)
+	AttackBonus: 1
+
+Race:
+	Size: Medium
+
+Human: $Race
+
+Character:
+	Race: $Human
+
+Class:
+	SkillPoints: 2
+
+Fighter: $Class
+
+Bert: $Character
 	Weapons: Sword, Bow
-		Dagger:
+		$Dagger:
 			Masterwork: true
-	Class: Fighter
+		Rapier: $Weapon
+			Range: C
+	Level: 1
+		Class: Fighter
 		
 		

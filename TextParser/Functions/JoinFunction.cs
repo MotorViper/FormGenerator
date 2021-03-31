@@ -6,7 +6,6 @@ namespace TextParser.Functions
 {
     /// <summary>
     /// Joins a list of tokens as a string. If there is more than one token the last one is used as the separator.
-    /// If any of the items in the list is also a list this is recursively expanded as well.
     /// </summary>
     public class JoinFunction : BaseFunction
     {
@@ -26,8 +25,7 @@ namespace TextParser.Functions
         /// <returns></returns>
         public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            ListToken listToken = parameters as ListToken;
-            if (listToken != null)
+            if (parameters is ListToken listToken)
             {
                 int count = listToken.Count;
                 IToken separator = new StringToken(" ");

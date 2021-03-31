@@ -128,15 +128,19 @@ K
 /*
 L
 */
+M /* N
+O /* P */
 "));
             List<Line> lines = reader.ToList();
-            Assert.AreEqual(6, lines.Count);
+            Assert.AreEqual(8, lines.Count);
             Assert.AreEqual("A", lines[0].Content);
             Assert.AreEqual("C", lines[1].Content);
             Assert.AreEqual("F", lines[2].Content);
             Assert.AreEqual("H", lines[3].Content);
             Assert.AreEqual("I", lines[4].Content);
             Assert.AreEqual("K", lines[5].Content);
+            Assert.AreEqual("M /* N", lines[6].Content);
+            Assert.AreEqual("O", lines[7].Content);
         }
 
 

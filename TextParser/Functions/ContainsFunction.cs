@@ -36,6 +36,12 @@ namespace TextParser.Functions
                 return UnParsed(listToken);
             }
 
+            //if (count == 2 && listToken[0] is IContainerToken container)
+            //{
+            //    if (container.IsExpression)
+            //        return UnParsed(listToken);
+            //    return new BoolToken(container.Contains(toFind));
+            //}
             if (count == 2)
             {
                 IToken token = listToken[0];
@@ -53,6 +59,7 @@ namespace TextParser.Functions
                 IToken token = listToken[i];
                 if (token is ExpressionToken)
                     return UnParsed(listToken);
+                //if (token.Equals(toFind))
                 if (token.ToString() == toFind.ToString())
                     return new BoolToken(true);
             }

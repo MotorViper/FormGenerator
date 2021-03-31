@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using Helpers;
 using TextParser;
+using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
 namespace VTTConsole
@@ -241,8 +242,7 @@ namespace VTTConsole
                     }
                     if (!done)
                     {
-                        int count;
-                        if (int.TryParse(text, out count) && count <= _historyList.Count && count > 0)
+                        if (int.TryParse(text, out int count) && count <= _historyList.Count && count > 0)
                         {
                             Execute(_historyList[count - 1]);
                             return;
@@ -312,7 +312,6 @@ namespace VTTConsole
             using (StreamWriter fs = new StreamWriter(file))
             {
                 foreach (TokenTree tokenTree in Tree.Children)
-                    // ReSharper disable once AccessToDisposedClosure
                     tokenTree.WalkTree((x, y) => fs.WriteLine($"{x}: {y}"));
             }
         }
@@ -328,7 +327,8 @@ namespace VTTConsole
 
         private void PrintExpression(string text)
         {
-            UpdateOutput($"{text}: {TokenGenerator.Parse(text).Evaluate(new TokenTreeList(Tree), false)}");
+            IToken parsed = TokenGenerator.Parse(text);
+            UpdateOutput($"{text}: {parsed.Evaluate(new TokenTreeList(Tree), false)}");
         }
 
         private void UpdateHistory(string input)

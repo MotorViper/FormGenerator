@@ -59,14 +59,14 @@ namespace TextParser.Operators
             {
                 if (last is IntToken iLast)
                     return new IntToken(iFirst.Value - iLast.Value);
-                if (last is IntToken dLast)
+                if (last is DoubleToken dLast)
                     return new DoubleToken(iFirst.Value - dLast.Value);
             }
             else if (first is DoubleToken dFirst)
             {
                 if (last is IntToken iLast)
                     return new DoubleToken(dFirst.Value - iLast.Value);
-                if (last is IntToken dLast)
+                if (last is DoubleToken dLast)
                     return new DoubleToken(dFirst.Value - dLast.Value);
             }
             else if (first is StringToken sFirst)

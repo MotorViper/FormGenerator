@@ -1,5 +1,4 @@
-﻿using System;
-using TextParser.Tokens;
+﻿using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Functions
@@ -35,6 +34,7 @@ namespace TextParser.Functions
                     return listToken[i + 1];
             }
 
+            // If there are an even number of tokens then last one is the default value.
             return count % 2 == 0 ? listToken[count - 1] : new NullToken();
         }
     }

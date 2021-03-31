@@ -1,4 +1,6 @@
-﻿namespace TextParser.Tokens
+﻿using TextParser.Tokens.Interfaces;
+
+namespace TextParser.Tokens
 {
     public class BoolToken : TypeToken<bool>
     {
@@ -38,5 +40,7 @@
         {
             return Value ? 1 : 0;
         }
+
+        public static implicit operator BoolToken(bool b) => new BoolToken(b);
     }
 }

@@ -38,6 +38,10 @@ namespace TextParser.Functions
             if (first is ExpressionToken || second is ExpressionToken)
                 return UnParsed(listToken);
 
+            //if (!first.ComparisonIsInteger && count > 4)
+            //    throw new Exception($"Must have 3 or 4 values for '{Name}': {listToken}");
+
+            //int comparison = first.CompareTo(second);
             int comparison;
             if (first is RegExToken)
             {

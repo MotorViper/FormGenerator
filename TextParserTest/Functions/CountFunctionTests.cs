@@ -6,7 +6,7 @@ using TextParser.Tokens.Interfaces;
 namespace TextParserTest
 {
     [TestClass]
-    public class CountTests
+    public class CountFunctionTests
     {
         [TestMethod]
         public void TestCount()

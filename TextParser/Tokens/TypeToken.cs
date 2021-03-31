@@ -52,5 +52,7 @@ namespace TextParser.Tokens
         {
             return new DoubleToken(ToDouble());
         }
+
+        //public override IToken ValueToken => this;
     }
 }

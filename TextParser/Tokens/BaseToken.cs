@@ -8,6 +8,8 @@ namespace TextParser.Tokens
     /// </summary>
     public abstract class BaseToken : IToken
     {
+        //public ITreeToken Parent { get; set; }
+
         /// <summary>
         /// Converts the token to a boolean.
         /// </summary>
@@ -104,5 +106,28 @@ namespace TextParser.Tokens
         {
             return (ToString() + GetType().Name).GetHashCode();
         }
+
+        //public virtual IToken FindToken(string text, bool checkChildren, bool checkParent)
+        //{
+        //    return checkParent ? Parent.FindToken(text, checkChildren, checkParent) : null;
+        //}
+
+        //public abstract IToken ValueToken { get; }
+
+        //public virtual int CompareTo(IToken toCompare)
+        //{
+        //    return ToString().CompareTo(toCompare.ToString());
+        //}
+
+        //public bool Equals(IToken other)
+        //{
+        //    if (other == null)
+        //        return false;
+        //    if (other.GetType() != GetType())
+        //        return false;
+        //    return other.ToString() == ToString();
+        //}
+
+        //public virtual bool ComparisonIsInteger => true;
     }
 }

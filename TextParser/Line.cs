@@ -16,8 +16,7 @@
                 line = line.TrimEnd();
             int length = line.Length;
             Content = line.TrimStart();
-            LineStart = length - Content.Length;
-            string start = line.Substring(0, LineStart).Replace("\t", new string(' ', TabSize));
+            string start = line.Substring(0, length - Content.Length).Replace("\t", new string(' ', TabSize));
             Offset = (start.Length + OffsetSize - 1) / OffsetSize;
         }
 
@@ -25,8 +24,6 @@
         /// The process content of the line.
         /// </summary>
         public string Content { get; }
-
-        public int LineStart { get; }
 
         /// <summary>
         /// The offset from the start of the line in offset unit.

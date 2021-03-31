@@ -27,8 +27,7 @@ namespace TextParser.Functions
 
         private IToken Not(IToken parameters)
         {
-            ListToken list = parameters as ListToken;
-            if (list != null)
+            if (parameters is ListToken list)
             {
                 ListToken newList = new ListToken();
                 foreach (IToken token in list)

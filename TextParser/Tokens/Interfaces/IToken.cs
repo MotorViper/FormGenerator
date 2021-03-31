@@ -1,10 +1,14 @@
+using System;
+
 namespace TextParser.Tokens.Interfaces
 {
     /// <summary>
     /// Interface for all tokens to implement.
     /// </summary>
-    public interface IToken
+    public interface IToken //: IComparable<IToken>
     {
+        //ITreeToken Parent { get; set; }
+
         /// <summary>
         /// Whether this token contains an expression.
         /// </summary>
@@ -58,5 +62,10 @@ namespace TextParser.Tokens.Interfaces
         /// <param name="text">The input text.</param>
         /// <returns>True if the current token contains the input text.</returns>
         bool Contains(string text);
+        //IToken FindToken(string text, bool checkChildren, bool checkParent = true);
+
+        //IToken ValueToken { get; }
+
+        //bool ComparisonIsInteger { get; }
     }
 }

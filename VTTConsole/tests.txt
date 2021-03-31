@@ -6,10 +6,10 @@
 Sword: $Weapon
 	Damage: D8
 
-Dagger:
+Dagger: $Weapon
 	Damage: D4
 
-Bow:
+Bow: $Weapon
 	Range: L
 
 Heavy Crossbow:
@@ -18,11 +18,25 @@ Heavy Crossbow:
 Mwk Heavy Crossbow: $(Heavy Crossbow)
 	AttackBonus: 1
 
+Race:
+	Size: Medium
+
+Human: $Race
+
 Character:
-	Race: Human
+	Race: $Human
+
+Class:
+	SkillPoints: 2
+
+Fighter: $Class
 
 Bert: $Character
 	Weapons: Sword, Bow
-		Dagger:
+		$Dagger:
 			Masterwork: true
-	Class: Fighter
+		Rapier: $Weapon
+			Range: C
+	Level: 1
+		Class: Fighter
+

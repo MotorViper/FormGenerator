@@ -1,11 +1,12 @@
 ﻿using System.Text.RegularExpressions;
+using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Tokens
 {
     /// <summary>
     /// Class representing a regular expression token.
     /// </summary>
-    public class RegExToken : BaseToken
+    public class RegExToken : BaseToken//, IValueToken, IKeyToken
     {
         public enum RegexType
         {
@@ -31,15 +32,22 @@ namespace TextParser.Tokens
         {
             return _text;
         }
-
+ 
         public override bool Contains(string text)
         {
             return _regex.IsMatch(text);
         }
 
+        //public override int CompareTo(IToken token)
+        //{
+        //    return Matches(token.ToString()) ? 0 : 1;
+        //}
+
+        //public override bool ComparisonIsInteger => false;
+
         private static string ConvertFromSqlRegex(string text)
         {
-            return "^" + Regex.Escape(text).Replace("\\%", ".*").Replace("\\_", ".") + "$";
+            return "^" + Regex.Escape(text).Replace("%", ".*").Replace("_", ".") + "$";
         }
 
         private static string ConvertFromWildcardRegex(string text)
@@ -59,5 +67,14 @@ namespace TextParser.Tokens
                     return text;
             }
         }
+
+        //public bool Matches(string text)
+        //{
+        //    return _regex.IsMatch(text);
+        //}
+
+        //public override IToken ValueToken => this;
+
+        public static implicit operator RegExToken(string s) => new RegExToken(s, RegexType.Wildcard);
     }
 }

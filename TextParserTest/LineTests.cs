@@ -19,14 +19,5 @@ namespace TextParserTest
                     ++offset;
             }
         }
-
-        [TestMethod]
-        public void TestLineStart()
-        {
-            Assert.AreEqual(0, new Line("aaa").LineStart);
-            Assert.AreEqual(1, new Line(" aaa").LineStart);
-            Assert.AreEqual(1, new Line("\taaa").LineStart);
-            Assert.AreEqual(3, new Line(" \t aaa  \t  ").LineStart);
-        }
     }
 }

@@ -31,6 +31,45 @@ namespace TextParser.Functions
         /// <returns></returns>
         protected override IToken PerformOnList(ListToken listToken, TokenTreeList substitutions, bool isFinal)
         {
+            //int count = listToken.Count;
+            //IToken iterandKey = listToken[count - 2];
+            //IToken iterandIndex = null;
+            //if (iterandKey is ListToken iterandList)
+            //{
+            //    if (iterandList.Count != 2)
+            //        throw new Exception($"Can only have 1 or 2 iterators for '{Name}'");
+            //    iterandIndex = iterandList[1];
+            //    iterandKey = iterandList[0];
+            //}
+            //IToken method = listToken[count - 1];
+            //ITreeToken originalParent = method.Parent;
+            //ListToken tokens = new ListToken();
+            //for (int i = 0; i < count - 2; i++)
+            //{
+            //    IToken token = listToken[i];
+            //    ListToken list = token as ListToken ?? new ListToken(token) { Parent = listToken.Parent };
+            //    int index = 0;
+            //    ITreeToken parent = originalParent.Clone();
+            //    foreach (IToken item in list)
+            //    {
+            //        method.Parent = parent;
+            //        parent.ReplaceChild(new PairToken((StringToken)iterandKey.ToString(), item));
+            //        if (iterandIndex != null)
+            //            parent.ReplaceChild(new PairToken((StringToken)iterandIndex.ToString(), new IntToken(index)));
+            //        IToken parsed = method.Evaluate(isFinal);
+            //        if (parsed is ExpressionToken)
+            //        {
+            //            if (!isFinal)
+            //                return UnParsed(listToken);
+            //        }
+            //        else if (parsed != null)
+            //        {
+            //            tokens.Add(parsed);
+            //        }
+            //        ++index;
+            //    }
+            //}
+            //method.Parent = originalParent;
             int count = listToken.Count;
             IToken iterandKey = listToken[count - 2];
             IToken iterandIndex = null;
@@ -49,16 +88,7 @@ namespace TextParser.Functions
                 IToken token = listToken[i];
                 ListToken list = token as ListToken ?? new ListToken(token);
                 int index = 0;
-                List<IToken> tokenList = new List<IToken>();
                 foreach (IToken item in list)
-                {
-                    ListToken current = item.Flatten() as ListToken;
-                    if (current == null)
-                        tokenList.Add(item);
-                    else
-                        tokenList.AddRange(current.Value);
-                }
-                foreach (IToken item in tokenList)
                 {
                     TokenTree tree = new TokenTree();
                     tree.Children.Add(new TokenTree(iterandKey.ToString(), item));

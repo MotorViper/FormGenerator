@@ -3,7 +3,7 @@ using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Tokens
 {
-    public class StringToken : TypeToken<string>, IReversibleToken, ITokenWithLength
+    public class StringToken : TypeToken<string>, IReversibleToken, ITokenWithLength//, IKeyToken, IContainerToken
     {
         public StringToken(string text) : base(text)
         {
@@ -24,15 +24,15 @@ namespace TextParser.Tokens
             return false;
         }
 
+        public static implicit operator StringToken(string s) => new StringToken(s);
+
         /// <summary>
         /// Converts the token to an integer.
         /// </summary>
         public override int ToInt()
         {
-            int value = 0;
-            if (!string.IsNullOrEmpty(ToString()))
-                value = int.TryParse(ToString(), out value) ? value : 0;
-            return value;
+            string sValue = ToString();
+            return string.IsNullOrEmpty(sValue) ? 0 : (int.TryParse(sValue, out int value) ? value : 0);
         }
 
         /// <summary>
@@ -40,10 +40,8 @@ namespace TextParser.Tokens
         /// </summary>
         public override double ToDouble()
         {
-            double value = 0;
-            if (!string.IsNullOrEmpty(ToString()))
-                value = double.TryParse(ToString(), out value) ? value : 0;
-            return value;
+            string sValue = ToString();
+            return string.IsNullOrEmpty(sValue) ? 0 : (double.TryParse(sValue, out double value) ? value : 0);
         }
 
         public IntToken Count()
@@ -55,5 +53,15 @@ namespace TextParser.Tokens
         {
             return new StringToken(Value.Reverse());
         }
+
+        //public bool Matches(string text)
+        //{
+        //    return text == Value;
+        //}
+
+        //public bool Contains(IToken token)
+        //{
+        //    return ToString().Contains(token.ToString());
+        //}
     }
 }

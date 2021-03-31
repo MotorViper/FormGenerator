@@ -20,7 +20,7 @@ namespace TextParserTest
             IToken token = TokenGenerator.Parse("word");
             Assert.IsTrue(token is StringToken);
             Assert.AreEqual("word", token.ToString());
-            Assert.AreEqual(int.MinValue, token.ToInt());
+            Assert.AreEqual(0, token.ToInt());
         }
 
         [TestMethod]
@@ -84,8 +84,7 @@ namespace TextParserTest
 
             foreach (var test in tests)
             {
-                IToken token = TokenGenerator.Parse(test.Key);
-                token = token.Simplify();
+                IToken token = TokenGenerator.Parse(test.Key).Simplify();
                 Assert.IsTrue(token is TypeToken<int>, test.Key + ": " + token.ToString());
                 Assert.AreEqual(test.Value, token.ToInt(), test.Key);
             }
@@ -97,9 +96,17 @@ namespace TextParserTest
             Dictionary<string, double> tests = new Dictionary<string, double>
             {
                 ["6.1 + 2.1"] = 8.2,
+                ["6.1 + 2"] = 8.1,
+                ["6 + 2.1"] = 8.1,
                 ["6.1 * 2.0"] = 12.2,
+                ["6 * 2.0"] = 12.0,
+                ["6.1 * 2"] = 12.2,
                 ["6.4 - 2.3"] = 4.1,
+                ["6.4 - 2"] = 4.4,
+                ["6 - 2.3"] = 3.7,
                 ["6.1 / 2.0"] = 3.05,
+                ["6.1 / 2"] = 3.05,
+                ["6 / 2.0"] = 3,
                 ["5.4 / -1.8"] = -3,
                 ["-5.4 / 1.8"] = -3
             };
@@ -175,6 +182,7 @@ namespace TextParserTest
             Dictionary<string, string> tests = new Dictionary<string, string>
             {
                 ["$($e + '.c')"] = "d",
+                ["$a + $b"] = "7",
                 ["$$d"] = "4",
                 ["{b}"] = "4",
                 ["${d}"] = "4",
@@ -182,7 +190,6 @@ namespace TextParserTest
                 ["'a' $b + $d 'd'"] = "a4bd",
                 ["{$e.$f}"] = "d",
                 ["$a"] = "3",
-                ["$a + $b"] = "7",
                 ["$($e + '.c') + $b"] = "d4",
                 ["$a.c + $b"] = "d4",
                 ["{'a' + 'b'}"] = "5",
@@ -207,17 +214,25 @@ namespace TextParserTest
             };
 
             int passedCount = 0;
+            string resultString = "";
             foreach (var test in tests)
             {
-                IToken token = TokenGenerator.Parse(test.Key);
-                token = token.Evaluate(new TokenTreeList(parameters), true);
-                bool passed = test.Value == token.ToString();
-                string result = passed ? "passed" : "failed";
-                if (passed)
-                    ++passedCount;
-                Console.WriteLine($"'{test.Key}' {result}.");
+                try
+                {
+                    IToken token = TokenGenerator.Parse(test.Key);
+                    token = token.Evaluate(new TokenTreeList(parameters), true);
+                    bool passed = test.Value == token.ToString();
+                    string result = passed ? "passed" : $"failed {token.ToString()}";
+                    if (passed)
+                        ++passedCount;
+                    resultString += Environment.NewLine + $"'{test.Key}' {result}.";
+                } 
+                catch (Exception ex)
+                {
+                    resultString += Environment.NewLine + $"'{test.Key}' {ex.Message}";
+                }
             }
-            Assert.AreEqual(tests.Count, passedCount);
+            Assert.AreEqual(tests.Count, passedCount, resultString);
         }
     }
 }

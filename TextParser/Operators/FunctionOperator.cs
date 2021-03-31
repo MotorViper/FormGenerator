@@ -36,6 +36,7 @@ namespace TextParser.Operators
             RegisterFunction<ReverseFunction>();
             RegisterFunction<SplitFunction>();
             RegisterFunction<SumFunction>();
+            RegisterFunction<DebugFunction>();
         }
 
         /// <summary>
@@ -86,6 +87,9 @@ namespace TextParser.Operators
                     return EvaluateUserFunction(last, parameters, isFinal, function);
             }
 
+            if (_function.Name == "DEBUG")
+                _function = _function;
+
             IToken parameterList;
             if (isFinal && _function is UserFunction)
             {
@@ -116,7 +120,8 @@ namespace TextParser.Operators
                 }
             }
 
-            return _function.Perform(_flatten ? parameterList.Flatten() : parameterList, parameters, isFinal);
+            IToken result = _function.Perform(_flatten ? parameterList.Flatten() : parameterList, parameters, isFinal);
+            return result;
         }
 
         private static IToken EvaluateUserFunction(IToken last, TokenTreeList parameters, bool isFinal, string function)
