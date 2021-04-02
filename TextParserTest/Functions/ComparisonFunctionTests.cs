@@ -85,7 +85,7 @@ namespace TextParserTest.Functions
 
             ListToken parameters = new ListToken() { (IntToken)1, (DoubleToken)0.0, value1 };
             IToken result = function.Perform(parameters, null, false);
-            Assert.AreEqual(null, result);
+            Assert.IsInstanceOfType(result, typeof(NullToken));
 
             parameters = new ListToken() { (StringToken)"0", (IntToken)0, value1 };
             result = function.Perform(parameters, null, false);
@@ -93,11 +93,11 @@ namespace TextParserTest.Functions
 
             parameters = new ListToken() { (StringToken)"0", (DoubleToken)1, value1 };
             result = function.Perform(parameters, null, false);
-            Assert.AreEqual(null, result);
+            Assert.IsInstanceOfType(result, typeof(NullToken));
 
             parameters = new ListToken() { (BoolToken)true, (BoolToken)false, value1 };
             result = function.Perform(parameters, null, false);
-            Assert.AreEqual(null, result);
+            Assert.IsInstanceOfType(result, typeof(NullToken));
 
             parameters = new ListToken() { (RegExToken)"False", (BoolToken)false, value1 };
             result = function.Perform(parameters, null, false);
@@ -105,7 +105,7 @@ namespace TextParserTest.Functions
 
             parameters = new ListToken() { (RegExToken)"true", (BoolToken)false, value1 };
             result = function.Perform(parameters, null, false);
-            Assert.AreEqual(null, result);
+            Assert.IsInstanceOfType(result, typeof(NullToken));
         }
     }
 }

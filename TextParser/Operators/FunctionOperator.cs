@@ -1,5 +1,5 @@
-﻿using System;
-using Helpers;
+﻿using Helpers;
+using System;
 using TextParser.Functions;
 using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
@@ -87,8 +87,8 @@ namespace TextParser.Operators
                     return EvaluateUserFunction(last, parameters, isFinal, function);
             }
 
-            if (_function.Name == "DEBUG")
-                _function = _function;
+            if (_function.Name == "DEBUG" && isFinal)
+                LogControl?.SetLogging(true);
 
             IToken parameterList;
             if (isFinal && _function is UserFunction)
@@ -121,6 +121,10 @@ namespace TextParser.Operators
             }
 
             IToken result = _function.Perform(_flatten ? parameterList.Flatten() : parameterList, parameters, isFinal);
+
+            if (_function.Name == "DEBUG" && isFinal)
+                LogControl?.ResetLoggingToDefault();
+
             return result;
         }
 

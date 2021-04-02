@@ -41,7 +41,7 @@ namespace TextParser.Tokens
 
         public IToken Simplify()
         {
-            return Evaluate(null, false);
+            return Process(null, false);
         }
 
         /// <summary>
@@ -59,7 +59,12 @@ namespace TextParser.Tokens
         /// <param name="parameters">The parameters to use for substitutions.</param>
         /// <param name="isFinal">Whether this is a final parse.</param>
         /// <returns></returns>
-        public virtual IToken Evaluate(TokenTreeList parameters, bool isFinal)
+        public IToken Evaluate(TokenTreeList parameters, bool isFinal)
+        {
+            return Process(parameters, isFinal);
+        }
+
+        protected virtual IToken Process(TokenTreeList parameters, bool isFinal)
         {
             return this;
         }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Generator;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
-using Generator;
 using TextParser;
 using TextParser.Operators;
 using TextParser.Tokens;
@@ -46,10 +46,9 @@ namespace FormGenerator.Tools
                     parameters = Parameters.Clone();
                     parameters.Children.AddIfMissing(new TokenTree(data.ParameterData.Name, data.ParameterData.StringValue));
                 }
-                converted = dataToken.Evaluate(new TokenTreeList {(TokenTree)value, parameters}, true);
+                converted = dataToken.Evaluate(new TokenTreeList { (TokenTree)value, parameters }, true);
             }
-            ITypeToken typeToken = converted as ITypeToken;
-            if (typeToken != null)
+            if (converted is ITypeToken typeToken)
                 return typeToken.Data;
             ExpressionToken expression = converted as ExpressionToken;
             if (expression?.Operator is SubstitutionOperator)

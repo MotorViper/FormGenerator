@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using TextParser.Functions;
 using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
@@ -35,11 +34,11 @@ namespace TextParserTest.Functions
 
             parameters = new ListToken() { new StringToken("false"), key1, value1, key2, value2, key3, value3 };
             result = function.Perform(parameters, null, false);
-            Assert.AreEqual(null, result);
+            Assert.IsInstanceOfType(result, typeof(NullToken));
 
             parameters = new ListToken() { new StringToken("other"), key1, value1, key2, value2, key3, value3 };
             result = function.Perform(parameters, null, false);
-            Assert.AreEqual(null, result);
+            Assert.IsInstanceOfType(result, typeof(NullToken));
 
             parameters = new ListToken() { new StringToken("other"), key1, value1, key2, value2, key3, value3, defaultValue };
             result = function.Perform(parameters, null, false);

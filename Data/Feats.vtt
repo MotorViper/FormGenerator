@@ -1,4 +1,14 @@
-Armour Skin:
+Feat:
+	NaturalACBonus: 0
+	MaxCount: 1
+	Stacks: false
+	FighterBonusFeat: false
+	Type: General
+	Description: 
+	InitiativeBonus: 0
+	Prerequisites:
+
+Armour Skin: $Feat
 	NaturalACBonus: 1
 	MaxCount: No
 	Stacks: true
@@ -6,34 +16,34 @@ Armour Skin:
 	Type: Epic
 	Description: Toughens skin.
 
-'Blind-Fight':
+'Blind-Fight': $Feat
 	FighterBonusFeat: true
 	Description: 'In melee, every time you miss because of concealment, you can reroll your miss chance percentile roll one time to see if you actually hit.'
 
-Cleave:
+Cleave: $Feat
 	FighterBonusFeat: true
 	Description: 'If you deal a creature enough damage to make it drop (typically by dropping it to below 0 hit points or killing it), you get an immediate, extra melee attack against another creature within reach.'
 
-Improved Initiative:
+Improved Initiative: $Feat
 	InitiativeBonus: 4
 	FighterBonusFeat: true
 	Description: Initiative is improved.
 	
-Point Blank Shot:
+Point Blank Shot: $Feat
 	FighterBonusFeat: true
 	Description: 'You get a +1 bonus on attack and damage rolls with ranged weapons at ranges of up to 30 feet.'
 
-Power Attack:
+Power Attack: $Feat
 	Prerequisites:
 		Strength: 13
 	FighterBonusFeat: true
 	Description: 'May subtract from hit roll to add to damage. Max equal to Base Attack Bonus. Double for 2 handed, inapplicable to light weapon.
 	
-Rapid Reload:
+Rapid Reload: $Feat
 	FighterBonusFeat: true
 	Description: 'The time required for you to reload your chosen type of crossbow is reduced to a free action (for a hand or light crossbow) or a move action (for a heavy crossbow).'
 
-'Weapon Focus (longsword)':
+'Weapon Focus (longsword)': $Feat
 	Prerequisites:
 		Feat: Martial Weapon Proficiency
 		BAB: 1
@@ -41,7 +51,7 @@ Rapid Reload:
 		FighterBonusFeat: true
 	Description: '+1 Bonus on attack roles with selected weapon'
 
-Weapon Finesse:
+Weapon Finesse: $Feat
 	Prerequisites:
 		Feat: Martial Weapon Proficiency
 		FighterBonusFeat: true

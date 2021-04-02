@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextParser;
 using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
@@ -160,21 +159,21 @@ namespace TextParserTest
             }
         }
 
-        [TestMethod]
-        [DataSource("System.Data.Odbc",
-            "Dsn=Excel Files; dbq=|DataDirectory|\\TokeniserTestData.xlsx;defaultdir=C:\\Development\\Projects\\FormGenerator\\TextParserTest\\TestData; " +
-            "driverid=1046;maxbuffersize=2048;pagetimeout=5",
-            "TokeniserTestData$", DataAccessMethod.Sequential)]
-        [DeploymentItem("TestData\\TokeniserTestData.xlsx")]
-        public void TestFromFile()
-        {
-            DataRow row = TestContext.DataRow;
-            string input = row[0].ToString().Trim();
-            string output = row[1].ToString().Trim();
-            IToken parsed = TokenGenerator.Parse(input);
-            IToken simplified = parsed.Simplify();
-            Assert.AreEqual(output, simplified.ToString());
-        }
+        //[TestMethod]
+        //[DataSource("System.Data.Odbc",
+        //    "Dsn=Excel Files; dbq=|DataDirectory|\\TokeniserTestData.xlsx;defaultdir=C:\\Development\\Projects\\FormGenerator\\TextParserTest\\TestData; " +
+        //    "driverid=1046;maxbuffersize=2048;pagetimeout=5",
+        //    "TokeniserTestData$", DataAccessMethod.Sequential)]
+        //[DeploymentItem("TestData\\TokeniserTestData.xlsx")]
+        //public void TestFromFile()
+        //{
+        //    DataRow row = TestContext.DataRow;
+        //    string input = row[0].ToString().Trim();
+        //    string output = row[1].ToString().Trim();
+        //    IToken parsed = TokenGenerator.Parse(input);
+        //    IToken simplified = parsed.Simplify();
+        //    Assert.AreEqual(output, simplified.ToString());
+        //}
 
         [TestMethod]
         public void TestSubstitution()
@@ -226,7 +225,7 @@ namespace TextParserTest
                     if (passed)
                         ++passedCount;
                     resultString += Environment.NewLine + $"'{test.Key}' {result}.";
-                } 
+                }
                 catch (Exception ex)
                 {
                     resultString += Environment.NewLine + $"'{test.Key}' {ex.Message}";

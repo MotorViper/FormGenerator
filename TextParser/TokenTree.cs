@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Helpers;
+using System;
 using System.IO;
 using System.Linq;
-using Helpers;
 using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
@@ -17,6 +17,8 @@ namespace TextParser
 
         private TokenTreeList _parameters;
 
+        public bool Cacheable { get; set; } = true;
+
         public TokenTree(TokenTreeList children = null) : this("", "", children)
         {
         }
@@ -28,6 +30,7 @@ namespace TextParser
             IToken tokenList = value == null ? new NullToken() : TokenGenerator.Parse(value).Simplify();
             Value = tokenList ?? new StringToken("");
             Children = children ?? new TokenTreeList();
+            Cacheable = bool.Parse(this["CanCache"] ?? "true");
         }
 
         public TokenTree(IToken key, IToken value, TokenTreeList children = null)
@@ -134,7 +137,7 @@ namespace TextParser
 
         public void SetParameters(TokenTree values)
         {
-            _parameters = new TokenTreeList(this) {values};
+            _parameters = new TokenTreeList(this) { values };
         }
 
         public void Replace(TokenTree inputs)
@@ -157,11 +160,13 @@ namespace TextParser
 
         public TokenTree Clone()
         {
-            return new TokenTree(Key, Value) {Children = Children.Clone()};
+            return new TokenTree(Key, Value) { Children = Children.Clone() };
         }
 
         public void AddMissing(TokenTree defaults)
         {
+            if (defaults == null)
+                return;
             foreach (TokenTree child in defaults.Children)
             {
                 if (child.Value.ToString() == "ALL")
@@ -203,7 +208,7 @@ namespace TextParser
 
         public TokenTree SubstituteParameters(TokenTree tree)
         {
-            return new TokenTree(Key.SubstituteParameters(tree), Value.SubstituteParameters(tree)) {Children = Children.SubstituteParameters(tree)};
+            return new TokenTree(Key.SubstituteParameters(tree), Value.SubstituteParameters(tree)) { Children = Children.SubstituteParameters(tree) };
         }
     }
 }

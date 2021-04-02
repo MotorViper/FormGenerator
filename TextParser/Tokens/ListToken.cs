@@ -153,7 +153,7 @@ namespace TextParser.Tokens
         /// <param name="parameters">The parameters to use for substitutions.</param>
         /// <param name="isFinal">Whether this is a final parse.</param>
         /// <returns></returns>
-        public override IToken Evaluate(TokenTreeList parameters, bool isFinal)
+        protected override IToken Process(TokenTreeList parameters, bool isFinal)
         {
             ListToken list = new ListToken();
             foreach (IToken token in Value)

@@ -16,7 +16,7 @@ namespace TextParserTest.Operators
             SubstitutionOperator op = new SubstitutionOperator();
             try
             {
-                op.Evaluate(new StringToken(""), null, null, false);
+                op.Evaluate(new StringToken(""), new StringToken(""), new TokenTreeList(), false);
                 Assert.Fail("Should have thrown exception");
             }
             catch (Exception ex)
@@ -26,7 +26,7 @@ namespace TextParserTest.Operators
 
             try
             {
-                op.Evaluate(null, null, null, false);
+                op.Evaluate(null, null, new TokenTreeList(), false);
                 Assert.Fail("Should have thrown exception");
             }
             catch (Exception ex)
@@ -39,7 +39,7 @@ namespace TextParserTest.Operators
         public void Test_Evaluate_Simple()
         {
             StringToken stringToken = new StringToken("a");
-            TokenTreeList list = new TokenTreeList(new TokenTree("a", "b"));
+            TokenTreeList list = new TokenTreeList(new TokenTree("", "", new TokenTreeList(new TokenTree("a", "b"))));
             SubstitutionOperator substitutionOperator = new SubstitutionOperator();
             IToken result = substitutionOperator.Evaluate(null, stringToken, list, true);
             Assert.IsInstanceOfType(result, typeof(StringToken));

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
@@ -6,6 +7,8 @@ namespace TextParser.Operators
 {
     public class SubstitutionOperator : BaseOperator
     {
+        private static readonly Dictionary<string, IToken> s_cache = new Dictionary<string, IToken>();
+
         public SubstitutionOperator() : base("$")
         {
         }
@@ -38,18 +41,22 @@ namespace TextParser.Operators
             IToken evaluated = last.Evaluate(parameters, isFinal);
             if (evaluated is ExpressionToken)
                 return new ExpressionToken(null, this, evaluated);
-            ListToken listToken = evaluated as ListToken;
-            if (listToken != null && listToken.Value.Exists(x => x is ExpressionToken))
+            if (evaluated is ListToken listToken && listToken.Value.Exists(x => x is ExpressionToken))
                 return new ExpressionToken(null, this, evaluated);
 
             string text = evaluated.ToString();
+            bool useCache = isFinal && !text.Contains("$") && !text.Contains("{") && text.Contains(".");
+
+            if (useCache && s_cache.TryGetValue(text, out IToken value))
+                return value;
+
             TokenTreeList found = parameters.FindMatches(text, true);
+            if (useCache && !found.Cacheable)
+                useCache = false;
+
             ListToken result = new ListToken();
             foreach (TokenTree tokenTree in found)
             {
-                bool debug = bool.Parse(tokenTree["Debug"] ?? "False");
-                if (debug)
-                    LogControl?.SetLogging(true);
                 IToken token = tokenTree.Value.Evaluate(parameters, isFinal);
                 if (token is NullToken)
                 {
@@ -62,13 +69,16 @@ namespace TextParser.Operators
                         result.Value.Clear();
                     result.Add(token);
                 }
-                if (debug)
-                    LogControl?.ResetLoggingToDefault();
             }
 
-            if (result.Value.Count == 0)
-                return new ExpressionToken(null, this, evaluated);
-            return result.Value.Count == 1 ? result.Value[0] : result;
+            IToken toReturn = result.Value.Count == 0
+                ? new ExpressionToken(null, this, evaluated)
+                : result.Value.Count == 1 ? result.Value[0] : result;
+
+            if (useCache)
+                s_cache[text] = toReturn;
+
+            return toReturn;
         }
 
         public override IToken SubstituteParameters(IToken first, IToken last, TokenTree parameters)

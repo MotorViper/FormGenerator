@@ -14,6 +14,8 @@ namespace TextParser
     /// </summary>
     public class TokenTreeList : List<TokenTree>, INotifyPropertyChanged
     {
+        public bool Cacheable { get; set; } = true;
+
         public TokenTreeList()
         {
         }
@@ -77,7 +79,12 @@ namespace TextParser
             if (last != null)
             {
                 foreach (TokenTree tree in tokens)
-                    matches.AddRange(tree.GetAll(last));
+                {
+                    TokenTreeList found = tree.GetAll(last);
+                    if (found.Count > 0 && !tree.Cacheable)
+                        matches.Cacheable = false;
+                    matches.AddRange(found);
+                }
                 if (matches.Count == 0 && last == "NAME")
                     matches.AddRange(tokens.Select(tree => new TokenTree("NAME", tree.Name)));
                 if (matches.Count == 0 && tokens.Count == 1 && tokens[0].Value != null &&
@@ -86,6 +93,14 @@ namespace TextParser
             }
             else
             {
+                foreach (TokenTree tree in tokens)
+                {
+                    if (!tree.Cacheable)
+                    {
+                        matches.Cacheable = false;
+                        break;
+                    }
+                }
                 matches.AddRange(tokens);
             }
             return matches;
@@ -98,7 +113,7 @@ namespace TextParser
 
         public void SetValue(string name, IToken value)
         {
-            string[] parts = name.Split(new[] {'.'}, 2);
+            string[] parts = name.Split(new[] { '.' }, 2);
             TokenTreeList matches = FindMatches(parts[0]);
             if (matches.Count == 0)
             {

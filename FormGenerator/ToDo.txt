@@ -18,7 +18,6 @@ Gui:
 	Need to stop using reload when doing a test.
 
 Generator:
-	Make JOIN work correctly, i.e. not flatten the list unless the F modifier is added.
 	Can I remove the null token?
 	Possibly change return types of IConvertibleToken.
 	Add visual editor for fields.

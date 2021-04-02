@@ -86,14 +86,4 @@ Character:
 	Critical: WeaponInfo:($1)#3
 	Increment: WeaponInfo:($1)#4
 	WeaponDamage: WeaponInfo:($1)#2
-
-Feats:
-	NaturalACBonus: 0
-	MaxCount: 1
-	Stacks: false
-	FighterBonusFeat: false
-	Type: General
-	Description: 
-	InitiativeBonus: 0
-	Prerequisites:
 	

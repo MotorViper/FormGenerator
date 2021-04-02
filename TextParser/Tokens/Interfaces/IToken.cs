@@ -1,5 +1,3 @@
-using System;
-
 namespace TextParser.Tokens.Interfaces
 {
     /// <summary>
@@ -62,6 +60,7 @@ namespace TextParser.Tokens.Interfaces
         /// <param name="text">The input text.</param>
         /// <returns>True if the current token contains the input text.</returns>
         bool Contains(string text);
+
         //IToken FindToken(string text, bool checkChildren, bool checkParent = true);
 
         //IToken ValueToken { get; }

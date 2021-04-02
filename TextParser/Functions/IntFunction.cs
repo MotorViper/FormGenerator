@@ -1,5 +1,4 @@
 ﻿using System;
-using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Functions
@@ -22,8 +21,7 @@ namespace TextParser.Functions
         /// <returns></returns>
         public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
-            IConvertibleToken typeToken = parameters as IConvertibleToken;
-            if (typeToken != null)
+            if (parameters is IConvertibleToken typeToken)
                 return typeToken.ConvertToInt(substitutions, isFinal);
 
             throw new Exception($"Token must be list/item of tokens convertible to int for {Name}");

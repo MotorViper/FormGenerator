@@ -1,5 +1,5 @@
-﻿using System;
-using Helpers;
+﻿using Helpers;
+using System;
 using TextParser.Operators;
 using TextParser.Tokens.Interfaces;
 
@@ -108,7 +108,7 @@ namespace TextParser.Tokens
         /// <param name="parameters">The parameters to use for substitutions.</param>
         /// <param name="isFinal">Whether this is a final parse.</param>
         /// <returns></returns>
-        public override IToken Evaluate(TokenTreeList parameters, bool isFinal)
+        protected override IToken Process(TokenTreeList parameters, bool isFinal)
         {
             IToken result = Operator.Evaluate(First, Second, parameters, isFinal);
             if (ToString() != result.ToString())

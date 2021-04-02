@@ -1,9 +1,9 @@
-﻿using System;
-using FormGenerator.Fields;
+﻿using FormGenerator.Fields;
 using FormGenerator.Tools;
 using Generator;
 using Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using TextParser;
 using TextParser.Tokens;
 
@@ -63,7 +63,8 @@ Fields:
                                         Children =
                                         {
                                             new TokenTree {Key = new StringToken("Content"), Value = new StringToken("Hi")},
-                                            new TokenTree {Key = new StringToken("Width"), Value = new StringToken("200")}
+                                            new TokenTree {Key = new StringToken("Width"), Value = new StringToken("200")},
+                                            new TokenTree {Key = new StringToken("Padding"), Value = new StringToken("3,0")}
                                         }
                                     }
                                 }

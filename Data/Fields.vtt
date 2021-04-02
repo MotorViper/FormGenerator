@@ -2,9 +2,10 @@ Field: Grid
 	Style: Fill
 	Height: 29.7cm
 	Width: 21cm
-	Columns: 7.6cm|7cm|6.4cm
+	Columns: 6.5cm|8cm|6.5cm
 	Rows: 'Auto|Auto||'
 	Field: Grid
+//		Background: LightBlue
 		Style: Stretch
 		Across: 3
 		Columns: 36
@@ -63,6 +64,7 @@ Field: Grid
 			Content: Character Record Sheet
 			
 	Field: Table
+//		Background: LightGreen
 		Across: 1|2
 		Columns: Auto|40|45|35|35
 		Content: (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)
@@ -94,6 +96,7 @@ Field: Grid
 			Style: BorderedLabel
 
 	Field: Grid
+//		Background: Pink
 		Columns: 'Auto|50|35' + '|13|39' * 7 + '|66'
 		Across: 2
 		Field: Label

@@ -1,13 +1,13 @@
-﻿using System;
+﻿using FormGenerator.Models;
+using FormGenerator.Tools;
+using Helpers;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
-using FormGenerator.Models;
-using FormGenerator.Tools;
-using Helpers;
-using Microsoft.Win32;
 using TextParser;
 
 namespace FormGenerator.ViewModels
@@ -87,6 +87,7 @@ namespace FormGenerator.ViewModels
                         Values.Children.PropertyChanged -= OnChildrenChanged;
                     _selected.SetValue(value, this);
                     Values = _data.MainData.FindFirst(Selected);
+                    Values.Cacheable = false;
                     TokenTree parameters = new TokenTree(_data.StaticData.GetChildren("Parameters"));
                     TokenTree defaults = parameters.FindFirst("Defaults." + _inputData.DataName);
                     Values.AddMissing(defaults);

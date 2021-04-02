@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using TextParser.Functions;
 using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
@@ -60,7 +59,7 @@ namespace TextParserTest.Functions
             token = new ListToken() { token1, token2, token3, token4, token5, toFind };
             result = function.Perform(token, null, false);
             Assert.IsInstanceOfType(result, typeof(BoolToken));
-            Assert.AreEqual(false, ((BoolToken)result).Value);
+            Assert.AreEqual(true, ((BoolToken)result).Value);
 
             toFind = new StringToken("2");
             token = new ListToken() { token1, token2, token3, token4, token5, toFind };
@@ -84,7 +83,7 @@ namespace TextParserTest.Functions
             token = new ListToken() { token1, token2, token3, token4, token5, toFind };
             result = function.Perform(token, null, false);
             Assert.IsInstanceOfType(result, typeof(BoolToken));
-            Assert.AreEqual(false, ((BoolToken)result).Value);
+            Assert.AreEqual(true, ((BoolToken)result).Value);
         }
 
         [TestMethod]

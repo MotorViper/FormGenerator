@@ -3,6 +3,7 @@ using Generator;
 using Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextParser;
+using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
 namespace TextParserTest
@@ -13,6 +14,11 @@ namespace TextParserTest
     [TestClass]
     public class ParserTests
     {
+        public ParserTests()
+        {
+            IOCContainer.Instance.Register<ILogging>(new ConsoleLogger());
+        }
+
         [TestMethod]
         public void TestCreation()
         {
@@ -34,7 +40,7 @@ Field: Grid
             string text = @"a: b --
   c";
             TokenTree tokenTree = Parser.ParseString(text);
-            Assert.AreEqual("a", tokenTree.Key);
+            Assert.AreEqual("a", ((StringToken)tokenTree.Key).Value);
             Assert.AreEqual(@"b
   c", tokenTree.Value.ToString());
         }
@@ -61,8 +67,9 @@ F2: F1:($1 + $2)
 F3: F2:(4|6)
 PoorValue: $1
 GoodValue: 2 + $1
-TotalValue: SUM:OVER:({Items.ALL.NAME}|cl|INT:COMP:({Items.{cl}.{1}}|Poor|COUNT:{Level.Which={cl}}|2 + COUNT:{Level.Which={cl}}))
-TotalValue1: SUM:OVER:({Items.ALL.NAME}|cl|INT:COMP:({Items.{cl}.{1}}|Poor|PoorValue:COUNT:{Level.Which={cl}}|GoodValue:COUNT:{Level.Which={cl}}))
+SubTotal:INT:COMP:($1|0|0|COMP:($2|Poor|PoorValue:$1|GoodValue:$1))
+TotalValue: SUM:OVER:({Items.ALL.NAME}|cl|INT:COMP:(COUNT:{Level.Which={cl}}|0|0|COMP:({Items.{cl}.{1}}|Poor|COUNT:{Level.Which={cl}}|2 + COUNT:{Level.Which={cl}})))
+TotalValue1: SUM:OVER:({Items.ALL.NAME}|cl|SubTotal:(COUNT:{Level.Which={cl}}|{Items.{cl}.{1}}))
 Sum: TotalValue: Selection
 Sum1: TotalValue1: Selection
 Items:
