@@ -35,22 +35,16 @@ namespace TextParser
             return found != null;
         }
 
-        public TokenTreeList FindMatches(string key, bool all = false)
+        public TokenTreeList FindAllMatches(string key)
         {
-            TokenTreeList matches = new TokenTreeList();
-            string first;
-            string last;
-            if (all)
-            {
-                first = "ALL";
-                last = key;
-            }
-            else
-            {
-                string[] parts = key.Split(new[] { '.' }, 2);
-                first = parts[0];
-                last = parts.Length == 2 ? parts[1] : null;
-            }
+            return PerformFind(key, this);
+        }
+
+        public TokenTreeList FindMatches(string key)
+        {
+            string[] parts = key.Split(new[] { '.' }, 2);
+            string first = parts[0];
+            string last = parts.Length == 2 ? parts[1] : null;
             List<TokenTree> tokens;
             if (first.Contains('='))
             {
@@ -64,32 +58,46 @@ namespace TextParser
             }
             else
             {
-                if (first == "ALL")
-                {
-                    tokens = this;
-                }
-                else
-                {
-                    tokens = this.Where(child => child.Key.Contains(first)).ToList();
-                    if (tokens.Count == 0)
-                        tokens = this.Where(child => child.Name == "ALL").ToList();
-                }
+                tokens = this.Where(child => child.Key.Contains(first)).ToList();
             }
 
-            if (last != null)
+            return PerformFind(last, tokens);
+        }
+
+        public TokenTreeList FindEachMatch(string key)
+        {
+            List<TokenTree> tokens = this.Where(child => child.Key.Contains(key)).ToList();
+            TokenTreeList matches = new TokenTreeList();
+            foreach (TokenTree tree in tokens)
+            {
+                foreach (TokenTree child in tree.Children)
+                {
+                    if (!child.Cacheable)
+                    {
+                        matches.Cacheable = false;
+                        break;
+                    }
+                }
+                matches.AddRange(tree.Children);
+            }
+            return matches;
+        }
+
+        private TokenTreeList PerformFind(string key, List<TokenTree> tokens)
+        {
+            TokenTreeList matches = new TokenTreeList();
+            if (key != null)
             {
                 foreach (TokenTree tree in tokens)
                 {
-                    TokenTreeList found = tree.GetAll(last);
+                    TokenTreeList found = tree.GetAll(key);
                     if (found.Count > 0 && !tree.Cacheable)
                         matches.Cacheable = false;
                     matches.AddRange(found);
                 }
-                if (matches.Count == 0 && last == "NAME")
-                    matches.AddRange(tokens.Select(tree => new TokenTree("NAME", tree.Name)));
                 if (matches.Count == 0 && tokens.Count == 1 && tokens[0].Value != null &&
                     tokens[0].Value is ExpressionToken value && value.Second is StringToken token)
-                    matches = FindMatches(token.Value + "." + last);
+                    matches = FindMatches(token.Value + "." + key);
             }
             else
             {

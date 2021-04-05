@@ -22,12 +22,14 @@ namespace TextParser.Operators
             RegisterFunction<ComparisonFunction>();
             RegisterFunction<ContainsFunction>();
             RegisterFunction<CountFunction>();
+            RegisterFunction<DebugFunction>();
             RegisterFunction<DefaultFunction>();
             RegisterFunction<DoubleFunction>();
             RegisterFunction<FlattenFunction>();
             RegisterFunction<IfFunction>();
             RegisterFunction<IntFunction>();
             RegisterFunction<JoinFunction>();
+            RegisterFunction<KeysFunction>();
             RegisterFunction<NotFunction>();
             RegisterFunction<OrFunction>();
             RegisterFunction<OverFunction>();
@@ -36,7 +38,6 @@ namespace TextParser.Operators
             RegisterFunction<ReverseFunction>();
             RegisterFunction<SplitFunction>();
             RegisterFunction<SumFunction>();
-            RegisterFunction<DebugFunction>();
         }
 
         /// <summary>

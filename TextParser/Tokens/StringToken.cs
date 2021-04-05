@@ -3,7 +3,7 @@ using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Tokens
 {
-    public class StringToken : TypeToken<string>, IReversibleToken, ITokenWithLength//, IKeyToken, IContainerToken
+    public class StringToken : TypeToken<string>, IReversibleToken, ITokenWithLength, IContainerToken//, IKeyToken
     {
         public StringToken(string text) : base(text)
         {
@@ -59,9 +59,9 @@ namespace TextParser.Tokens
         //    return text == Value;
         //}
 
-        //public bool Contains(IToken token)
-        //{
-        //    return ToString().Contains(token.ToString());
-        //}
+        public bool Contains(IToken token)
+        {
+            return ToString().Contains(token.ToString());
+        }
     }
 }

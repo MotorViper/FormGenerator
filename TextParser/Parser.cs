@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Helpers;
+using System.Collections.Generic;
 using System.IO;
-using Helpers;
 using TextParser.Tokens;
 
 namespace TextParser
@@ -35,7 +35,7 @@ namespace TextParser
         public static TokenTree Parse(TextReader textReader, string defaultDirectory = null, string selector = null, bool ignoreErrors = false)
         {
             Parser parser = new Parser();
-            Reader reader = new Reader(textReader) {Options = {DefaultDirectory = defaultDirectory}};
+            Reader reader = new Reader(textReader) { Options = { DefaultDirectory = defaultDirectory } };
             if (!string.IsNullOrWhiteSpace(selector))
                 reader.Options.Selector = selector;
             foreach (Line line in reader)

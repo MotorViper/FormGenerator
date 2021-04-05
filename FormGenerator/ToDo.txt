@@ -2,7 +2,6 @@
 	Simplify output to remove redundant brackets and use {} instead of $ where clearer.
 	Provide code to convert token data to classes?
 	Work out how to use templates for things like masterwork.
-	Need to have far fewer special cases.
 
 Characters:
 	Add in weapon focus and weapon finesse modifiers automatically (see MiscInitiative).
@@ -19,7 +18,6 @@ Gui:
 
 Generator:
 	Can I remove the null token?
-	Possibly change return types of IConvertibleToken.
 	Add visual editor for fields.
 
 Console:

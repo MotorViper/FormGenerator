@@ -30,7 +30,6 @@ namespace TextParser
             IToken tokenList = value == null ? new NullToken() : TokenGenerator.Parse(value).Simplify();
             Value = tokenList ?? new StringToken("");
             Children = children ?? new TokenTreeList();
-            Cacheable = bool.Parse(this["CanCache"] ?? "true");
         }
 
         public TokenTree(IToken key, IToken value, TokenTreeList children = null)
@@ -57,9 +56,6 @@ namespace TextParser
             get
             {
                 TokenTreeList list = GetAll(name);
-                if (list.Count == 0)
-                    return name == "NAME" ? Name : null;
-
                 if (list.Count > 0)
                 {
                     IToken tokens = list[0].Value.Evaluate(_parameters, true);
@@ -127,7 +123,7 @@ namespace TextParser
 
         public TokenTreeList GetChildren(string name)
         {
-            return GetAll(name + ".ALL");
+            return Children.FindEachMatch(name);
         }
 
         public TokenTreeList GetAll(string name)
@@ -169,16 +165,9 @@ namespace TextParser
                 return;
             foreach (TokenTree child in defaults.Children)
             {
-                if (child.Value.ToString() == "ALL")
-                {
+                bool found = Children.Any(item => item.Name == child.Name);
+                if (!found)
                     Children.Add(child.Clone());
-                }
-                else
-                {
-                    bool found = Children.Any(item => item.Name == child.Name);
-                    if (!found)
-                        Children.Add(child.Clone());
-                }
             }
         }
 

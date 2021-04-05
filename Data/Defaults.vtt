@@ -12,10 +12,6 @@ Character:
 		MiscAttackBonus: 0
 	Armour: None
 	Player: ?
-	Level: ALL
-		HP: 0
-		Skills:
-			ALL: 0
 	Race: Human
 	Alignment: N
 	Deity:
@@ -50,7 +46,7 @@ Character:
 	MiscACModifier: 0
 	InfoAtLevel: SPLIT:({Classes.{1}.LevelInformation.{2}}|' '|(COMP:({Classes.{1}.LevelType}|MagicUser|15|5)))
 	GetLevelField: INT:InfoAtLevel:({3}|{1})#{2}
-	BaseValue: SUM:OVER:({Classes.ALL.NAME}|cl|GetLevelField:(COUNT:{Level.Class=$cl}|$1|$cl))
+	BaseValue: SUM:OVER:(KEYS:Classes|cl|GetLevelField:(COUNT:{Level.Class=$cl}|$1|$cl))
 	FortitudeBase: BaseValue: 1
 	ReflexBase: BaseValue: 2
 	WillBase: BaseValue: 3
@@ -68,17 +64,17 @@ Character:
 	Melee: $BAB + $StrModifier
 	Missile: $BAB + $DexModifier
 	IsClassSkill: CONTAINS:({Classes.({Level.Class}#0).ClassSkills}|$1)
-	SkillPoints: SUM:{Level.Skills.{1}}
+	SkillPoints: SUM:DEF:({Level.Skills.{1}}|0)
 	SkillModifier: {{Skills.{1}.Key}Modifier}
 	CanUseSkill : OR:(IF:({Skills.{1}.TrainedOnly}|False|True)|COMP:(0|$SkillPoints|False|False|True))
 	ClassesContain: CONTAINS:({Level.Class}|$1)
 	ClassFeatures: IF:((ClassesContain:$1)|{Classes.{1}.Features})
-	Features: JOIN:(OVER:({Classes.ALL.NAME}|cl|ClassFeatures:$cl)|", ")
+	Features: JOIN:(OVER:(KEYS:Classes|cl|ClassFeatures:$cl)|", ")
 	PositionOfFeats: COMP:({Classes.{1}.LevelType}|MagicUser|14|4)
 	FeatsAtLevel: SPLIT:(InfoAtLevel:($1|$2)#(PositionOfFeats:$1)|',')
 	NumInstances: COUNT:{Level.Class=$1}
 	LevelsForClass: OVER:(RANGE:(1|$2)|n|FeatsAtLevel:($1|$n))
-	ClassFeats: OVER:({Classes.ALL.NAME}|cl|LevelsForClass:($cl|NumInstances:($cl)))
+	ClassFeats: OVER:(KEYS:Classes|cl|LevelsForClass:($cl|NumInstances:($cl)))
 	LevelFeats: OVER:(F:({Level.Feats})|cl|$cl ' (' {Feats.{cl}.Description} ')')
 	Feats: JOIN:((F:($LevelFeats|$ClassFeats) - ("Bonus Feat"|""))|NL)
 	WeaponInfo: SPLIT:({Weapons.{1}.Attributes}|' '|7)
@@ -86,4 +82,3 @@ Character:
 	Critical: WeaponInfo:($1)#3
 	Increment: WeaponInfo:($1)#4
 	WeaponDamage: WeaponInfo:($1)#2
-	

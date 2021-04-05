@@ -36,22 +36,11 @@ namespace TextParser.Functions
                 return UnParsed(listToken);
             }
 
-            //if (count == 2 && listToken[0] is IContainerToken container)
-            //{
-            //    if (container.IsExpression)
-            //        return UnParsed(listToken);
-            //    return new BoolToken(container.Contains(toFind));
-            //}
-            if (count == 2)
+            if (count == 2 && listToken[0] is IContainerToken container)
             {
-                IToken token = listToken[0];
-                if (token is ExpressionToken)
+                if (container.IsExpression)
                     return UnParsed(listToken);
-                if (token is StringToken)
-                    return new BoolToken(token.ToString().Contains(toFind.ToString()));
-                ListToken list = token as ListToken;
-                if (list != null)
-                    return new BoolToken(list.Contains(toFind));
+                return new BoolToken(container.Contains(toFind));
             }
 
             for (int i = 0; i < count - 1; i++)
@@ -59,7 +48,6 @@ namespace TextParser.Functions
                 IToken token = listToken[i];
                 if (token is ExpressionToken)
                     return UnParsed(listToken);
-                //if (token.Equals(toFind))
                 if (token.ToString() == toFind.ToString())
                     return new BoolToken(true);
             }

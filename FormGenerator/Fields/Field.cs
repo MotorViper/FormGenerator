@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using FormGenerator.Tools;
+﻿using FormGenerator.Tools;
 using Generator;
 using Helpers;
+using System.Collections.Generic;
 
 namespace FormGenerator.Fields
 {

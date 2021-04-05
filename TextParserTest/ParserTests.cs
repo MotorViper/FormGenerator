@@ -68,8 +68,8 @@ F3: F2:(4|6)
 PoorValue: $1
 GoodValue: 2 + $1
 SubTotal:INT:COMP:($1|0|0|COMP:($2|Poor|PoorValue:$1|GoodValue:$1))
-TotalValue: SUM:OVER:({Items.ALL.NAME}|cl|INT:COMP:(COUNT:{Level.Which={cl}}|0|0|COMP:({Items.{cl}.{1}}|Poor|COUNT:{Level.Which={cl}}|2 + COUNT:{Level.Which={cl}})))
-TotalValue1: SUM:OVER:({Items.ALL.NAME}|cl|SubTotal:(COUNT:{Level.Which={cl}}|{Items.{cl}.{1}}))
+TotalValue: SUM:OVER:(KEYS:Items|cl|INT:COMP:(COUNT:{Level.Which={cl}}|0|0|COMP:({Items.{cl}.{1}}|Poor|COUNT:{Level.Which={cl}}|2 + COUNT:{Level.Which={cl}})))
+TotalValue1: SUM:OVER:(KEYS:Items|cl|SubTotal:(COUNT:{Level.Which={cl}}|{Items.{cl}.{1}}))
 Sum: TotalValue: Selection
 Sum1: TotalValue1: Selection
 Items:

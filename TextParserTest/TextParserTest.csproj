@@ -61,6 +61,8 @@
     <Compile Include="Functions\AggregateFunctionTests.cs" />
     <Compile Include="Functions\AndFunctionTests.cs" />
     <Compile Include="Functions\CaseFunctionTests.cs" />
+    <Compile Include="Functions\KeysFunctionTests.cs" />
+    <Compile Include="Functions\OverFunctionTests.cs" />
     <Compile Include="Operators\SubstitutionOperatorTests.cs" />
     <Compile Include="ReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

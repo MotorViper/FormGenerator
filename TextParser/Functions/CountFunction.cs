@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TextParser.Operators;
+﻿using TextParser.Operators;
 using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
@@ -32,18 +31,8 @@ namespace TextParser.Functions
         public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
             int count = parameters == null ? 0 : 1;
-            ListToken listToken = parameters as ListToken;
-            if (listToken != null)
-            {
+            if (parameters is ListToken listToken)
                 count = listToken.Count;
-                if (count > 0)
-                {
-                    List<IToken> tokens = listToken.Value;
-                    IToken last = tokens[tokens.Count - 1];
-                    if (last.ToString() == "ALL")
-                        --count;
-                }
-            }
             return new IntToken(count);
         }
 

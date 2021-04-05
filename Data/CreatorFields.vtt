@@ -3,7 +3,7 @@ Field: Grid
 	Field: Label
 		Content: Character Name
 	Field: TextBox
-//		SaveTo: Character.NAME
+//		SaveTo: $Character
 	Field: Label
 		Content: Player
 	Field: TextBox

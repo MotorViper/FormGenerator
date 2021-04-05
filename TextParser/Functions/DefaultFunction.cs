@@ -1,6 +1,4 @@
-﻿using System;
-using TextParser.Operators;
-using TextParser.Tokens;
+﻿using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Functions

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Generator;
+﻿using Generator;
 using Helpers;
+using System.Collections.Generic;
+using System.Linq;
 using TextParser;
 using TextParser.Tokens.Interfaces;
 
@@ -38,7 +38,7 @@ namespace WebFormGenerator.Models
             values.SetParameters(parameters);
 
             TokenTreeList fields = data.GetAll("Fields");
-            TokenTreeList styles = data.GetAll("Styles").FindMatches("Style", true);
+            TokenTreeList styles = data.GetAll("Styles").FindAllMatches("Style");
             AddStyles(styles, parameters);
             foreach (TokenTree field in fields.SelectMany(child => child.Children).Where(x => x.Name == "Field"))
                 _sb.AddElement(field, 0, parameters, values, keys);

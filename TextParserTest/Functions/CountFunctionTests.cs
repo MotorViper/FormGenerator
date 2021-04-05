@@ -29,23 +29,5 @@ namespace TextParserTest
             Assert.IsInstanceOfType(result, typeof(IntToken));
             Assert.AreEqual(2, ((IntToken)result).Value);
         }
-
-        [TestMethod]
-        public void TestCountWithALL()
-        {
-            CountFunction function = new CountFunction();
-            ListToken list = null;
-            IToken result = function.Perform(list, null, true);
-            list = new ListToken();
-            list.Add(new BoolToken(true));
-            list.Add(new BoolToken(true));
-            result = function.Perform(list, null, true);
-            Assert.IsInstanceOfType(result, typeof(IntToken));
-            Assert.AreEqual(2, ((IntToken)result).Value);
-            list.Add(new StringToken("ALL"));
-            result = function.Perform(list, null, true);
-            Assert.IsInstanceOfType(result, typeof(IntToken));
-            Assert.AreEqual(2, ((IntToken)result).Value);
-        }
     }
 }

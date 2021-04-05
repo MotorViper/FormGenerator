@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Helpers;
+using System.Collections.Generic;
 using System.Linq;
-using Helpers;
 
 namespace Generator
 {
@@ -137,7 +137,7 @@ namespace Generator
         /// <returns>The list of properties to ignore.</returns>
         protected virtual List<string> IgnoredProperties()
         {
-            return new List<string> {"Field", "Across", "Over", "Columns", "Rows", "Header"};
+            return new List<string> { "Field", "Across", "Over", "Columns", "Rows", "Header" };
         }
 
         /// <summary>

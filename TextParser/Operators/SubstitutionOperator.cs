@@ -50,7 +50,7 @@ namespace TextParser.Operators
             if (useCache && s_cache.TryGetValue(text, out IToken value))
                 return value;
 
-            TokenTreeList found = parameters.FindMatches(text, true);
+            TokenTreeList found = parameters.FindAllMatches(text);
             if (useCache && !found.Cacheable)
                 useCache = false;
 

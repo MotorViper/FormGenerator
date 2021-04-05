@@ -8,7 +8,7 @@ using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Tokens
 {
-    public class ListToken : TypeToken<List<IToken>>, IReversibleToken, ITokenWithLength, IEnumerable<IToken>
+    public class ListToken : TypeToken<List<IToken>>, IReversibleToken, ITokenWithLength, IEnumerable<IToken>, IContainerToken
     {
         public ListToken() : base(new List<IToken>())
         {

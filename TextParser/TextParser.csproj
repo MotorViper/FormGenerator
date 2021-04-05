@@ -53,6 +53,7 @@
     <Compile Include="Functions\FlattenFunction.cs" />
     <Compile Include="Functions\IntFunction.cs" />
     <Compile Include="Functions\JoinFunction.cs" />
+    <Compile Include="Functions\KeysFunction.cs" />
     <Compile Include="Functions\ListFunction.cs" />
     <Compile Include="Functions\NotFunction.cs" />
     <Compile Include="Functions\OrFunction.cs" />

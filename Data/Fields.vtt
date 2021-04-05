@@ -30,7 +30,7 @@ Field: Grid
 
 		Field: LabelWithLabelUnder: ClassList
 			Across: 12
-		Field: CheckedEditorWithLabelUnder:(Race|CONTAINS:({Races.ALL.NAME}|$Race))
+		Field: CheckedEditorWithLabelUnder:(Race|CONTAINS:(KEYS:Races|$Race))
 			Across: 4
 
 		Field: CheckedEditorWithLabelUnder:(Alignment|CONTAINS:(LG|NG|CG|LN|N|CN|LE|NE|CE|$Alignment))
@@ -245,7 +245,7 @@ Field: Grid
 		Width: 230
 		Across: 1|2
 		Field: Table
-			Content: {Skills.ALL.NAME} - ('Skill', 'IntSkill', 'DexSkill', 'ChaSkill', 'WisSkill', 'StrSkill', 'ConSkill')
+			Content: KEYS:Skills - ('Skill', 'IntSkill', 'DexSkill', 'ChaSkill', 'WisSkill', 'StrSkill', 'ConSkill')
 			Columns: '|Auto|Auto|Auto|Auto'
 			Background: PaleGreen
 			Field: Label
@@ -407,7 +407,7 @@ Field: Grid
 					Content: Weapon
 					Style: WeaponHeader
 				Content: $$1
-				SelectionOptions: {Weapons.ALL.NAME} - ('Weapon', 'MartialWeapon')
+				SelectionOptions: KEYS:Weapons - ('Weapon', 'MartialWeapon')
 				Height: 25
 			Field: Label
 				Style: BorderedLabel

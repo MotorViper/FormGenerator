@@ -78,9 +78,17 @@ Shortsword: $Weapon
 	Attributes: '10gp 	1d4 	1d6 	19-20/×2 	— 	2lb. 	Piercing
 /*
 One-Handed Melee Weapons
-Battleaxe 	10 gp 	1d6 	1d8 	×3 	— 	6 lb. 	Slashing
-Flail 	8 gp 	1d6 	1d8 	×2 	— 	5 lb. 	Bludgeoning
 */
+Battleaxe: $Weapon
+	Group: Martial
+	Range: S
+	IsMelee: True
+	Attributes: '10gp 	1d6 	1d8 	×3 	— 	6lb. 	Slashing
+Flail: $Weapon
+	Group: Martial
+	Range: S
+	IsMelee: True
+	Attributes: '8gp 	1d6 	1d8 	×2 	— 	5lb. 	Bludgeoning
 Longsword: $Weapon
 	Group: Martial
 	Range: S
