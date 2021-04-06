@@ -8,7 +8,7 @@ namespace TextParser.Functions
     /// </summary>
     public class DefaultFunction : ListFunction
     {
-        public DefaultFunction() : base("DEF(INED)")
+        public DefaultFunction() : base("DEF(AULT)")
         {
         }
 

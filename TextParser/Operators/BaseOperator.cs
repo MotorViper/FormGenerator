@@ -1,5 +1,5 @@
-﻿using System;
-using Helpers;
+﻿using Helpers;
+using System;
 using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
@@ -121,6 +121,8 @@ namespace TextParser.Operators
                     return new IndexOperator();
                 case ":":
                     return new FunctionOperator();
+                case "::":
+                    return new TemplateOperator();
                 case "|":
                 case ",":
                     return new ListOperator();

@@ -70,6 +70,7 @@
     <Compile Include="Functions\OverFunction.cs" />
     <Compile Include="Functions\SumFunction.cs" />
     <Compile Include="IInputData.cs" />
+    <Compile Include="Operators\TemplateOperator.cs" />
     <Compile Include="ReaderOptions.cs" />
     <Compile Include="Operators\IOperator.cs" />
     <Compile Include="Properties\Annotations.cs" />

@@ -407,7 +407,7 @@ Field: Grid
 					Content: Weapon
 					Style: WeaponHeader
 				Content: $$1
-				SelectionOptions: KEYS:Weapons - ('Weapon', 'MartialWeapon')
+				SelectionOptions: OVER:(KEYS:Weapons|i|IF:(DEF:({Weapons.{i}.Display}|true)|$i)) - ($Weapon1, $Weapon2) + ($Weapon1, $Weapon2) - 'Weapon'
 				Height: 25
 			Field: Label
 				Style: BorderedLabel
@@ -415,13 +415,12 @@ Field: Grid
 					Content: BAB
 					Style: WeaponHeader
 				Content: IF:({Weapons.{$1}.IsMelee}|$Melee|$Missile) + {Weapons.{$1}.AttackBonus} + DEF:({{1}.MiscAttackBonus}, 0)
-//+ IF:({{1}.Masterwork}|1|0)
 			Field: Label
 				Style: BorderedLabel
 				Header: 
 					Content: Damage
 					Style: WeaponHeader
-				Content: IF:({Weapons.{$1}.IsMelee}|(WeaponDamage:$$1) '+' $StrModifier|WeaponDamage:$$1)
+				Content: IF:({Weapons.{$1}.IsMelee}|(WeaponDamage:$$1) '+' (INT:$StrModifier + INT:DEF:({Weapons.{$1}.DamageBonus}|0))|(WeaponDamage:$$1) (COMP:({Weapons.{$1}.AttackBonus}|0|' '| '+' {Weapons.{$1}.AttackBonus})))
 			Field: Label
 				Style: BorderedLabel
 				Header: 

@@ -20,13 +20,13 @@ namespace FormGenerator.Tools
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string dataType = parameter.ToString();
-            if (dataType.Contains("$") || dataType.Contains("{"))
+            // If the data is an expression then do extra work to evaluate it.
+            if (dataType.Contains("$") || dataType.Contains("{") || dataType.Contains(":"))
             {
                 TokenTree tree = new Parser().AddLine(new Line("Content: " + dataType));
                 IToken converted = tree.Value.Evaluate(new TokenTreeList { (TokenTree)value, DataConverter.Parameters }, true);
-                ListToken list = converted as ListToken;
                 List<string> result = new List<string>();
-                if (list != null)
+                if (converted is ListToken list)
                     foreach (IToken token in list.Value)
                         result.Add(token.ToString());
                 return result;

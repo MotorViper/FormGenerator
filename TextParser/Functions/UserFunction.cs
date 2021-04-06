@@ -21,7 +21,7 @@ namespace TextParser.Functions
         /// <summary>
         /// Evaluate the function.
         /// </summary>
-        /// <param name="parameters">The tokens that make up the function parameter list.</param>
+        /// <param name="listToken">The tokens that make up the function parameter list.</param>
         /// <param name="substitutions">The tokens that can be used for substitutions.</param>
         /// <param name="isFinal">Whether a result needs to be returned.</param>
         /// <returns></returns>

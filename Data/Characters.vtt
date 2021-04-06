@@ -6,7 +6,7 @@ Jim Oakenbough:
 	Charisma: 14
 	Player: GM
 	Armour: 'Studded Leather'
-	Weapon1: Mwk Longsword
+	Weapon1: Mwk:: Longsword
 		MiscAttackBonus: 1 /* From Weapon Focus */
 		Masterwork: true
 	Weapon2: Shortbow

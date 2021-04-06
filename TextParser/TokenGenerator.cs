@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Helpers;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Helpers;
 using TextParser.Operators;
 using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
@@ -22,6 +22,7 @@ namespace TextParser
                 ["(.*)([\\+-])([^\\+-]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
                 ["(.*)([\\*/×÷])([^\\*/×÷]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
                 ["(.*)(#)([^#]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
+                ["([^:]*)(::)(.*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
                 ["([^:]*)(:)(.*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
                 ["(.*)\\$(([A-Za-z█][A-Za-z0-9█]*|[1-9][0-9]*)(\\.[A-Za-z█][A-Za-z0-9█]*)*)?([^$]*)"] = (tokens, x, y) =>
                     PerformSubstitutionOperation(tokens, x, y),
@@ -92,8 +93,7 @@ namespace TextParser
             startPosition += tokens[2].Length - token.Length;
             IToken second = ParseExpressionNoBrackets(token.TrimEnd(), startPosition, null);
 
-            ExpressionToken firstExpression = first as ExpressionToken;
-            if (firstExpression != null && firstExpression.NeedsSecond && op.CanBeUnary)
+            if (first is ExpressionToken firstExpression && firstExpression.NeedsSecond && op.CanBeUnary)
             {
                 firstExpression.SetSecond(new ExpressionToken(null, op, second));
                 return first;
@@ -110,7 +110,7 @@ namespace TextParser
             if (text.StartsWith("'") && text.IndexOf('\'', 1) <= 0)
                 return new StringToken(text.Substring(1));
 
-            List<string> blocks = text.SplitIntoBlocks(new[] {'\'', '\'', '"', '"', '^', '^', '{', '}', '(', ')'}, true,
+            List<string> blocks = text.SplitIntoBlocks(new[] { '\'', '\'', '"', '"', '^', '^', '{', '}', '(', ')' }, true,
                 StringUtils.DelimiterInclude.IncludeSeparately);
 
             string simplifed = "";
@@ -210,7 +210,7 @@ namespace TextParser
                     int count = match.Groups.Count;
                     if (count == 1)
                     {
-                        values = new[] {match.Groups[0].Value};
+                        values = new[] { match.Groups[0].Value };
                     }
                     else
                     {

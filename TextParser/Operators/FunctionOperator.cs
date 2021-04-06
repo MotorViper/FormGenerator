@@ -12,7 +12,6 @@ namespace TextParser.Operators
     public class FunctionOperator : BaseOperator
     {
         private bool _flatten;
-        private IFunction _function;
 
         static FunctionOperator()
         {
@@ -46,10 +45,12 @@ namespace TextParser.Operators
         /// <param name="function">The function object if known.</param>
         public FunctionOperator(IFunction function = null) : base(":")
         {
-            _function = function;
+            Function = function;
         }
 
-        public override string Text => _function == null ? base.Text : _function.Name + base.Text;
+        public override string Text => Function == null ? base.Text : Function.Name + base.Text;
+
+        public IFunction Function { get; private set; }
 
         public static void RegisterFunction<T>() where T : IFunction, new()
         {
@@ -68,7 +69,7 @@ namespace TextParser.Operators
         /// <returns>The evaluated value.</returns>
         public override IToken Evaluate(IToken first, IToken last, TokenTreeList parameters, bool isFinal)
         {
-            if (_function == null)
+            if (Function == null)
             {
                 if (first == null)
                     throw new Exception($"Operation {Text} can not be unary.");
@@ -78,52 +79,51 @@ namespace TextParser.Operators
                     throw new Exception($"First element of Operation {Text} is not unique.");
 
                 string function = functionToken.ToString();
-                _function = IOCContainer.Instance.Resolve<IFunction>(function);
-                if (_function == null && function.EndsWith("F"))
+                Function = IOCContainer.Instance.Resolve<IFunction>(function);
+                if (Function == null && function.EndsWith("F"))
                 {
-                    _function = IOCContainer.Instance.Resolve<IFunction>(function.Substring(0, function.Length - 1));
-                    _flatten = _function != null;
+                    Function = IOCContainer.Instance.Resolve<IFunction>(function.Substring(0, function.Length - 1));
+                    _flatten = Function != null;
                 }
-                if (_function == null)
+                if (Function == null)
                     return EvaluateUserFunction(last, parameters, isFinal, function);
             }
 
-            if (_function.Name == "DEBUG" && isFinal)
+            if (Function.Name == "DEBUG" && isFinal)
                 LogControl?.SetLogging(true);
 
             IToken parameterList;
-            if (isFinal && _function is UserFunction)
+            if (isFinal && Function is UserFunction)
             {
                 parameterList = PrepareUserFunction(last, parameters);
             }
-            else if (_function.AllowsShortCircuit)
+            else if (Function.AllowsShortCircuit)
             {
                 parameterList = last;
                 _flatten = true;
             }
             else
             {
-                parameterList = last.Evaluate(parameters, !_function.FinalCanBeExpression && isFinal);
-                ExpressionToken expression = parameterList as ExpressionToken;
-                if (expression != null)
+                parameterList = last.Evaluate(parameters, !Function.FinalCanBeExpression && isFinal);
+                if (parameterList is ExpressionToken expression)
                 {
                     if (isFinal)
                     {
-                        IToken substitute = _function.ValueIfFinalValueIsExpression(expression);
+                        IToken substitute = Function.ValueIfFinalValueIsExpression(expression);
                         if (substitute is NullToken)
-                            return new ExpressionToken(null, new FunctionOperator(_function), parameterList);
+                            return new ExpressionToken(null, new FunctionOperator(Function), parameterList);
                         parameterList = substitute;
                     }
                     else
                     {
-                        return new ExpressionToken(null, new FunctionOperator(_function), parameterList);
+                        return new ExpressionToken(null, new FunctionOperator(Function), parameterList);
                     }
                 }
             }
 
-            IToken result = _function.Perform(_flatten ? parameterList.Flatten() : parameterList, parameters, isFinal);
+            IToken result = Function.Perform(_flatten ? parameterList.Flatten() : parameterList, parameters, isFinal);
 
-            if (_function.Name == "DEBUG" && isFinal)
+            if (Function.Name == "DEBUG" && isFinal)
                 LogControl?.ResetLoggingToDefault();
 
             return result;
@@ -166,7 +166,7 @@ namespace TextParser.Operators
             }
             list.Value.Add(method);
             for (int i = 1; i < toAdd.Value.Count; ++i)
-                list.Value.Add(toAdd.Value[i].Evaluate(parameters, !_function.FinalCanBeExpression));
+                list.Value.Add(toAdd.Value[i].Evaluate(parameters, !Function.FinalCanBeExpression));
             return list;
         }
     }

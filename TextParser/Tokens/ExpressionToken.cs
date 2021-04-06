@@ -54,7 +54,10 @@ namespace TextParser.Tokens
         /// </returns>
         public override string ToString()
         {
-            return First == null ? $"({Operator.Text}{Second.ToString()})" : $"({First.ToString()}{Operator.Text}{Second.ToString()})";
+            // When it's a function operator it can be partially parsed and that causes the function name to be shown twice.
+            if (First == null || (Operator is FunctionOperator op && op.Function != null))
+                return $"({Operator.Text}{Second.ToString()})";
+            return $"({First.ToString()}{Operator.Text}{Second.ToString()})";
         }
 
         public ExpressionToken SetSecond(IToken token)

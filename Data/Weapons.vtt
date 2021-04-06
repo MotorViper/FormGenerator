@@ -163,7 +163,12 @@ Bolts (5) 	1 gp 	— 	— 	— 	— 	1 lb. 	—
 Net 	20 gp 	— 	— 	— 	10 ft. 	6 lb. 	—
 Shuriken (5) 	1 gp 	1 	1d2 	×2 	10 ft. 	½ lb. 	Piercing
 */
-Mwk Longsword: {Longsword}
-	AttackBonus: 1
-Mwk Heavy Crossbow: $(Heavy Crossbow)
-	AttackBonus: 1
+
+Mwk:
+	AttackBonus : 1
+	Display: false
+
+Plus 2:
+	AttackBonus: 2
+	DamageBonus: 2
+	Display: false

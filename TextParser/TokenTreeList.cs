@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -55,6 +56,25 @@ namespace TextParser
                     if (item.Key.ToString() == searchCriteria[0] && item.Value.ToString() == searchCriteria[1])
                         tokens.Add(item);
                 }
+            }
+            else if (first.Contains("::"))
+            {
+                // This handles templates. Not final version but works for now.
+                tokens = new List<TokenTree>();
+                string[] options = first.TrimStart('(').TrimEnd(')').Split(':');
+                foreach (string option in options)
+                {
+                    tokens = this.Where(child => child.Key.Contains(option)).ToList();
+                    if (tokens.Count > 1)
+                        throw new Exception("Too many possible returns for template");
+                    if (tokens.Count == 1)
+                    {
+                        TokenTreeList found = PerformFind(last, tokens);
+                        if (found.Count > 0)
+                            return found;
+                    }
+                }
+                return new TokenTreeList();
             }
             else
             {

@@ -1,7 +1,8 @@
 ﻿Language:
 	Simplify output to remove redundant brackets and use {} instead of $ where clearer.
 	Provide code to convert token data to classes?
-	Work out how to use templates for things like masterwork.
+	Work out how to improve templates for things like masterwork.
+	AbilityIncrease
 
 Characters:
 	Add in weapon focus and weapon finesse modifiers automatically (see MiscInitiative).
