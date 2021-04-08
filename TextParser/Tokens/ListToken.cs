@@ -175,11 +175,17 @@ namespace TextParser.Tokens
             foreach (IToken item in Value)
             {
                 IToken flattened = item.Flatten();
-                ListToken list = flattened as ListToken;
-                if (list != null)
-                    newList.Value.AddRange(list.Value);
+                if (flattened is ListToken list)
+                {
+                    if (list.Count == 1)
+                        newList.Value.Add(list.Value[0]);
+                    else if (list.Count > 1)
+                        newList.Value.AddRange(list.Value);
+                }
                 else if (!(flattened is NullToken))
+                {
                     newList.Value.Add(flattened);
+                }
             }
             return newList;
         }
@@ -190,6 +196,12 @@ namespace TextParser.Tokens
             foreach (IToken token in Value)
                 list.Value.Add(token.SubstituteParameters(parameters));
             return list;
+        }
+
+        public override void ModifyParameters(UserFunction function)
+        {
+            foreach (IToken token in Value)
+                token.ModifyParameters(function);
         }
 
         /// <summary>

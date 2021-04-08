@@ -9,7 +9,7 @@
             {
             }
 
-            public void LogMessage(string message, string overview)
+            public void LogMessage(string message, string overview, int offset = 0)
             {
             }
 

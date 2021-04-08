@@ -39,10 +39,8 @@ namespace TextParser.Operators
                 throw new Exception($"Operation {Text} needs a variable.");
 
             IToken evaluated = last.Evaluate(parameters, isFinal);
-            if (evaluated is ExpressionToken)
-                return new ExpressionToken(null, this, evaluated);
-            if (evaluated is ListToken listToken && listToken.Value.Exists(x => x is ExpressionToken))
-                return new ExpressionToken(null, this, evaluated);
+            if (evaluated.IsExpression)
+                return new ExpressionToken(null, this, last);
 
             string text = evaluated.ToString();
             bool useCache = isFinal && !text.Contains("$") && !text.Contains("{") && text.Contains(".");
@@ -92,10 +90,7 @@ namespace TextParser.Operators
                 throw new Exception($"Operation {Text} needs a variable.");
 
             IToken evaluated = last.SubstituteParameters(parameters);
-            if (evaluated is ExpressionToken)
-                return new ExpressionToken(null, this, evaluated);
-            ListToken listToken = evaluated as ListToken;
-            if (listToken != null && listToken.Value.Exists(x => x is ExpressionToken))
+            if (evaluated.IsExpression)
                 return new ExpressionToken(null, this, evaluated);
 
             string text = evaluated.ToString();

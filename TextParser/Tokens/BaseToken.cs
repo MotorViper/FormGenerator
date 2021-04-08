@@ -1,4 +1,5 @@
 ﻿using System;
+using TextParser.Functions;
 using TextParser.Tokens.Interfaces;
 
 namespace TextParser.Tokens
@@ -38,6 +39,10 @@ namespace TextParser.Tokens
         /// Checks if the token is an expression.
         /// </summary>
         public virtual bool IsExpression => false;
+
+        public virtual void ModifyParameters(UserFunction function)
+        {
+        }
 
         public IToken Simplify()
         {

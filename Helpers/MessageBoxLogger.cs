@@ -22,7 +22,7 @@ namespace Helpers
         /// </summary>
         /// <param name="message">The message to log.</param>
         /// <param name="overview">Shortened version of the message.</param>
-        public void LogMessage(string message, string overview)
+        public void LogMessage(string message, string overview, int offset = 0)
         {
             MessageBox.Show(message, overview, MessageBoxButton.OK, MessageBoxImage.Information);
         }

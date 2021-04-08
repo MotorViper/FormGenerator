@@ -98,7 +98,6 @@
     <Compile Include="Tokens\NewLineToken.cs" />
     <Compile Include="Tokens\RegExToken.cs" />
     <Compile Include="Tokens\RootToken.cs" />
-    <Compile Include="Tokens\TreeToken.cs" />
     <Compile Include="Operators\DivideOperator.cs" />
     <Compile Include="Tokens\DoubleToken.cs" />
     <Compile Include="Tokens\ExpressionToken.cs" />

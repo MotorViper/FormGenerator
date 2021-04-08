@@ -75,10 +75,17 @@ Character:
 	NumInstances: COUNT:{Level.Class=$1}
 	LevelsForClass: OVER:(RANGE:(1|$2)|n|FeatsAtLevel:($1|$n))
 	ClassFeats: OVER:(KEYS:Classes|cl|LevelsForClass:($cl|NumInstances:($cl)))
-	LevelFeats: OVER:(F:({Level.Feats})|cl|$cl ' (' {Feats.{cl}.Description} ')')
-	Feats: JOIN:((F:($LevelFeats|$ClassFeats) - ("Bonus Feat"|""))|NL)
+	AllFeats: F:(F:({Level.Feats})|F:$ClassFeats)
+	LevelFeats: OVER:($AllFeats|l|($l ' (' {Feats.{l}.Description} ')'))
+	Feats: JOIN:((F:($LevelFeats) - ("Bonus Feat"|""))|NL)
 	WeaponInfo: SPLIT:({Weapons.{1}.Attributes}|' '|7)
 	DamageType: WeaponInfo:($1)#6
 	Critical: WeaponInfo:($1)#3
 	Increment: WeaponInfo:($1)#4
 	WeaponDamage: WeaponInfo:($1)#2
+	DamageBonusWithStr: INT:$StrModifier + INT:DEF:({Weapons.{$1}.DamageBonus}|0)
+	UseDexBonusForMelee: OR:OVER:(F:({Level.Feats})|cl|{Feats.{cl}.UseDexBonusForMelee})
+	RangedDamage: (COMP:({Weapons.{$1}.DamageBonus}|0|' '| '+' ({Weapons.{$1}.DamageBonus})))
+	MeleeDamage: '+' (DamageBonusWithStr:$1)
+	TotalWeaponDamage: (WeaponDamage:$$1) (IF:({Weapons.{$1}.IsMelee}|MeleeDamage:$1|RangedDamage:$1))
+	TotalBAB: IF:(OR:({Weapons.{$1}.IsMelee}|$UseDexBonusForMelee)|$Melee|$Missile) + {Weapons.{$1}.AttackBonus} + DEF:({{1}.MiscAttackBonus}, 0)

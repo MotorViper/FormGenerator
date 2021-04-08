@@ -42,8 +42,7 @@ namespace TextParser.Operators
                 return list;
             }
 
-            IntToken intToken = evaluated as IntToken;
-            if (intToken == null)
+            if (!(evaluated is IntToken intToken))
             {
                 if (isFinal)
                     throw new Exception($"Operation {Text} must have integer second element.");

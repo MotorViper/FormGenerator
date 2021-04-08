@@ -77,25 +77,25 @@ Rogue: $Class
 	SkillPoints: 8
 	BABonus: Average
 	LevelInformation:
-		1:	'+0 		+0 	+2 	+0 	Sneak Attack +1d6, Trapfinding
+		1:	'+0 		+0 	+2 	+0 	Sneak Attack, Trapfinding
 		2:	'+1 		+0 	+3 	+0 	Evasion
-		3:	'+2 		+1 	+3 	+1 	Sneak Attack +2d6, Trap Sense +1
+		3:	'+2 		+1 	+3 	+1 	Sneak Attack, Trap Sense
 		4:	'+3 		+1 	+4 	+1 	Uncanny Dodge
-		5:	'+3 		+1 	+4 	+1 	Sneak Attack +3d6
-		6:	'+4 		+2 	+5 	+2 	Trap Sense +2
-		7:	'+5 		+2 	+5 	+2 	Sneak Attack +4d6
+		5:	'+3 		+1 	+4 	+1 	Sneak Attack
+		6:	'+4 		+2 	+5 	+2 	Trap Sense
+		7:	'+5 		+2 	+5 	+2 	Sneak Attack
 		8:	'+6/+1 		+2 	+6 	+2 	Improved Uncanny Dodge
-		9:	'+6/+1 		+3 	+6 	+3 	Sneak Attack +5d6, Trap Sense +3
+		9:	'+6/+1 		+3 	+6 	+3 	Sneak Attack, Trap Sense
 		10:	'+7/+2 		+3 	+7 	+3 	Special Ability
-		11:	'+8/+3 		+3 	+7 	+3 	Sneak Attack +6d6
-		12:	'+9/+4 		+4 	+8 	+4 	Trap Sense +4
-		13:	'+9/+4 		+4 	+8 	+4 	Sneak Attack +7d6, Special Ability
+		11:	'+8/+3 		+3 	+7 	+3 	Sneak Attack
+		12:	'+9/+4 		+4 	+8 	+4 	Trap Sense
+		13:	'+9/+4 		+4 	+8 	+4 	Sneak Attack, Special Ability
 		14:	'+10/+5 	+4 	+9 	+4 	
-		15:	'+11/+6/+1 	+5 	+9 	+5 	Sneak Attack +8d6, Trap Sense +5
+		15:	'+11/+6/+1 	+5 	+9 	+5 	Sneak Attack, Trap Sense
 		16:	'+12/+7/+2 	+5 	+10 +5 	Special Ability
-		17:	'+12/+7/+2 	+5 	+10 +5 	Sneak Attack +9d6
-		18:	'+13/+8/+3 	+6 	+11 +6 	Trap Sense +6
-		19:	'+14/+9/+4 	+6 	+11 +6 	Sneak Attack +10d6, Special Ability
+		17:	'+12/+7/+2 	+5 	+10 +5 	Sneak Attack
+		18:	'+13/+8/+3 	+6 	+11 +6 	Trap Sense
+		19:	'+14/+9/+4 	+6 	+11 +6 	Sneak Attack, Special Ability
 		20:	'+15/+10/+5 +6 	+12 +6 	
 
 Warrior: $Class

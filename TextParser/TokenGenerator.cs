@@ -18,12 +18,12 @@ namespace TextParser
             {
                 ["([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])"] = (tokens, x, y) => new BoolToken(bool.Parse(tokens[0])),
                 ["(NEWLINE|NL)"] = (tokens, x, y) => new NewLineToken(),
-                ["(.*)([\\|,])([^\\|,]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
-                ["(.*)([\\+-])([^\\+-]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
-                ["(.*)([\\*/×÷])([^\\*/×÷]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
-                ["(.*)(#)([^#]*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
-                ["([^:]*)(::)(.*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
-                ["([^:]*)(:)(.*)"] = (tokens, x, y) => PerformOperation(tokens, x, y),
+                ["(.*)([\\|,])([^\\|,]*)"] = (tokens, x, y) => CreateOperator(tokens, x, y),
+                ["(.*)([\\+-])([^\\+-]*)"] = (tokens, x, y) => CreateOperator(tokens, x, y),
+                ["(.*)([\\*/×÷])([^\\*/×÷]*)"] = (tokens, x, y) => CreateOperator(tokens, x, y),
+                ["(.*)(#)([^#]*)"] = (tokens, x, y) => CreateOperator(tokens, x, y),
+                ["([^:]*)(::)(.*)"] = (tokens, x, y) => CreateOperator(tokens, x, y),
+                ["([^:]*)(:)(.*)"] = (tokens, x, y) => CreateOperator(tokens, x, y),
                 ["(.*)\\$(([A-Za-z█][A-Za-z0-9█]*|[1-9][0-9]*)(\\.[A-Za-z█][A-Za-z0-9█]*)*)?([^$]*)"] = (tokens, x, y) =>
                     PerformSubstitutionOperation(tokens, x, y),
                 ["([1-9][0-9]*\\.[0-9]+)"] = (tokens, x, y) => new DoubleToken(double.Parse(tokens[0])),
@@ -81,7 +81,7 @@ namespace TextParser
             return result;
         }
 
-        private static IToken PerformOperation(IReadOnlyList<string> tokens, int startPosition, Action<IToken, int, string> callback)
+        private static IToken CreateOperator(IReadOnlyList<string> tokens, int startPosition, Action<IToken, int, string> callback)
         {
             string token = tokens[0].TrimStart();
             startPosition += tokens[0].Length - token.Length;
@@ -186,8 +186,7 @@ namespace TextParser
             }
             else
             {
-                ExpressionToken expression = parsed as ExpressionToken;
-                if (expression != null)
+                if (parsed is ExpressionToken expression)
                     result = new ExpressionToken(SubstituteValues(expression.First, subResults), expression.Operator,
                         SubstituteValues(expression.Second, subResults));
             }

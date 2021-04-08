@@ -17,7 +17,8 @@
         /// </summary>
         /// <param name="message">The message to log.</param>
         /// <param name="overview">Shortened version of the message.</param>
-        void LogMessage(string message, string overview);
+        /// <param name="offset">Suggested offset for message.</param>
+        void LogMessage(string message, string overview, int offset = 0);
 
         /// <summary>
         /// Reset the logger if relevant.

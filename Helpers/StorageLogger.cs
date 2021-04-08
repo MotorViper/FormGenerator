@@ -1,6 +1,6 @@
 ﻿namespace Helpers
 {
-    public class StorageLogger: ILogging
+    public class StorageLogger : ILogging
     {
         public string Text { get; set; }
 
@@ -19,7 +19,8 @@
         /// </summary>
         /// <param name="message">The message to log.</param>
         /// <param name="overview">Shortened version of the message.</param>
-        public void LogMessage(string message, string overview)
+        /// <param name="offset">Suggested offset for message.</param>
+        public void LogMessage(string message, string overview, int offset = 0)
         {
             Text += $"{overview}[I]: {message}\n";
         }

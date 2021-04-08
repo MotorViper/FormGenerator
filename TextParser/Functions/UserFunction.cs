@@ -9,8 +9,15 @@ namespace TextParser.Functions
     /// </summary>
     public class UserFunction : ListFunction
     {
+        public string FunctionName { get; set; }
+
         public UserFunction() : base("FUNC")
         {
+        }
+
+        public String Key(int value)
+        {
+            return $"{FunctionName}_{value}";
         }
 
         /// <summary>
@@ -39,7 +46,7 @@ namespace TextParser.Functions
                 for (int i = 1; i < listToken.Count; ++i)
                 {
                     IToken parameter = listToken[i];
-                    tree.Children.Add(new TokenTree(i.ToString(), parameter));
+                    tree.Children.Add(new TokenTree(Key(i), parameter));
                 }
                 method = method.SubstituteParameters(tree);
             }

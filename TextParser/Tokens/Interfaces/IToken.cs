@@ -1,3 +1,5 @@
+using TextParser.Functions;
+
 namespace TextParser.Tokens.Interfaces
 {
     /// <summary>
@@ -53,6 +55,8 @@ namespace TextParser.Tokens.Interfaces
         IToken Flatten();
 
         IToken SubstituteParameters(TokenTree parameters);
+
+        void ModifyParameters(UserFunction function);
 
         /// <summary>
         /// Whether the token contains the input text.

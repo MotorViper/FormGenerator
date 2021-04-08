@@ -8,7 +8,6 @@ Jim Oakenbough:
 	Armour: 'Studded Leather'
 	Weapon1: Mwk:: Longsword
 		MiscAttackBonus: 1 /* From Weapon Focus */
-		Masterwork: true
 	Weapon2: Shortbow
 	Level: 1
 		Class: Warrior
@@ -57,7 +56,7 @@ Tom Cucksmere:
 	Player: GM
 	Armour: 'Studded Leather'
 	Weapon1: Mwk Longsword
-	Weapon1MiscAttackBonus: 1 /* From Weapon Focus */
+		MiscAttackBonus: 1 /* From Weapon Focus */
 	Level: 1
 		Class: Warrior
 		Feats: Power Attack, 'Weapon Focus (longsword)'
@@ -96,7 +95,7 @@ Jacko Fenn:
 	Player: GM
 	Armour: 'Studded Leather'
 	Weapon1: Shortsword
-	Weapon2: Mwk Heavy Crossbow
+	Weapon2: Mwk:: Heavy Crossbow
 	Level: 1
 		Class: Warrior
 		Feats: Point Blank Shot, Rapid Reload
@@ -135,7 +134,6 @@ Hal Bertram:
 	Player: GM
 	Armour: Leather
 	Weapon1: Rapier
-	Weapon1MiscAttackBonus: 2 /* From Weapon Finesse */
 	Weapon2: Shortbow
 	Level: 1
 		Class: Rogue

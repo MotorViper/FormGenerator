@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
@@ -87,6 +86,17 @@ namespace TextParser.Functions
             {
                 IToken token = listToken[i];
                 ListToken list = token as ListToken ?? new ListToken(token);
+                if (list.IsExpression)
+                {
+                    IToken parsed = list.Evaluate(substitutions, isFinal);
+                    if (!parsed.IsExpression)
+                    {
+                        if (parsed is ListToken parsedList && parsedList.Count == 1)
+                            parsed = parsedList.Value[0];
+                        if (!(parsed is NullToken))
+                            list = parsed is ListToken token1 ? token1 : new ListToken(parsed);
+                    }
+                }
                 int index = 0;
                 foreach (IToken item in list)
                 {

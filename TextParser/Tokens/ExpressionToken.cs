@@ -1,5 +1,6 @@
 ﻿using Helpers;
 using System;
+using TextParser.Functions;
 using TextParser.Operators;
 using TextParser.Tokens.Interfaces;
 
@@ -23,6 +24,33 @@ namespace TextParser.Tokens
             First = first;
             Operator = op;
             Second = second;
+        }
+
+        public override void ModifyParameters(UserFunction function)
+        {
+            if (Operator is SubstitutionOperator)
+            {
+                if (Second is StringToken token)
+                {
+                    if (int.TryParse(token.Value, out int value))
+                    {
+                        Second = new StringToken(function.Key(value));
+                    }
+                }
+                else if (Second is IntToken intToken)
+                {
+                    Second = new StringToken(function.Key(intToken.Value));
+                }
+                else
+                {
+                    Second.ModifyParameters(function);
+                }
+            }
+            else
+            {
+                First?.ModifyParameters(function);
+                Second?.ModifyParameters(function);
+            }
         }
 
         public IToken First { get; }
@@ -113,9 +141,11 @@ namespace TextParser.Tokens
         /// <returns></returns>
         protected override IToken Process(TokenTreeList parameters, bool isFinal)
         {
+            if (isFinal)
+                Logger?.LogMessage($"{this}", "  Evaluate", 1);
             IToken result = Operator.Evaluate(First, Second, parameters, isFinal);
-            if (ToString() != result.ToString())
-                Logger?.LogMessage($"{this} -> {result}", "Evaluate");
+            if (isFinal)
+                Logger?.LogMessage($"{result}", "  Evaluate", -1);
             return result;
         }
 
@@ -135,17 +165,10 @@ namespace TextParser.Tokens
 
         public override IToken SubstituteParameters(TokenTree parameters)
         {
+            Logger?.LogMessage(ToString(), "Substitute", 1);
             IToken result = Operator.SubstituteParameters(First, Second, parameters);
-            if (Logger != null)
-            {
-                string initial = ToString();
-                string final = result.ToString();
-                if (initial != final)
-                    Logger.LogMessage($"{initial} -> {final}", "Substitute");
-            }
+            Logger?.LogMessage(result.ToString(), "Substitute", -1);
             return result;
         }
-
-        //public override IToken ValueToken => this;
     }
 }

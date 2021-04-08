@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
@@ -23,6 +19,12 @@ namespace TextParser.Functions
         /// <returns></returns>
         public override IToken Perform(IToken parameters, TokenTreeList substitutions, bool isFinal)
         {
+            if (parameters is ExpressionToken && !isFinal)
+                return UnParsed(parameters);
+
+            if (!(parameters is ListToken))
+                parameters = parameters.Evaluate(substitutions, isFinal);
+
             if (!(parameters is ListToken listToken))
                 throw new Exception($"Token must be list for '{Name}'");
 

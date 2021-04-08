@@ -2,12 +2,13 @@
 	Simplify output to remove redundant brackets and use {} instead of $ where clearer.
 	Provide code to convert token data to classes?
 	Work out how to improve templates for things like masterwork.
-	AbilityIncrease
+	Add way to remove duplicates from lists.
 
 Characters:
-	Add in weapon focus and weapon finesse modifiers automatically (see MiscInitiative).
+	Add in weapon focus modifiers automatically (see MiscInitiative).
 	Add ability modifiers, e.g. at every 4th level.
 	Skill synergy.
+	ClassFeats only showing highest level.
 
 Gui:
 	Improve syntax colouring.
@@ -16,6 +17,7 @@ Gui:
 	Add ability to save GUI updates.
 	Replace Templates.vtt with macros (TokenTreeElement), may not be possible with WPF ControlTemplates, would need designing.
 	Need to stop using reload when doing a test.
+	Add character validation.
 
 Generator:
 	Can I remove the null token?

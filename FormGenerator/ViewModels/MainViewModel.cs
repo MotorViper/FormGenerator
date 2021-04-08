@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FormGenerator.Tools;
+using Helpers;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
-using FormGenerator.Tools;
-using Helpers;
 using TextParser;
 using TextParser.Tokens.Interfaces;
 
@@ -109,10 +109,10 @@ namespace FormGenerator.ViewModels
         /// </summary>
         /// <param name="message">The message to log.</param>
         /// <param name="overview">Shortened version of the message.</param>
-        public void LogMessage(string message, string overview)
+        public void LogMessage(string message, string overview, int offset = 0)
         {
             if (DoLogging)
-                OutputLogMessage(message, overview);
+                OutputLogMessage(message, overview, offset);
         }
 
         /// <summary>
@@ -123,14 +123,20 @@ namespace FormGenerator.ViewModels
             LogData = "";
         }
 
+        private string _offsetSpaces = "";
+
         /// <summary>
         /// Outputs the log message.
         /// </summary>
         /// <param name="message">The message to log.</param>
         /// <param name="overview">Shortened version of the message.</param>
-        private void OutputLogMessage(string message, string overview)
+        private void OutputLogMessage(string message, string overview, int offset)
         {
-            LogData += $"{DateTime.Now.TimeOfDay}: {overview}[I]: {message}\n";
+            if (offset > 0)
+                _offsetSpaces += "  ";
+            LogData += $"{DateTime.Now.TimeOfDay}: {overview}[I]: {_offsetSpaces}{message}\n";
+            if (offset < 0 && _offsetSpaces.Length > 1)
+                _offsetSpaces = _offsetSpaces.Substring(0, _offsetSpaces.Length - 2);
         }
 
         /// <summary>
@@ -149,9 +155,9 @@ namespace FormGenerator.ViewModels
                         bool logIt = bool.Parse(tokenTree["Debug"] ?? "true");
                         SetLogging(logIt);
                         IToken simplified = tokenTree.Value.Simplify();
-                        OutputLogMessage($"{tokenTree.Key} = {simplified}", "Simplify Result");
-                        IToken result = simplified.Evaluate(new TokenTreeList {data, DataConverter.Parameters}, true);
-                        OutputLogMessage($"{tokenTree.Key} = {result}", "Test Result");
+                        OutputLogMessage($"{tokenTree.Key} = {simplified}", "Simplify Result", 0);
+                        IToken result = simplified.Evaluate(new TokenTreeList { data, DataConverter.Parameters }, true);
+                        OutputLogMessage($"{tokenTree.Key} = {result}", "Test Result", 0);
                         ResetLoggingToDefault();
                     }
                 }

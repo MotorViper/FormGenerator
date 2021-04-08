@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Helpers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Helpers;
 
 namespace TextParser
 {
@@ -81,15 +81,15 @@ namespace TextParser
                     }
                     else if (lowerStart.StartsWith("#if "))
                     {
-                        string[] bits = start.TrimEnd().Split(new[] {' '}, 3);
+                        string[] bits = start.TrimEnd().Split(new[] { ' ' }, 3);
                         inIf = bits.Length < 3;
                         line = inIf || bits[1] != Options.Selector ? null : bits[2];
                         expected = bits.Length == 1 || (bits.Length == 2 && bits[1] != Options.Selector) ? "#fi" : null;
                     }
-                    else if (lowerStart.Contains(Options.StartComment) && line.TrimEnd().EndsWith(Options.EndComment))
+                    else if (line.Contains(Options.StartComment) && line.TrimEnd().EndsWith(Options.EndComment))
                     {
-                        int index = lowerStart.IndexOf(Options.StartComment);
-                        line = line.Substring(0, index);
+                        int index = line.IndexOf(Options.StartComment);
+                        line = line.Substring(0, index).TrimEnd();
                     }
                     if (line != null)
                     {
@@ -106,7 +106,7 @@ namespace TextParser
                             else
                             {
                                 for (int i = 2; i < parts.Length; ++i)
-                                    yield return new Line(parts[i] + ":") {Offset = i - 2};
+                                    yield return new Line(parts[i] + ":") { Offset = i - 2 };
                             }
                             Reader reader = new Reader(new StreamReader(FileUtils.GetFullFileName(parts[1], Options.DefaultDirectory)))
                             {

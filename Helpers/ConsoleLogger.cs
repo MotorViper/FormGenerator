@@ -9,7 +9,7 @@ namespace Helpers
             Console.WriteLine("E: " + message);
         }
 
-        public void LogMessage(string message, string overview)
+        public void LogMessage(string message, string overview, int offset = 0)
         {
             Console.WriteLine("M: " + message);
         }

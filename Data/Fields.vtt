@@ -414,13 +414,13 @@ Field: Grid
 				Header: 
 					Content: BAB
 					Style: WeaponHeader
-				Content: IF:({Weapons.{$1}.IsMelee}|$Melee|$Missile) + {Weapons.{$1}.AttackBonus} + DEF:({{1}.MiscAttackBonus}, 0)
+				Content: TotalBAB: $1
 			Field: Label
 				Style: BorderedLabel
 				Header: 
 					Content: Damage
 					Style: WeaponHeader
-				Content: IF:({Weapons.{$1}.IsMelee}|(WeaponDamage:$$1) '+' (INT:$StrModifier + INT:DEF:({Weapons.{$1}.DamageBonus}|0))|(WeaponDamage:$$1) (COMP:({Weapons.{$1}.AttackBonus}|0|' '| '+' {Weapons.{$1}.AttackBonus})))
+				Content: TotalWeaponDamage: $1
 			Field: Label
 				Style: BorderedLabel
 				Header: 

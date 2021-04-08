@@ -24,6 +24,9 @@ Cleave: $Feat
 	FighterBonusFeat: true
 	Description: 'If you deal a creature enough damage to make it drop (typically by dropping it to below 0 hit points or killing it), you get an immediate, extra melee attack against another creature within reach.'
 
+Evasion: $Feat
+	Description: 'Make a successful Reflex saving throw against an attack that normally deals half damage on a successful save and take no damage.
+
 Improved Initiative: $Feat
 	InitiativeBonus: 4
 	FighterBonusFeat: true
@@ -43,6 +46,15 @@ Rapid Reload: $Feat
 	FighterBonusFeat: true
 	Description: 'The time required for you to reload your chosen type of crossbow is reduced to a free action (for a hand or light crossbow) or a move action (for a heavy crossbow).'
 
+Sneak Attack:
+	Description: Catch an opponent when he is unable to defend himself effectively from attack, can strike a vital spot for (COUNT:{Level.Class=Rogue} / 2)D6 extra damage.
+
+Trapfinding:
+	Description: 'Rogues (and only rogues) can use the Search skill to locate traps when the task has a Difficulty Class higher than 20.
+
+Trap Sense:
+	Description: Get a bonus '+'(COUNT:{Level.Class=Rogue} / 3) on Reflex saves made to avoid traps and a dodge bonus to AC against attacks made by traps.
+
 'Weapon Focus (longsword)': $Feat
 	Prerequisites:
 		Feat: Martial Weapon Proficiency
@@ -56,3 +68,4 @@ Weapon Finesse: $Feat
 		Feat: Martial Weapon Proficiency
 		FighterBonusFeat: true
 	Description: 'You may use your Dexterity modifier instead of your Strength modifier on attack rolls for suitable weapons.
+	UseDexBonusForMelee: true

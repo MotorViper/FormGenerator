@@ -29,11 +29,10 @@ namespace TextParser.Functions
         {
             string toSplit;
             int maxCount = -1;
-            string[] splitOn = {" ", "\t"};
+            string[] splitOn = { " ", "\t" };
             StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
-            ListToken listToken = parameters as ListToken;
 
-            if (listToken == null)
+            if (!(parameters is ListToken listToken))
             {
                 if (parameters is ExpressionToken)
                     return UnParsed(parameters);
@@ -54,13 +53,16 @@ namespace TextParser.Functions
                     string text = listToken[1].ToString();
                     if (text != " ")
                     {
-                        splitOn = new[] {text};
+                        splitOn = new[] { text };
                         options = StringSplitOptions.None;
                     }
                 }
                 if (count > 2)
                     maxCount = listToken[2].ToInt();
             }
+
+            if (toSplit.Length == 0)
+                return new NullToken();
 
             ListToken result = new ListToken();
             string[] bits = maxCount <= 0 ? toSplit.Split(splitOn, options) : toSplit.Split(splitOn, maxCount, options);

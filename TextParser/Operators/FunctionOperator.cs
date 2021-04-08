@@ -60,6 +60,21 @@ namespace TextParser.Operators
         }
 
         /// <summary>
+        /// This method localises function parameters so they don't step on each others toes.
+        /// </summary>
+        /// <param name="parameters">Contains function definition.</param>
+        /// <param name="userFunction">The user function.</param>
+        private void ModifyParameters(TokenTreeList parameters, UserFunction userFunction)
+        {
+            if (parameters != null)
+            {
+                TokenTreeList functionDefinition = parameters?.FindAllMatches(userFunction.FunctionName);
+                if (functionDefinition.Count > 0)
+                    functionDefinition[0].Value.ModifyParameters(userFunction);
+            }
+        }
+
+        /// <summary>
         /// Evaluates an operator expression.
         /// </summary>
         /// <param name="first">The first value.</param>
@@ -86,7 +101,15 @@ namespace TextParser.Operators
                     _flatten = Function != null;
                 }
                 if (Function == null)
-                    return EvaluateUserFunction(last, parameters, isFinal, function);
+                {
+                    UserFunction userFunction = new UserFunction() { FunctionName = function };
+                    ModifyParameters(parameters, userFunction);
+                    return EvaluateUserFunction(last, parameters, isFinal, userFunction);
+                }
+            }
+            else if (Function is UserFunction userFunction)
+            {
+                ModifyParameters(parameters, userFunction);
             }
 
             if (Function.Name == "DEBUG" && isFinal)
@@ -129,11 +152,10 @@ namespace TextParser.Operators
             return result;
         }
 
-        private static IToken EvaluateUserFunction(IToken last, TokenTreeList parameters, bool isFinal, string function)
+        private static IToken EvaluateUserFunction(IToken last, TokenTreeList parameters, bool isFinal, UserFunction function)
         {
-            ListToken newList = new ListToken(new ExpressionToken(null, new SubstitutionOperator(), new StringToken(function)));
-            ListToken oldList = last.Evaluate(parameters, isFinal) as ListToken;
-            if (oldList != null)
+            ListToken newList = new ListToken(new ExpressionToken(null, new SubstitutionOperator(), new StringToken(function.FunctionName)));
+            if (last.Evaluate(parameters, isFinal) is ListToken oldList)
             {
                 foreach (IToken token in oldList)
                     newList.Add(token);
@@ -142,7 +164,7 @@ namespace TextParser.Operators
             {
                 newList.Add(last);
             }
-            ExpressionToken expression = new ExpressionToken(null, new FunctionOperator(new UserFunction()), newList);
+            ExpressionToken expression = new ExpressionToken(null, new FunctionOperator(function), newList);
             return expression.Evaluate(parameters, isFinal);
         }
 
