@@ -17,7 +17,7 @@ namespace TextParser
 
         private TokenTreeList _parameters;
 
-        public bool Cacheable { get; set; } = true;
+        public bool UseStaticCache { get; set; } = true;
 
         public TokenTree(TokenTreeList children = null) : this("", "", children)
         {

@@ -11,6 +11,7 @@ Character:
 	Weapon2: None
 		MiscAttackBonus: 0
 	Armour: None
+	Shield: None
 	Player: ?
 	Race: Human
 	Alignment: N
@@ -33,9 +34,11 @@ Character:
 	ChaModifier: AttributeModifier: Charisma
 	ClassList: JOIN:(OVER:(AGG:{Level.Class}|cl|{cl}#0 + "(" + {cl}#1 + ")")|'/')
 	HP: (SUM:$Level.HP) + (COUNT:{Level} * $ConModifier)
-	ArmourBonus: {Armour.{Armour}.ACBonus}
-	ShieldBonus: 0
-	FlatFooted: 10 + $ArmourBonus + $SizeACModifier
+	ArmourInfo: SPLIT:({Armour.{1}.Attributes}|' '|8)
+	ShieldInfo: SPLIT:({Shield.{1}.Attributes}|' '|8)
+	ArmourBonus: INT:(ArmourInfo:($Armour)#1)
+	ShieldBonus: INT:ShieldInfo:($Shield)#1
+	FlatFooted: 10 + $ArmourBonus + $SizeACModifier + $ShieldBonus
 	AC: $FlatFooted + $DexModifier
 	Touch: 10 + $DexModifier + $SizeACModifier
 	MiscInitiative: SUM:OVER:({Level.Feats}|f|{Feats.{f}.InitiativeBonus})
@@ -75,7 +78,7 @@ Character:
 	NumInstances: COUNT:{Level.Class=$1}
 	LevelsForClass: OVER:(RANGE:(1|$2)|n|FeatsAtLevel:($1|$n))
 	ClassFeats: OVER:(KEYS:Classes|cl|LevelsForClass:($cl|NumInstances:($cl)))
-	AllFeats: F:(F:({Level.Feats})|F:$ClassFeats)
+	AllFeats: U:F:(F:({Level.Feats})|F:$ClassFeats)
 	LevelFeats: OVER:($AllFeats|l|($l ' (' {Feats.{l}.Description} ')'))
 	Feats: JOIN:((F:($LevelFeats) - ("Bonus Feat"|""))|NL)
 	WeaponInfo: SPLIT:({Weapons.{1}.Attributes}|' '|7)
@@ -89,3 +92,12 @@ Character:
 	MeleeDamage: '+' (DamageBonusWithStr:$1)
 	TotalWeaponDamage: (WeaponDamage:$$1) (IF:({Weapons.{$1}.IsMelee}|MeleeDamage:$1|RangedDamage:$1))
 	TotalBAB: IF:(OR:({Weapons.{$1}.IsMelee}|$UseDexBonusForMelee)|$Melee|$Missile) + {Weapons.{$1}.AttackBonus} + DEF:({{1}.MiscAttackBonus}, 0)
+	ArmourType: {Armour.{Armour}.Type}
+	ArmourMaxDex: ArmourInfo:($Armour)#2
+	ArmourCheck: ArmourInfo:($Armour)#3
+	ArmourSpellFailure: ArmourInfo:($Armour)#4
+	ArmourSpeed: COMP:(ArmourInfo:($Armour)#5|'30ft.'|False|True)
+	ArmourWeight: ArmourInfo:($Armour)#7
+	ShieldCheck: ShieldInfo:($Shield)#3
+	ShieldSpellFailure: ShieldInfo:($Shield)#4
+	ShieldWeight: ShieldInfo:($Shield)#7

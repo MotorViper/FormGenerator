@@ -65,6 +65,7 @@
     <Compile Include="Functions\ContainsFunction.cs" />
     <Compile Include="Functions\SplitFunction.cs" />
     <Compile Include="Functions\DefaultFunction.cs" />
+    <Compile Include="Functions\UniqueFunction.cs" />
     <Compile Include="Functions\UserFunction.cs" />
     <Compile Include="Functions\IFunction.cs" />
     <Compile Include="Functions\OverFunction.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Operators\IOperator.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Splitter.cs" />
+    <Compile Include="TokenCache.cs" />
     <Compile Include="Tokens\BaseToken.cs" />
     <Compile Include="Operators\FunctionOperator.cs" />
     <Compile Include="Operators\ListOperator.cs" />

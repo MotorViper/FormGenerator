@@ -87,7 +87,8 @@ namespace FormGenerator.ViewModels
                         Values.Children.PropertyChanged -= OnChildrenChanged;
                     _selected.SetValue(value, this);
                     Values = _data.MainData.FindFirst(Selected);
-                    Values.Cacheable = false;
+                    Values.UseStaticCache = false;
+                    TokenCache.UseCache(Selected);
                     TokenTree parameters = new TokenTree(_data.StaticData.GetChildren("Parameters"));
                     TokenTree defaults = parameters.FindFirst("Defaults." + _inputData.DataName);
                     Values.AddMissing(defaults);

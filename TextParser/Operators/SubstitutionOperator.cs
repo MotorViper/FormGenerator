@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
@@ -7,8 +6,6 @@ namespace TextParser.Operators
 {
     public class SubstitutionOperator : BaseOperator
     {
-        private static readonly Dictionary<string, IToken> s_cache = new Dictionary<string, IToken>();
-
         public SubstitutionOperator() : base("$")
         {
         }
@@ -45,12 +42,10 @@ namespace TextParser.Operators
             string text = evaluated.ToString();
             bool useCache = isFinal && !text.Contains("$") && !text.Contains("{") && text.Contains(".");
 
-            if (useCache && s_cache.TryGetValue(text, out IToken value))
+            if (useCache && TokenCache.FindToken(text, out IToken value))
                 return value;
 
             TokenTreeList found = parameters.FindAllMatches(text);
-            if (useCache && !found.Cacheable)
-                useCache = false;
 
             ListToken result = new ListToken();
             foreach (TokenTree tokenTree in found)
@@ -74,7 +69,7 @@ namespace TextParser.Operators
                 : result.Value.Count == 1 ? result.Value[0] : result;
 
             if (useCache)
-                s_cache[text] = toReturn;
+                TokenCache.UpdateCache(found.UseStaticCache, text, toReturn);
 
             return toReturn;
         }

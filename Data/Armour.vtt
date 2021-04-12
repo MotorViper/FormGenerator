@@ -1,111 +1,73 @@
 Armour:
-	Cost: 0
-	ACBonus: 0
-	MaxDexBonus: 50
-	CheckPenalty: 0
-	SpellFailureChance: 0
-	Slows: false
-	Weight: 0
-None: $Armour
-Padded: $Armour
-	Cost: 5
-	ACBonus: 1
-	MaxDexBonus: 8
-	SpellFailureChance: 5
-	Weight: 10
-	Type: Light
-Leather: $Armour
-	Cost: 10
-	ACBonus: 2
-	MaxDexBonus: 6
-	SpellFailureChance: 10
-	Weight: 15
-	Type: Light
-Studded Leather: $Armour
-	Cost: 25
-	ACBonus: 3
-	MaxDexBonus: 5
-	CheckPenalty: -1
-	SpellFailureChance: 15
-	Weight: 20
-	Type: Light
-Chain Shirt: $Armour
-	Cost: 100
-	ACBonus: 4
-	MaxDexBonus: 4
-	CheckPenalty: -2
-	SpellFailureChance: 20
-	Weight: 25
-	Type: Light
-Hide: $Armour
-	Cost: 15
-	ACBonus: 3
-	MaxDexBonus: 4
-	CheckPenalty: -3
-	SpellFailureChance: 20
-	Slows: true
-	Weight: 25
-	Type: Medium
-Scale Mail: $Armour
-	Cost: 50
-	ACBonus: 4
-	MaxDexBonus: 3
-	CheckPenalty: -4
-	SpellFailureChance: 25
-	Slows: true
-	Weight: 30
-	Type: Medium
-Chainmail: $Armour
-	Cost: 150
-	ACBonus: 5
-	MaxDexBonus: 2
-	CheckPenalty: -5
-	SpellFailureChance: 30
-	Slows: true
-	Weight: 40
-	Type: Medium
-Breastplate: $Armour
-	Cost: 200
-	ACBonus: 5
-	MaxDexBonus: 3
-	CheckPenalty: -4
-	SpellFailureChance: 25
-	Slows: true
-	Weight: 30
-	Type: Medium
-Splint Mail: $Armour
-	Cost: 200
-	ACBonus: 6
-	MaxDexBonus: 0
-	CheckPenalty: -7
-	SpellFailureChance: 40
-	Slows: true
-	Weight: 45
-	Type: Heavy
-Banded Mail: $Armour
-	Cost: 250
-	ACBonus: 6
-	MaxDexBonus: 1
-	CheckPenalty: -6
-	SpellFailureChance: 35
-	Slows: true
-	Weight: 35
-	Type: Heavy
-Half-Plate: $Armour
-	Cost: 600
-	ACBonus: 7
-	MaxDexBonus: 0
-	CheckPenalty: -7
-	SpellFailureChance: 40
-	Slows: true
-	Weight: 50
-	Type: Heavy
-Full Plate: $Armour
-	Cost: 1500
-	ACBonus: 8
-	MaxDexBonus: 1
-	CheckPenalty: -6
-	SpellFailureChance: 35
-	Slows: true
-	Weight: 50
-	Type: Heavy
+	None: 
+		Type: None
+		Attributes: '0gp 	0 	- 	0 	0% 	30ft. 	20ft. 	0lb.
+/*
+Light armor
+*/
+	Padded: 
+		Type: Light
+		Attributes: '5gp 	1 	8 	0 	5% 	30ft. 	20ft. 	10lb.
+	Leather:
+		Type: Light
+		Attributes: '10gp 	2 	6 	0 	10% 	30ft. 	20ft. 	15lb.
+	Studded Leather:
+		Type: Light
+		Attributes: '25gp 	3 	5 	-1 	15% 	30ft. 	20ft. 	20lb.
+	Chain Shirt: 
+		Type: Light
+		Attributes: '100gp 	4 	4 	-2 	20% 	30ft. 	20ft. 	25lb.
+/*
+Medium armor
+*/
+	Hide: 
+		Type: Medium
+		Attributes: '15gp 	3 	4 	-3 	20% 	20ft. 	15ft. 	25lb.
+	Scale Mail: 
+		Type: Medium
+		Attributes: '50gp 	4 	3 	-4 	25% 	20ft. 	15ft. 	30lb.
+	Chainmail: 
+		Type: Medium
+		Attributes: '150gp 	5 	2 	-5 	30% 	20ft. 	15ft. 	40lb.
+	Breastplate: 
+		Type: Medium
+		Attributes: '200gp 	5 	3 	-4 	25% 	20ft. 	15ft. 	30lb.
+/*
+Heavy armor
+*/
+	Splint Mail: 
+		Type: Heavy
+		Attributes: '200gp 	6 	0 	-7 	40% 	20ft. 	15ft. 	45lb.
+	Banded Mail: 
+		Type: Heavy
+		Attributes: '250gp 	6 	1 	-6 	35% 	20ft. 	15ft. 	35lb.
+	Half-Plate: 
+		Type: Heavy
+		Attributes: '600gp 	7 	0 	-7 	40% 	20ft. 	15ft. 	50lb.
+	Full Plate: 
+		Type: Heavy
+		Attributes: '1,500gp 	8 	1 	-6 	35% 	20ft. 	15ft. 	50lb.
+
+Shield:
+	None: 
+		Attributes: '0gp 	0 	- 	0 	0% 	- 	- 	0lb.
+	Buckler:
+		Attributes: '15gp 	1 	— 	-1 	5% 	— 	— 	5lb.
+	Light wooden:
+		Attributes: '3gp 	1 	— 	-1 	5% 	— 	— 	5lb.
+	Light steel:
+		Attributes: '9gp 	1 	— 	-1 	5% 	— 	— 	6lb.
+	Heavy wooden:
+		Attributes: '7gp 	2 	— 	-2 	15% 	— 	— 	10lb.
+	Heavy steel:
+		Attributes: '20gp 	2 	— 	-2 	15% 	— 	— 	15lb.
+	Tower:
+		Attributes: '30gp 	43 	2 	-10 	50% 	— 	— 	45lb.
+
+Extras:
+	Armor spikes:
+		Attributes: '+50gp 	— 	— 	— 	— 	— 	— 	+10lb.
+	Gauntlet, locked:
+		Attributes: '8gp 	— 	— 	Special 	—4 	— 	— 	+5lb.
+	Shield spikes:
+		Attributes: '+10gp 	— 	— 	— 	— 	— 	— 	+5lb.

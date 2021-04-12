@@ -9,7 +9,7 @@
 #FI
 #include Defaults.vtt Parameters Defaults
 #include Weapons.vtt Parameters Weapons
-#include Armour.vtt Parameters Armour
+#include Armour.vtt Parameters
 #include Races.vtt Parameters Races
 #include Classes.vtt Parameters Classes
 #include Skills.vtt Parameters Skills

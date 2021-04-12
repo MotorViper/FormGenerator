@@ -36,7 +36,7 @@ BorderedLabel: Label
 	BorderThickness: 1
 	BorderBrush: Black
 	Margin: 1
-	Height: 26
+	Height: 27
 LabelUnder: Label
 	Margin: 0,-6,0,0
 	FontSize: 8
@@ -50,6 +50,9 @@ LabelUnderLeft: Label
 WeaponHeader: Label
 	BasedOn: CentreLabel
 	BorderThickness: 0
+	Background: Black
+	Foreground: White
+	Margin: 0,5,0,0
 SkillHeader: Label
 	FontSize: 10
 	Padding: 3,3

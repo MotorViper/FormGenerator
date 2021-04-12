@@ -37,6 +37,7 @@ namespace TextParser.Operators
             RegisterFunction<ReverseFunction>();
             RegisterFunction<SplitFunction>();
             RegisterFunction<SumFunction>();
+            RegisterFunction<UniqueFunction>();
         }
 
         /// <summary>

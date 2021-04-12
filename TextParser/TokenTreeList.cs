@@ -15,7 +15,7 @@ namespace TextParser
     /// </summary>
     public class TokenTreeList : List<TokenTree>, INotifyPropertyChanged
     {
-        public bool Cacheable { get; set; } = true;
+        public bool UseStaticCache { get; set; } = true;
 
         public TokenTreeList()
         {
@@ -92,9 +92,9 @@ namespace TextParser
             {
                 foreach (TokenTree child in tree.Children)
                 {
-                    if (!child.Cacheable)
+                    if (!child.UseStaticCache)
                     {
-                        matches.Cacheable = false;
+                        matches.UseStaticCache = false;
                         break;
                     }
                 }
@@ -111,8 +111,8 @@ namespace TextParser
                 foreach (TokenTree tree in tokens)
                 {
                     TokenTreeList found = tree.GetAll(key);
-                    if (found.Count > 0 && !tree.Cacheable)
-                        matches.Cacheable = false;
+                    if (found.Count > 0 && !tree.UseStaticCache)
+                        matches.UseStaticCache = false;
                     matches.AddRange(found);
                 }
                 if (matches.Count == 0 && tokens.Count == 1 && tokens[0].Value != null &&
@@ -123,9 +123,9 @@ namespace TextParser
             {
                 foreach (TokenTree tree in tokens)
                 {
-                    if (!tree.Cacheable)
+                    if (!tree.UseStaticCache)
                     {
-                        matches.Cacheable = false;
+                        matches.UseStaticCache = false;
                         break;
                     }
                 }

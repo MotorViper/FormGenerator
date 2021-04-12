@@ -5,7 +5,8 @@ Jim Oakenbough:
 	Wisdom: 8
 	Charisma: 14
 	Player: GM
-	Armour: 'Studded Leather'
+	Armour: Studded Leather
+	Shield: Light steel
 	Weapon1: Mwk:: Longsword
 		MiscAttackBonus: 1 /* From Weapon Focus */
 	Weapon2: Shortbow
@@ -55,7 +56,7 @@ Tom Cucksmere:
 	Charisma: 8
 	Player: GM
 	Armour: 'Studded Leather'
-	Weapon1: Mwk Longsword
+	Weapon1: Mwk:: Longsword
 		MiscAttackBonus: 1 /* From Weapon Focus */
 	Level: 1
 		Class: Warrior

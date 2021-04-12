@@ -407,7 +407,7 @@ Field: Grid
 					Content: Weapon
 					Style: WeaponHeader
 				Content: $$1
-				SelectionOptions: OVER:(KEYS:Weapons|i|IF:(DEF:({Weapons.{i}.Display}|true)|$i)) - ($Weapon1, $Weapon2) + ($Weapon1, $Weapon2) - 'Weapon'
+				SelectionOptions: U:(OVER:(KEYS:Weapons|i|IF:(DEF:({Weapons.{i}.Display}|true)|$i)) + ($Weapon1, $Weapon2) - 'Weapon')
 				Height: 25
 			Field: Label
 				Style: BorderedLabel
@@ -445,3 +445,77 @@ Field: Grid
 					Content: Type
 					Style: WeaponHeader
 				Content: DamageType:$$1
+
+		Field: Grid
+			Columns: '115|50|60|90|75|105|*'
+			Rows: '25|30'
+			Field: Label
+				Style: Inverted
+				Content: Armour
+			Field: Label
+				Style: Inverted
+				Content: Type
+			Field: Label
+				Style: Inverted
+				Content: Max Dex
+			Field: Label
+				Style: Inverted
+				Content: Check Penalty
+			Field: Label
+				Style: Inverted
+				Content: Spell Failure
+			Field: Label
+				Style: Inverted
+				Content: Speed Decreased
+			Field: Label
+				Style: Inverted
+				Content: Weight
+			Field: Label
+				Style: Stretch
+				Content: $Armour
+			Field: Label
+				Style: BorderedLabel
+				Content: $ArmourType
+			Field: Label
+				Style: BorderedLabel
+				Content: $ArmourMaxDex
+			Field: Label
+				Style: BorderedLabel
+				Content: $ArmourCheck
+			Field: Label
+				Style: BorderedLabel
+				Content: $ArmourSpellFailure
+			Field: Label
+				Style: BorderedLabel
+				Content: $ArmourSpeed
+			Field: Label
+				Style: BorderedLabel
+				Content: $ArmourWeight
+
+		Field: Grid
+			Columns: '115|90|75|*'
+			Rows: '25|30'
+			Field: Label
+				Style: Inverted
+				Content: Shield
+			Field: Label
+				Style: Inverted
+				Content: Check Penalty
+			Field: Label
+				Style: Inverted
+				Content: Spell Failure
+			Field: Label
+				Style: Inverted
+				Content: Weight
+			Field: Label
+				Style: Stretch
+				Content: $Shield
+			Field: Label
+				Style: BorderedLabel
+				Content: $ShieldCheck
+			Field: Label
+				Style: BorderedLabel
+				Content: $ShieldSpellFailure
+			Field: Label
+				Style: BorderedLabel
+				Content: $ShieldWeight
