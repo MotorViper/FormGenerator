@@ -1,9 +1,9 @@
 Jim Oakenbough:
-	Strength: 16 /* +1 At 4th level */
-	Dexterity: 12
-	Constitution: 13
-	Wisdom: 8
-	Charisma: 14
+	BaseStrength: 15
+	BaseDexterity: 12
+	BaseConstitution: 13
+	BaseWisdom: 8
+	BaseCharisma: 14
 	Player: GM
 	Armour: Studded Leather
 	Shield: Light steel
@@ -18,6 +18,7 @@ Jim Oakenbough:
 			Climb: 2
 			Handle Animal: 1
 			Intimidate: 2
+//			Knowledge (Dung.): 1
 			Jump: 1
 			Ride: 1
 			Swim: 1
@@ -49,11 +50,11 @@ Jim Oakenbough:
 		AbilityIncrease: Strength
 
 Tom Cucksmere:
-	Strength: 13
-	Dexterity: 12
-	Constitution: 15
-	Wisdom: 14
-	Charisma: 8
+	BaseStrength: 13
+	BaseDexterity: 12
+	BaseConstitution: 15
+	BaseWisdom: 14
+	BaseCharisma: 8
 	Player: GM
 	Armour: 'Studded Leather'
 	Weapon1: Mwk:: Longsword
@@ -88,11 +89,11 @@ Tom Cucksmere:
 			Swim: 1
 
 Jacko Fenn:
-	Strength: 12
-	Dexterity: 15
-	Constitution: 14
-	Wisdom: 8
-	Charisma: 13
+	BaseStrength: 12
+	BaseDexterity: 15
+	BaseConstitution: 14
+	BaseWisdom: 8
+	BaseCharisma: 13
 	Player: GM
 	Armour: 'Studded Leather'
 	Weapon1: Shortsword
@@ -127,11 +128,11 @@ Jacko Fenn:
 			Swim: 1
 			
 Hal Bertram:
-	Strength: 12
-	Dexterity: 15
-	Constitution: 13
-	Wisdom: 8
-	Charisma: 14
+	BaseStrength: 12
+	BaseDexterity: 15
+	BaseConstitution: 13
+	BaseWisdom: 8
+	BaseCharisma: 14
 	Player: GM
 	Armour: Leather
 	Weapon1: Rapier
@@ -166,10 +167,10 @@ Hal Bertram:
 			Swim: 1
 
 Mr Hero: 
-    Strength: 14
-    Dexterity: 12
-    Constitution: 12
-	Wisdom: 8
+    BaseStrength: 14
+    BaseDexterity: 12
+    BaseConstitution: 12
+	BaseWisdom: 8
 	Weapon1: Sword
 	Weapon2: Dagger
 	Player: Bert
@@ -184,9 +185,9 @@ Mr Hero:
 		HP: 7
 
 The Heroine: 
-    Strength: 8
-    Dexterity: 9
-    Constitution: 10
+    BaseStrength: 8
+    BaseDexterity: 9
+    BaseConstitution: 10
 	Weapon1: Dagger
 	Weapon2: Sword
 	Armour: Leather
@@ -200,9 +201,9 @@ The Heroine:
 	Race: Dwarf
 
 Not a Hero:
-    Strength: 17
-    Dexterity: 5
-    Constitution: 8
+    BaseStrength: 17
+    BaseDexterity: 5
+    BaseConstitution: 8
 	Weapon1: Sword
 	Armour: Chainmail
 	Player: John

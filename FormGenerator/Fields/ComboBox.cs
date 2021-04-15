@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using Generator;
+﻿using Generator;
+using System.Linq;
 using TextParser.Tokens;
 
 namespace FormGenerator.Fields
@@ -9,12 +9,17 @@ namespace FormGenerator.Fields
     /// </summary>
     public class ComboBox : Field
     {
+        private static int s_id = 0;
+
+        private readonly int _id;
+
         // ReSharper disable once MemberCanBeProtected.Global - used by IOC.
         /// <summary>
         /// Constructor.
         /// </summary>
         public ComboBox() : base("ComboBox")
         {
+            _id = ++s_id;
         }
 
         protected override void AddProperties()
@@ -30,7 +35,7 @@ namespace FormGenerator.Fields
                     selectionOption = child;
                 }
                 else
-                AddProperty(child.Name, child);
+                    AddProperty(child.Name, child);
             }
             if (selectionOptionCount == 1)
                 AddProperty("SelectionOptions", selectionOption);
@@ -59,7 +64,8 @@ namespace FormGenerator.Fields
                     AddTypedProperty("SelectedValue", new StringToken("{Binding " + value.StringValue + "}"));
                     break;
                 case "SelectionOptions":
-                    AddTypedProperty("ItemsSource", "{Binding Values, Converter={StaticResource ListConverter}, ConverterParameter=" + value.StringValue + "}");
+                    AddTypedProperty("ItemsSource", "{Binding Values, Converter={StaticResource ListConverter}, ConverterParameter=^" +
+                        _id + "^:" + value.StringValue + "}");
                     break;
                 default:
                     base.AddProperty(name, value);

@@ -48,6 +48,7 @@
     <Compile Include="Functions\CheckedCountFunction.cs" />
     <Compile Include="Functions\ComparisonFunction.cs" />
     <Compile Include="Functions\AndFunction.cs" />
+    <Compile Include="Functions\DebugAllFunction.cs" />
     <Compile Include="Functions\DebugFunction.cs" />
     <Compile Include="Functions\DoubleFunction.cs" />
     <Compile Include="Functions\FlattenFunction.cs" />

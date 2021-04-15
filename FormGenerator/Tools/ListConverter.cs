@@ -10,6 +10,8 @@ namespace FormGenerator.Tools
 {
     public class ListConverter : IValueConverter
     {
+        private static readonly Dictionary<string, HashSet<string>> s_lists = new Dictionary<string, HashSet<string>>();
+
         /// <summary>
         /// Converts a value. 
         /// </summary>
@@ -20,25 +22,39 @@ namespace FormGenerator.Tools
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string dataType = parameter.ToString();
+
+            HashSet<string> result = new HashSet<string>();
+            string name = null;
+            if (dataType.StartsWith("^"))
+            {
+                dataType = dataType.Substring(1);
+                int pos = dataType.IndexOf("^");
+                name = dataType.Substring(0, pos);
+                dataType = dataType.Substring(pos + 2);
+                if (s_lists.TryGetValue(name, out HashSet<string> stored))
+                    result.UnionWith(stored);
+            }
+
             // If the data is an expression then do extra work to evaluate it.
             if (dataType.Contains("$") || dataType.Contains("{") || dataType.Contains(":"))
             {
                 TokenTree tree = new Parser().AddLine(new Line("Content: " + dataType));
                 IToken converted = tree.Value.Evaluate(new TokenTreeList { (TokenTree)value, DataConverter.Parameters }, true);
-                List<string> result = new List<string>();
                 if (converted is ListToken list)
                     foreach (IToken token in list.Value)
                         result.Add(token.ToString());
-                return result;
             }
             else
             {
                 TokenTree items = new TokenTree(DataConverter.Parameters?.GetChildren(dataType));
-                List<string> result = new List<string>();
                 foreach (TokenTree item in items.Children)
                     result.Add(item.Name);
-                return result;
             }
+
+            if (name != null)
+                s_lists[name] = result;
+
+            return result;
         }
 
         /// <summary>

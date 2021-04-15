@@ -20,7 +20,7 @@
 
         private readonly ILogging _logger = new NullLogger();
 
-        public void ResetLoggingToDefault()
+        public void ResetLogging()
         {
             IOCContainer.Instance.Register<ILogging>(new NullLogger());
         }

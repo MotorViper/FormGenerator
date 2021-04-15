@@ -5,12 +5,12 @@
 
 Characters:
 	Add in weapon focus modifiers automatically (see MiscInitiative).
-	Add ability modifiers, e.g. at every 4th level.
 	Skill synergy.
+	Knowledge, Perform, Profession skills.
 	Other Items.
 	Spells.
 	Languages.
-	Possesions.
+	Posessions.
 
 Gui:
 	Improve syntax colouring.

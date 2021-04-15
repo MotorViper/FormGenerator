@@ -53,7 +53,7 @@ namespace TextParser
         {
             TokenTree tokenTree = Splitter.Split(line.Content, ignoreErrors);
             StringToken key = tokenTree.Key as StringToken;
-            if (key != null && key.ToString().Contains("."))
+            if (key != null && !line.Content.StartsWith("'") && key.ToString().Contains("."))
             {
                 string[] parts = key.ToString().Split('.');
                 TokenTree tree = new TokenTree(parts[0]);

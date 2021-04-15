@@ -22,6 +22,7 @@ namespace TextParser.Operators
             RegisterFunction<ContainsFunction>();
             RegisterFunction<CountFunction>();
             RegisterFunction<DebugFunction>();
+            RegisterFunction<DebugAllFunction>();
             RegisterFunction<DefaultFunction>();
             RegisterFunction<DoubleFunction>();
             RegisterFunction<FlattenFunction>();
@@ -113,7 +114,8 @@ namespace TextParser.Operators
                 ModifyParameters(parameters, userFunction);
             }
 
-            if (Function.Name == "DEBUG" && isFinal)
+            bool debug = Function.Name == "DEBUGA" || (Function.Name == "DEBUG" && isFinal);
+            if (debug)
                 LogControl?.SetLogging(true);
 
             IToken parameterList;
@@ -147,8 +149,8 @@ namespace TextParser.Operators
 
             IToken result = Function.Perform(_flatten ? parameterList.Flatten() : parameterList, parameters, isFinal);
 
-            if (Function.Name == "DEBUG" && isFinal)
-                LogControl?.ResetLoggingToDefault();
+            if (debug)
+                LogControl?.ResetLogging();
 
             return result;
         }

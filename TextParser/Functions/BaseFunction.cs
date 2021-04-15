@@ -10,16 +10,28 @@ namespace TextParser.Functions
     /// </summary>
     public abstract class BaseFunction : IFunction
     {
-        private readonly string _idBase;
-
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="idBase">The base string for creating the name and ids from. X(Y) -> X and XY, X -> X.</param>
         protected BaseFunction(string idBase)
         {
-            _idBase = idBase;
             Name = idBase.Replace("(", "").Replace(")", "");
+
+            int bracketPosition = idBase.IndexOf('(');
+            Ids = bracketPosition > 0
+                ? new List<string> { idBase.Substring(0, bracketPosition), Name }
+                : new List<string> { Name };
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="ids">The list for creating the name and ids from. The name is the first item in the list.</param>
+        protected BaseFunction(List<string> ids)
+        {
+            Name = ids[0];
+            Ids = ids;
         }
 
         /// <summary>
@@ -61,13 +73,7 @@ namespace TextParser.Functions
         /// </summary>
         public virtual IEnumerable<string> Ids
         {
-            get
-            {
-                int bracketPosition = _idBase.IndexOf('(');
-                return bracketPosition > 0
-                    ? new List<string> {_idBase.Substring(0, bracketPosition), Name}
-                    : new List<string> {Name};
-            }
+            get; set;
         }
 
         /// <summary>

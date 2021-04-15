@@ -1,6 +1,7 @@
 ﻿using FormGenerator.Tools;
 using Helpers;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -26,7 +27,7 @@ namespace FormGenerator.ViewModels
         private ICommand _saveXamlCommand;
         private ICommand _testExpressionsCommand;
 
-        private bool _wasLogging;
+        private readonly Stack<bool> _loggingManagement = new Stack<bool>();
 
         public MainViewModel()
         {
@@ -84,13 +85,13 @@ namespace FormGenerator.ViewModels
 
         public void SetLogging(bool loggingOn)
         {
-            _wasLogging = DoLogging;
+            _loggingManagement.Push(DoLogging);
             DoLogging = loggingOn;
         }
 
-        public void ResetLoggingToDefault()
+        public void ResetLogging()
         {
-            DoLogging = _wasLogging;
+            DoLogging = _loggingManagement.Pop();
         }
 
         /// <summary>
@@ -158,7 +159,7 @@ namespace FormGenerator.ViewModels
                         OutputLogMessage($"{tokenTree.Key} = {simplified}", "Simplify Result", 0);
                         IToken result = simplified.Evaluate(new TokenTreeList { data, DataConverter.Parameters }, true);
                         OutputLogMessage($"{tokenTree.Key} = {result}", "Test Result", 0);
-                        ResetLoggingToDefault();
+                        ResetLogging();
                     }
                 }
             }
@@ -166,7 +167,7 @@ namespace FormGenerator.ViewModels
             {
                 SetLogging(true);
                 LogError(ex.Message, "Exception Thrown");
-                ResetLoggingToDefault();
+                ResetLogging();
             }
         }
 

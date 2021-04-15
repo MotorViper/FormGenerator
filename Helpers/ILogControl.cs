@@ -4,6 +4,6 @@
     {
         void SetLogging(bool loggingOn);
 
-        void ResetLoggingToDefault();
+        void ResetLogging();
     }
 }

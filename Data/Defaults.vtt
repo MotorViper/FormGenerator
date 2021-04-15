@@ -1,10 +1,10 @@
 Character: 
-    Strength: 10
-    Dexterity: 10
-    Constitution: 10
-    Intelligence: 10
-    Wisdom: 10
-    Charisma: 10
+    BaseStrength: 10
+    BaseDexterity: 10
+    BaseConstitution: 10
+    BaseIntelligence: 10
+    BaseWisdom: 10
+    BaseCharisma: 10
 	Experience: 0
 	Weapon1: None
 		MiscAttackBonus: 0
@@ -25,6 +25,12 @@ Character:
 	Eyes:
 	Hair:
 	Skin:
+	Strength: $BaseStrength + COUNT:{Level.AbilityIncrease=Strength}
+	Dexterity: $BaseDexterity + COUNT:{Level.AbilityIncrease=Dexterity}
+	Constitution: $BaseConstitution + COUNT:{Level.AbilityIncrease=Constitution}
+	Intelligence: $BaseIntelligence + COUNT:{Level.AbilityIncrease=Intelligence}
+	Wisdom: $BaseWisdom + COUNT:{Level.AbilityIncrease=Wisdom}
+	Charisma: $BaseCharisma + COUNT:{Level.AbilityIncrease=Charisma}
 	AttributeModifier: ($$1 - 10) / 2
 	DexModifier: AttributeModifier: Dexterity
 	StrModifier: AttributeModifier: Strength
