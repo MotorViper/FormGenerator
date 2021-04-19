@@ -70,7 +70,7 @@ namespace TextParser.Operators
         {
             if (parameters != null)
             {
-                TokenTreeList functionDefinition = parameters?.FindAllMatches(userFunction.FunctionName);
+                TokenTreeList functionDefinition = parameters?.FindAllMatches(new StringToken(userFunction.FunctionName, true));
                 if (functionDefinition.Count > 0)
                     functionDefinition[0].Value.ModifyParameters(userFunction);
             }

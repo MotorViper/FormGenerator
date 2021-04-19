@@ -47,7 +47,7 @@ namespace TextParser.Functions
             {
                 if (count > 4)
                     throw new Exception($"Must have 3 or 4 values for '{Name}': {listToken}");
-                comparison = first.Contains(second.ToString()) ? 0 : 1;
+                comparison = first.HasMatch(second) ? 0 : 1;
             }
             else
             {

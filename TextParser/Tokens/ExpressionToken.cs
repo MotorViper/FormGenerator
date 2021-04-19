@@ -149,11 +149,6 @@ namespace TextParser.Tokens
             return result;
         }
 
-        //public bool Matches(string text)
-        //{
-        //    return ToString() == text;
-        //}
-
         /// <summary>
         /// Converts the token to a list of tokens if possible and required.
         /// </summary>

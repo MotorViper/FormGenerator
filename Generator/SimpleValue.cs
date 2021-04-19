@@ -30,6 +30,11 @@
         public string StringValue { get; }
 
         /// <summary>
+        /// StringValue including quotes if this is a verbatim string.
+        /// </summary>
+        public string QualifiedStringValue { get; }
+
+        /// <summary>
         /// Does the value represent an expression.
         /// </summary>
         public bool IsExpression => false;

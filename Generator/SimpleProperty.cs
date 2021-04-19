@@ -45,6 +45,11 @@
         public string StringValue => _value.StringValue;
 
         /// <summary>
+        /// StringValue including quotes if this is a verbatim string.
+        /// </summary>
+        public string QualifiedStringValue => _value.StringValue;
+
+        /// <summary>
         /// Creates a property from the value.
         /// </summary>
         /// <param name="name">The property name.</param>

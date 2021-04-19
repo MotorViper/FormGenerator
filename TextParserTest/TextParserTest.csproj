@@ -71,9 +71,8 @@
     <Compile Include="ParserTests.cs" />
     <Compile Include="Tokens\BoolTokenTests.cs" />
     <Compile Include="Tokens\PairTokenTests.cs" />
-    <Compile Include="Tokens\TreeTokenTests.cs" />
-    <Compile Include="Tokens\RootTokenTests.cs" />
     <Compile Include="Tokens\RegExTokenTests.cs" />
+    <Compile Include="Tokens\ChainTokenTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FormGenerator\FormGenerator.csproj">

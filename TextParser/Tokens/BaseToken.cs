@@ -40,6 +40,11 @@ namespace TextParser.Tokens
         /// </summary>
         public virtual bool IsExpression => false;
 
+        /// <summary>
+        /// Whether the contained value should be treated as a single element.
+        /// </summary>
+        public virtual bool Verbatim => false;
+
         public virtual void ModifyParameters(UserFunction function)
         {
         }
@@ -80,13 +85,13 @@ namespace TextParser.Tokens
         }
 
         /// <summary>
-        /// Whether the token contains the input text.
+        /// Whether the token contains the input token.
         /// </summary>
-        /// <param name="text">The input text.</param>
-        /// <returns>True if the current token contains the input text.</returns>
-        public virtual bool Contains(string text)
+        /// <param name="token">The input token.</param>
+        /// <returns>True if the current token contains the input token.</returns>
+        public virtual bool HasMatch(IToken token)
         {
-            return ToString() == text;
+            return ToString() == token.ToString();
         }
 
         /// <summary>

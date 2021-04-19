@@ -47,6 +47,8 @@ Jump: $StrSkill
 	Synergy: Tumble checks.
 Knowledge: $IntSkill
 	Synergy: By skill.
+'Knowledge (Dung.)': $IntSkill
+	Synergy: By skill.
 Listen: $WisSkill
 Move Silently: $DexSkill
 Open Lock: $DexSkill

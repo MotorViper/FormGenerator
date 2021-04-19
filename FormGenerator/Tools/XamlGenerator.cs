@@ -26,13 +26,13 @@ namespace FormGenerator.Tools
                 foreach (TokenTree child in parameters.Children)
                 {
                     string name = child.Name;
-                    TokenTree defaults = parameters.FindFirst("Defaults." + name);
+                    TokenTree defaults = parameters.FindFirst(new ChainToken("Defaults", name));
                     if (defaults != null)
                         foreach (TokenTree item in child.Children)
                             item.AddMissing(defaults);
                 }
-                TokenTreeList fields = data.GetAll("Fields");
-                TokenTreeList styles = data.GetAll("Styles");
+                TokenTreeList fields = data.GetAll(new StringToken("Fields", true));
+                TokenTreeList styles = data.GetAll(new StringToken("Styles", true));
                 _sb.Append("<Border HorizontalAlignment=\"Stretch\" ")
                     .Append("VerticalAlignment=\"Stretch\" ")
                     .Append("xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" ")
@@ -71,7 +71,7 @@ namespace FormGenerator.Tools
                 if (!string.IsNullOrWhiteSpace(key.ToString()))
                     _sb.Append("x:Key=\"").Append(key.ToString()).Append("\" ");
 
-                string basedOn = tokenTree["BasedOn"];
+                string basedOn = tokenTree[new StringToken("BasedOn", true)];
                 if (!string.IsNullOrWhiteSpace(basedOn))
                     _sb.Append("BasedOn=\"{StaticResource ").Append(basedOn).Append("}\" ");
 

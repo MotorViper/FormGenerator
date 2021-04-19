@@ -9,6 +9,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using TextParser;
+using TextParser.Tokens;
 
 namespace FormGenerator.ViewModels
 {
@@ -86,11 +87,11 @@ namespace FormGenerator.ViewModels
                     if (Values != null)
                         Values.Children.PropertyChanged -= OnChildrenChanged;
                     _selected.SetValue(value, this);
-                    Values = _data.MainData.FindFirst(Selected);
+                    Values = _data.MainData.FindFirst((StringToken)Selected);
                     Values.UseStaticCache = false;
                     TokenCache.UseCache(Selected);
                     TokenTree parameters = new TokenTree(_data.StaticData.GetChildren("Parameters"));
-                    TokenTree defaults = parameters.FindFirst("Defaults." + _inputData.DataName);
+                    TokenTree defaults = parameters.FindFirst(new ChainToken("Defaults", _inputData.DataName));
                     Values.AddMissing(defaults);
                     Values.SetParameters(parameters);
                     Values.Children.PropertyChanged += OnChildrenChanged;
@@ -106,10 +107,11 @@ namespace FormGenerator.ViewModels
         {
             get
             {
-                TokenTree values = Parser.ParseFile(_inputData.MainDataFile, _inputData.DefaultDirectory, "XML").FindFirst(Selected);
+                TokenTree values =
+                    Parser.ParseFile(_inputData.MainDataFile, _inputData.DefaultDirectory, "XML").FindFirst((StringToken)Selected);
                 TokenTree parameters =
                     new TokenTree(Parser.ParseFile(_inputData.StaticDataFile, _inputData.DefaultDirectory, "XML").GetChildren("Parameters"));
-                TokenTree defaults = parameters.FindFirst("Defaults." + _inputData.DataName);
+                TokenTree defaults = parameters.FindFirst(new ChainToken("Defaults", _inputData.DataName));
                 values.AddMissing(defaults);
                 values.SetParameters(parameters);
                 return values;

@@ -44,7 +44,7 @@ namespace FormGenerator.Tools
                 if (data.ParameterData != null)
                 {
                     parameters = Parameters.Clone();
-                    parameters.Children.AddIfMissing(new TokenTree(data.ParameterData.Name, data.ParameterData.StringValue));
+                    parameters.Children.AddIfMissing(new TokenTree(data.ParameterData.Name, data.ParameterData.QualifiedStringValue));
                 }
                 converted = dataToken.Evaluate(new TokenTreeList { (TokenTree)value, parameters }, true);
             }

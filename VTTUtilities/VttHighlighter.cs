@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
-using Helpers;
 using TextParser;
 using TextParser.Operators;
 using TextParser.Tokens;
@@ -81,8 +81,8 @@ namespace VTTUtilities
         /// <returns>The position of the matching character.</returns>
         private static int[] MatchBrackets(string text, int start, char toMatch)
         {
-            int end = text.Substring(start + 1).FirstNotInBlock(toMatch, new[] {'\'', '\'', '"', '"', '^', '^', '{', '}', '(', ')'}, true);
-            return end >= 0 ? new[] {start, end + start + 1} : null;
+            int end = text.Substring(start + 1).FirstNotInBlock(toMatch, new[] { '\'', '\'', '"', '"', '^', '^', '{', '}', '(', ')' }, true);
+            return end >= 0 ? new[] { start, end + start + 1 } : null;
         }
 
         /// <summary>
@@ -95,8 +95,8 @@ namespace VTTUtilities
         private static int[] MatchBrackets(string text, char toMatch, int end)
         {
             text = text.Reverse().Substring(text.Length - end);
-            int start = text.FirstNotInBlock(toMatch, new[] {'\'', '\'', '"', '"', '^', '^', '}', '{', ')', '('}, true);
-            return start >= 0 ? new[] {end - start - 1, end} : null;
+            int start = text.FirstNotInBlock(toMatch, new[] { '\'', '\'', '"', '"', '^', '^', '}', '{', ')', '(' }, true);
+            return start >= 0 ? new[] { end - start - 1, end } : null;
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace VTTUtilities
 
                 if (File.Exists(optionsFile))
                 {
-                    TokenTree options = Parser.Parse(new StreamReader(optionsFile)).FindFirst("Highlighting");
+                    TokenTree options = Parser.Parse(new StreamReader(optionsFile)).FindFirst(new StringToken("Highlighting", true));
                     foreach (TokenTree child in options.Children)
                     {
                         VttSection section = child.Key.ToString().ParseEnum<VttSection>();
@@ -184,7 +184,7 @@ namespace VTTUtilities
                 else
                 {
                     offset += length - trimmed.Length;
-                    string[] parts = trimmed.Split(new[] {':'}, 2);
+                    string[] parts = trimmed.Split(new[] { ':' }, 2);
                     FormatItem(VttSection.Key, formattedText, offset, parts[0], highlights);
                     offset += parts[0].Length;
                     FormatItem(VttSection.Separator, formattedText, offset, ":", highlights);

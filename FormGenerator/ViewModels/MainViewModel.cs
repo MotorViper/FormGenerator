@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using TextParser;
+using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
 namespace FormGenerator.ViewModels
@@ -133,11 +135,19 @@ namespace FormGenerator.ViewModels
         /// <param name="overview">Shortened version of the message.</param>
         private void OutputLogMessage(string message, string overview, int offset)
         {
-            if (offset > 0)
-                _offsetSpaces += "  ";
-            LogData += $"{DateTime.Now.TimeOfDay}: {overview}[I]: {_offsetSpaces}{message}\n";
-            if (offset < 0 && _offsetSpaces.Length > 1)
-                _offsetSpaces = _offsetSpaces.Substring(0, _offsetSpaces.Length - 2);
+            Dispatcher dispatchObject = Application.Current.Dispatcher;
+            if (dispatchObject == null || dispatchObject.CheckAccess())
+            {
+                if (offset > 0)
+                    _offsetSpaces += "  ";
+                LogData += $"{DateTime.Now.TimeOfDay}: {overview}[I]: {_offsetSpaces}{message}\n";
+                if (offset < 0 && _offsetSpaces.Length > 1)
+                    _offsetSpaces = _offsetSpaces.Substring(0, _offsetSpaces.Length - 2);
+            }
+            else
+            {
+                dispatchObject.Invoke(() => OutputLogMessage(message, overview, offset));
+            }
         }
 
         /// <summary>
@@ -150,10 +160,10 @@ namespace FormGenerator.ViewModels
                 TokenTree data = DataViewModel.Instance.TestValues;
                 foreach (TokenTree tokenTree in data.Children)
                 {
-                    string doTest = tokenTree["Test"] ?? "false";
+                    string doTest = tokenTree[new StringToken("Test", true)] ?? "false";
                     if (bool.Parse(doTest))
                     {
-                        bool logIt = bool.Parse(tokenTree["Debug"] ?? "true");
+                        bool logIt = bool.Parse(tokenTree[new StringToken("Debug", true)] ?? "true");
                         SetLogging(logIt);
                         IToken simplified = tokenTree.Value.Simplify();
                         OutputLogMessage($"{tokenTree.Key} = {simplified}", "Simplify Result", 0);

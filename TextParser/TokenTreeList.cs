@@ -28,6 +28,11 @@ namespace TextParser
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Remove a value from the token tree.
+        /// </summary>
+        /// <param name="value">The value to remove.</param>
+        /// <returns>True if the value was removed.</returns>
         public bool Remove(string value)
         {
             TokenTree found = this.FirstOrDefault(child => child.Key.ToString() == value);
@@ -36,16 +41,29 @@ namespace TextParser
             return found != null;
         }
 
-        public TokenTreeList FindAllMatches(string key)
+        public TokenTreeList FindAllMatches(IToken key)
         {
             return PerformFind(key, this);
         }
 
-        public TokenTreeList FindMatches(string key)
+        public TokenTreeList FindMatches(IToken key)
         {
-            string[] parts = key.Split(new[] { '.' }, 2);
-            string first = parts[0];
-            string last = parts.Length == 2 ? parts[1] : null;
+            string first;
+            IToken firstToken;
+            IToken last;
+            if (key is ChainToken chain)
+            {
+                firstToken = chain.First;
+                first = firstToken.ToString();
+                last = chain.Last;
+            }
+            else
+            {
+                string[] parts = key.Verbatim ? new string[] { key.ToString() } : key.ToString().Split(new[] { '.' }, 2);
+                first = parts[0];
+                firstToken = (StringToken)first;
+                last = parts.Length == 2 ? new StringToken(parts[1]) : null;
+            }
             List<TokenTree> tokens;
             if (first.Contains('='))
             {
@@ -64,7 +82,7 @@ namespace TextParser
                 string[] options = first.TrimStart('(').TrimEnd(')').Split(':');
                 foreach (string option in options)
                 {
-                    tokens = this.Where(child => child.Key.Contains(option)).ToList();
+                    tokens = this.Where(child => child.Key.HasMatch((StringToken)option)).ToList();
                     if (tokens.Count > 1)
                         throw new Exception("Too many possible returns for template");
                     if (tokens.Count == 1)
@@ -78,7 +96,7 @@ namespace TextParser
             }
             else
             {
-                tokens = this.Where(child => child.Key.Contains(first)).ToList();
+                tokens = this.Where(child => child.Key.HasMatch(firstToken)).ToList();
             }
 
             return PerformFind(last, tokens);
@@ -86,7 +104,7 @@ namespace TextParser
 
         public TokenTreeList FindEachMatch(string key)
         {
-            List<TokenTree> tokens = this.Where(child => child.Key.Contains(key)).ToList();
+            List<TokenTree> tokens = this.Where(child => child.Key.HasMatch((StringToken)key)).ToList();
             TokenTreeList matches = new TokenTreeList();
             foreach (TokenTree tree in tokens)
             {
@@ -103,7 +121,7 @@ namespace TextParser
             return matches;
         }
 
-        private TokenTreeList PerformFind(string key, List<TokenTree> tokens)
+        private TokenTreeList PerformFind(IToken key, List<TokenTree> tokens)
         {
             TokenTreeList matches = new TokenTreeList();
             if (key != null)
@@ -117,7 +135,7 @@ namespace TextParser
                 }
                 if (matches.Count == 0 && tokens.Count == 1 && tokens[0].Value != null &&
                     tokens[0].Value is ExpressionToken value && value.Second is StringToken token)
-                    matches = FindMatches(token.Value + "." + key);
+                    matches = FindMatches(new ChainToken(token, key));
             }
             else
             {
@@ -134,15 +152,15 @@ namespace TextParser
             return matches;
         }
 
-        public void SetValue(string name, string value)
+        public void SetValue(IToken name, string value)
         {
             SetValue(name, TokenGenerator.Parse(value));
         }
 
-        public void SetValue(string name, IToken value)
+        public void SetValue(IToken name, IToken value)
         {
-            string[] parts = name.Split(new[] { '.' }, 2);
-            TokenTreeList matches = FindMatches(parts[0]);
+            string[] parts = name.Verbatim ? new string[] { name.ToString() } : name.ToString().Split(new[] { '.' }, 2);
+            TokenTreeList matches = FindMatches(new StringToken(parts[0], true));
             if (matches.Count == 0)
             {
                 TokenTree child = new TokenTree(parts[0], "");
@@ -153,13 +171,13 @@ namespace TextParser
             if (parts.Length == 2)
             {
                 foreach (TokenTree tree in matches)
-                    tree.Children.SetValue(parts[1], value);
+                    tree.Children.SetValue(new StringToken(parts[1]), value);
             }
             else
             {
                 foreach (TokenTree tree in matches)
                     tree.Value = value;
-                OnPropertyChanged(name);
+                OnPropertyChanged(name.ToString());
             }
         }
 

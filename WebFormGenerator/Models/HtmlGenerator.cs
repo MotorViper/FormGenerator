@@ -3,6 +3,7 @@ using Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using TextParser;
+using TextParser.Tokens;
 using TextParser.Tokens.Interfaces;
 
 namespace WebFormGenerator.Models
@@ -25,20 +26,20 @@ namespace WebFormGenerator.Models
             foreach (TokenTree child in parameters.Children)
             {
                 string name = child.Name;
-                TokenTree defaults = parameters.FindFirst("Defaults." + name);
+                TokenTree defaults = parameters.FindFirst(new ChainToken("Defaults", name));
                 if (defaults != null)
                     foreach (TokenTree item in child.Children)
                         item.AddMissing(defaults);
             }
             _sb.Clear();
             TokenTree values = selected.Clone();
-            TokenTree defaultValues = parameters.FindFirst("Defaults." + dataName);
+            TokenTree defaultValues = parameters.FindFirst(new ChainToken("Defaults", dataName));
             if (defaultValues != null)
                 values.AddMissing(defaultValues);
             values.SetParameters(parameters);
 
-            TokenTreeList fields = data.GetAll("Fields");
-            TokenTreeList styles = data.GetAll("Styles").FindAllMatches("Style");
+            TokenTreeList fields = data.GetAll(new StringToken("Fields", true));
+            TokenTreeList styles = data.GetAll(new StringToken("Styles", true)).FindAllMatches(new StringToken("Style", true));
             AddStyles(styles, parameters);
             foreach (TokenTree field in fields.SelectMany(child => child.Children).Where(x => x.Name == "Field"))
                 _sb.AddElement(field, 0, parameters, values, keys);
@@ -62,12 +63,12 @@ namespace WebFormGenerator.Models
                 }
                 else
                 {
-                    string key = tokenTree["Name"];
+                    string key = tokenTree[new StringToken("Name", true)];
                     if (!string.IsNullOrWhiteSpace(key))
                         _sb.Append(".").Append(key);
                     else
                     {
-                        key = tokenTree["ID"];
+                        key = tokenTree[new StringToken("ID", true)];
                         _sb.Append("#").Append(key);
                     }
                 }
@@ -100,7 +101,7 @@ namespace WebFormGenerator.Models
         {
             if (property.Name == "BasedOn")
             {
-                property = styles.FirstOrDefault(x => x["Name"] == property.Value.ToString());
+                property = styles.FirstOrDefault(x => x[new StringToken("Name", true)] == property.Value.ToString());
                 AddProperties(styles, parameters, property);
             }
             else

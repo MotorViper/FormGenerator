@@ -27,6 +27,7 @@ namespace TextParser
                 ["(.*)\\$(([A-Za-z█][A-Za-z0-9█]*|[1-9][0-9]*)(\\.[A-Za-z█][A-Za-z0-9█]*)*)?([^$]*)"] = (tokens, x, y) =>
                     PerformSubstitutionOperation(tokens, x, y),
                 ["([1-9][0-9]*\\.[0-9]+)"] = (tokens, x, y) => new DoubleToken(double.Parse(tokens[0])),
+                ["(.*)([\\.])([^\\.\\|0-9][^\\.\\|]*)"] = (tokens, x, y) => CreateOperator(tokens, x, y),
                 ["(0|[1-9][0-9]*)"] = (tokens, x, y) => CreateIntToken(tokens, x, y),
                 ["\\r\\n"] = (tokens, x, y) => new NewLineToken(),
                 [".*"] = (tokens, x, y) => CreateStringToken(tokens, x, y)
@@ -108,7 +109,7 @@ namespace TextParser
                 return new NullToken();
 
             if (text.StartsWith("'") && text.IndexOf('\'', 1) <= 0)
-                return new StringToken(text.Substring(1));
+                return new StringToken(text.Substring(1), true);
 
             List<string> blocks = text.SplitIntoBlocks(new[] { '\'', '\'', '"', '"', '^', '^', '{', '}', '(', ')' }, true,
                 StringUtils.DelimiterInclude.IncludeSeparately);
@@ -126,7 +127,7 @@ namespace TextParser
                 {
                     case "\"":
                     case "'":
-                        subResult = new StringToken(entry);
+                        subResult = new StringToken(entry, true);
                         callback?.Invoke(subResult, currentPosition, "'" + entry + "'");
                         break;
                     case "^":

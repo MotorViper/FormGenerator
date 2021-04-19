@@ -5,9 +5,15 @@ namespace TextParser.Tokens
 {
     public class StringToken : TypeToken<string>, IReversibleToken, ITokenWithLength, IContainerToken//, IKeyToken
     {
-        public StringToken(string text) : base(text)
+        public StringToken(string text, bool verbatim = false) : base(text)
         {
+            Verbatim = verbatim;
         }
+
+        /// <summary>
+        /// Whether the contained value should be treated as a single element.
+        /// </summary>
+        public override bool Verbatim { get; }
 
         /// <summary>
         /// Converts the token to a boolean.
@@ -53,11 +59,6 @@ namespace TextParser.Tokens
         {
             return new StringToken(Value.Reverse());
         }
-
-        //public bool Matches(string text)
-        //{
-        //    return text == Value;
-        //}
 
         public bool Contains(IToken token)
         {

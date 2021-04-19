@@ -32,18 +32,16 @@ namespace TextParser.Tokens
         {
             return _text;
         }
- 
-        public override bool Contains(string text)
+
+        /// <summary>
+        /// Whether the token contains the input token.
+        /// </summary>
+        /// <param name="token">The input token.</param>
+        /// <returns>True if the current token contains the input token.</returns>
+        public override bool HasMatch(IToken token)
         {
-            return _regex.IsMatch(text);
+            return _regex.IsMatch(token.ToString());
         }
-
-        //public override int CompareTo(IToken token)
-        //{
-        //    return Matches(token.ToString()) ? 0 : 1;
-        //}
-
-        //public override bool ComparisonIsInteger => false;
 
         private static string ConvertFromSqlRegex(string text)
         {

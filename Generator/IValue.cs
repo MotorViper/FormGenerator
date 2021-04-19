@@ -28,6 +28,11 @@
         string StringValue { get; }
 
         /// <summary>
+        /// StringValue including quotes if this is a verbatim string.
+        /// </summary>
+        string QualifiedStringValue { get; }
+
+        /// <summary>
         /// The variable name if IsVariableExpression is true.
         /// </summary>
         string VariableName { get; }

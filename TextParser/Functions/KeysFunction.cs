@@ -13,7 +13,7 @@ namespace TextParser.Functions
         {
             if (substitutions == null && !isFinal)
                 return UnParsed(parameters);
-            TokenTreeList list = substitutions.FindAllMatches(parameters.ToString());
+            TokenTreeList list = substitutions.FindAllMatches(parameters);
             ListToken result = new ListToken();
             foreach (TokenTree tree in list)
                 foreach (TokenTree subTree in tree.Children)

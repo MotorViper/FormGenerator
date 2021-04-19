@@ -117,6 +117,8 @@ namespace TextParser.Operators
         {
             switch (op)
             {
+                case ".":
+                    return new ChainOperator();
                 case "#":
                     return new IndexOperator();
                 case ":":

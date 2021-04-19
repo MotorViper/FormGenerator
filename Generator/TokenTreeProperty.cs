@@ -79,6 +79,21 @@ namespace Generator
         public string StringValue => Token.ToString();
 
         /// <summary>
+        /// StringValue including quotes if this is a verbatim string.
+        /// </summary>
+        public string QualifiedStringValue
+        {
+            get
+            {
+                string result = Token.ToString();
+                if (Token.Verbatim)
+                    result = "'" + result + "'";
+                return result;
+            }
+        }
+
+
+        /// <summary>
         /// Creates a property from the value.
         /// </summary>
         /// <param name="name">The property name.</param>

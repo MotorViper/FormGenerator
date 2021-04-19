@@ -45,7 +45,7 @@ namespace TextParser.Operators
             if (useCache && TokenCache.FindToken(text, out IToken value))
                 return value;
 
-            TokenTreeList found = parameters.FindAllMatches(text);
+            TokenTreeList found = parameters.FindAllMatches(evaluated);
 
             ListToken result = new ListToken();
             foreach (TokenTree tokenTree in found)
@@ -89,7 +89,7 @@ namespace TextParser.Operators
                 return new ExpressionToken(null, this, evaluated);
 
             string text = evaluated.ToString();
-            TokenTree found = parameters.FindFirst(text);
+            TokenTree found = parameters.FindFirst(evaluated);
             return found?.Value ?? new ExpressionToken(null, new SubstitutionOperator(), evaluated);
         }
 

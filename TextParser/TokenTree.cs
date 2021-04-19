@@ -51,7 +51,30 @@ namespace TextParser
         public string Name => Key.ToString();
         public IToken Value { get; set; }
 
+        /// <summary>
+        /// Searches for a string matching the input property.
+        /// This is only for xaml interaction the token version should be used where possible.
+        /// </summary>
+        /// <param name="name">The property name.</param>
+        /// <returns></returns>
         public string this[string name]
+        {
+            get
+            {
+                return this[new StringToken(name)];
+            }
+            set
+            {
+                this[new StringToken(Name)] = value;
+            }
+        }
+
+        /// <summary>
+        /// Searches for a string matching the input property.
+        /// </summary>
+        /// <param name="name">The property token.</param>
+        /// <returns></returns>
+        public string this[IToken name]
         {
             get
             {
@@ -81,7 +104,8 @@ namespace TextParser
                 {
                     string optionsFile = FileUtils.GetFullFileName(inputData.OptionsFile, inputData.DefaultDirectory);
                     if (File.Exists(optionsFile))
-                        s_replacements = Parser.Parse(new StreamReader(optionsFile)).FindFirst("Replacements") ?? new TokenTree();
+                        s_replacements = Parser.Parse(new StreamReader(optionsFile))
+                                    .FindFirst(new StringToken("Replacements", true)) ?? new TokenTree();
                 }
                 s_initialising = false;
             }
@@ -94,7 +118,9 @@ namespace TextParser
                 Initialise();
                 if (s_replacements.Children.Count > 0)
                 {
-                    string replacement = string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(value) ? null : s_replacements[$"{key}.{value}"];
+                    string replacement = string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(value)
+                        ? null
+                        : s_replacements[new ChainToken(key, value)];
                     if (!string.IsNullOrWhiteSpace(replacement))
                         return replacement;
                 }
@@ -113,9 +139,9 @@ namespace TextParser
             return $"TokenTree: {Name}={Value}";
         }
 
-        public TokenTree FindFirst(string name)
+        public TokenTree FindFirst(IToken name)
         {
-            if (!string.IsNullOrWhiteSpace(name) && Key.ToString() == name)
+            if (!string.IsNullOrWhiteSpace(name.ToString()) && Key.ToString() == name.ToString())
                 return this;
             TokenTreeList tokenTreeList = GetAll(name);
             return tokenTreeList.Count > 0 ? tokenTreeList[0] : null;
@@ -126,8 +152,10 @@ namespace TextParser
             return Children.FindEachMatch(name);
         }
 
-        public TokenTreeList GetAll(string name)
+        public TokenTreeList GetAll(IToken name)
         {
+            if (Key is ChainToken chain && chain.Value[1].HasMatch(name))
+                return new TokenTreeList(new TokenTree(chain.Last, Value, Children));
             return Children.FindMatches(name);
         }
 
@@ -183,7 +211,7 @@ namespace TextParser
         {
             if (tree.Children.Count == 0)
             {
-                Children.SetValue(tree.Name, tree.Value);
+                Children.SetValue(tree.Key, tree.Value);
             }
             else
             {

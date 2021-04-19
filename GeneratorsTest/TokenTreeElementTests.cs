@@ -1,6 +1,7 @@
 ﻿using Generator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextParser;
+using TextParser.Tokens;
 
 namespace GeneratorsTest
 {
@@ -19,15 +20,15 @@ Field3: Macro2
 ";
             TokenTree tokenTree = Parser.ParseString(data);
             TokenTreeList list = new TokenTreeList(tokenTree);
-            TokenTree tree = tokenTree.FindFirst("Field1");
+            TokenTree tree = tokenTree.FindFirst(new StringToken("Field1", true));
             TokenTreeElement element = new TokenTreeElement(tree);
             Assert.AreEqual("TypeF", element.ElementType);
 
-            tree = tokenTree.FindFirst("Field2");
+            tree = tokenTree.FindFirst(new StringToken("Field2", true));
             element = new TokenTreeElement(tree, list);
             Assert.AreEqual("TypeM", element.ElementType);
 
-            tree = tokenTree.FindFirst("Field3");
+            tree = tokenTree.FindFirst(new StringToken("Field3"));
             element = new TokenTreeElement(tree, list);
             Assert.AreEqual("TypeA", element.ElementType);
         }

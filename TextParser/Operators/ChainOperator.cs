@@ -5,14 +5,14 @@ using TextParser.Tokens.Interfaces;
 namespace TextParser.Operators
 {
     /// <summary>
-    /// Adds elements to the end of a list.
+    /// Processes elements in a property chain.
     /// </summary>
-    public class ListOperator : BaseOperator
+    public class ChainOperator : BaseOperator
     {
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ListOperator() : base("|")
+        public ChainOperator() : base(".")
         {
         }
 
@@ -26,20 +26,19 @@ namespace TextParser.Operators
         /// <returns>The evaluated value.</returns>
         public override IToken Evaluate(IToken first, IToken last, TokenTreeList parameters, bool isFinal)
         {
-            IToken firstList = first.Evaluate(parameters, isFinal);
-            IToken lastList = last.Evaluate(parameters, isFinal);
+            IToken firstEvaluated = first.Evaluate(parameters, isFinal);
+            IToken lastEvaluated = last.Evaluate(parameters, isFinal);
 
-            if (firstList == null || lastList == null)
+            if (firstEvaluated == null || lastEvaluated == null)
                 throw new Exception($"Operation {Text} is a binary operation.");
 
-            return CreateList(firstList, lastList);
+            return CreateChain(firstEvaluated, lastEvaluated);
         }
 
-        private static IToken CreateList(IToken firstList, IToken lastList)
+        private static IToken CreateChain(IToken firstList, IToken lastList)
         {
-            ListToken result = new ListToken();
-            ListToken tokens = firstList as ListToken;
-            if (tokens != null)
+            ChainToken result = new ChainToken();
+            if (firstList is ListToken tokens)
                 result.Value.AddRange(tokens.Value);
             else
                 result.Value.Add(firstList);
@@ -48,7 +47,7 @@ namespace TextParser.Operators
         }
 
         /// <summary>
-        /// Converts an expression token to a list of tokens if possible and required.
+        /// Evaluates the elements in a chain.
         /// </summary>
         /// <param name="expression">The expression to convert.</param>
         /// <returns>The original token by default.</returns>
@@ -60,7 +59,7 @@ namespace TextParser.Operators
             if (firstList == null || lastList == null)
                 return expression;
 
-            return CreateList(firstList, lastList);
+            return CreateChain(firstList, lastList);
         }
     }
 }

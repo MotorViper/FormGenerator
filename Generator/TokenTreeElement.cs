@@ -3,6 +3,7 @@ using System.Linq;
 using TextParser;
 using TextParser.Operators;
 using TextParser.Tokens;
+using TextParser.Tokens.Interfaces;
 
 namespace Generator
 {
@@ -37,7 +38,8 @@ namespace Generator
                 if (_type == null)
                 {
                     // Create the type from the token data.
-                    _type = _data.Value.ToString();
+                    IToken typeToken = _data.Value;
+                    _type = typeToken.ToString();
                     TokenTree replacement = null;
                     ExpressionToken expression = _data.Value as ExpressionToken;
                     if (expression != null)
@@ -48,22 +50,24 @@ namespace Generator
                         {
                             // It's a function expression which in this case is treated like a template.
                             ListToken list = (ListToken)expression.Second;
-                            _type = ((ExpressionToken)list[0]).Second.ToString();
+                            typeToken = ((ExpressionToken)list[0]).Second;
+                            _type = typeToken.ToString();
                             TokenTree tree = new TokenTree();
                             for (int i = 1; i < list.Count; ++i)
                                 tree.Children.Add(new TokenTree(i.ToString(), list[i]));
-                            replacement = _parameters[0]?.FindFirst(_type);
+                            replacement = _parameters[0]?.FindFirst(typeToken);
                             replacement = replacement?.SubstituteParameters(tree);
                         }
                         else
                         {
                             // It's an ordinary expression so evaluate it in the standard manner.
-                            _type = expression.Evaluate(_parameters, false).ToString();
+                            typeToken = expression.Evaluate(_parameters, false);
+                            _type = typeToken.ToString();
                         }
                     }
 
                     if (replacement == null && _parameters != null)
-                        replacement = _parameters[0]?.FindFirst(_type);
+                        replacement = _parameters[0]?.FindFirst(typeToken);
 
                     if (replacement != null)
                     {

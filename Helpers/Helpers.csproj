@@ -53,6 +53,7 @@
     <Compile Include="BlockState.cs" />
     <Compile Include="ConsoleLogControl.cs" />
     <Compile Include="ConsoleLogger.cs" />
+    <Compile Include="DispatchService.cs" />
     <Compile Include="DrawingControl.cs" />
     <Compile Include="EnumDescriptionTypeConverter.cs" />
     <Compile Include="EnumDescriptionConverter.cs" />

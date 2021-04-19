@@ -15,6 +15,11 @@ namespace TextParser.Tokens.Interfaces
         bool IsExpression { get; }
 
         /// <summary>
+        /// Whether the contained value should be treated as a single element.
+        /// </summary>
+        bool Verbatim { get; }
+
+        /// <summary>
         /// Converts the token to a double.
         /// </summary>
         double ToDouble();
@@ -59,16 +64,10 @@ namespace TextParser.Tokens.Interfaces
         void ModifyParameters(UserFunction function);
 
         /// <summary>
-        /// Whether the token contains the input text.
+        /// Whether the token contains the input token.
         /// </summary>
-        /// <param name="text">The input text.</param>
-        /// <returns>True if the current token contains the input text.</returns>
-        bool Contains(string text);
-
-        //IToken FindToken(string text, bool checkChildren, bool checkParent = true);
-
-        //IToken ValueToken { get; }
-
-        //bool ComparisonIsInteger { get; }
+        /// <param name="token">The input token.</param>
+        /// <returns>True if the current token contains the input token.</returns>
+        bool HasMatch(IToken token);
     }
 }

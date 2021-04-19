@@ -46,16 +46,16 @@ Field: Grid
         }
 
         [TestMethod]
-        public void TestHandleMultiPartKey()
-        {
-            TokenTree tokenTree = Parser.ParseString(@"
+                public void TestHandleMultiPartKey()
+                {
+                    TokenTree tokenTree = Parser.ParseString(@"
 A: 1
 B: 2
 A.B: 3");
-            Assert.AreEqual("1", tokenTree.FindFirst("A").Value.ToString());
-            Assert.AreEqual("2", tokenTree.FindFirst("B").Value.ToString());
-            Assert.AreEqual("3", tokenTree.FindFirst("A.B").Value.ToString());
-        }
+                    Assert.AreEqual("1", tokenTree.FindFirst(new StringToken("A", true)).Value.ToString());
+                    Assert.AreEqual("2", tokenTree.FindFirst(new StringToken("B")).Value.ToString());
+                    Assert.AreEqual("3", tokenTree.FindFirst(new ChainToken("A", "B")).Value.ToString());
+                }
 
 
         [TestMethod]
@@ -85,12 +85,51 @@ Level : 2
 	Which: Item3
 ";
             TokenTree parsed = Parser.ParseString(text);
-            IToken value = parsed.FindFirst("F3").Value.Simplify();
+            IToken value = parsed.FindFirst(new StringToken("F3", true)).Value.Simplify();
             Assert.AreEqual("5", value.Evaluate(new TokenTreeList(parsed), true).ToString());
-            value = parsed.FindFirst("Sum").Value.Simplify();
+            value = parsed.FindFirst(new StringToken("Sum", true)).Value.Simplify();
             Assert.AreEqual("4", value.Evaluate(new TokenTreeList(parsed), true).ToString());
-            value = parsed.FindFirst("Sum1").Value.Simplify();
+            value = parsed.FindFirst(new StringToken("Sum1")).Value.Simplify();
             Assert.AreEqual("4", value.Evaluate(new TokenTreeList(parsed), true).ToString());
+        }
+
+        [TestMethod]
+        public void Test_ParseString_ForChainToken()
+        {
+            string text = "A: b.'c.d'.e";
+            TokenTree parsed = Parser.ParseString(text);
+            IToken value = parsed.FindFirst(new StringToken("A")).Value;
+            Assert.IsInstanceOfType(value, typeof(ChainToken));
+            Assert.AreEqual("b", ((ChainToken)value).Value[0].ToString());
+            Assert.AreEqual("c.d", ((ChainToken)value).Value[1].ToString());
+            Assert.AreEqual("e", ((ChainToken)value).Value[2].ToString());
+
+            text = "A: b.{d}.e";
+            parsed = Parser.ParseString(text);
+            value = parsed.FindFirst(new StringToken("A")).Value;
+            Assert.IsInstanceOfType(value, typeof(ChainToken));
+            Assert.AreEqual("b", ((ChainToken)value).Value[0].ToString());
+            Assert.AreEqual("($d)", ((ChainToken)value).Value[1].ToString());
+            Assert.AreEqual("e", ((ChainToken)value).Value[2].ToString());
+        }
+
+        [TestMethod]
+        public void Test_ParseString_ForListToken()
+        {
+            string text = "Field: Dex.|Modifier";
+            TokenTree parsed = Parser.ParseString(text);
+            IToken value = parsed.FindFirst(new StringToken("Field")).Value;
+            Assert.IsInstanceOfType(value, typeof(ListToken));
+            Assert.AreEqual("Dex.", ((ListToken)value).Value[0].ToString());
+            Assert.AreEqual("Modifier", ((ListToken)value).Value[1].ToString());
+
+            text = "Columns: 6.5cm|8cm|6.5cm";
+            parsed = Parser.ParseString(text);
+            value = parsed.FindFirst(new StringToken("Columns")).Value;
+            Assert.IsInstanceOfType(value, typeof(ListToken));
+            Assert.AreEqual("6.5cm", ((ListToken)value).Value[0].ToString());
+            Assert.AreEqual("8cm", ((ListToken)value).Value[1].ToString());
+            Assert.AreEqual("6.5cm", ((ListToken)value).Value[2].ToString());
         }
     }
 }

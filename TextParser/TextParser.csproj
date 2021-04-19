@@ -72,6 +72,7 @@
     <Compile Include="Functions\OverFunction.cs" />
     <Compile Include="Functions\SumFunction.cs" />
     <Compile Include="IInputData.cs" />
+    <Compile Include="Operators\ChainOperator.cs" />
     <Compile Include="Operators\TemplateOperator.cs" />
     <Compile Include="ReaderOptions.cs" />
     <Compile Include="Operators\IOperator.cs" />
@@ -95,12 +96,12 @@
     <Compile Include="Tokens\Interfaces\ITypeToken.cs" />
     <Compile Include="Tokens\Interfaces\IValueToken.cs" />
     <Compile Include="Tokens\KeyListToken.cs" />
+    <Compile Include="Tokens\ChainToken.cs" />
     <Compile Include="Tokens\NullToken.cs" />
     <Compile Include="Tokens\PairToken.cs" />
     <Compile Include="Tokens\ListToken.cs" />
     <Compile Include="Tokens\NewLineToken.cs" />
     <Compile Include="Tokens\RegExToken.cs" />
-    <Compile Include="Tokens\RootToken.cs" />
     <Compile Include="Operators\DivideOperator.cs" />
     <Compile Include="Tokens\DoubleToken.cs" />
     <Compile Include="Tokens\ExpressionToken.cs" />
