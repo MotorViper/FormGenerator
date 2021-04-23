@@ -193,7 +193,7 @@ namespace TextParser
                 return;
             foreach (TokenTree child in defaults.Children)
             {
-                bool found = Children.Any(item => item.Name == child.Name);
+                bool found = Children.Any(item => item.Name == child.Name && (item.Value == child.Value || child.Children.Count == 0));
                 if (!found)
                     Children.Add(child.Clone());
             }

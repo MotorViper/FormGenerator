@@ -5,7 +5,9 @@ using TextParser.Tokens.Interfaces;
 namespace TextParser.Functions
 {
     /// <summary>
-    /// Checks the value of a token as a boolean. If true the next token in the parameter list is returned otherwise the 3rd token or a null token.
+    /// Checks the value of a token as a boolean.
+    /// 2: If first true then second is returned otherwise null.
+    /// 3: If first true then second is returned otherwise third.
     /// </summary>
     public class IfFunction : CheckedCountFunction
     {

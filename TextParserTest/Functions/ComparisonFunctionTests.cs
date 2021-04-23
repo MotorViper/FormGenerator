@@ -41,7 +41,7 @@ namespace TextParserTest.Functions
             }
             catch (Exception exception)
             {
-                Assert.AreEqual("Must have 3 or 4 values for 'COMPARE': (false|False|v1|v2|v3)", exception.Message);
+                Assert.AreEqual("Must have 2 to 4 values for 'COMPARE': (false|False|v1|v2|v3)", exception.Message);
             }
         }
 

@@ -6,6 +6,7 @@ namespace TextParser.Functions
 {
     /// <summary>
     /// Function to do a comparison. Action depends on number of parameters:
+    /// 2: If first matches second then true is returned otherwise false.
     /// 3: If first matches second then third is returned otherwise null.
     /// 4: If first matches second then third is returned otherwise fourth.
     /// 5: If first greater than second third is returned, if equal fourth is returned otherwise fifth is returned.
@@ -15,7 +16,7 @@ namespace TextParser.Functions
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ComparisonFunction() : base("COMP(ARE)", 3, 5)
+        public ComparisonFunction() : base("COMP(ARE)", 2, 5)
         {
         }
 
@@ -38,15 +39,11 @@ namespace TextParser.Functions
             if (first is ExpressionToken || second is ExpressionToken)
                 return UnParsed(listToken);
 
-            //if (!first.ComparisonIsInteger && count > 4)
-            //    throw new Exception($"Must have 3 or 4 values for '{Name}': {listToken}");
-
-            //int comparison = first.CompareTo(second);
             int comparison;
             if (first is RegExToken)
             {
                 if (count > 4)
-                    throw new Exception($"Must have 3 or 4 values for '{Name}': {listToken}");
+                    throw new Exception($"Must have 2 to 4 values for '{Name}': {listToken}");
                 comparison = first.HasMatch(second) ? 0 : 1;
             }
             else
@@ -59,6 +56,9 @@ namespace TextParser.Functions
             IToken result;
             switch (count)
             {
+                case 2:
+                    result = new BoolToken(comparison == 0);
+                    break;
                 case 3:
                     result = comparison == 0 ? listToken[2] : new NullToken();
                     break;

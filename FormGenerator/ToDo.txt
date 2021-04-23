@@ -2,11 +2,13 @@
 	Simplify output to remove redundant brackets and use {} instead of $ where clearer.
 	Provide code to convert token data to classes?
 	Work out how to improve templates for things like masterwork.
+	Make default values consistent.
+	Move functions off of character defaults.
 
 Characters:
 	Add in weapon focus modifiers automatically (see MiscInitiative).
 	Skill synergy.
-	Knowledge, Perform, Profession skills.
+	Knowledge, Perform, Profession skills. Add in to skills list.
 	Other Items.
 	Spells.
 	Languages.
@@ -20,6 +22,7 @@ Gui:
 	Replace Templates.vtt with macros (TokenTreeElement), may not be possible with WPF ControlTemplates, would need designing.
 	Need to stop using reload when doing a test.
 	Add character validation.
+	Allow entry of data if nothing in vtt.
 
 Generator:
 	Can I remove the null token?

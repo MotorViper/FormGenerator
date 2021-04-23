@@ -9,7 +9,6 @@ Jim Oakenbough:
 	Shield: Light steel
 	Weapon1: Mwk:: Longsword
 		MiscAttackBonus: 1 /* From Weapon Focus */
-	Weapon2: Shortbow
 	Level: 1
 		Class: Warrior
 		Feats: Power Attack, 'Weapon Focus (longsword)'
@@ -47,6 +46,10 @@ Jim Oakenbough:
 			Jump: 1
 			Ride: 1
 		AbilityIncrease: Strength
+
+'Jim Oakenbough - Ranged': {Jim Oakenbough}
+	Weapon1: Shortbow
+	Shield: None
 
 Tom Cucksmere:
 	BaseStrength: 13
@@ -164,49 +167,3 @@ Hal Bertram:
 			Intimidate: 1
 			Ride: 1
 			Swim: 1
-
-Mr Hero: 
-    BaseStrength: 14
-    BaseDexterity: 12
-    BaseConstitution: 12
-	BaseWisdom: 8
-	Weapon1: Sword
-	Weapon2: Dagger
-	Player: Bert
-	Level : 1
-		Class: Fighter
-		Feats: Power Attack, Improved Initiative
-		HP: 8
-		Skills:
-			Balance: 4
-	Level : 2
-		Class: Fighter
-		HP: 7
-
-The Heroine: 
-    BaseStrength: 8
-    BaseDexterity: 9
-    BaseConstitution: 10
-	Weapon1: Dagger
-	Weapon2: Sword
-	Armour: Leather
-	Player: Fred
-	Level : 1
-		Class: Rogue
-		HP: 6
-	Level : 2
-		Class: Fighter
-		HP: 7
-	Race: Dwarf
-
-Not a Hero:
-    BaseStrength: 17
-    BaseDexterity: 5
-    BaseConstitution: 8
-	Weapon1: Sword
-	Armour: Chainmail
-	Player: John
-	Level : 1
-		Class: Cleric
-		HP: 7
-	Race: Hobbit

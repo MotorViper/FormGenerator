@@ -35,7 +35,8 @@ CheckedEditorWithLabelUnder: Grid
 	Field: TextBox
 		Style: Stretch
 		Content: $$1
-		Background: IF:({2}|White|MistyRose)
+		Background: IF:($2|White|MistyRose)
+		ToolTip: IF:($2|$3|$4)
 	Field: UnderLine
 	Field: Label
 		Style: LabelUnderLeft

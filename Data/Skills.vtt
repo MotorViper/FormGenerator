@@ -17,6 +17,7 @@ WisSkill: $Skill
 	Key: Wis
 
 Appraise: $IntSkill
+	TrainedOnly: True
 Autohypnosis: $WisSkill
 	TrainedOnly: True
 Balance: $DexSkill
@@ -40,6 +41,7 @@ Forgery: $IntSkill
 Gather Information: $ChaSkill
 Handle Animal: $ChaSkill
 	Synergy: Ride checks and wild empathy checks.
+	TrainedOnly: True
 Heal: $WisSkill
 Hide: $DexSkill
 Intimidate: $ChaSkill
@@ -47,11 +49,14 @@ Jump: $StrSkill
 	Synergy: Tumble checks.
 Knowledge: $IntSkill
 	Synergy: By skill.
+	TrainedOnly: True
 'Knowledge (Dung.)': $IntSkill
 	Synergy: By skill.
+	OnlyShowIfUsed: true
 Listen: $WisSkill
 Move Silently: $DexSkill
 Open Lock: $DexSkill
+	TrainedOnly: True
 Perform: $ChaSkill
 Psicraft: $IntSkill
 Profession: $WisSkill
@@ -61,7 +66,9 @@ Search: $IntSkill
 Sense Motive: $WisSkill
 	Synergy:  Diplomacy checks.
 Sleight of Hand: $DexSkill
+	TrainedOnly: True
 Speak Language: $IntSkill
+	TrainedOnly: True
 Spellcraft: $IntSkill
 	Synergy: Use Magic Device checks related to scrolls.
 Spot: $WisSkill

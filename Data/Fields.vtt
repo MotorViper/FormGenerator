@@ -30,10 +30,10 @@ Field: Grid
 
 		Field: LabelWithLabelUnder: ClassList
 			Across: 12
-		Field: CheckedEditorWithLabelUnder:(Race|CONTAINS:(KEYS:Races|$Race))
+		Field: CheckedEditorWithLabelUnder:((Race|CONTAINS:(KEYS:Races|$Race))|Race OK|Unknown Race)
 			Across: 4
 
-		Field: CheckedEditorWithLabelUnder:(Alignment|CONTAINS:(LG|NG|CG|LN|N|CN|LE|NE|CE|$Alignment))
+		Field: CheckedEditorWithLabelUnder:((Alignment|CONTAINS:(LG|NG|CG|LN|N|CN|LE|NE|CE|$Alignment))|Alignment OK|Unknown Alignment)
 			Across: 4
 		Field: EditorWithLabelUnder: Deity
 			Across: 4
@@ -254,30 +254,35 @@ Field: Grid
 					Content: Name
 				Content: $1
 				Style: SkillEntry
+				Visibility: $SkillVisibility
 			Field: Label
 				Header: 
 					Style: SkillHeader
 					Content: Ability
 				Content: {Skills.{1}.Key}
 				Style: SkillEntry
+				Visibility: $SkillVisibility
 			Field: Label
 				Header: 
 					Style: SkillHeader
 					Content: Mod.
 				Content: $SkillModifier
 				Style: SkillEntry
+				Visibility: $SkillVisibility
 			Field: Label
 				Header: 
 					Style: SkillHeader
 					Content: Ranks
 				Content: $SkillPoints
 				Style: SkillEntry
+				Visibility: $SkillVisibility
 			Field: Label
 				Header: 
 					Style: SkillHeader
 					Content: Value
-				Content: IF:($CanUseSkill|$SkillPoints + $SkillModifier|0)
+				Content: IF:($CanUseSkill|$SkillPoints + $SkillModifier|'-')
 				Style: SkillEntry
+				Visibility: $SkillVisibility
 
 	Field: Grid
 		Style: Fill

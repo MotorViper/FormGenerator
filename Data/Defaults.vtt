@@ -1,15 +1,7 @@
 Character: 
-    BaseStrength: 10
-    BaseDexterity: 10
-    BaseConstitution: 10
-    BaseIntelligence: 10
-    BaseWisdom: 10
-    BaseCharisma: 10
 	Experience: 0
 	Weapon1: None
-		MiscAttackBonus: 0
 	Weapon2: None
-		MiscAttackBonus: 0
 	Armour: None
 	Shield: None
 	Player: ?
@@ -25,12 +17,12 @@ Character:
 	Eyes:
 	Hair:
 	Skin:
-	Strength: $BaseStrength + COUNT:{Level.AbilityIncrease=Strength}
-	Dexterity: $BaseDexterity + COUNT:{Level.AbilityIncrease=Dexterity}
-	Constitution: $BaseConstitution + COUNT:{Level.AbilityIncrease=Constitution}
-	Intelligence: $BaseIntelligence + COUNT:{Level.AbilityIncrease=Intelligence}
-	Wisdom: $BaseWisdom + COUNT:{Level.AbilityIncrease=Wisdom}
-	Charisma: $BaseCharisma + COUNT:{Level.AbilityIncrease=Charisma}
+	Strength: DEF:($BaseStrength, 10) + COUNT:{Level.AbilityIncrease=Strength}
+	Dexterity: DEF:($BaseDexterity, 10) + COUNT:{Level.AbilityIncrease=Dexterity}
+	Constitution: DEF:($BaseConstitution, 10) + COUNT:{Level.AbilityIncrease=Constitution}
+	Intelligence: DEF:($BaseIntelligence, 10) + COUNT:{Level.AbilityIncrease=Intelligence}
+	Wisdom: DEF:($BaseWisdom, 10) + COUNT:{Level.AbilityIncrease=Wisdom}
+	Charisma: DEF:($BaseCharisma, 10) + COUNT:{Level.AbilityIncrease=Charisma}
 	AttributeModifier: ($$1 - 10) / 2
 	DexModifier: AttributeModifier: Dexterity
 	StrModifier: AttributeModifier: Strength
@@ -75,8 +67,9 @@ Character:
 	IsClassSkill: CONTAINS:({Classes.({Level.Class}#0).ClassSkills}|$1)
 	SkillPoints: SUM:DEF:({Level.Skills.{1}}|0)
 	SkillModifier: {{Skills.{1}.Key}Modifier}
-	CanUseSkill : OR:(IF:({Skills.{1}.TrainedOnly}|False|True)|COMP:(0|$SkillPoints|False|False|True))
+	CanUseSkill : NOT:AND:({Skills.{1}.TrainedOnly}|COMP:(0|$SkillPoints))
 	ClassesContain: CONTAINS:({Level.Class}|$1)
+	SkillVisibility: IF:(AND:(DEF:({Skills.{1}.OnlyShowIfUsed}|false)|COMP:(SUM:DEF:({Level.Skills.{1}}|0)|0))|Collapsed|Visible)
 	ClassFeatures: IF:((ClassesContain:$1)|{Classes.{1}.Features})
 	Features: JOIN:(OVER:(KEYS:Classes|cl|ClassFeatures:$cl)|", ")
 	PositionOfFeats: COMP:({Classes.{1}.LevelType}|MagicUser|14|4)

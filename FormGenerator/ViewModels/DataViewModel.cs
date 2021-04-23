@@ -91,6 +91,11 @@ namespace FormGenerator.ViewModels
                     Values.UseStaticCache = false;
                     TokenCache.UseCache(Selected);
                     TokenTree parameters = new TokenTree(_data.StaticData.GetChildren("Parameters"));
+                    if (Values.Value is ExpressionToken defaultValues)
+                    {
+                        TokenTree basedOn = _data.MainData.FindFirst(defaultValues.Second);
+                        Values.AddMissing(basedOn);
+                    }
                     TokenTree defaults = parameters.FindFirst(new ChainToken("Defaults", _inputData.DataName));
                     Values.AddMissing(defaults);
                     Values.SetParameters(parameters);
